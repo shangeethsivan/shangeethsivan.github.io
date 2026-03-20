@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Evolution of Software jobs - Interactive Slideshow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <style>
+    :root {
+      --bg: #070710;
+      --panel: rgba(17, 18, 34, 0.72);
+      --text: #f3f6ff;
+      --muted: #9aa0c8;
+      --accent: #9b5cff;
+      --accent-2: #00d4ff;
+      --warn: #ff6a3d;
+      --warn-2: #ffb347;
+      --news: #1e254b;
+      --grid: rgba(154, 160, 200, 0.12);
+      --glow: 0 0 28px rgba(155, 92, 255, 0.38), 0 0 54px rgba(0, 212, 255, 0.2);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, #131439 0%, transparent 40%),
+                  radial-gradient(circle at 80% 80%, #002132 0%, transparent 42%),
+                  var(--bg);
+      font-family: "Outfit", sans-serif;
+    }
+
+    .bg-mesh {
+      position: fixed;
+      inset: -20vmax;
+      background:
+        radial-gradient(45vmax 45vmax at 10% 25%, rgba(155, 92, 255, 0.18), transparent 70%),
+        radial-gradient(45vmax 45vmax at 85% 25%, rgba(0, 212, 255, 0.16), transparent 72%),
+        radial-gradient(35vmax 35vmax at 60% 80%, rgba(90, 46, 189, 0.2), transparent 70%);
+      filter: blur(16px) saturate(130%);
+      transform-origin: center;
+      animation: meshShift 26s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes meshShift {
+      0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+      50% { transform: translate3d(2%, 2%, 0) scale(1.08); }
+      100% { transform: translate3d(-1%, 3%, 0) scale(1.02); }
+    }
+
+    #networkCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 700ms ease;
+      pointer-events: none;
+    }
+
+    #networkCanvas.active { opacity: 0.9; }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(1.1rem, 3vw, 2.2rem) clamp(1.2rem, 4vw, 4rem) clamp(3.2rem, 8vh, 6rem);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 1rem;
+      opacity: 0;
+      transform: translateX(8vw);
+      transition: opacity 600ms ease, transform 700ms cubic-bezier(.22,.65,.11,1);
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+    }
+
+    .slide.prev { transform: translateX(-8vw); }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 1.5rem;
+      border: 1px solid var(--grid);
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(255,255,255,0.03), rgba(255,255,255,0.012));
+      backdrop-filter: blur(5px);
+      z-index: -1;
+    }
+
+    .slide.section::before,
+    .slide.hero::before,
+    .slide.closing::before {
+      inset: 0;
+      border: none;
+      border-radius: 0;
+      background: none;
+      backdrop-filter: none;
+    }
+
+    .slide.data::before { background: linear-gradient(160deg, rgba(0, 212, 255, 0.08), rgba(155, 92, 255, 0.07)); }
+    .slide.warning::before { background: linear-gradient(160deg, rgba(255, 106, 61, 0.12), rgba(255, 179, 71, 0.06)); }
+    .slide.news::before { background: linear-gradient(150deg, rgba(30, 37, 75, 0.42), rgba(12, 16, 31, 0.52)); }
+
+    .topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      min-height: 2.2rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font: 700 0.78rem/1 "Space Mono", monospace;
+      color: var(--accent-2);
+      border: 1px solid rgba(0,212,255,0.4);
+      border-radius: 999px;
+      padding: 0.28rem 0.6rem;
+      background: rgba(0,212,255,0.08);
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+    }
+
+    .title {
+      font-size: clamp(2.4rem, 9vw, 7.4rem);
+      text-shadow: var(--glow);
+    }
+
+    .subtitle {
+      font-size: clamp(1.02rem, 2.6vw, 1.9rem);
+      color: #d8ddff;
+      margin-top: 0.7rem;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+
+    .meta {
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font: 600 clamp(0.78rem, 1.5vw, 1.06rem)/1.3 "Space Mono", monospace;
+    }
+
+    .content {
+      display: grid;
+      align-content: center;
+      gap: 1rem;
+      max-width: min(1200px, 100%);
+    }
+
+    .body {
+      font-size: clamp(1.22rem, 2.55vw, 2rem);
+      line-height: 1.35;
+      color: #edf0ff;
+      max-width: 75ch;
+      white-space: pre-line;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.45rem;
+      max-width: 80ch;
+    }
+
+    li {
+      font-size: clamp(1.16rem, 2.35vw, 1.74rem);
+      color: #f2f4ff;
+      line-height: 1.33;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 500ms ease, transform 500ms ease;
+    }
+
+    li.show { opacity: 1; transform: translateY(0); }
+
+    .contrast-row,
+    .split-row,
+    .two-col {
+      display: grid;
+      gap: clamp(1rem, 2.5vw, 2rem);
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .card {
+      border: 1px solid rgba(150, 161, 215, 0.28);
+      border-radius: 18px;
+      padding: clamp(0.9rem, 2.2vw, 1.4rem);
+      background: rgba(8, 11, 23, 0.5);
+    }
+
+    .card h3 {
+      font-family: "Space Mono", monospace;
+      font-size: clamp(0.9rem, 1.8vw, 1.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-2);
+      margin-bottom: 0.5rem;
+    }
+
+    .punchline {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.4rem, 4vw, 3.2rem);
+      line-height: 1;
+      color: #fcfdff;
+      margin-top: 0.5rem;
+      opacity: 0;
+      transform: translateY(22px);
+      text-shadow: var(--glow);
+    }
+
+    .punchline.show {
+      animation: punchIn 900ms cubic-bezier(.2,.8,.2,1) forwards, glowPulse 2.3s ease-in-out infinite 1s;
+    }
+
+    @keyframes punchIn { to { opacity: 1; transform: translateY(0); } }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 12px rgba(155,92,255,0.4), 0 0 18px rgba(0,212,255,0.25); }
+      50% { text-shadow: 0 0 18px rgba(155,92,255,0.72), 0 0 26px rgba(0,212,255,0.48); }
+    }
+
+    .terminal {
+      font-family: "Space Mono", monospace;
+      display: inline-flex;
+      gap: 0.15rem;
+      align-items: center;
+      color: #ffe4d7;
+      text-shadow: 0 0 14px rgba(255,122,82,.55);
+    }
+
+    .terminal::before {
+      content: ">";
+      color: var(--warn-2);
+      margin-right: 0.3rem;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.52ch;
+      height: 1.05em;
+      background: var(--warn-2);
+      animation: blink 1s steps(1,end) infinite;
+      vertical-align: -0.1em;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .quote {
+      border-left: 3px solid var(--accent-2);
+      padding-left: 0.9rem;
+      font-size: clamp(1.08rem, 2.12vw, 1.5rem);
+      color: #d2dcff;
+      line-height: 1.45;
+    }
+
+    .section {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding-inline: clamp(1rem, 8vw, 5rem);
+      background:
+        linear-gradient(135deg, rgba(155,92,255,0.16), transparent 45%),
+        linear-gradient(325deg, rgba(0,212,255,0.16), transparent 45%);
+    }
+
+    .section .label {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.8rem, 13vw, 10rem);
+      letter-spacing: 0.03em;
+      text-shadow: var(--glow);
+    }
+
+    .hero .content,
+    .closing .content {
+      justify-items: center;
+      text-align: center;
+      gap: 1.2rem;
+      max-width: min(980px, 100%);
+      margin-inline: auto;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid rgba(144, 162, 220, 0.35);
+      border-radius: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 420px;
+      font-size: clamp(1.02rem, 1.85vw, 1.38rem);
+    }
+
+    th, td {
+      text-align: left;
+      padding: 0.7rem 0.75rem;
+      border-bottom: 1px solid rgba(130,145,197,0.2);
+    }
+
+    th {
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-2);
+      font-size: 0.8em;
+    }
+
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 7;
+      background: rgba(5, 6, 15, 0.94);
+      padding: 1rem;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.8rem;
+      overflow: auto;
+    }
+
+    .overview.show { display: grid; }
+
+    .thumb {
+      border: 1px solid rgba(143, 156, 210, 0.28);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(17,20,38,.9), rgba(10,11,22,.9));
+      padding: 0.75rem;
+      min-height: 110px;
+      cursor: pointer;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .thumb:hover {
+      transform: translateY(-2px) scale(1.01);
+      border-color: rgba(0,212,255,0.6);
+    }
+
+    .thumb strong {
+      font-family: "Space Mono", monospace;
+      font-size: 0.72rem;
+      color: var(--accent-2);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .thumb p {
+      margin: 0;
+      color: #edf1ff;
+      font-size: 0.92rem;
+      line-height: 1.2;
+    }
+
+    .hud {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .counter {
+      position: absolute;
+      top: 0.9rem;
+      right: 1rem;
+      font: 700 clamp(0.86rem, 1.92vw, 1.14rem)/1 "Space Mono", monospace;
+      color: var(--accent-2);
+      text-shadow: 0 0 12px rgba(0,212,255,0.35);
+    }
+
+    .watermark {
+      position: absolute;
+      left: 1rem;
+      bottom: 0.9rem;
+      font: 600 clamp(0.72rem, 1.45vw, 0.92rem)/1 "Space Mono", monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(190, 199, 236, 0.85);
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(150, 165, 225, 0.18);
+      overflow: hidden;
+    }
+
+    .progress > span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 16px rgba(0,212,255,.6);
+      transition: width 320ms ease;
+    }
+
+    .presenter {
+      position: fixed;
+      right: 0.8rem;
+      top: 3rem;
+      width: min(32vw, 380px);
+      max-height: calc(100vh - 5rem);
+      overflow: auto;
+      background: rgba(7, 10, 24, 0.92);
+      border: 1px solid rgba(129, 145, 201, 0.35);
+      border-radius: 14px;
+      padding: 0.9rem;
+      z-index: 8;
+      display: none;
+    }
+
+    .presenter.show { display: block; }
+
+    .presenter h4 {
+      margin: 0 0 0.55rem;
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+    }
+
+    .presenter p {
+      margin: 0;
+      color: #eff2ff;
+      line-height: 1.45;
+      white-space: pre-line;
+      font-size: 1.04rem;
+    }
+
+    @media (max-width: 900px) {
+      .slide { padding-inline: 0.95rem; }
+      .slide::before { inset: 0.8rem; border-radius: 16px; }
+      .split-row, .contrast-row, .two-col { grid-template-columns: 1fr; }
+      .presenter { width: calc(100vw - 1rem); max-width: none; left: 0.5rem; right: 0.5rem; }
+      li { font-size: clamp(1.02rem, 4.3vw, 1.32rem); }
+      .body { font-size: clamp(1.06rem, 4.15vw, 1.26rem); }
+      .watermark { font-size: 0.66rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+  <canvas id="networkCanvas"></canvas>
+  <main class="deck" id="deck"></main>
+
+  <aside class="presenter" id="presenterPanel">
+    <h4>Speaker Notes</h4>
+    <p id="presenterText">No note for this slide.</p>
+  </aside>
+
+  <section class="overview" id="overview"></section>
+
+  <div class="hud">
+    <div class="counter" id="counter">1 / 1</div>
+    <div class="watermark">KUG Chennai - Kotlin Agentic Buildathon - Shangeeth Sivan</div>
+    <div class="progress"><span id="progressFill"></span></div>
+  </div>
+
+  <script>
+    const slides = [
+      {
+        type: "hero",
+        title: "EVOLUTION OF SOFTWARE JOBS",
+        subtitle: "How Software Roles Are Changing In The AI Era",
+        meta: "KUG Chennai - Kotlin Agentic Buildathon · Shangeeth Sivan",
+        note: "Welcome the crowd. Let the animation play for 3-4 seconds before speaking."
+      },
+      {
+        type: "bullets",
+        title: "Hackathons Then",
+        bullets: [
+          "60% time debugging",
+          "Fixing Gradle",
+          "Fighting build errors",
+          "Making one button work",
+          "Copy -> Paste -> Pray"
+        ],
+        punchline: "We were fighting tools more than building ideas.",
+        note: "Keep this light. Get a laugh. Everyone in the room has lived this."
+      },
+      {
+        type: "bullets",
+        title: "Hackathons Now",
+        bullets: [
+          "AI fixes syntax instantly",
+          "Generates boilerplate",
+          "Suggests architecture",
+          "Writes tests"
+        ],
+        punchline: "The bottleneck is no longer syntax. It's thinking.",
+        note: "Pause after \"It's thinking.\" Let it land."
+      },
+      {
+        type: "statement",
+        title: "From Writing Code -> Designing Systems",
+        body: "AI doesn't replace thinking. It amplifies structured thinking.",
+        contrast: ["No structure -> Chaos", "Clear structure -> Leverage"],
+        note: "This is the thesis of the entire talk. Say it slowly."
+      },
+      { type: "section", label: "THE UNCOMFORTABLE TRUTH", note: "Transition moment. Let the section label breathe." },
+      {
+        type: "data",
+        title: "The Productivity Gap Nobody Talks About",
+        bullets: [
+          "Companies want 10x. Reality is delivering 10%.",
+          "Over 80% of companies report no measurable productivity gains from AI despite billions invested.",
+          "Engineers using AI merge 98% more PRs - but PR review time increased 91%. The bottleneck moved. It didn't disappear."
+        ],
+        punchline: "AI speeds up the individual. It hasn't yet sped up the company. That gap is your career opportunity.",
+        quote: "\"Companies are focused on how to get 10x productivity from engineers - and equally on how that translates to company growth. That gap has not been closed yet. Only a few are succeeding.\" - Shangeeth Sivan",
+        note: "Read the quote slowly. This is the slide that makes CFOs and CTOs in the audience pay attention."
+      },
+      { type: "section", label: "PART 1 - SKILLS" },
+      {
+        type: "split",
+        title: "What Is a Skill?",
+        leftTitle: "NOT a skill:",
+        left: ["Just a markdown file", "Just a prompt"],
+        rightTitle: "A skill IS:",
+        right: ["A workflow", "A decision tree", "Guardrails", "A pathway for your AI agent"],
+        punchline: "Skills are architecture for intelligence.",
+        note: "Use the left/right contrast layout. Let people absorb the difference visually."
+      },
+      {
+        type: "quote-card",
+        title: "Skills Are Not Prompts. They're Systems.",
+        bullets: [
+          "Skills are organized folders of instructions, scripts, and resources that agents can discover and load dynamically",
+          "Building a skill is like creating an onboarding guide for a new hire",
+          "Dynamic loading: Claude reviews available skills, loads only relevant ones to avoid context overload",
+          "Skills work across: Claude Code, Cursor, Gemini CLI, Codex CLI"
+        ],
+        punchline: "Skills are the difference between a capable agent and a reliable one.",
+        note: "This is Anthropic's own framing. Say \"this is not my opinion - this is how Anthropic defines it.\""
+      },
+      {
+        type: "news",
+        title: "This Is Bigger Than Claude",
+        bullets: [
+          "In late 2025, Anthropic launched the Agent Skills spec as an open standard - same playbook that made MCP the de facto standard for how AI agents use tools",
+          "The SKILL.md format now works across multiple major AI coding tools and agents",
+          "Partners already building Skills: Atlassian, Canva, Figma, Notion, Cloudflare, Sentry"
+        ],
+        punchline: "Skills are becoming infrastructure. Just like MCP. Get in early.",
+        quote: "\"This may be a temporary tool today. But knowing it now makes you powerful. Ignoring it will only leave you asking why things are happening - without understanding the layer beneath.\"",
+        note: "This is the compound-interest moment of the talk."
+      },
+      {
+        type: "analogy",
+        title: "Why Skills Matter",
+        body: "Imagine a junior developer with:",
+        bullets: ["No onboarding", "No coding standards", "No architecture diagram"],
+        punchline: "Would you trust them blindly? Agents without skills = chaos.",
+        note: "Rhetorical. Let the audience shake their heads."
+      },
+      {
+        type: "statement",
+        title: "Treat Your AI Like a Junior Dev",
+        bullets: ["Give structured tasks", "Define acceptance criteria", "Set boundaries", "Review outputs"],
+        contrast: ["Without plans: Juniors make mistakes.", "Without skills: Agents hallucinate."],
+        punchline: "Same problem. Same solution.",
+        note: "Personal story moment. Share a quick real example if you have one."
+      },
+      {
+        type: "warning",
+        title: "The Hidden Risk",
+        bullets: ["Using unknown third-party skills", "Community prompts with no audit", "External agents you don't control"],
+        body: "Can lead to:",
+        bullets2: ["Prompt injection", "Secret leaks", "Instruction overrides"],
+        punchline: "Prompt = Executable Logic.",
+        note: "Say \"Prompt equals executable logic\" slowly. This is the most important security insight."
+      },
+      { type: "section", label: "PART 2 - INTERCONNECTED SYSTEMS" },
+      {
+        type: "bullets",
+        title: "Beyond \"Generate Code\"",
+        bullets: ["Multi-step workflows", "Connected tools", "Automated pipelines", "Cross-system coordination"],
+        punchline: "This is not prompting. This is system design.",
+        note: "The framing shift from autocomplete to system design."
+      },
+      {
+        type: "bullets",
+        title: "Orchestration & Multi-Agent Systems",
+        bullets: ["Connect multiple skills together", "Design multi-agent workflows", "Build structured execution pipelines"],
+        quote: "Jensen Huang called OpenClaw \"the next ChatGPT\" and declared it a seismic shift in how humans interact with AI.",
+        punchline: "You're not generating code. You're designing behavior.",
+        note: "Even Nvidia is paying attention to orchestration."
+      },
+      {
+        type: "news",
+        title: "AI Is Leaving the Screen",
+        bullets: [
+          "At GTC 2026, Jensen Huang declared: \"Physical AI has arrived - every industrial company will become a robotics company.\"",
+          "NVIDIA partnering with ABB, FANUC, Figure, KUKA and others to power production-scale physical AI",
+          "GR00T N2 (expected end of 2026) will more than double robot success rates in unfamiliar environments",
+          "\"The ChatGPT moment for robotics is here.\" - Jensen Huang"
+        ],
+        punchline: "Software agents operate in digital systems. Physical AI agents operate in the world. Kotlin runs on Android. Android runs on the edge. Connect the dots.",
+        note: "Make this feel like a reveal."
+      },
+      { type: "section", label: "PART 3 - SECURITY & RESPONSIBILITY" },
+      {
+        type: "bullets",
+        title: "Our Responsibility as Engineers",
+        bullets: [
+          "Audit every skill you use",
+          "Sandbox agents in isolated environments",
+          "Restrict permissions to minimum required",
+          "Protect secrets - never expose them in prompts"
+        ],
+        punchline: "AI security is software security. Same rules. New attack surface.",
+        note: "Frame this as professional responsibility, not fear."
+      },
+      { type: "section", label: "PART 4 - HUMANS STILL MATTER" },
+      {
+        type: "split",
+        title: "Reality Check",
+        leftTitle: "AI will:",
+        left: ["Hallucinate APIs", "Break boundaries", "Misunderstand context", "Be confidently wrong"],
+        rightTitle: "Humans provide:",
+        right: ["Judgment", "Orchestration", "Context", "Accountability"],
+        punchline: "AI needs direction. Humans provide it.",
+        note: "This isn't anti-AI. It's pro-human clarity."
+      },
+      {
+        type: "data",
+        title: "The New Engineer",
+        bullets: [
+          "AI generates. Humans decide.",
+          "Workers with advanced AI skills earn 56% more than peers in same roles",
+          "Before AI: 10x engineer = code faster, architect better, debug quicker",
+          "After AI: 10x engineer = ask better questions, validate faster, ship with confidence"
+        ],
+        punchline: "The definition of a 10x engineer just changed. Are you updating yours?",
+        note: "Ask this as a real question."
+      },
+      {
+        type: "table",
+        title: "A New Model Every Week. Now What?",
+        subtitle: "Stop Chasing Models. Start Chasing Outcomes.",
+        table: [
+          ["Track This", "Skip This"],
+          ["New capabilities (multimodal, agentic)", "Every minor version bump"],
+          ["New paradigms (reasoning models, physical AI)", "Benchmark leaderboards"],
+          ["Skills & tools built on top of models", "Which model scores 0.2% better"],
+          ["Architectural changes (MCP, Skills spec)", "Twitter hype cycles"]
+        ],
+        punchline: "The engineers winning aren't the ones who know the latest model. They're the ones who built systems that work regardless of the model.",
+        note: "Engineers will screenshot this. Keep table clean and readable."
+      },
+      { type: "section", label: "PART 5 - DEMOCRATIZATION & FUTURE" },
+      {
+        type: "contrast",
+        title: "The Positive Future",
+        leftTitle: "AI removes:",
+        left: ["Repetitive coding", "Boilerplate", "Manual debugging"],
+        rightTitle: "AI amplifies:",
+        right: ["Creativity", "Clarity", "Leverage"],
+        punchline: "This is not replacement. This is augmentation.",
+        note: "Keep energy positive here."
+      },
+      {
+        type: "bullets",
+        title: "Building Is Democratized",
+        bullets: ["Automate your home", "Connect APIs in hours", "Build SaaS fast", "Control hardware systems"],
+        body: "The title \"AI Engineer\" barely existed in 2022. By 2026 it tops LinkedIn's fastest-growing roles, with 1.3M+ new AI-enabled jobs created globally in the past year.",
+        punchline: "Start small. Automate something in your life. Learn by building.",
+        note: "You don't need to build the next OpenAI. Automate your grocery list first."
+      },
+      { type: "section", label: "PART 6 - MINDSET" },
+      {
+        type: "statement",
+        title: "Consistency > Hype",
+        body: "Life has ups. Life has downs. Tech has waves.\nThe winners are not the loudest. They're the most consistent.\n\nThink of learning AI as an investment in yourself.",
+        bullets: ["Every failure compounds.", "Every experiment compounds.", "Every system you build compounds."],
+        punchline: "If you don't adapt now - adapting later will be harder.",
+        note: "Slow down here. Let the mood shift."
+      },
+      {
+        type: "data",
+        title: "The Gap Is Still Open",
+        bullets: [
+          "65% of organizations have abandoned AI projects due to lack of skills",
+          "Only 5% of employees are maximizing AI to transform their work - despite 88% using it for basic tasks",
+          "There are 1.3M+ jobs requiring AI skills in the US - up to half may go unfilled by 2027"
+        ],
+        punchline: "The opportunity isn't in knowing AI. It's in building with it - consistently - when most people are still only watching.",
+        note: "Build urgency without panic."
+      },
+      {
+        type: "closing",
+        title: "Don't Fear AI. Evolve With It.",
+        bullets: ["AI removes friction.", "You provide direction."],
+        punchline: "Consistency today is freedom tomorrow.",
+        meta: "KUG Chennai - Kotlin Agentic Buildathon · Shangeeth Sivan",
+        note: "End with a pause. Don't rush to thank you."
+      }
+    ];
+
+    const deck = document.getElementById("deck");
+    const counter = document.getElementById("counter");
+    const progressFill = document.getElementById("progressFill");
+    const overview = document.getElementById("overview");
+    const presenterPanel = document.getElementById("presenterPanel");
+    const presenterText = document.getElementById("presenterText");
+
+    let current = 0;
+    let inOverview = false;
+    let presenterMode = false;
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;");
+    }
+
+    function list(items = [], className = "") {
+      if (!items.length) return "";
+      return `<ul class="${className}">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+    }
+
+    function renderSlide(s, i) {
+      const isSection = s.type === "section";
+      if (isSection) {
+        return `<article class="slide section" data-index="${i}"><div class="label">${escapeHtml(s.label || "")}</div></article>`;
+      }
+
+      const isNews = s.type === "news";
+      const newsBadge = isNews ? `<span class="badge">Breaking / 2026</span>` : "";
+      const title = s.title ? `<h1 class="title">${escapeHtml(s.title)}</h1>` : "";
+      const subtitle = s.subtitle ? `<div class="subtitle">${escapeHtml(s.subtitle)}</div>` : "";
+      const body = s.body ? `<p class="body">${escapeHtml(s.body)}</p>` : "";
+      const quote = s.quote ? `<p class="quote">${escapeHtml(s.quote)}</p>` : "";
+      const meta = s.meta ? `<div class="meta">${escapeHtml(s.meta)}</div>` : "";
+
+      let core = "";
+      if (s.type === "split" || s.type === "contrast") {
+        core = `
+          <div class="split-row">
+            <section class="card">
+              <h3>${escapeHtml(s.leftTitle || "Left")}</h3>
+              ${list(s.left)}
+            </section>
+            <section class="card">
+              <h3>${escapeHtml(s.rightTitle || "Right")}</h3>
+              ${list(s.right)}
+            </section>
+          </div>`;
+      } else if (s.type === "statement" && Array.isArray(s.contrast)) {
+        core = `${list(s.bullets)}
+          <div class="contrast-row">
+            ${s.contrast.map((line) => `<div class="card"><p class="body">${escapeHtml(line)}</p></div>`).join("")}
+          </div>`;
+      } else if (s.type === "warning") {
+        core = `${list(s.bullets)}${body}${list(s.bullets2, "secondary")}`;
+      } else if (s.type === "table" && Array.isArray(s.table) && s.table.length) {
+        const [head, ...rows] = s.table;
+        core = `<div class="table-wrap"><table><thead><tr>${head.map((h) => `<th>${escapeHtml(h)}</th>`).join("")}</tr></thead><tbody>${rows.map((r) => `<tr>${r.map((c) => `<td>${escapeHtml(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+      } else if (s.type === "hero" || s.type === "closing") {
+        core = `${list(s.bullets)}${body}`;
+      } else {
+        core = `${list(s.bullets)}${list(s.bullets2, "secondary")}${body}`;
+      }
+
+      const terminal = s.type === "warning" && s.punchline
+        ? `<div class="punchline terminal" data-typed="${escapeHtml(s.punchline)}"><span class="typed"></span><span class="cursor"></span></div>`
+        : (s.punchline ? `<div class="punchline">${escapeHtml(s.punchline)}</div>` : "");
+
+      return `
+        <article class="slide ${escapeHtml(s.type || "bullets")}" data-index="${i}">
+          <header class="topline">${newsBadge}</header>
+          <div class="content">${title}${subtitle}${core}${quote}${terminal}${meta}</div>
+        </article>`;
+    }
+
+    function render() {
+      deck.innerHTML = slides.map(renderSlide).join("");
+      overview.innerHTML = slides.map((s, i) => `
+        <button class="thumb" data-go="${i}">
+          <strong>${i + 1}</strong>
+          <p>${escapeHtml(s.title || s.label || "Untitled")}</p>
+        </button>
+      `).join("");
+
+      overview.querySelectorAll("[data-go]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          goTo(Number(btn.dataset.go));
+          toggleOverview(false);
+        });
+      });
+      goTo(0, false);
+    }
+
+    function runEntryAnimations(slideEl) {
+      const items = [...slideEl.querySelectorAll("li")];
+      items.forEach((li, idx) => setTimeout(() => li.classList.add("show"), idx * 150 + 120));
+
+      const punch = slideEl.querySelector(".punchline");
+      if (punch && punch.classList.contains("terminal")) {
+        const raw = punch.dataset.typed || "";
+        const out = punch.querySelector(".typed");
+        out.textContent = "";
+        let n = 0;
+        const step = () => {
+          if (!slideEl.classList.contains("active")) return;
+          out.textContent = raw.slice(0, n);
+          n += 1;
+          if (n <= raw.length) setTimeout(step, 45);
+          else punch.classList.add("show");
+        };
+        setTimeout(step, 700);
+      } else if (punch) {
+        setTimeout(() => punch.classList.add("show"), items.length * 150 + 280);
+      }
+
+      if (window.gsap) {
+        const title = slideEl.querySelector(".title");
+        const body = slideEl.querySelector(".body");
+        if (title) gsap.fromTo(title, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: "power3.out" });
+        if (body) gsap.fromTo(body, { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.12, ease: "power2.out" });
+      }
+    }
+
+    function updateHUD() {
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+      presenterText.textContent = slides[current].note || "No note for this slide.";
+      document.getElementById("networkCanvas").classList.toggle("active", ["hero", "closing"].includes(slides[current].type));
+    }
+
+    function goTo(index, animate = true) {
+      if (index < 0 || index >= slides.length) return;
+      const all = [...deck.querySelectorAll(".slide")];
+      all.forEach((el, i) => {
+        el.classList.remove("active", "prev");
+        if (i < index) el.classList.add("prev");
+      });
+      const target = all[index];
+      current = index;
+      if (!animate) target.style.transition = "none";
+      requestAnimationFrame(() => {
+        target.classList.add("active");
+        if (!animate) {
+          target.offsetHeight;
+          target.style.transition = "";
+        }
+        runEntryAnimations(target);
+        updateHUD();
+      });
+    }
+
+    function next() { goTo(Math.min(slides.length - 1, current + 1)); }
+    function prev() { goTo(Math.max(0, current - 1)); }
+
+    function toggleOverview(force) {
+      inOverview = typeof force === "boolean" ? force : !inOverview;
+      overview.classList.toggle("show", inOverview);
+    }
+
+    function togglePresenter(force) {
+      presenterMode = typeof force === "boolean" ? force : !presenterMode;
+      presenterPanel.classList.toggle("show", presenterMode);
+    }
+
+    function bindInput() {
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); if (!inOverview) next(); }
+        else if (e.key === "ArrowLeft") { e.preventDefault(); if (!inOverview) prev(); }
+        else if (e.key.toLowerCase() === "o" || e.key === "Escape") { e.preventDefault(); toggleOverview(); }
+        else if (e.key.toLowerCase() === "p") { e.preventDefault(); togglePresenter(); }
+        else if (e.key.toLowerCase() === "f") {
+          e.preventDefault();
+          if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+          else document.exitFullscreen?.();
+        }
+      });
+
+      deck.addEventListener("click", (e) => {
+        if (e.target.closest("a, button")) return;
+        if (!inOverview) next();
+      });
+
+      let sx = 0, sy = 0;
+      deck.addEventListener("touchstart", (e) => {
+        const t = e.changedTouches[0];
+        sx = t.clientX; sy = t.clientY;
+      }, { passive: true });
+
+      deck.addEventListener("touchend", (e) => {
+        const t = e.changedTouches[0];
+        const dx = t.clientX - sx;
+        const dy = t.clientY - sy;
+        if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+          if (dx < 0) next(); else prev();
+        }
+      }, { passive: true });
+    }
+
+    function initNetwork() {
+      const canvas = document.getElementById("networkCanvas");
+      const ctx = canvas.getContext("2d");
+      let w = 0, h = 0;
+      const count = 46;
+      const nodes = [];
+
+      function resize() {
+        w = canvas.width = window.innerWidth * window.devicePixelRatio;
+        h = canvas.height = window.innerHeight * window.devicePixelRatio;
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+      }
+      resize();
+      window.addEventListener("resize", resize);
+
+      for (let i = 0; i < count; i += 1) {
+        nodes.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.24,
+          vy: (Math.random() - 0.5) * 0.24,
+          r: Math.random() * 2.4 + 1.2
+        });
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, w, h);
+
+        for (let i = 0; i < count; i += 1) {
+          const a = nodes[i];
+          a.x += a.vx; a.y += a.vy;
+          if (a.x < 0 || a.x > w) a.vx *= -1;
+          if (a.y < 0 || a.y > h) a.vy *= -1;
+
+          for (let j = i + 1; j < count; j += 1) {
+            const b = nodes[j];
+            const dx = a.x - b.x;
+            const dy = a.y - b.y;
+            const d = Math.hypot(dx, dy);
+            if (d < 185 * window.devicePixelRatio) {
+              const alpha = (1 - d / (185 * window.devicePixelRatio)) * 0.65;
+              ctx.strokeStyle = `rgba(0, 212, 255, ${alpha * 0.35})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+
+          ctx.fillStyle = "rgba(155, 92, 255, 0.85)";
+          ctx.beginPath();
+          ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        requestAnimationFrame(frame);
+      }
+      frame();
+    }
+
+    render();
+    bindInput();
+    initNetwork();
+  </script>
+</body>
+</html>

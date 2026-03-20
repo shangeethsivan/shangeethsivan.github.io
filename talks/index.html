@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Talks | Shangeeth Sivan</title>
+  <meta name="description" content="Talks by Shangeeth Sivan - conference sessions, slide decks, and workshop resources." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: #0f1526;
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #edf3ff;
+      --muted: #9fb0cc;
+      --blue: #76c7ff;
+      --violet: #b19dff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Outfit", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 430px at 0% -10%, rgba(58, 128, 255, 0.26), transparent 65%),
+        radial-gradient(700px 420px at 100% 0%, rgba(140, 110, 255, 0.2), transparent 68%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1040px, 100% - 2.2rem);
+      margin-inline: auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1rem;
+    }
+
+    .brand {
+      font: 700 0.84rem/1 "Plus Jakarta Sans", sans-serif;
+      letter-spacing: 0.12em;
+      color: #d9e6ff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .back {
+      color: #bcd6ff;
+      text-decoration: none;
+      border: 1px solid rgba(129, 162, 220, 0.5);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.86rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(2rem, 5.6vw, 4rem);
+      letter-spacing: -0.02em;
+      line-height: 1.02;
+    }
+
+    .sub {
+      max-width: 70ch;
+      margin-top: 0.8rem;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 1rem;
+    }
+
+    .grid {
+      margin-top: 2rem;
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+    }
+
+    .card {
+      background: linear-gradient(160deg, rgba(17, 25, 45, 0.92), rgba(12, 17, 31, 0.94));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1rem;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .card.featured { grid-column: span 12; }
+    .card.half { grid-column: span 6; }
+
+    .tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .title {
+      margin: 0;
+      font-size: clamp(1.12rem, 2.5vw, 1.65rem);
+      line-height: 1.2;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: 0.95rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.25rem;
+    }
+
+    .btn {
+      text-decoration: none;
+      font-size: 0.83rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.56rem 0.88rem;
+      border: 1px solid rgba(131, 159, 214, 0.55);
+      color: #d8e7ff;
+      transition: transform 180ms ease, border-color 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(147, 212, 255, 0.9);
+    }
+
+    .btn.primary {
+      background: linear-gradient(90deg, var(--blue), var(--violet));
+      color: #041122;
+      border: none;
+    }
+
+    .foot {
+      margin-top: 1.3rem;
+      color: #7f95ba;
+      font-size: 0.82rem;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 840px) {
+      .card.half { grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../">Shangeeth Sivan</a>
+      <a class="back" href="../">Home</a>
+    </header>
+
+    <h1>Talks</h1>
+    <p class="sub">A curated list of conference sessions, workshop decks, and resources. Featured talk below plus previous talks linked from Linktree.</p>
+
+    <section class="grid">
+      <article class="card featured">
+        <span class="tag">Featured</span>
+        <h2 class="title">Agentic Kotlin — Evolution of Software Jobs</h2>
+        <p class="desc">Interactive keynote deck for KUG Chennai Kotlin Agentic Buildathon.</p>
+        <div class="actions">
+          <a class="btn primary" href="./agentic-kotlin-buildathon-2026.html">Open Talk</a>
+        </div>
+      </article>
+
+      <article class="card half">
+        <span class="tag">Linktree Archive</span>
+        <h2 class="title">Glance - Talk</h2>
+        <p class="desc">Slides: A glance at Glance and composing Android widgets.</p>
+        <div class="actions">
+          <a class="btn" target="_blank" rel="noreferrer" href="https://docs.google.com/presentation/d/1tmmn0VFC4zT8G-1Iqp3KtsmADV9TcygT6oGJgPtPOYI/edit?usp=sharing">Open Slides</a>
+        </div>
+      </article>
+
+      <article class="card half">
+        <span class="tag">Linktree Archive</span>
+        <h2 class="title">WorkShop Slides.pdf</h2>
+        <p class="desc">Workshop deck from previous sessions.</p>
+        <div class="actions">
+          <a class="btn" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1CqRW7BK3dDSC_4Q0UM60M3zrQBYoJPn_/view?usp=sharing">Open PDF</a>
+        </div>
+      </article>
+
+      <article class="card half">
+        <span class="tag">Linktree Archive</span>
+        <h2 class="title">Kotlin Multiplatform Adoption Guide</h2>
+        <p class="desc">Resource guide for teams adopting KMP in real projects.</p>
+        <div class="actions">
+          <a class="btn" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1I_gySR4d-J3aEFvpKCBYaMFnwPxWgtjr/view?usp=sharing">Open Guide</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="foot">Previous talk links sourced from <a href="https://linktr.ee/shangeethsivan" target="_blank" rel="noreferrer" style="color:#9ed6ff">linktr.ee/shangeethsivan</a> on March 20, 2026.</p>
+  </div>
+</body>
+</html>

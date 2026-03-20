@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shangeeth Sivan | Staff Software Engineer</title>
+  <meta name="description" content="Shangeeth Sivan - Staff Software Engineer building scalable systems, leading Kotlin communities, and mentoring engineers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Plus Jakarta Sans", "ui-sans-serif", "system-ui", "sans-serif"],
+            name: ["Outfit", "ui-sans-serif", "system-ui", "sans-serif"],
+            sans: ["Outfit", "ui-sans-serif", "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body {
+      background:
+        radial-gradient(900px 480px at 10% -20%, rgba(24, 91, 245, 0.22), transparent 68%),
+        radial-gradient(780px 420px at 95% 0%, rgba(28, 201, 255, 0.14), transparent 65%),
+        #070b14;
+    }
+    .grain::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.08;
+      background-image: radial-gradient(circle at 1px 1px, #fff 1px, transparent 0);
+      background-size: 3px 3px;
+      z-index: 0;
+    }
+    .line {
+      border-top: 1px solid rgba(148, 163, 184, 0.28);
+    }
+    .hover-link {
+      position: relative;
+      display: inline-block;
+    }
+    .hover-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -2px;
+      width: 100%;
+      height: 1px;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: linear-gradient(90deg, #5cc8ff, #9fb5ff);
+      transition: transform 220ms ease;
+    }
+    .hover-link:hover::after { transform: scaleX(1); }
+
+    .cursor-dot,
+    .cursor-ring {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 100;
+      transform: translate(-50%, -50%);
+      transition: opacity 180ms ease;
+    }
+
+    .cursor-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #d6f2ff, #77d2ff 60%, #4f8cff 100%);
+      box-shadow: 0 0 24px rgba(92, 200, 255, 0.8);
+    }
+
+    .cursor-ring {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(124, 196, 255, 0.85);
+      box-shadow: 0 0 28px rgba(92, 200, 255, 0.3);
+      backdrop-filter: blur(1px);
+    }
+
+    .cursor-ring.is-hover {
+      width: 54px;
+      height: 54px;
+      border-color: rgba(173, 224, 255, 0.95);
+      box-shadow: 0 0 42px rgba(125, 178, 255, 0.45);
+    }
+
+    .cursor-ring.is-down {
+      width: 28px;
+      height: 28px;
+    }
+
+    @media (pointer: fine) {
+      body { cursor: none; }
+      .cursor-dot,
+      .cursor-ring { display: block; }
+      a, button, [role="button"] { cursor: none; }
+    }
+
+    @media (pointer: coarse) {
+      .cursor-dot,
+      .cursor-ring { display: none !important; }
+    }
+  </style>
+</head>
+<body class="grain text-slate-100 antialiased selection:bg-sky-300/20 selection:text-sky-100">
+  <div class="relative z-10 mx-auto max-w-6xl px-6 pb-12 sm:px-10 lg:px-16">
+    <header class="sticky top-0 z-20 -mx-6 border-b border-slate-700/35 bg-[#070b14]/82 px-6 py-4 backdrop-blur sm:-mx-10 sm:px-10 lg:-mx-16 lg:px-16">
+      <div class="flex items-center justify-between">
+        <a href="#" class="font-display text-sm font-bold tracking-[0.14em] text-slate-200">SHANGEETH SIVAN</a>
+        <nav class="hidden items-center gap-6 text-sm text-slate-300 md:flex">
+          <a href="#impact" class="hover-link">Impact</a>
+          <a href="#topmate" class="hover-link">Topmate</a>
+          <a href="#philosophy" class="hover-link">Philosophy</a>
+          <a href="./talks/index.html" class="hover-link">Talks</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="py-20 sm:py-28">
+        <p class="mb-5 inline-block border border-sky-300/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">
+          Staff Software Engineer
+        </p>
+        <h1 class="max-w-5xl font-name text-4xl font-bold leading-[1.02] text-white sm:text-5xl lg:text-6xl">
+          Shangeeth Sivan
+        </h1>
+        <p class="mt-6 max-w-3xl text-xl font-medium leading-relaxed text-slate-200 sm:text-2xl">
+          Software Engineer by Profession - Problem Solver by Heart.
+        </p>
+        <p class="mt-5 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+          Kotlin,AI,Agents,Communities,Chaos.
+        </p>
+        <p class="mt-2 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+          Building systems. Building people.<br />
+          Making Chennai unfairly ambitious.
+        </p>
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href="#topmate" class="rounded-full bg-sky-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-sky-200">Topmate</a>
+          <a href="https://github.com/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">GitHub</a>
+          <a href="https://linkedin.com/in/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">LinkedIn</a>
+        </div>
+      </section>
+
+      <section id="impact" class="line py-16 sm:py-20">
+        <div class="grid gap-10 lg:grid-cols-[220px,1fr]">
+          <h2 class="font-display text-2xl font-bold tracking-wide text-white sm:text-3xl">Impact</h2>
+          <div class="space-y-8">
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Mobile Architecture & Scalability</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Designed resilient Android architecture for high-traffic scenarios, improving stability, maintainability, and shipping speed.</p>
+            </article>
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Kotlin Multiplatform Adoption</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Enabled practical KMP adoption paths to reduce repeated platform effort and align teams on shared business logic.</p>
+            </article>
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Community & Mentorship</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Built strong developer communities through talks, mentorship, and ecosystem-level contribution.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="topmate" class="line py-16 sm:py-20">
+        <div class="grid gap-10 lg:grid-cols-[220px,1fr]">
+          <h2 class="font-display text-2xl font-bold tracking-wide text-white sm:text-3xl">Topmate</h2>
+          <div>
+            <p class="max-w-2xl text-lg text-slate-300">Book a call for mentorship, career guidance, architecture reviews, and agentic AI discussions.</p>
+            <div class="mt-7 flex flex-wrap gap-3">
+              <a href="https://topmate.io/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full bg-violet-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-violet-200">Visit Topmate</a>
+              <a href="./talks/index.html" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Talks</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="philosophy" class="line py-16 sm:py-24">
+        <p class="max-w-5xl font-display text-3xl font-bold leading-tight text-white sm:text-5xl">
+          I believe in building systems that scale, communities that grow, and people who think deeply.
+        </p>
+      </section>
+    </main>
+
+    <footer class="line py-10">
+      <div class="flex flex-wrap gap-5 text-sm text-slate-300">
+        <a class="hover-link" href="https://github.com/shangeethsivan" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="hover-link" href="https://linkedin.com/in/shangeethsivan" target="_blank" rel="noreferrer">LinkedIn</a>
+        <a class="hover-link" href="https://x.com/shangeethsivan" target="_blank" rel="noreferrer">X</a>
+        <a class="hover-link" href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer">Instagram</a>
+        <a class="hover-link" href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer">YouTube</a>
+        <a class="hover-link" href="mailto:shivthepro@gmail.com">Email</a>
+      </div>
+      <p class="mt-5 text-xs text-slate-500">© <span id="year"></span> Shangeeth Sivan. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <div class="cursor-ring" id="cursorRing"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const ring = document.getElementById("cursorRing");
+    const dot = document.getElementById("cursorDot");
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+    if (finePointer) {
+      let targetX = window.innerWidth / 2;
+      let targetY = window.innerHeight / 2;
+      let ringX = targetX;
+      let ringY = targetY;
+
+      window.addEventListener("mousemove", (e) => {
+        targetX = e.clientX;
+        targetY = e.clientY;
+        dot.style.transform = `translate(${targetX - 5}px, ${targetY - 5}px)`;
+      });
+
+      window.addEventListener("mousedown", () => ring.classList.add("is-down"));
+      window.addEventListener("mouseup", () => ring.classList.remove("is-down"));
+
+      document.querySelectorAll("a, button, [role='button']").forEach((el) => {
+        el.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
+        el.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
+      });
+
+      function animateCursor() {
+        ringX += (targetX - ringX) * 0.18;
+        ringY += (targetY - ringY) * 0.18;
+        ring.style.transform = `translate(${ringX - ring.offsetWidth / 2}px, ${ringY - ring.offsetHeight / 2}px)`;
+        requestAnimationFrame(animateCursor);
+      }
+
+      animateCursor();
+    }
+  </script>
+</body>
+</html>
