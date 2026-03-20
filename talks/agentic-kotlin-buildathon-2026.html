@@ -499,6 +499,20 @@
       },
       {
         type: "bullets",
+        title: "Agenda",
+        bullets: [
+          "Part 1 - Skills",
+          "Part 2 - Security & Responsibility",
+          "Part 3 - Interconnected Systems",
+          "Part 4 - Humans Still Matter",
+          "Part 5 - Democratization & Future",
+          "Part 6 - Mindset"
+        ],
+        punchline: "The agent is waiting. Let's steer it with intent.",
+        note: "Set expectations for the flow before jumping into examples."
+      },
+      {
+        type: "bullets",
         title: "Hackathons Then",
         bullets: [
           "60% time debugging",
@@ -539,7 +553,7 @@
           "Engineers using AI merge 98% more PRs - but PR review time increased 91%. The bottleneck moved. It didn't disappear."
         ],
         punchline: "AI speeds up the individual. It hasn't yet sped up the company. That gap is your career opportunity.",
-        quote: "\"Companies are focused on how to get 10x productivity from engineers - and equally on how that translates to company growth. That gap has not been closed yet. Only a few are succeeding.\" - Shangeeth Sivan",
+        quote: "\"Companies are focused on how to get 10x productivity from engineers - and equally on how that translates to company growth. That gap has not been closed yet. Only a few are succeeding.\"",
         note: "Read the quote slowly. This is the slide that makes CFOs and CTOs in the audience pay attention."
       },
       { type: "section", label: "PART 1 - SKILLS" },
@@ -564,20 +578,7 @@
         ],
         punchline: "Skills are the difference between a capable agent and a reliable one.",
         note: "This is Anthropic's own framing. Say \"this is not my opinion - this is how Anthropic defines it.\""
-      },
-      {
-        type: "news",
-        title: "This Is Bigger Than Claude",
-        bullets: [
-          "In late 2025, Anthropic launched the Agent Skills spec as an open standard - same playbook that made MCP the de facto standard for how AI agents use tools",
-          "The SKILL.md format now works across multiple major AI coding tools and agents",
-          "Partners already building Skills: Atlassian, Canva, Figma, Notion, Cloudflare, Sentry"
-        ],
-        punchline: "Skills are becoming infrastructure. Just like MCP. Get in early.",
-        quote: "\"This may be a temporary tool today. But knowing it now makes you powerful. Ignoring it will only leave you asking why things are happening - without understanding the layer beneath.\"",
-        note: "This is the compound-interest moment of the talk."
-      },
-      {
+      },      {
         type: "analogy",
         title: "Why Skills Matter",
         body: "Imagine a junior developer with:",
@@ -602,7 +603,34 @@
         punchline: "Prompt = Executable Logic.",
         note: "Say \"Prompt equals executable logic\" slowly. This is the most important security insight."
       },
-      { type: "section", label: "PART 2 - INTERCONNECTED SYSTEMS" },
+      {
+        type: "news",
+        title: "This Is Bigger Than Claude",
+        showBreakingBadge: false,
+        bullets: [
+          "In late 2025, Anthropic launched the Agent Skills spec as an open standard - same playbook that made MCP the de facto standard for how AI agents use tools",
+          "The SKILL.md format now works across multiple major AI coding tools and agents",
+          "Partners already building Skills: Atlassian, Canva, Figma, Notion, Cloudflare, Sentry"
+        ],
+        punchline: "Skills are becoming infrastructure. Just like MCP. Get in early.",
+        quote: "\"This may be a temporary tool today. But knowing it now makes you powerful. Ignoring it will only leave you asking why things are happening - without understanding the layer beneath.\"",
+        note: "This is the compound-interest moment of the talk."
+      },
+
+      { type: "section", label: "PART 2 - SECURITY & RESPONSIBILITY" },
+      {
+        type: "bullets",
+        title: "Our Responsibility as Engineers",
+        bullets: [
+          "Audit every skill you use",
+          "Sandbox agents in isolated environments",
+          "Restrict permissions to minimum required",
+          "Protect secrets - never expose them in prompts"
+        ],
+        punchline: "AI security is software security. Same rules. New attack surface.",
+        note: "Frame this as professional responsibility, not fear."
+      },
+      { type: "section", label: "PART 3 - INTERCONNECTED SYSTEMS" },
       {
         type: "bullets",
         title: "Beyond \"Generate Code\"",
@@ -629,19 +657,6 @@
         ],
         punchline: "Software agents operate in digital systems. Physical AI agents operate in the world. Kotlin runs on Android. Android runs on the edge. Connect the dots.",
         note: "Make this feel like a reveal."
-      },
-      { type: "section", label: "PART 3 - SECURITY & RESPONSIBILITY" },
-      {
-        type: "bullets",
-        title: "Our Responsibility as Engineers",
-        bullets: [
-          "Audit every skill you use",
-          "Sandbox agents in isolated environments",
-          "Restrict permissions to minimum required",
-          "Protect secrets - never expose them in prompts"
-        ],
-        punchline: "AI security is software security. Same rules. New attack surface.",
-        note: "Frame this as professional responsibility, not fear."
       },
       { type: "section", label: "PART 4 - HUMANS STILL MATTER" },
       {
@@ -760,7 +775,7 @@
       }
 
       const isNews = s.type === "news";
-      const newsBadge = isNews ? `<span class="badge">Breaking / 2026</span>` : "";
+      const newsBadge = (isNews && s.showBreakingBadge !== false) ? `<span class="badge">Breaking / 2026</span>` : "";
       const title = s.title ? `<h1 class="title">${escapeHtml(s.title)}</h1>` : "";
       const subtitle = s.subtitle ? `<div class="subtitle">${escapeHtml(s.subtitle)}</div>` : "";
       const body = s.body ? `<p class="body">${escapeHtml(s.body)}</p>` : "";
