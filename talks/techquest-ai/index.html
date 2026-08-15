@@ -275,9 +275,9 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: auto;
+      height: 100%;
       width: 100%;
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     .terminal-header {
@@ -464,7 +464,7 @@
         },
         {
           "sceneId": "slide-3",
-          "notes": "In 1950, Claude Shannon proved language is statistically predictable. Test it with our workshop motto: 'THINK FAST. BUILD FASTER. SHIP TODA[ ? ]'. Explain the experiment on the left, click Next to load the terminal, then click Next again to reveal 'Y' and the 98% probability distribution!"
+          "notes": "Kick off Slide 3 with the opening question: 'Why did Anthropic name its AI model Claude?' Because Claude Shannon is the father of Information Theory who invented next-letter prediction in 1950! Then click Next to load the interactive prediction terminal, and Next again to reveal 'Y' and 98% certainty."
         },
         {
           "sceneId": "slide-4",
@@ -520,7 +520,7 @@
         },
         {
           "sceneId": "slide-17",
-          "notes": "Wrap up! Connect with Shangeeth on shravz.dev, YouTube @shravzdev, and Instagram @shangeethsivan. Think fast, build faster, ship today!"
+          "notes": "Wrap up! Connect with Shangeeth on shravz.dev, YouTube @shravzdev, and Instagram @shravzdev. Think fast, build faster, ship today!"
         }
       ],
       "slideSequences": []
@@ -540,12 +540,9 @@
 
     <div class="slide-body" style="justify-content: center; gap: 2.5vh;">
       <div>
-        <h1 class="slide-title" style="font-size: clamp(42px, 4.6vw, 68px); margin-bottom: 16px;">
+        <h1 class="slide-title" style="font-size: clamp(46px, 5vw, 76px); margin-bottom: 8px;">
           Building with AI: Fundamentals & OpenRouter
         </h1>
-        <p class="slide-subtitle" style="font-size: clamp(20px, 2vw, 28px); max-width: 1300px; line-height: 1.45;">
-          From Claude Shannon's 1950 Next-Letter Prediction to Shipping AI Apps on the New iQOO Z Series.
-        </p>
       </div>
 
       <div class="logo-bar">
@@ -635,9 +632,9 @@
   <div id="slide-3-root" data-composition-id="slide-3" data-start="18" data-duration="15" data-label="Claude Shannon 1950 Experiment" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
-        <div class="tag-pill">THE ORIGIN OF PREDICTION</div>
-        <h2 class="slide-title">1950: The Next-Letter Guessing Game</h2>
-        <p class="slide-subtitle">Claude & Betty Shannon prove that predicting the next letter reveals the statistical structure of language.</p>
+        <div id="slide-3-tag" class="tag-pill">TRIVIA TIME</div>
+        <h2 id="slide-3-title" class="slide-title">Can You Guess The Connection?</h2>
+        <p id="slide-3-subtitle" class="slide-subtitle">A quick puzzle before we dive into how modern AI actually generates text.</p>
       </div>
       <div class="top-logo-badge">
         <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
@@ -645,45 +642,64 @@
     </div>
 
     <div class="slide-body">
-      <div class="grid-2" style="grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 2.8vw, 42px); align-items: center;">
+      <!-- Full Page Opening Question Card (Step 0) -->
+      <div id="shannon-full-question-card" class="card card-highlight shimmer-card" style="width: 100%; max-width: 1200px; margin: auto; padding: clamp(36px, 4vw, 60px); gap: 24px; border-color: var(--accent-gold); box-shadow: 0 0 50px var(--accent-gold-glow); display: flex; flex-direction: column; align-items: flex-start; justify-content: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer;" onclick="handleNextAction()">
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: var(--accent-gold); color: #000; padding: 6px 18px; border-radius: 999px; font-family: var(--font-mono); font-weight: 900; font-size: 14px; letter-spacing: 1.2px;">
+          <span>🤔 KICK-OFF QUESTION</span>
+        </div>
+        
+        <h3 style="font-size: clamp(32px, 3.2vw, 48px); color: #FFFFFF; font-weight: 900; line-height: 1.25;">
+          "Why did Anthropic name its flagship AI model <span style="color: var(--accent-gold); text-shadow: 0 0 30px var(--accent-gold-glow);">'Claude'</span>?"
+        </h3>
+
+        <p style="font-size: clamp(18px, 1.7vw, 24px); color: #E0E0F0; line-height: 1.6; max-width: 1050px;">
+          Before modern LLMs, Transformers, or chatbots existed... an incredible breakthrough in 1950 changed how we predict information forever.
+        </p>
+      </div>
+
+      <!-- Experiment 2-Column Grid (Revealed on Steps 1 & 2) -->
+      <div id="shannon-experiment-grid" class="grid-2" style="grid-template-columns: 1fr 1.15fr; gap: clamp(24px, 2.8vw, 42px); align-items: stretch; width: 100%; display: none; opacity: 0; transition: opacity 0.4s ease;">
         
         <!-- Left Content -->
-        <div class="card shimmer-card" style="padding: clamp(20px, 2.2vw, 30px); gap: 14px;">
+        <div class="card shimmer-card" style="padding: clamp(20px, 2.2vw, 30px); gap: 14px; min-height: 420px; display: flex; flex-direction: column; justify-content: space-between;">
           <div>
-            <h3 style="font-size: clamp(22px, 1.9vw, 26px); color: var(--accent-gold); font-weight: 900; margin-bottom: 6px;">The 1950 Experiment: Next Letter</h3>
+            <div style="display: inline-flex; align-items: center; gap: 6px; background: rgba(255, 184, 0, 0.15); color: var(--accent-gold); padding: 3px 10px; border-radius: 6px; font-family: var(--font-mono); font-weight: 800; font-size: 12px; margin-bottom: 6px;">
+              📄 1951 BELL LABS RESEARCH PAPER
+            </div>
+            <h3 style="font-size: clamp(22px, 1.9vw, 26px); color: var(--accent-gold); font-weight: 900; margin-bottom: 6px;">Theoretical Human Experiment</h3>
             <p style="font-size: clamp(15px, 1.35vw, 18px); color: var(--text-white); line-height: 1.5;">
-              Claude Shannon showed Betty a sentence with the <strong>next letter hidden</strong>. Given enough context, the next letter was statistically certain!
+              Before software apps or AI existed, Claude Shannon ran a <strong>pen-and-paper statistical experiment</strong> at Bell Labs, asking human subjects (including his wife Betty) to guess the next letter in covered sentences.
             </p>
           </div>
           <div style="border-top: 1px solid var(--card-border); padding-top: 12px;">
-            <h3 style="font-size: clamp(22px, 1.9vw, 26px); color: var(--accent-gold); font-weight: 900; margin-bottom: 6px;">Context Creates High Certainty</h3>
+            <h3 style="font-size: clamp(20px, 1.7vw, 23px); color: var(--accent-gold); font-weight: 900; margin-bottom: 6px;">Proved Language is Statistical</h3>
             <p style="font-size: clamp(15px, 1.35vw, 18px); color: var(--text-white); line-height: 1.5;">
-              When you read <em>"THINK FAST. BUILD FASTER. SHIP TODA..."</em>, your brain instantly knows the next letter is <strong style="color: var(--accent-gold);">Y</strong>. LLMs use this exact context engine to predict tokens.
+              Shannon mathematically proved that given context like <em>"THINK FAST. BUILD FASTER. SHIP TODA..."</em>, the next character is statistically predictable. This theoretical paper founded the principle modern LLMs use today.
             </p>
           </div>
-          <div style="background: var(--accent-gold-light); border: 1.5px solid var(--accent-gold); padding: 12px 18px; border-radius: 12px; font-size: clamp(15px, 1.3vw, 17px); color: var(--accent-gold); font-weight: 900;">
-            Next Letter: TODA[ Y ] (1950) → Next Token/Word (Today)
+          <div style="background: var(--accent-gold-light); border: 1.5px solid var(--accent-gold); padding: 10px 16px; border-radius: 12px; font-size: clamp(14px, 1.25vw, 16px); color: var(--accent-gold); font-weight: 900;">
+            Paper: "Prediction and Entropy of Printed English" (1951)
           </div>
         </div>
 
         <!-- Right Terminal -->
-        <div id="shannon-terminal" class="terminal-window shimmer-card" style="box-shadow: 0 15px 40px rgba(0,0,0,0.6); opacity: 0; transform: translateY(20px); pointer-events: none;">
+        <div id="shannon-terminal" class="terminal-window shimmer-card" style="box-shadow: 0 15px 40px rgba(0,0,0,0.6); min-height: 420px; height: 100%; display: flex; flex-direction: column;">
           <div class="terminal-header">
             <span class="terminal-dot dot-red"></span>
             <span class="terminal-dot dot-yellow"></span>
             <span class="terminal-dot dot-green"></span>
-            <span class="terminal-title">shannon_prediction_experiment.py</span>
+            <span class="terminal-title">shannon_prediction_experiment.py (Modern Simulation)</span>
           </div>
-          <div class="terminal-body">
-            <div style="color: var(--text-muted); font-size: clamp(14px, 1.2vw, 16px); font-weight: 700;"># Guessing the next LETTER in sequence:</div>
+          <div class="terminal-body" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+            <div style="color: var(--text-muted); font-size: clamp(14px, 1.2vw, 16px); font-weight: 700;"># Simulating Shannon's 1950 human guessing experiment:</div>
             
             <div style="font-size: clamp(18px, 1.6vw, 23px); color: var(--text-white); font-weight: 900; background: #13131D; padding: 16px 20px; border-radius: 12px; border: 1px solid var(--card-border); cursor: pointer;" onclick="handleNextAction()">
               "THINK FAST. BUILD FASTER. SHIP TODA<span id="shannon-hidden-letter" style="color: var(--text-muted); font-weight: 900; border-bottom: 3px solid var(--card-border); padding: 0 4px;">[ ? ]</span>"
             </div>
 
-            <!-- Probabilities Hidden Initially -->
-            <div id="shannon-prob-section" style="opacity: 0; transform: translateY(12px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;">
-              <div style="font-size: clamp(14px, 1.2vw, 16px); color: var(--text-muted); font-weight: 800; margin-bottom: 8px;">Candidate Letter Probabilities:</div>
+            <!-- Probabilities Section with constant layout space -->
+            <div id="shannon-prob-section" style="visibility: hidden; opacity: 0; transition: opacity 0.5s ease, visibility 0.5s ease; pointer-events: none;">
+              <div style="font-size: clamp(14px, 1.2vw, 16px); color: var(--text-muted); font-weight: 800; margin-bottom: 8px;">Calculated Statistical Probabilities:</div>
               <div class="prob-bar-container">
                 <div class="prob-row">
                   <span class="prob-label">Y</span>
@@ -702,28 +718,23 @@
                 </div>
               </div>
             </div>
-
-            <!-- Reveal Trigger Hint -->
-            <div id="shannon-hint-pill" style="display: flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--accent-gold); background: var(--accent-gold-light); padding: 10px 16px; border-radius: 10px; border: 1px dashed var(--accent-gold); cursor: pointer;" onclick="handleNextAction()">
-              <span>Tap Next / Space to Reveal Guess & Probabilities &#8594;</span>
-            </div>
           </div>
         </div>
 
       </div>
     </div>
 
-    <div class="slide-footer" data-layout-allow-occlusion="true">
-      <div class="footer-left">
-        <span>TechQuest · AI Tech Workshop</span>
-        <span style="opacity: 0.3;">|</span>
-        <span style="color: var(--accent-gold); font-weight: 700;">Claude Shannon 1950</span>
-      </div>
-      <div>
-        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
-      </div>
+  <div class="slide-footer" data-layout-allow-occlusion="true">
+    <div class="footer-left">
+      <span>TechQuest · AI Tech Workshop</span>
+      <span style="opacity: 0.3;">|</span>
+      <span id="slide-3-footer-topic" style="color: var(--accent-gold); font-weight: 700;">AI Origins & Trivia</span>
+    </div>
+    <div>
+      <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
     </div>
   </div>
+</div>
 
   <!-- SLIDE 4: GRAPHIC BRIDGE — SHANNON TO STREAMING TEXT -->
   <div id="slide-4-root" data-composition-id="slide-4" data-start="33" data-duration="15" data-label="Shannon to Streaming Graphic" data-width="1920" data-height="1080" class="slide">
@@ -731,7 +742,7 @@
       <div class="slide-header">
         <div class="tag-pill">THE ARCHITECTURAL BRIDGE</div>
         <h2 class="slide-title">From Next-Letter to Next-Token Prediction</h2>
-        <p class="slide-subtitle">How Shannon's 1950 letter-guessing experiment evolved into modern token & word prediction engines.</p>
+        <p class="slide-subtitle">How Shannon's 1950 theoretical guessing experiment evolved into modern token & word prediction engines.</p>
       </div>
       <div class="top-logo-badge">
         <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
@@ -745,15 +756,15 @@
           <!-- Left: 1950 Next Letter -->
           <div class="card shimmer-card" style="border-color: var(--accent-gold); padding: clamp(18px, 2vw, 26px); gap: 10px;">
             <div style="display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(16px, 1.4vw, 19px); color: var(--accent-gold);">1950: NEXT LETTER</span>
-              <span style="font-size: 11px; background: var(--accent-gold); color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 800;">Character Level</span>
+              <span style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 18px); color: var(--accent-gold);">1951: THEORY & EXPERIMENT</span>
+              <span style="font-size: 11px; background: var(--accent-gold); color: #000; padding: 2px 8px; border-radius: 4px; font-weight: 800;">Paper & Pencil</span>
             </div>
-            <h4 style="font-size: clamp(20px, 1.8vw, 24px); color: var(--text-white); margin-top: 2px;">Letter-by-Letter Guessing</h4>
+            <h4 style="font-size: clamp(20px, 1.8vw, 24px); color: var(--text-white); margin-top: 2px;">Theoretical Human Guessing</h4>
             <p style="font-size: clamp(14px, 1.3vw, 16px); color: var(--text-muted); line-height: 1.45;">
-              Shannon tested predicting the single next letter in sequence: <em>"SHIP TODA[ <strong style="color: var(--accent-gold);">Y</strong> ]"</em>.
+              Shannon tested human subjects guessing covered letters to prove language is statistically predictable: <em>"SHIP TODA[ <strong style="color: var(--accent-gold);">Y</strong> ]"</em>.
             </p>
             <div style="background: #09090E; border: 1px solid rgba(255, 184, 0, 0.4); border-radius: 10px; padding: 10px 14px; font-family: var(--font-mono);">
-              <div style="font-size: 11px; color: var(--accent-gold); font-weight: 800; letter-spacing: 1px; margin-bottom: 2px;">1950 CHARACTER PROBABILITY</div>
+              <div style="font-size: 11px; color: var(--accent-gold); font-weight: 800; letter-spacing: 1px; margin-bottom: 2px;">BELL LABS EXPERIMENTAL RESULT</div>
               <div style="font-size: clamp(15px, 1.3vw, 18px); color: var(--accent-gold); font-weight: 900;">
                 TODA[ <span style="text-shadow: 0 0 15px rgba(255,184,0,0.9);">Y</span> ] · 98% Certainty
               </div>
@@ -1267,7 +1278,7 @@
           <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
             <div style="font-size: clamp(28px, 2.6vw, 36px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">02</div>
             <h3 style="font-size: clamp(18px, 1.6vw, 22px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">2. Context Window</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">The neural net reads all input tokens at once to understand the instruction.</p>
+            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">The total token capacity (Input + Output tokens) the model can hold in memory at once.</p>
           </div>
 
           <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
@@ -1777,49 +1788,61 @@
       <div style="width: 100%; max-width: 1560px; margin: 0 auto;">
         <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(24px, 2.5vw, 42px); align-items: stretch;">
           
-          <!-- Left: 4 Link / Social Cards -->
-          <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 10px;">
+          <!-- Left: Social & Community Cards -->
+          <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 16px;">
             
-            <!-- Website Card -->
-            <a href="https://shravz.dev" target="_blank" style="text-decoration: none; color: inherit;" class="step-row-card shimmer-card">
-              <div style="display: grid; grid-template-columns: 44px clamp(130px, 12vw, 170px) 2px 1fr; align-items: center; gap: 14px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 12px; padding: 10px 16px;">
-                <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--accent-gold); color: #000; font-size: 20px; display: flex; align-items: center; justify-content: center;">🌐</div>
-                <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Website</div>
-                <div style="height: 32px; width: 2px; background: #32324A;"></div>
-                <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                  <strong style="color: var(--accent-gold);">shravz.dev</strong> — Portfolio, blogs, and workshop decks.
-                </div>
-              </div>
-            </a>
-
             <!-- YouTube Card -->
             <a href="https://youtube.com/@shravzdev" target="_blank" style="text-decoration: none; color: inherit;" class="step-row-card shimmer-card">
-              <div style="display: grid; grid-template-columns: 44px clamp(130px, 12vw, 170px) 2px 1fr; align-items: center; gap: 14px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 12px; padding: 10px 16px;">
-                <div style="width: 38px; height: 38px; border-radius: 50%; background: #FF0000; color: #FFF; font-size: 18px; display: flex; align-items: center; justify-content: center;">▶</div>
-                <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">YouTube</div>
-                <div style="height: 32px; width: 2px; background: #32324A;"></div>
-                <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                  <strong style="color: #FF5555;">@shravzdev</strong> — Deep-dive tutorials, builds & AI workflows.
+              <div style="display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 16px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 14px; padding: 16px 20px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(255, 0, 0, 0.12); border: 1.5px solid rgba(255, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg style="width: 26px; height: 26px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                    <path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="#FFFFFF"/>
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF;">YouTube</div>
+                  <div style="font-size: clamp(14px, 1.2vw, 16px); color: #B0B0C8; margin-top: 2px;">Tech tutorials, architecture & live dev sessions.</div>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: clamp(14px, 1.2vw, 16px); color: #FF6666; font-weight: 800; background: rgba(255,0,0,0.1); padding: 4px 12px; border-radius: 8px; border: 1px solid rgba(255,0,0,0.3);">
+                  @shravzdev
                 </div>
               </div>
             </a>
 
             <!-- Instagram Card -->
-            <a href="https://instagram.com/shangeethsivan" target="_blank" style="text-decoration: none; color: inherit;" class="step-row-card shimmer-card">
-              <div style="display: grid; grid-template-columns: 44px clamp(130px, 12vw, 170px) 2px 1fr; align-items: center; gap: 14px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 12px; padding: 10px 16px;">
-                <div style="width: 38px; height: 38px; border-radius: 50%; background: linear-gradient(45deg, #F58529, #DD2A7B, #8134AF); color: #FFF; font-size: 20px; display: flex; align-items: center; justify-content: center;">📸</div>
-                <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Instagram</div>
-                <div style="height: 32px; width: 2px; background: #32324A;"></div>
-                <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                  <strong style="color: #E1306C;">@shangeethsivan</strong> — Tech behind-the-scenes & quick tips.
+            <a href="https://instagram.com/shravzdev" target="_blank" style="text-decoration: none; color: inherit;" class="step-row-card shimmer-card">
+              <div style="display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: 16px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 14px; padding: 16px 20px;">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: rgba(225, 48, 108, 0.12); border: 1.5px solid rgba(225, 48, 108, 0.5); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                  <svg style="width: 26px; height: 26px;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <linearGradient id="ig-grad-slide-2" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#FFDC80" />
+                        <stop offset="25%" stop-color="#F77737" />
+                        <stop offset="50%" stop-color="#F56040" />
+                        <stop offset="75%" stop-color="#FD1D1D" />
+                        <stop offset="100%" stop-color="#C13584" />
+                      </linearGradient>
+                    </defs>
+                    <rect width="24" height="24" rx="6" fill="url(#ig-grad-slide-2)"/>
+                    <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z" fill="#FFFFFF"/>
+                    <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="#FFFFFF" stroke-width="1.6" fill="none"/>
+                  </svg>
+                </div>
+                <div>
+                  <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF;">Instagram</div>
+                  <div style="font-size: clamp(14px, 1.2vw, 16px); color: #B0B0C8; margin-top: 2px;">Daily dev snippets, event updates & reels.</div>
+                </div>
+                <div style="font-family: var(--font-mono); font-size: clamp(14px, 1.2vw, 16px); color: #FF70A5; font-weight: 800; background: rgba(225,48,108,0.1); padding: 4px 12px; border-radius: 8px; border: 1px solid rgba(225,48,108,0.3);">
+                  @shravzdev
                 </div>
               </div>
             </a>
 
             <!-- Motto Banner -->
-            <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: 12px 18px; display: flex; flex-direction: row; align-items: center; gap: 14px;">
+            <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: 14px 20px; display: flex; flex-direction: row; align-items: center; gap: 14px;">
               <span style="font-size: 26px;">⚡</span>
-              <div style="font-family: var(--font-mono); font-size: clamp(15px, 1.3vw, 18px); font-weight: 900; color: #FFFFFF;">
+              <div style="font-family: var(--font-mono); font-size: clamp(15px, 1.35vw, 18px); font-weight: 900; color: #FFFFFF;">
                 "THINK FAST. BUILD FASTER. SHIP TODAY."
               </div>
             </div>
@@ -1827,27 +1850,26 @@
           </div>
 
           <!-- Right: Shangeeth Profile QR Card -->
-          <div class="card card-highlight shimmer-card" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding: clamp(18px, 2vw, 28px); border-radius: 20px;">
-            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(18px, 1.6vw, 22px); color: var(--accent-gold); letter-spacing: 1px;">
+          <div class="card card-highlight shimmer-card" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding: clamp(20px, 2.2vw, 28px); border-radius: 20px; gap: 14px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(17px, 1.5vw, 20px); color: var(--accent-gold); letter-spacing: 1px;">
               SCAN TO CONNECT
             </div>
 
-            <div style="background: #FFFFFF; padding: 12px; border-radius: 16px; margin: 6px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;">
+            <div style="background: #FFFFFF; padding: 12px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;">
               <img src="assets/shravz-qr-code.png" alt="Scan QR Code to Connect with Shangeeth" style="width: clamp(160px, 15vw, 200px); height: clamp(160px, 15vw, 200px); object-fit: contain; display: block; border-radius: 8px;">
             </div>
 
-            <div style="font-family: var(--font-mono); font-size: clamp(17px, 1.5vw, 21px); color: var(--text-white); font-weight: 900; margin-bottom: 4px;">
-              shravz.dev
-            </div>
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%;">
-              <div style="background: rgba(255, 184, 0, 0.1); border: 1.5px solid rgba(255, 184, 0, 0.5); border-radius: 10px; padding: 8px 12px; font-family: var(--font-mono); text-align: center;">
-                <span style="color: var(--accent-gold); font-size: clamp(15px, 1.3vw, 18px); font-weight: 900;">@shravzdev</span>
+            <!-- Website Box Below QR Code -->
+            <a href="https://shravz.dev" target="_blank" style="text-decoration: none; color: inherit; width: 100%;">
+              <div style="background: rgba(255, 184, 0, 0.12); border: 1.5px solid var(--accent-gold); border-radius: 12px; padding: 12px 18px; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.2s ease;">
+                <svg style="width: 20px; height: 20px; color: var(--accent-gold);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+                <span style="font-family: var(--font-mono); font-size: clamp(16px, 1.4vw, 19px); color: #FFFFFF; font-weight: 900;">shravz.dev</span>
               </div>
-              <div style="background: rgba(255, 184, 0, 0.1); border: 1.5px solid rgba(255, 184, 0, 0.5); border-radius: 10px; padding: 8px 12px; font-family: var(--font-mono); text-align: center;">
-                <span style="color: var(--accent-gold); font-size: clamp(15px, 1.3vw, 18px); font-weight: 900;">@shangeethsivan</span>
-              </div>
-            </div>
+            </a>
           </div>
 
         </div>
@@ -1879,43 +1901,53 @@
       window.__timelines[id] = gsap.timeline({ paused: true });
     });
 
-    let slide2SubStep = 0; // 0 = Left only, 1 = Terminal loaded with [ ? ], 2 = [ Y ] + probabilities loaded
+    let slide2SubStep = 0; // 0 = Full-Page Opening Question, 1 = Experiment Grid with [ ? ], 2 = [ Y ] + probabilities loaded
 
     function setSlide2Step(step) {
       slide2SubStep = Math.max(0, Math.min(2, step));
+      const tagEl = document.getElementById('slide-3-tag');
+      const titleEl = document.getElementById('slide-3-title');
+      const subtitleEl = document.getElementById('slide-3-subtitle');
+      const footerTopicEl = document.getElementById('slide-3-footer-topic');
+      const fullQuestionCard = document.getElementById('shannon-full-question-card');
+      const expGrid = document.getElementById('shannon-experiment-grid');
       const terminalEl = document.getElementById('shannon-terminal');
       const letterEl = document.getElementById('shannon-hidden-letter');
       const probSection = document.getElementById('shannon-prob-section');
-      const hintPill = document.getElementById('shannon-hint-pill');
       const probY = document.getElementById('prob-y');
       const probT = document.getElementById('prob-t');
       const probS = document.getElementById('prob-s');
 
       if (slide2SubStep === 0) {
-        if (terminalEl) {
-          terminalEl.style.opacity = '0';
-          terminalEl.style.transform = 'translateY(20px)';
-          terminalEl.style.pointerEvents = 'none';
+        // Step 0: Full page opening question card covers the slide (No Claude Shannon or Prediction spoilers)
+        if (tagEl) tagEl.textContent = 'TRIVIA TIME';
+        if (titleEl) titleEl.textContent = 'Can You Guess The Connection?';
+        if (subtitleEl) subtitleEl.textContent = 'A quick puzzle before we dive into how modern AI actually generates text.';
+        if (footerTopicEl) footerTopicEl.textContent = 'AI Origins & Trivia';
+
+        if (fullQuestionCard) {
+          fullQuestionCard.style.display = 'flex';
+          fullQuestionCard.style.opacity = '1';
+          fullQuestionCard.style.transform = 'scale(1)';
         }
-        if (letterEl) {
-          letterEl.innerHTML = '[ ? ]';
-          letterEl.style.color = 'var(--text-muted)';
-          letterEl.style.borderColor = 'var(--card-border)';
-          letterEl.style.textShadow = 'none';
+        if (expGrid) {
+          expGrid.style.display = 'none';
+          expGrid.style.opacity = '0';
         }
-        if (probSection) {
-          probSection.style.opacity = '0';
-          probSection.style.transform = 'translateY(12px)';
-          probSection.style.pointerEvents = 'none';
-        }
-        if (probY) probY.style.width = '0%';
-        if (probT) probT.style.width = '0%';
-        if (probS) probS.style.width = '0%';
       } else if (slide2SubStep === 1) {
-        if (terminalEl) {
-          terminalEl.style.opacity = '1';
-          terminalEl.style.transform = 'translateY(0)';
-          terminalEl.style.pointerEvents = 'auto';
+        // Step 1: Reveal the 1950 Claude Shannon experiment and 2-column layout with [ ? ]
+        if (tagEl) tagEl.textContent = 'THE ORIGIN OF PREDICTION';
+        if (titleEl) titleEl.textContent = '1950: The Next-Letter Guessing Game';
+        if (subtitleEl) subtitleEl.textContent = 'Claude & Betty Shannon prove that predicting the next letter reveals the statistical structure of language.';
+        if (footerTopicEl) footerTopicEl.textContent = 'Claude Shannon 1950';
+
+        if (fullQuestionCard) {
+          fullQuestionCard.style.display = 'none';
+          fullQuestionCard.style.opacity = '0';
+        }
+        if (expGrid) {
+          expGrid.style.display = 'grid';
+          setTimeout(() => { expGrid.style.opacity = '1'; }, 10);
         }
         if (letterEl) {
           letterEl.innerHTML = '[ ? ]';
@@ -1924,22 +1956,27 @@
           letterEl.style.textShadow = 'none';
         }
         if (probSection) {
+          probSection.style.visibility = 'hidden';
           probSection.style.opacity = '0';
-          probSection.style.transform = 'translateY(12px)';
           probSection.style.pointerEvents = 'none';
-        }
-        if (hintPill) {
-          hintPill.style.display = 'flex';
-          hintPill.innerHTML = '<span>Tap Next / Space to Reveal Guess & Probabilities &#8594;</span>';
         }
         if (probY) probY.style.width = '0%';
         if (probT) probT.style.width = '0%';
         if (probS) probS.style.width = '0%';
       } else if (slide2SubStep === 2) {
-        if (terminalEl) {
-          terminalEl.style.opacity = '1';
-          terminalEl.style.transform = 'translateY(0)';
-          terminalEl.style.pointerEvents = 'auto';
+        // Step 2: Reveal [ Y ] and 98% probability distribution
+        if (tagEl) tagEl.textContent = 'THE ORIGIN OF PREDICTION';
+        if (titleEl) titleEl.textContent = '1950: The Next-Letter Guessing Game';
+        if (subtitleEl) subtitleEl.textContent = 'Claude & Betty Shannon prove that predicting the next letter reveals the statistical structure of language.';
+        if (footerTopicEl) footerTopicEl.textContent = 'Claude Shannon 1950';
+
+        if (fullQuestionCard) {
+          fullQuestionCard.style.display = 'none';
+          fullQuestionCard.style.opacity = '0';
+        }
+        if (expGrid) {
+          expGrid.style.display = 'grid';
+          expGrid.style.opacity = '1';
         }
         if (letterEl) {
           letterEl.innerHTML = '[ Y ]';
@@ -1948,12 +1985,9 @@
           letterEl.style.textShadow = '0 0 20px rgba(255,184,0,0.9)';
         }
         if (probSection) {
+          probSection.style.visibility = 'visible';
           probSection.style.opacity = '1';
-          probSection.style.transform = 'translateY(0)';
           probSection.style.pointerEvents = 'auto';
-        }
-        if (hintPill) {
-          hintPill.style.display = 'none';
         }
         if (probY) probY.style.width = '98%';
         if (probT) probT.style.width = '1%';
@@ -2010,32 +2044,64 @@
 
       const slides = manifest.slides || [];
       let currentIndex = 0;
+      let isHudCollapsed = false;
 
+      // Full Controls HUD Bar (Compact & Slim)
       const hud = document.createElement('div');
       hud.id = 'slideshow-hud';
       hud.setAttribute('data-layout-allow-occlusion', 'true');
-      hud.style.cssText = 'position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; align-items:center; gap:12px; background:rgba(18,18,24,0.92); border:1px solid #2A2A3E; padding:6px 18px; border-radius:30px; font-family:sans-serif; font-size:14px; color:#fff; backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,0.6);';
+      hud.style.cssText = 'position:fixed; bottom:8px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; align-items:center; gap:8px; background:rgba(14,14,20,0.94); border:1px solid #2A2A3E; padding:3px 12px; border-radius:24px; font-family:sans-serif; font-size:12px; color:#fff; backdrop-filter:blur(12px); box-shadow:0 6px 24px rgba(0,0,0,0.65); transition:all 0.25s cubic-bezier(0.16, 1, 0.3, 1);';
       
       const prevBtn = document.createElement('button');
       prevBtn.innerHTML = '&#8592; Prev';
-      prevBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:14px; outline:none; padding:4px 6px;';
+      prevBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:12px; outline:none; padding:2px 6px;';
       
       const nextBtn = document.createElement('button');
       nextBtn.innerHTML = 'Next &#8594;';
-      nextBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:14px; outline:none; padding:4px 6px;';
+      nextBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:12px; outline:none; padding:2px 6px;';
 
       const counter = document.createElement('span');
       counter.id = 'hud-counter';
-      counter.style.cssText = 'font-family:monospace; color:#A8A8C0; margin:0 6px; font-size:14px; font-weight:700;';
+      counter.style.cssText = 'font-family:monospace; color:#A8A8C0; margin:0 4px; font-size:12px; font-weight:700;';
 
       const notesBtn = document.createElement('button');
       notesBtn.innerHTML = '📝 Notes [P]';
-      notesBtn.style.cssText = 'background:rgba(255,184,0,0.15); border:1px solid #FFB800; color:#FFB800; border-radius:10px; padding:4px 10px; cursor:pointer; font-size:13px; outline:none; font-weight:700;';
+      notesBtn.style.cssText = 'background:rgba(255,184,0,0.12); border:1px solid #FFB800; color:#FFB800; border-radius:8px; padding:2px 8px; cursor:pointer; font-size:11px; outline:none; font-weight:700;';
 
       const fsBtn = document.createElement('button');
       fsBtn.id = 'hud-fs-btn';
       fsBtn.innerHTML = '⛶ Fullscreen [F]';
-      fsBtn.style.cssText = 'background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.25); color:#E0E0F0; border-radius:10px; padding:4px 10px; cursor:pointer; font-size:13px; outline:none; font-weight:700; transition:all 0.2s ease;';
+      fsBtn.style.cssText = 'background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.2); color:#E0E0F0; border-radius:8px; padding:2px 8px; cursor:pointer; font-size:11px; outline:none; font-weight:700; transition:all 0.2s ease;';
+
+      const collapseBtn = document.createElement('button');
+      collapseBtn.id = 'hud-collapse-btn';
+      collapseBtn.innerHTML = '✕';
+      collapseBtn.title = 'Hide controls (Press H to toggle)';
+      collapseBtn.style.cssText = 'background:none; border:none; color:#6B6B84; cursor:pointer; font-size:11px; outline:none; padding:2px 4px; border-radius:4px; transition:color 0.2s ease;';
+      collapseBtn.onmouseenter = () => { collapseBtn.style.color = '#FFFFFF'; };
+      collapseBtn.onmouseleave = () => { collapseBtn.style.color = '#6B6B84'; };
+
+      // Discrete Mini Drawer Pill (Shown when collapsed)
+      const miniDrawer = document.createElement('div');
+      miniDrawer.id = 'slideshow-mini-drawer';
+      miniDrawer.setAttribute('data-layout-allow-occlusion', 'true');
+      miniDrawer.title = 'Open Controls (Press H)';
+      miniDrawer.style.cssText = 'position:fixed; bottom:6px; left:50%; transform:translateX(-50%); z-index:9999; display:none; align-items:center; gap:6px; background:rgba(14,14,20,0.85); border:1px solid #2A2A3E; padding:3px 10px; border-radius:16px; font-family:sans-serif; font-size:11px; color:#A8A8C0; cursor:pointer; backdrop-filter:blur(8px); box-shadow:0 4px 14px rgba(0,0,0,0.5); transition:all 0.2s ease;';
+      miniDrawer.innerHTML = '<span style="color:#FFB800; font-size:10px;">▲</span> <span id="mini-counter" style="font-family:monospace; font-weight:700; color:#E0E0F0;">1 / 17</span>';
+
+      function toggleHudCollapse() {
+        isHudCollapsed = !isHudCollapsed;
+        if (isHudCollapsed) {
+          hud.style.display = 'none';
+          miniDrawer.style.display = 'flex';
+        } else {
+          hud.style.display = 'flex';
+          miniDrawer.style.display = 'none';
+        }
+      }
+
+      collapseBtn.onclick = toggleHudCollapse;
+      miniDrawer.onclick = toggleHudCollapse;
 
       function toggleFullscreen() {
         if (!document.fullscreenElement) {
@@ -2054,8 +2120,8 @@
           fsBtn.style.color = '#FFB800';
         } else {
           fsBtn.innerHTML = '⛶ Fullscreen [F]';
-          fsBtn.style.background = 'rgba(255,255,255,0.08)';
-          fsBtn.style.borderColor = 'rgba(255,255,255,0.25)';
+          fsBtn.style.background = 'rgba(255,255,255,0.06)';
+          fsBtn.style.borderColor = 'rgba(255,255,255,0.2)';
           fsBtn.style.color = '#E0E0F0';
         }
       });
@@ -2065,7 +2131,9 @@
       hud.appendChild(nextBtn);
       hud.appendChild(notesBtn);
       hud.appendChild(fsBtn);
+      hud.appendChild(collapseBtn);
       document.body.appendChild(hud);
+      document.body.appendChild(miniDrawer);
 
       const notesPanel = document.createElement('div');
       notesPanel.id = 'presenter-notes-panel';
@@ -2103,6 +2171,8 @@
         }
 
         counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+        const miniCounter = document.getElementById('mini-counter');
+        if (miniCounter) { miniCounter.textContent = `${currentIndex + 1} / ${slides.length}`; }
         const notesContent = document.getElementById('notes-content');
         if (notesContent) { notesContent.textContent = activeSlideRef.notes || "No notes for this slide."; }
       }
@@ -2144,6 +2214,8 @@
           notesPanel.style.display = notesPanel.style.display === 'none' ? 'block' : 'none';
         } else if (e.key === 'f' || e.key === 'F') {
           toggleFullscreen();
+        } else if (e.key === 'h' || e.key === 'H') {
+          toggleHudCollapse();
         }
       });
 

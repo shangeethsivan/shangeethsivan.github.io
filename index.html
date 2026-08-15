@@ -69,59 +69,6 @@
     }
     .hover-link:hover::after { transform: scaleX(1); }
 
-    .cursor-dot,
-    .cursor-ring {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 100;
-      transform: translate(-50%, -50%);
-      transition: opacity 180ms ease;
-    }
-
-    .cursor-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #d6f2ff, #77d2ff 60%, #4f8cff 100%);
-      box-shadow: 0 0 24px rgba(92, 200, 255, 0.8);
-    }
-
-    .cursor-ring {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      border: 1px solid rgba(124, 196, 255, 0.85);
-      box-shadow: 0 0 28px rgba(92, 200, 255, 0.3);
-      backdrop-filter: blur(1px);
-    }
-
-    .cursor-ring.is-hover {
-      width: 54px;
-      height: 54px;
-      border-color: rgba(173, 224, 255, 0.95);
-      box-shadow: 0 0 42px rgba(125, 178, 255, 0.45);
-    }
-
-    .cursor-ring.is-down {
-      width: 28px;
-      height: 28px;
-    }
-
-    @media (pointer: fine) {
-      body { cursor: none; }
-      .cursor-dot,
-      .cursor-ring { display: block; }
-      a, button, [role="button"] { cursor: none; }
-    }
-
-    @media (pointer: coarse) {
-      .cursor-dot,
-      .cursor-ring { display: none !important; }
-    }
-
     .typing-cursor::after {
       content: "▋";
       display: inline-block;
@@ -143,12 +90,13 @@
         <a href="#" class="font-display text-sm font-bold tracking-[0.14em] text-slate-200">SHANGEETH SIVAN</a>
         <nav class="hidden items-center gap-6 text-sm text-slate-300 md:flex">
           <a href="#impact" class="hover-link">Impact</a>
+          <a href="#experience" class="hover-link">Experience</a>
           <a href="#topmate" class="hover-link">Topmate</a>
           <a href="#philosophy" class="hover-link">Philosophy</a>
           <a href="./talks/" class="hover-link">Talks</a>
           <a href="./press-kit/" class="hover-link">Press Kit</a>
           <a href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer" class="hover-link">YouTube</a>
-          <a href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer" class="hover-link">Instagram</a>
+          <a href="https://instagram.com/shravzdev" target="_blank" rel="noreferrer" class="hover-link">Instagram</a>
         </nav>
       </div>
     </header>
@@ -176,7 +124,7 @@
           <a href="https://github.com/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">GitHub</a>
           <a href="https://linkedin.com/in/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">LinkedIn</a>
           <a href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">YouTube</a>
-          <a href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Instagram</a>
+          <a href="https://instagram.com/shravzdev" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Instagram</a>
         </div>
       </section>
 
@@ -222,11 +170,216 @@
 
                 <!-- GDG Chennai Card -->
                 <a href="https://gdg.community.dev/gdg-chennai/" target="_blank" rel="noreferrer" class="group flex items-start gap-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-sky-400/60 hover:bg-slate-900/80">
-                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#0F1424] p-2 border border-slate-700/50 group-hover:border-sky-400/40">
-                    <svg class="h-full w-full" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M12.5 7L4 16L12.5 25" stroke="#EA4335" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <path d="M19.5 7L28 16L19.5 25" stroke="#4285F4" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-                      <circle cx="16" cy="16" r="2.5" fill="#FBBC04" />
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#0F1424] p-1.5 border border-slate-700/50 group-hover:border-sky-400/40">
+                    <svg class="h-full w-full" viewBox="0 0 100 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Left Bracket < : Top Red, Bottom Blue -->
+                      <line x1="43" y1="18" x2="21" y2="35" stroke="#EA4335" stroke-width="14" stroke-linecap="round"/>
+                      <line x1="21" y1="35" x2="43" y2="52" stroke="#4285F4" stroke-width="14" stroke-linecap="round"/>
+                      <!-- Right Bracket > : Top Green, Bottom Yellow -->
+                      <line x1="57" y1="18" x2="79" y2="35" stroke="#0F9D58" stroke-width="14" stroke-linecap="round"/>
+                      <line x1="79" y1="35" x2="57" y2="52" stroke="#FBBC04" stroke-width="14" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h4 class="font-display text-base font-bold text-white group-hover:text-sky-200">GDG Chennai</h4>
+                    </div>
+                    <p class="mt-0.5 text-xs font-semibold text-sky-300">Core Volunteering Team</p>
+                    <p class="mt-1.5 text-xs text-slate-300 leading-relaxed">Co-organizing flagship developer conferences like DevFest, Android study jams, and community initiatives.</p>
+                  </div>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="line py-20 sm:py-28">
+        <div class="grid gap-10 lg:grid-cols-[220px,1fr]">
+          <div>
+            <h2 class="font-display text-2xl font-bold tracking-wide text-white sm:text-3xl">Experience</h2>
+            <p class="mt-2 text-sm text-slate-400">9+ years building mobile systems & products at scale.</p>
+            
+            <!-- Navigation Arrow Controls -->
+            <div class="mt-6 flex items-center gap-3">
+              <button id="exp-prev-btn" aria-label="Previous Experience" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 text-slate-200 transition hover:border-sky-400 hover:text-sky-300 disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+              </button>
+              <span id="exp-counter" class="font-mono text-xs font-semibold text-slate-400">1 / 3</span>
+              <button id="exp-next-btn" aria-label="Next Experience" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-700 bg-slate-900/80 text-slate-200 transition hover:border-sky-400 hover:text-sky-300 disabled:opacity-30 disabled:cursor-not-allowed">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <!-- Interactive Horizontal Company Bar -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-none">
+              <button class="exp-tab-btn active shrink-0 rounded-full border border-sky-400/80 bg-sky-400/15 px-4 py-2 text-xs font-bold text-sky-200 transition" data-exp-index="0">
+                Poshmark · 7+ yrs
+              </button>
+              <button class="exp-tab-btn shrink-0 rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-xs font-medium text-slate-300 transition hover:border-slate-500 hover:text-white" data-exp-index="1">
+                FULL Creative · 2.5 yrs
+              </button>
+              <button class="exp-tab-btn shrink-0 rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-xs font-medium text-slate-300 transition hover:border-slate-500 hover:text-white" data-exp-index="2">
+                Early Career · 2016
+              </button>
+            </div>
+
+            <!-- Experience Cards Container -->
+            <div class="relative mt-2 min-h-[300px] overflow-hidden rounded-2xl border border-slate-700/60 bg-slate-900/60 p-6 sm:p-8">
+              
+              <!-- Slide 0: Poshmark -->
+              <div class="exp-slide transition-all duration-300 opacity-100 block" data-slide-index="0">
+                <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-5">
+                  <div>
+                    <div class="inline-flex items-center gap-2">
+                      <span class="inline-block h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Current Role</span>
+                    </div>
+                    <h3 class="mt-1 font-display text-2xl font-bold text-white">Staff Software Engineer — Android</h3>
+                    <p class="text-sm font-medium text-sky-300">Poshmark · Full-time</p>
+                  </div>
+                  <div class="text-left sm:text-right">
+                    <span class="inline-block rounded-md bg-slate-800/90 px-3 py-1 font-mono text-xs font-semibold text-slate-300">Jul 2019 – Present · 7 yrs 2 mos</span>
+                    <p class="mt-1 text-xs text-slate-400">Chennai, India · Hybrid</p>
+                  </div>
+                </div>
+
+                <div class="mt-5 space-y-3 text-sm leading-relaxed text-slate-300">
+                  <p>
+                    Leading the Android engineering team at Poshmark, delivering mobile commerce experiences for over 80 million registered users and 50M+ app downloads. Directing mobile architecture, performance optimization, and cross-functional engineering initiatives across 6 progressive advancements.
+                  </p>
+                  <p>
+                    Architected critical systems including live streaming auction capabilities (<strong class="text-white font-medium">Posh Shows</strong>), global international expansion payment gateways (Cards, GPay), deep-link processing modernization, and CI/CD developer velocity improvements.
+                  </p>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-2 pt-2">
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Android Architecture</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Technical Leadership</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Kotlin & KMP</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Posh Shows Live Auctions</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Payments & Scalability</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Team Mentorship</span>
+                </div>
+              </div>
+
+              <!-- Slide 1: FULL Creative -->
+              <div class="exp-slide transition-all duration-300 opacity-0 hidden" data-slide-index="1">
+                <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-5">
+                  <div>
+                    <h3 class="font-display text-2xl font-bold text-white">Jr. Software Engineer / Android Developer</h3>
+                    <p class="text-sm font-medium text-violet-300">FULL Creative</p>
+                  </div>
+                  <div class="text-left sm:text-right">
+                    <span class="inline-block rounded-md bg-slate-800/90 px-3 py-1 font-mono text-xs font-semibold text-slate-300">Mar 2017 – Jul 2019 · 2 yrs 5 mos</span>
+                    <p class="mt-1 text-xs text-slate-400">Greater Chennai Area</p>
+                  </div>
+                </div>
+
+                <div class="mt-5 space-y-3 text-sm leading-relaxed text-slate-300">
+                  <p>
+                    Developed high-concurrency real-time communication Android applications serving over 100K+ active users and 50K+ business teams worldwide. Built collaborative team chat platforms with voice calling capabilities and dedicated video conferencing solutions.
+                  </p>
+                  <p>
+                    Engineered core media pipelines, audio/video synchronization, background services, and real-time state management on Android.
+                  </p>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-2 pt-2">
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Real-Time Chat & VoIP</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Android SDK</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">WebSockets & Audio</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Java & Kotlin</span>
+                </div>
+              </div>
+
+              <!-- Slide 2: Early Career -->
+              <div class="exp-slide transition-all duration-300 opacity-0 hidden" data-slide-index="2">
+                <div class="flex flex-wrap items-start justify-between gap-4 border-b border-slate-800 pb-5">
+                  <div>
+                    <h3 class="font-display text-2xl font-bold text-white">Android Developer & Jr. Engineer</h3>
+                    <p class="text-sm font-medium text-sky-300">Code Khadi & Pepiras Technologies</p>
+                  </div>
+                  <div class="text-left sm:text-right">
+                    <span class="inline-block rounded-md bg-slate-800/90 px-3 py-1 font-mono text-xs font-semibold text-slate-300">Jun 2016 – Dec 2016 · 7 mos</span>
+                    <p class="mt-1 text-xs text-slate-400">Greater Coimbatore Area</p>
+                  </div>
+                </div>
+
+                <div class="mt-5 space-y-3 text-sm leading-relaxed text-slate-300">
+                  <p>
+                    Built an agricultural equipment-sharing Android application and supporting backend PHP APIs for Andhra Pradesh Government initiatives, empowering over 100,000 regional farmers to share and rent equipment.
+                  </p>
+                  <p>
+                    Developed conversational chatbot integrations for Facebook Messenger to automate client business engagement workflows.
+                  </p>
+                </div>
+
+                <div class="mt-6 flex flex-wrap gap-2 pt-2">
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Android Development</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">GovTech Applications</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">PHP REST APIs</span>
+                  <span class="rounded-md border border-slate-700/60 bg-slate-800/50 px-2.5 py-1 text-xs font-medium text-slate-300">Conversational Bots</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="impact" class="line py-20 sm:py-28">
+        <div class="grid gap-10 lg:grid-cols-[220px,1fr]">
+          <h2 class="font-display text-2xl font-bold tracking-wide text-white sm:text-3xl">Impact</h2>
+          <div class="space-y-8">
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Mobile Architecture & Scalability</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Designed resilient Android architecture for high-traffic scenarios, improving stability, maintainability, and shipping speed.</p>
+            </article>
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Kotlin Multiplatform Adoption</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Enabled practical KMP adoption paths to reduce repeated platform effort and align teams on shared business logic.</p>
+            </article>
+            <article>
+              <h3 class="font-display text-2xl font-bold text-white">Community & Mentorship</h3>
+              <p class="mt-2 max-w-3xl text-slate-300">Leading builder-first developer communities, organizing tech meetups, and mentoring engineers across the ecosystem.</p>
+              
+              <div class="mt-5 grid gap-4 sm:grid-cols-2 max-w-3xl">
+                <!-- Kotlin User Group Chennai Card -->
+                <a href="https://linktr.ee/kugchennai" target="_blank" rel="noreferrer" class="group flex items-start gap-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-violet-400/60 hover:bg-slate-900/80">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#0F1424] p-2 border border-slate-700/50 group-hover:border-violet-400/40">
+                    <svg class="h-full w-full" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <defs>
+                        <linearGradient id="kug-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                          <stop offset="0%" stop-color="#7F52FF" />
+                          <stop offset="50%" stop-color="#C711E1" />
+                          <stop offset="100%" stop-color="#FF8000" />
+                        </linearGradient>
+                      </defs>
+                      <path d="M24 0H0v24h24L12 12z" fill="url(#kug-grad)" />
+                    </svg>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h4 class="font-display text-base font-bold text-white group-hover:text-violet-200">Kotlin User Group Chennai</h4>
+                    </div>
+                    <p class="mt-0.5 text-xs font-semibold text-violet-300">Organizer & Community Lead</p>
+                    <p class="mt-1.5 text-xs text-slate-300 leading-relaxed">Running Chennai's official Kotlin community — meetups, hands-on workshops, and KMP/Android adoption.</p>
+                  </div>
+                </a>
+
+                <!-- GDG Chennai Card -->
+                <a href="https://gdg.community.dev/gdg-chennai/" target="_blank" rel="noreferrer" class="group flex items-start gap-4 rounded-xl border border-slate-700/60 bg-slate-900/50 p-4 transition duration-200 hover:-translate-y-0.5 hover:border-sky-400/60 hover:bg-slate-900/80">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-[#0F1424] p-1.5 border border-slate-700/50 group-hover:border-sky-400/40">
+                    <svg class="h-full w-full" viewBox="0 0 100 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <!-- Left Bracket < : Top Red, Bottom Blue -->
+                      <line x1="43" y1="18" x2="21" y2="35" stroke="#EA4335" stroke-width="14" stroke-linecap="round"/>
+                      <line x1="21" y1="35" x2="43" y2="52" stroke="#4285F4" stroke-width="14" stroke-linecap="round"/>
+                      <!-- Right Bracket > : Top Green, Bottom Yellow -->
+                      <line x1="57" y1="18" x2="79" y2="35" stroke="#0F9D58" stroke-width="14" stroke-linecap="round"/>
+                      <line x1="79" y1="35" x2="57" y2="52" stroke="#FBBC04" stroke-width="14" stroke-linecap="round"/>
                     </svg>
                   </div>
                   <div>
@@ -268,7 +421,7 @@
         <a class="hover-link" href="https://github.com/shangeethsivan" target="_blank" rel="noreferrer">GitHub</a>
         <a class="hover-link" href="https://linkedin.com/in/shangeethsivan" target="_blank" rel="noreferrer">LinkedIn</a>
         <a class="hover-link" href="https://x.com/shangeethsivan" target="_blank" rel="noreferrer">X</a>
-        <a class="hover-link" href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer">Instagram</a>
+        <a class="hover-link" href="https://instagram.com/shravzdev" target="_blank" rel="noreferrer">Instagram</a>
         <a class="hover-link" href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer">YouTube</a>
         <a class="hover-link" href="mailto:shivthepro@gmail.com">Email</a>
       </div>
@@ -276,45 +429,8 @@
     </footer>
   </div>
 
-  <div class="cursor-ring" id="cursorRing"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
-
-    const ring = document.getElementById("cursorRing");
-    const dot = document.getElementById("cursorDot");
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-
-    if (finePointer) {
-      let targetX = window.innerWidth / 2;
-      let targetY = window.innerHeight / 2;
-      let ringX = targetX;
-      let ringY = targetY;
-
-      window.addEventListener("mousemove", (e) => {
-        targetX = e.clientX;
-        targetY = e.clientY;
-        dot.style.transform = `translate(${targetX - 5}px, ${targetY - 5}px)`;
-      });
-
-      window.addEventListener("mousedown", () => ring.classList.add("is-down"));
-      window.addEventListener("mouseup", () => ring.classList.remove("is-down"));
-
-      document.querySelectorAll("a, button, [role='button']").forEach((el) => {
-        el.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
-        el.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
-      });
-
-      function animateCursor() {
-        ringX += (targetX - ringX) * 0.18;
-        ringY += (targetY - ringY) * 0.18;
-        ring.style.transform = `translate(${ringX - ring.offsetWidth / 2}px, ${ringY - ring.offsetHeight / 2}px)`;
-        requestAnimationFrame(animateCursor);
-      }
-
-      animateCursor();
-    }
 
     // Hero Text Sequential Streaming Controller
     document.addEventListener("DOMContentLoaded", () => {
@@ -404,6 +520,57 @@
 
       setTimeout(typeNextChar, 250);
     });
+
+    // Experience Interactive Slider Controller
+    (function() {
+      let currentExp = 0;
+      const slides = document.querySelectorAll('.exp-slide');
+      const tabs = document.querySelectorAll('.exp-tab-btn');
+      const counter = document.getElementById('exp-counter');
+      const prevBtn = document.getElementById('exp-prev-btn');
+      const nextBtn = document.getElementById('exp-next-btn');
+
+      if (!slides.length) return;
+
+      function showExp(index) {
+        currentExp = Math.max(0, Math.min(slides.length - 1, index));
+        
+        slides.forEach((s, i) => {
+          if (i === currentExp) {
+            s.classList.remove('hidden');
+            setTimeout(() => { s.classList.remove('opacity-0'); s.classList.add('opacity-100'); }, 10);
+          } else {
+            s.classList.add('opacity-0');
+            s.classList.remove('opacity-100');
+            setTimeout(() => { if (i !== currentExp) s.classList.add('hidden'); }, 250);
+          }
+        });
+
+        tabs.forEach((t, i) => {
+          if (i === currentExp) {
+            t.className = 'exp-tab-btn active shrink-0 rounded-full border border-sky-400/80 bg-sky-400/15 px-4 py-2 text-xs font-bold text-sky-200 transition';
+          } else {
+            t.className = 'exp-tab-btn shrink-0 rounded-full border border-slate-700 bg-slate-900/60 px-4 py-2 text-xs font-medium text-slate-300 transition hover:border-slate-500 hover:text-white';
+          }
+        });
+
+        if (counter) counter.textContent = `${currentExp + 1} / ${slides.length}`;
+        if (prevBtn) prevBtn.disabled = currentExp === 0;
+        if (nextBtn) nextBtn.disabled = currentExp === slides.length - 1;
+      }
+
+      if (prevBtn) prevBtn.onclick = () => showExp(currentExp - 1);
+      if (nextBtn) nextBtn.onclick = () => showExp(currentExp + 1);
+      
+      tabs.forEach((t) => {
+        t.onclick = () => {
+          const idx = parseInt(t.getAttribute('data-exp-index'), 10);
+          showExp(idx);
+        };
+      });
+
+      showExp(0);
+    })();
   </script>
 </body>
 </html>
