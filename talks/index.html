@@ -144,6 +144,53 @@
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
 
+    .talk-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin: 0.2rem 0;
+    }
+
+    .icon-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .icon-badge-gold {
+      background: #FFB800;
+      color: #000000;
+      box-shadow: 0 0 16px rgba(255, 184, 0, 0.35);
+    }
+
+    .icon-badge-blue {
+      background: #76c7ff;
+      color: #041122;
+      box-shadow: 0 0 16px rgba(118, 199, 255, 0.35);
+    }
+
+    .icon-badge-violet {
+      background: #b19dff;
+      color: #041122;
+      box-shadow: 0 0 16px rgba(177, 157, 255, 0.35);
+    }
+
+    .icon-badge-green {
+      background: #3DDC84;
+      color: #041122;
+      box-shadow: 0 0 16px rgba(61, 220, 132, 0.35);
+    }
+
+    .icon-badge-purple {
+      background: #c48dfc;
+      color: #041122;
+      box-shadow: 0 0 16px rgba(196, 141, 252, 0.35);
+    }
+
     .title {
       margin: 0;
       font-size: clamp(1.12rem, 2.5vw, 1.65rem);
@@ -224,7 +271,14 @@
             </span>
           </div>
         </div>
-        <h2 class="title" style="color: #FFFFFF;">TechQuest: Building with AI — Fundamentals & OpenRouter</h2>
+        <div class="talk-title-row">
+          <div class="icon-badge icon-badge-gold">
+            <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2a2 2 0 0 1 2 2c0 .74-.4 1.39-1 1.73V7h1a7 7 0 0 1 7 7h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v1a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1H2a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1a7 7 0 0 1 7-7h1V5.73c-.6-.34-1-.99-1-1.73a2 2 0 0 1 2-2zM7.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm9 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM8 18v1h8v-1H8z"/>
+            </svg>
+          </div>
+          <h2 class="title" style="color: #FFFFFF;">TechQuest: Building with AI — Fundamentals & OpenRouter</h2>
+        </div>
         <p class="desc">Interactive presentation deck exploring Claude Shannon's 1950 next-letter prediction to streaming LLM tokens, 70-year AI evolution, and shipping on the new iQOO Z series with OpenRouter APIs.</p>
         <div class="actions">
           <a class="btn primary" style="background: linear-gradient(90deg, #FFB800, #FFA000); color: #05050A;" href="./techquest-ai/">Open Talk Deck</a>
@@ -245,7 +299,15 @@
             </span>
           </div>
         </div>
-        <h2 class="title">The Agent Is Waiting — Are You Ready to Steer It?</h2>
+        <div class="talk-title-row">
+          <div class="icon-badge icon-badge-blue">
+            <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+            </svg>
+          </div>
+          <h2 class="title">The Agent Is Waiting — Are You Ready to Steer It?</h2>
+        </div>
         <p class="desc">How Software Jobs Are Evolving In The AI Era.</p>
         <div class="actions">
           <a class="btn primary" href="./agentic-kotlin-buildathon-2026/">Open Talk</a>
@@ -266,7 +328,17 @@
             </span>
           </div>
         </div>
-        <h2 class="title">How to Build a Backend Application in Kotlin</h2>
+        <div class="talk-title-row">
+          <div class="icon-badge icon-badge-violet">
+            <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+              <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+              <line x1="6" y1="6" x2="6.01" y2="6"></line>
+              <line x1="6" y1="18" x2="6.01" y2="18"></line>
+            </svg>
+          </div>
+          <h2 class="title">How to Build a Backend Application in Kotlin</h2>
+        </div>
         <p class="desc">Workshop slide deck on designing and building scalable backend services in Kotlin.</p>
         <div class="actions">
           <a class="btn" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1CqRW7BK3dDSC_4Q0UM60M3zrQBYoJPn_/view?usp=sharing">Open Slides</a>
@@ -283,7 +355,14 @@
             </span>
           </div>
         </div>
-        <h2 class="title">Glance: Composing Android Widgets</h2>
+        <div class="talk-title-row">
+          <div class="icon-badge icon-badge-green">
+            <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h4v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v6c0 .83.67 1.5 1.5 1.5S5 16.33 5 15.5v-6C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-6c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 2.23 12.95 2 12 2c-.96 0-1.86.23-2.66.63L7.85 1.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 4.26 6 5.92 6 7.8h12c0-1.88-.97-3.54-2.47-4.64zM9 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+            </svg>
+          </div>
+          <h2 class="title">Glance: Composing Android Widgets</h2>
+        </div>
         <p class="desc">A deep dive into Jetpack Glance and declarative Android widget development.</p>
         <div class="actions">
           <a class="btn" target="_blank" rel="noreferrer" href="https://docs.google.com/presentation/d/1tmmn0VFC4zT8G-1Iqp3KtsmADV9TcygT6oGJgPtPOYI/edit?usp=sharing">Open Slides</a>
@@ -300,7 +379,14 @@
             </span>
           </div>
         </div>
-        <h2 class="title">Kotlin Multiplatform Adoption Guide</h2>
+        <div class="talk-title-row">
+          <div class="icon-badge icon-badge-purple">
+            <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11.99 18.54l-7.37-5.73L3 14.07l9 7 9-7-1.63-1.27-7.38 5.74zM12 16l7.36-5.73L21 9.07l-9-7-9 7 1.63 1.2L12 16z"/>
+            </svg>
+          </div>
+          <h2 class="title">Kotlin Multiplatform Adoption Guide</h2>
+        </div>
         <p class="desc">Practical guide and architectural patterns for adopting KMP in production.</p>
         <div class="actions">
           <a class="btn" target="_blank" rel="noreferrer" href="https://drive.google.com/file/d/1I_gySR4d-J3aEFvpKCBYaMFnwPxWgtjr/view?usp=sharing">Open Guide</a>
