@@ -1880,33 +1880,41 @@
       let chevrons = [];
 
       function buildTraces() {
-        const rand = mulberry32(101);
+        const rand = mulberry32(337);
         traces = [];
         pulses = [];
         chevrons = [];
 
-        const numTraces = 32;
+        const numTraces = 26;
         for (let i = 0; i < numTraces; i++) {
           const points = [];
-          let x = rand() * width;
-          let y = rand() * height;
+          let x = Math.floor((rand() * (width - 120) + 60) / 20) * 20;
+          let y = Math.floor((rand() * (height - 120) + 60) / 20) * 20;
           points.push({ x, y });
 
           const segments = 3 + Math.floor(rand() * 4);
           let horizontal = rand() > 0.5;
 
           for (let s = 0; s < segments; s++) {
-            const len = (rand() * 220 + 80) * (rand() > 0.5 ? 1 : -1);
+            const stepCount = 4 + Math.floor(rand() * 8);
+            const stepLen = stepCount * 25 * (rand() > 0.5 ? 1 : -1);
             if (horizontal) {
-              x += len;
+              x += stepLen;
             } else {
-              y += len;
+              y += stepLen;
             }
-            x = Math.max(20, Math.min(width - 20, x));
-            y = Math.max(20, Math.min(height - 20, y));
-            points.push({ x, y });
+            x = Math.max(40, Math.min(width - 40, x));
+            y = Math.max(40, Math.min(height - 40, y));
+            
+            // Only add if different point
+            const last = points[points.length - 1];
+            if (last.x !== x || last.y !== y) {
+              points.push({ x, y });
+            }
             horizontal = !horizontal;
           }
+
+          if (points.length < 2) continue;
 
           let totalLen = 0;
           const segLens = [];
@@ -1918,42 +1926,49 @@
             totalLen += slen;
           }
 
+          if (totalLen < 60) continue;
+
           traces.push({
             points,
             segLens,
-            totalLen,
-            color: 'rgba(255, 184, 0, 0.22)'
+            totalLen
           });
 
-          const speed = 0.06 + rand() * 0.08;
-          const pulseCount = rand() > 0.35 ? 2 : 1;
+          // Create 1-2 pulses per trace that travel at consistent speeds (px/sec)
+          const speedPx = 60 + rand() * 45; // 60-105 px/sec
+          const pulseCount = rand() > 0.4 ? 2 : 1;
           for (let pc = 0; pc < pulseCount; pc++) {
             pulses.push({
-              traceIndex: i,
-              progress: rand(),
-              speed: speed * (rand() > 0.5 ? 1 : -1)
+              traceIndex: traces.length - 1,
+              dist: rand() * totalLen,
+              speed: speedPx * (rand() > 0.45 ? 1 : -1)
             });
           }
 
-          if (rand() > 0.5 && points.length > 2) {
-            chevrons.push({
-              x: (points[0].x + points[1].x) / 2,
-              y: (points[0].y + points[1].y) / 2,
-              dir: points[1].y > points[0].y ? 'down' : points[1].x > points[0].x ? 'right' : 'left'
-            });
+          // Chevrons on straightaways
+          if (rand() > 0.55 && points.length >= 2) {
+            for (let p = 0; p < points.length - 1; p++) {
+              if (segLens[p] > 140 && rand() > 0.4) {
+                chevrons.push({
+                  x: (points[p].x + points[p+1].x) / 2,
+                  y: (points[p].y + points[p+1].y) / 2,
+                  horizontal: points[p].y === points[p+1].y,
+                  dir: points[p].x < points[p+1].x || points[p].y < points[p+1].y ? 1 : -1
+                });
+              }
+            }
           }
         }
       }
 
-      function getPointAtProgress(trace, progress) {
-        let p = (progress % 1 + 1) % 1;
-        let targetDist = p * trace.totalLen;
+      // Compute exact point on trace given distance in pixels
+      function getPointAtDist(trace, d) {
+        let dist = ((d % trace.totalLen) + trace.totalLen) % trace.totalLen;
         let accum = 0;
-
         for (let i = 0; i < trace.segLens.length; i++) {
           const slen = trace.segLens[i];
-          if (accum + slen >= targetDist || i === trace.segLens.length - 1) {
-            const segP = slen > 0 ? (targetDist - accum) / slen : 0;
+          if (accum + slen >= dist || i === trace.segLens.length - 1) {
+            const segP = slen > 0 ? (dist - accum) / slen : 0;
             const p1 = trace.points[i];
             const p2 = trace.points[i + 1];
             return {
@@ -1981,14 +1996,14 @@
 
         ctx.clearRect(0, 0, width, height);
 
-        // Draw Circuit Traces
-        ctx.lineWidth = 1.5;
-        for (let t = 0; t < traces.length; t++) {
-          const trace = traces[t];
-          const pts = trace.points;
-          if (pts.length < 2) continue;
+        // 1. Draw Static Circuit Traces
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 1.2;
+        ctx.strokeStyle = 'rgba(255, 184, 0, 0.14)';
 
-          ctx.strokeStyle = trace.color;
+        for (let t = 0; t < traces.length; t++) {
+          const pts = traces[t].points;
           ctx.beginPath();
           ctx.moveTo(pts[0].x, pts[0].y);
           for (let i = 1; i < pts.length; i++) {
@@ -1998,76 +2013,100 @@
 
           // Junction Nodes
           for (let i = 0; i < pts.length; i++) {
-            if (i === 0 || i === pts.length - 1 || (t + i) % 2 === 0) {
-              ctx.fillStyle = 'rgba(255, 184, 0, 0.45)';
-              ctx.beginPath();
-              ctx.arc(pts[i].x, pts[i].y, 3.5, 0, Math.PI * 2);
-              ctx.fill();
+            ctx.fillStyle = 'rgba(255, 184, 0, 0.35)';
+            ctx.beginPath();
+            ctx.arc(pts[i].x, pts[i].y, 2.5, 0, Math.PI * 2);
+            ctx.fill();
 
-              ctx.strokeStyle = 'rgba(255, 184, 0, 0.2)';
+            // Subtle outer ring on end nodes
+            if (i === 0 || i === pts.length - 1) {
+              ctx.strokeStyle = 'rgba(255, 184, 0, 0.18)';
+              ctx.lineWidth = 1;
               ctx.beginPath();
-              ctx.arc(pts[i].x, pts[i].y, 7, 0, Math.PI * 2);
+              ctx.arc(pts[i].x, pts[i].y, 5.5, 0, Math.PI * 2);
               ctx.stroke();
+              ctx.lineWidth = 1.2;
+              ctx.strokeStyle = 'rgba(255, 184, 0, 0.14)';
             }
           }
         }
 
-        // Draw Chevrons (>>> or vvv)
-        ctx.strokeStyle = 'rgba(255, 184, 0, 0.3)';
-        ctx.lineWidth = 1.5;
+        // 2. Draw Chevrons (Directional Markers)
+        ctx.strokeStyle = 'rgba(255, 184, 0, 0.22)';
+        ctx.lineWidth = 1.2;
         for (const ch of chevrons) {
           ctx.save();
           ctx.translate(ch.x, ch.y);
-          if (ch.dir === 'down') {
+          if (ch.horizontal) {
+            const d = ch.dir;
             for (let c = -6; c <= 6; c += 6) {
               ctx.beginPath();
-              ctx.moveTo(-6, c - 4);
-              ctx.lineTo(0, c + 2);
-              ctx.lineTo(6, c - 4);
+              ctx.moveTo(c - d * 3, -4);
+              ctx.lineTo(c + d * 3, 0);
+              ctx.lineTo(c - d * 3, 4);
               ctx.stroke();
             }
           } else {
+            const d = ch.dir;
             for (let c = -6; c <= 6; c += 6) {
               ctx.beginPath();
-              ctx.moveTo(c - 4, -6);
-              ctx.lineTo(c + 2, 0);
-              ctx.lineTo(c - 4, 6);
+              ctx.moveTo(-4, c - d * 3);
+              ctx.lineTo(0, c + d * 3);
+              ctx.lineTo(4, c - d * 3);
               ctx.stroke();
             }
           }
           ctx.restore();
         }
 
-        // Draw Moving Energy Pulses
+        // 3. Draw Path-Accurate Fading Energy Pulses (No Diagonal Cuts!)
+        const TRAIL_STEPS = 16;
+        const TRAIL_LENGTH_PX = 55; // 55px smooth tail
+
         for (const pulse of pulses) {
-          pulse.progress += pulse.speed * dt;
+          pulse.dist += pulse.speed * dt;
           const trace = traces[pulse.traceIndex];
           if (!trace) continue;
 
-          const head = getPointAtProgress(trace, pulse.progress);
-          const tail = getPointAtProgress(trace, pulse.progress - (pulse.speed > 0 ? 0.04 : -0.04));
+          const headPos = getPointAtDist(trace, pulse.dist);
+          const dirSign = pulse.speed >= 0 ? 1 : -1;
 
-          const grad = ctx.createRadialGradient(head.x, head.y, 0, head.x, head.y, 14);
-          grad.addColorStop(0, 'rgba(255, 220, 100, 0.95)');
-          grad.addColorStop(0.3, 'rgba(255, 184, 0, 0.6)');
+          // Draw trailing segments backwards along exact path
+          let prevPoint = headPos;
+          for (let step = 1; step <= TRAIL_STEPS; step++) {
+            const stepFrac = step / TRAIL_STEPS;
+            const sampleDist = pulse.dist - dirSign * (stepFrac * TRAIL_LENGTH_PX);
+            const currPoint = getPointAtDist(trace, sampleDist);
+
+            const alpha = Math.pow(1 - stepFrac, 1.6) * 0.75;
+            const strokeWidth = (1 - stepFrac) * 2.2 + 0.6;
+
+            ctx.strokeStyle = `rgba(255, 184, 0, ${alpha})`;
+            ctx.lineWidth = strokeWidth;
+            ctx.beginPath();
+            ctx.moveTo(prevPoint.x, prevPoint.y);
+            ctx.lineTo(currPoint.x, currPoint.y);
+            ctx.stroke();
+
+            prevPoint = currPoint;
+          }
+
+          // Glowing Head Particle
+          const grad = ctx.createRadialGradient(headPos.x, headPos.y, 0, headPos.x, headPos.y, 11);
+          grad.addColorStop(0, 'rgba(255, 235, 160, 0.95)');
+          grad.addColorStop(0.35, 'rgba(255, 184, 0, 0.5)');
           grad.addColorStop(1, 'rgba(255, 184, 0, 0)');
 
           ctx.fillStyle = grad;
           ctx.beginPath();
-          ctx.arc(head.x, head.y, 14, 0, Math.PI * 2);
+          ctx.arc(headPos.x, headPos.y, 11, 0, Math.PI * 2);
           ctx.fill();
 
+          // Bright Core
           ctx.fillStyle = '#FFFFFF';
           ctx.beginPath();
-          ctx.arc(head.x, head.y, 2.5, 0, Math.PI * 2);
+          ctx.arc(headPos.x, headPos.y, 2, 0, Math.PI * 2);
           ctx.fill();
-
-          ctx.strokeStyle = 'rgba(255, 184, 0, 0.55)';
-          ctx.lineWidth = 2.5;
-          ctx.beginPath();
-          ctx.moveTo(head.x, head.y);
-          ctx.lineTo(tail.x, tail.y);
-          ctx.stroke();
         }
       }
 
