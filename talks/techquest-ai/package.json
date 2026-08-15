@@ -1,0 +1,11 @@
+{
+  "name": "techquest-ai-slideshow",
+  "version": "1.0.0",
+  "description": "TechQuest AI Workshop HyperFrames Slideshow — From Shannon to Modern LLMs",
+  "scripts": {
+    "dev": "hyperframes present .",
+    "present": "hyperframes present .",
+    "lint": "hyperframes lint",
+    "check": "hyperframes check"
+  }
+}

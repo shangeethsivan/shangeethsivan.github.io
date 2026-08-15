@@ -121,6 +121,19 @@
       .cursor-dot,
       .cursor-ring { display: none !important; }
     }
+
+    .typing-cursor::after {
+      content: "▋";
+      display: inline-block;
+      margin-left: 3px;
+      color: #38bdf8;
+      animation: cursorBlink 0.7s infinite;
+      vertical-align: baseline;
+    }
+    @keyframes cursorBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
   </style>
 </head>
 <body class="grain text-slate-100 antialiased selection:bg-sky-300/20 selection:text-sky-100">
@@ -132,38 +145,42 @@
           <a href="#impact" class="hover-link">Impact</a>
           <a href="#topmate" class="hover-link">Topmate</a>
           <a href="#philosophy" class="hover-link">Philosophy</a>
-          <a href="./talks/index.html" class="hover-link">Talks</a>
-          <a href="./press-kit/index.html" class="hover-link">Press Kit</a>
+          <a href="./talks/" class="hover-link">Talks</a>
+          <a href="./press-kit/" class="hover-link">Press Kit</a>
+          <a href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer" class="hover-link">YouTube</a>
+          <a href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer" class="hover-link">Instagram</a>
         </nav>
       </div>
     </header>
 
     <main>
-      <section class="py-20 sm:py-28">
-        <p class="mb-5 inline-block border border-sky-300/40 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">
+      <section class="flex flex-col justify-center min-h-[70vh] py-20 pb-32 sm:py-28 sm:pb-44">
+        <p id="hero-badge" class="mb-5 inline-block border border-transparent px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-sky-200 transition-colors duration-700">
           Staff Software Engineer
         </p>
-        <h1 class="max-w-5xl font-name text-4xl font-bold leading-[1.02] text-white sm:text-5xl lg:text-6xl">
+        <h1 id="hero-title" class="max-w-5xl font-name text-4xl font-bold leading-[1.02] text-white sm:text-5xl lg:text-6xl min-h-[1.1em]">
           Shangeeth Sivan
         </h1>
-        <p class="mt-6 max-w-3xl text-xl font-medium leading-relaxed text-slate-200 sm:text-2xl">
+        <p id="hero-subtitle" class="mt-6 max-w-3xl text-xl font-medium leading-relaxed text-slate-200 sm:text-2xl min-h-[1.4em]">
           Software Engineer by Profession - Problem Solver by Heart.
         </p>
-        <p class="mt-5 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+        <p id="hero-tags" class="mt-5 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg min-h-[1.4em]">
           Kotlin,AI,Agents,Communities,Chaos.
         </p>
-        <p class="mt-2 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg">
+        <p id="hero-bio" class="mt-2 max-w-3xl text-base leading-relaxed text-slate-300 sm:text-lg min-h-[2.8em]">
           Building systems. Building people.<br />
           Making Chennai unfairly ambitious.
         </p>
-        <div class="mt-9 flex flex-wrap gap-3">
+        <div id="hero-actions" class="mt-9 flex flex-wrap gap-3 opacity-0 transition-opacity duration-700">
           <a href="#topmate" class="rounded-full bg-sky-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-sky-200">Topmate</a>
           <a href="https://github.com/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">GitHub</a>
           <a href="https://linkedin.com/in/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">LinkedIn</a>
+          <a href="https://youtube.com/@shravzdev" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">YouTube</a>
+          <a href="https://instagram.com/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Instagram</a>
         </div>
       </section>
 
-      <section id="impact" class="line py-16 sm:py-20">
+      <section id="impact" class="line py-20 sm:py-28">
         <div class="grid gap-10 lg:grid-cols-[220px,1fr]">
           <h2 class="font-display text-2xl font-bold tracking-wide text-white sm:text-3xl">Impact</h2>
           <div class="space-y-8">
@@ -190,7 +207,7 @@
             <p class="max-w-2xl text-lg text-slate-300">Book a call for mentorship, career guidance, architecture reviews, and agentic AI discussions.</p>
             <div class="mt-7 flex flex-wrap gap-3">
               <a href="https://topmate.io/shangeethsivan" target="_blank" rel="noreferrer" class="rounded-full bg-violet-300 px-6 py-3 text-sm font-bold text-slate-950 transition hover:-translate-y-0.5 hover:bg-violet-200">Visit Topmate</a>
-              <a href="./talks/index.html" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Talks</a>
+              <a href="./talks/" class="rounded-full border border-slate-500/70 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:-translate-y-0.5 hover:border-sky-300 hover:text-sky-200">Talks</a>
             </div>
           </div>
         </div>
@@ -255,6 +272,95 @@
 
       animateCursor();
     }
+
+    // Hero Text Sequential Streaming Controller
+    document.addEventListener("DOMContentLoaded", () => {
+      const items = [
+        { id: "hero-badge", text: "Staff Software Engineer", speed: 25 },
+        { id: "hero-title", text: "Shangeeth Sivan", speed: 45 },
+        { id: "hero-subtitle", text: "Software Engineer by Profession - Problem Solver by Heart.", speed: 20 },
+        { id: "hero-tags", text: "Kotlin,AI,Agents,Communities,Chaos.", speed: 20 },
+        { id: "hero-bio", text: "Building systems. Building people.\nMaking Chennai unfairly ambitious.", speed: 18 }
+      ];
+
+      const actions = document.getElementById("hero-actions");
+      const badge = document.getElementById("hero-badge");
+      const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (prefersReducedMotion) {
+        if (badge) {
+          badge.classList.remove("border-transparent");
+          badge.classList.add("border-sky-300/40");
+        }
+        if (actions) actions.classList.remove("opacity-0");
+        return;
+      }
+
+      const elements = items.map(item => ({
+        ...item,
+        el: document.getElementById(item.id)
+      })).filter(item => item.el);
+
+      elements.forEach(item => {
+        item.el.textContent = "";
+      });
+
+      let currentItemIndex = 0;
+      let currentCharIndex = 0;
+      let isFinished = false;
+
+      function finishAll() {
+        if (isFinished) return;
+        isFinished = true;
+        elements.forEach(item => {
+          item.el.classList.remove("typing-cursor");
+          if (item.id === "hero-bio") {
+            item.el.innerHTML = "Building systems. Building people.<br />Making Chennai unfairly ambitious.";
+          } else {
+            item.el.textContent = item.text;
+          }
+        });
+        if (badge) {
+          badge.classList.remove("border-transparent");
+          badge.classList.add("border-sky-300/40");
+        }
+        if (actions) actions.classList.remove("opacity-0");
+      }
+
+      function typeNextChar() {
+        if (isFinished) return;
+        if (currentItemIndex >= elements.length) {
+          finishAll();
+          return;
+        }
+
+        const current = elements[currentItemIndex];
+        current.el.classList.add("typing-cursor");
+
+        if (currentCharIndex < current.text.length) {
+          const char = current.text[currentCharIndex];
+          if (char === "\n") {
+            current.el.appendChild(document.createElement("br"));
+          } else {
+            current.el.appendChild(document.createTextNode(char));
+          }
+          currentCharIndex++;
+          setTimeout(typeNextChar, current.speed);
+        } else {
+          current.el.classList.remove("typing-cursor");
+          currentItemIndex++;
+          currentCharIndex = 0;
+          setTimeout(typeNextChar, 100);
+        }
+      }
+
+      const heroSection = document.querySelector("main section");
+      if (heroSection) {
+        heroSection.addEventListener("click", () => finishAll());
+      }
+
+      setTimeout(typeNextChar, 250);
+    });
   </script>
 </body>
 </html>

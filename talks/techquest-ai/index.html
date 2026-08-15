@@ -1,0 +1,1857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TechQuest AI Workshop — From Shannon to Modern LLMs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <style>
+    :root {
+      --bg-dark: #0A0A0E;
+      --card-bg: #14141E;
+      --card-border: #2A2A3E;
+      --accent-gold: #FFB800;
+      --accent-gold-glow: rgba(255, 184, 0, 0.35);
+      --accent-gold-light: rgba(255, 184, 0, 0.14);
+      --stripe-purple: #7A73FF;
+      --stripe-purple-glow: rgba(122, 115, 255, 0.35);
+      --text-white: #FFFFFF;
+      --text-muted: #A8A8C0;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: var(--font-sans);
+      user-select: none;
+      font-size: 34px;
+    }
+
+    /* Fluid Slide Container */
+    .slide {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      padding: 3vh 4.5vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      background: var(--bg-dark);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    /* Top Bar with Top-Right iQOO Logo */
+    .slide-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      flex-shrink: 0;
+      gap: 20px;
+    }
+
+    .top-logo-badge {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .top-logo-img {
+      height: 48px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+    }
+
+    /* Stripe Glossy Shimmer */
+    .shimmer-card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shimmer-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -150%;
+      width: 100%;
+      height: 200%;
+      background: linear-gradient(
+        60deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        rgba(255, 184, 0, 0.22) 50%,
+        rgba(255, 255, 255, 0.1) 60%,
+        transparent 100%
+      );
+      transform: rotate(25deg);
+      pointer-events: none;
+      transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.is-active .shimmer-card::after {
+      transform: translateX(350%) rotate(25deg);
+    }
+
+    /* Header & Tag Pills */
+    .slide-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .tag-pill {
+      align-self: flex-start;
+      padding: 6px 22px;
+      background: var(--accent-gold-light);
+      border: 1px solid rgba(255, 184, 0, 0.5);
+      border-radius: 20px;
+      color: var(--accent-gold);
+      font-family: var(--font-mono);
+      font-size: clamp(24px, 1.8vw, 29px);
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    .slide-title {
+      font-size: clamp(54px, 5vw, 80px);
+      font-weight: 900;
+      color: var(--text-white);
+      letter-spacing: -1.5px;
+      line-height: 1.12;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(32px, 2.6vw, 42px);
+      color: var(--text-muted);
+      font-weight: 500;
+      line-height: 1.35;
+    }
+
+    /* Centered Slide Body */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 1vh 0;
+      min-height: 0;
+      width: 100%;
+    }
+
+    /* Slide Footer with Reskilll Logo Bottom-Right */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--card-border);
+      padding-top: 14px;
+      color: var(--text-muted);
+      font-size: clamp(24px, 1.8vw, 28px);
+      font-family: var(--font-mono);
+      flex-shrink: 0;
+    }
+
+    .footer-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-reskilll-logo {
+      height: 42px;
+      vertical-align: middle;
+      object-fit: contain;
+    }
+
+    .logo-bar {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      margin-top: 3vh;
+    }
+
+    .iqoo-logo-badge {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      padding: 0;
+    }
+
+    .partner-logo-badge {
+      display: flex;
+      align-items: center;
+      background: transparent;
+      padding: 0;
+    }
+
+    /* Content-Hugging Cards with Large Presentation Typography */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: clamp(26px, 2.5vw, 38px);
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: auto;
+    }
+
+    .card-highlight {
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 30px var(--accent-gold-glow);
+    }
+
+    /* Centered Container Grids */
+    .content-center-box {
+      max-width: 1520px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(24px, 2.5vw, 42px);
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: clamp(22px, 2.2vw, 36px);
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: clamp(20px, 2vw, 32px);
+      align-items: stretch;
+      width: 100%;
+    }
+
+    /* Terminal Window */
+    .terminal-window {
+      background: #08080C;
+      border: 2px solid var(--card-border);
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      width: 100%;
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .terminal-header {
+      background: #12121D;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--card-border);
+      flex-shrink: 0;
+    }
+
+    .terminal-dot { width: 14px; height: 14px; border-radius: 50%; }
+    .dot-red { background: #FF5F56; }
+    .dot-yellow { background: #FFBD2E; }
+    .dot-green { background: #27C93F; }
+
+    .terminal-title { font-size: 22px; color: var(--text-muted); margin-left: 10px; font-weight: 700; }
+    
+    .terminal-body {
+      padding: clamp(24px, 2.5vw, 36px);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .prob-bar-container {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .prob-row { display: flex; align-items: center; gap: 22px; }
+    .prob-label { width: 52px; font-family: var(--font-mono); font-weight: 900; font-size: clamp(36px, 3vw, 44px); color: var(--accent-gold); }
+    .prob-track { flex: 1; height: 42px; background: #1E1E2E; border-radius: 12px; overflow: hidden; }
+
+    .prob-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FFB800, #FFE082);
+      width: 0%;
+      border-radius: 12px;
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .prob-val { width: 90px; font-family: var(--font-mono); font-size: clamp(32px, 2.6vw, 38px); text-align: right; color: var(--text-muted); font-weight: 800; }
+
+    /* Nesting Dolls Visual */
+    .nesting-container { display: flex; flex-direction: column; gap: 16px; justify-content: center; }
+    .nest-box {
+      border: 2px solid var(--card-border);
+      border-radius: 18px;
+      padding: clamp(18px, 1.8vw, 28px) clamp(26px, 2.6vw, 40px);
+      background: rgba(20, 20, 30, 0.7);
+    }
+    .nest-box.level-1 { border-color: #444460; }
+    .nest-box.level-2 { border-color: #666688; margin-left: 28px; }
+    .nest-box.level-3 { border-color: #9999BB; margin-left: 56px; }
+    .nest-box.level-4 { border-color: var(--accent-gold); background: var(--accent-gold-light); margin-left: 84px; }
+
+    /* Key Terms Cards */
+    .term-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: clamp(24px, 2.4vw, 36px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .term-title { font-size: clamp(36px, 3vw, 42px); font-weight: 900; color: var(--accent-gold); }
+    .term-desc { font-size: clamp(28px, 2.3vw, 34px); color: var(--text-white); line-height: 1.45; }
+
+    /* Android-Style ViewPager Rotating Layout */
+    .aceternity-layout {
+      display: grid;
+      grid-template-columns: clamp(380px, 32vw, 480px) 1fr;
+      gap: clamp(36px, 4vw, 68px);
+      align-items: center;
+      width: 100%;
+    }
+
+    .viewpager-wheel-col {
+      display: flex;
+      align-items: center;
+      gap: clamp(22px, 2.2vw, 36px);
+    }
+
+    .viewpager-beam-pipe {
+      position: relative;
+      height: clamp(360px, 50vh, 520px);
+      width: 6px;
+      background: #202030;
+      border-radius: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .viewpager-beam-glow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--accent-gold), var(--stripe-purple), #00E5FF);
+      border-radius: 3px;
+      box-shadow: 0 0 25px var(--accent-gold-glow);
+    }
+
+    .viewpager-node-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #0A0A0E;
+      border: 6px solid var(--accent-gold);
+      box-shadow: 0 0 35px var(--accent-gold-glow);
+      z-index: 5;
+    }
+
+    .viewpager-items-stack {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: clamp(18px, 2.2vh, 32px);
+    }
+
+    .viewpager-item-peeking {
+      opacity: 0.35;
+      font-family: var(--font-mono);
+      font-size: clamp(38px, 3.2vw, 52px);
+      font-weight: 800;
+      color: var(--text-muted);
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .viewpager-item-active {
+      opacity: 1;
+      font-family: var(--font-mono);
+      line-height: 1.05;
+    }
+
+    .huge-year-main {
+      font-size: clamp(68px, 6.2vw, 98px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--text-white);
+    }
+
+    .huge-year-accent {
+      font-size: clamp(68px, 6.2vw, 98px);
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 14px;
+      height: 28px;
+      background: var(--accent-gold);
+      margin-left: 6px;
+      vertical-align: middle;
+      animation: blink 0.8s infinite;
+    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+
+  <!-- SLIDESHOW MANIFEST ISLAND -->
+  <script type="application/hyperframes-slideshow+json">
+    {
+      "slides": [
+        {
+          "sceneId": "slide-1",
+          "notes": "Welcome everyone to TechQuest! Today we explore how modern LLMs build on a 70-year-old discovery by Claude Shannon, and how you will use OpenRouter to build AI apps on the new iQOO Z series."
+        },
+        {
+          "sceneId": "slide-2",
+          "notes": "In 1950, Claude Shannon proved language is statistically predictable. Test it with our workshop motto: 'THINK FAST. BUILD FASTER. SHIP TODA[ ? ]'. Explain the experiment on the left, click Next to load the terminal, then click Next again to reveal 'Y' and the 98% probability distribution!"
+        },
+        {
+          "sceneId": "slide-3",
+          "notes": "Here is the visual bridge: Shannon's 1950 next-letter guessing game predicting 'SHIP TODA[Y]' is the exact conceptual ancestor of modern LLM token and word prediction engines streaming full sentences today in real time."
+        },
+        {
+          "sceneId": "slide-4",
+          "notes": "Era 1 (1940s–1950s): The Dream of Thinking Machines. McCulloch & Pitts, Turing Test, Claude & Betty Shannon's next-letter game, and the Dartmouth Workshop."
+        },
+        {
+          "sceneId": "slide-5",
+          "notes": "Era 2 (1960s–1990s): The Rule-Book Era. Symbolic IF/THEN rules, ELIZA psychotherapist bot, expert systems, and the AI Winters."
+        },
+        {
+          "sceneId": "slide-6",
+          "notes": "Era 3 (1986–2010s): Learning from Examples. Backpropagation trial-and-error, AlexNet GPU breakthrough, and the mobile data revolution."
+        },
+        {
+          "sceneId": "slide-7",
+          "notes": "Era 4 (2017–Present): The Transformer Era. Attention Is All You Need, scaling Shannon's game to LLMs, RLHF alignment, and OpenRouter APIs on iQOO Z Series devices."
+        },
+        {
+          "sceneId": "slide-8",
+          "notes": "Let's demystify the terms. Think of them as nesting dolls: AI is the overall field, ML is learning from data, Deep Learning uses neural nets, and LLMs are the specific generative models we call today."
+        },
+        {
+          "sceneId": "slide-9",
+          "notes": "Here is the single core principle: An LLM takes your prompt, breaks it into input tokens, scores every possible next output token, picks one, appends it, and repeats."
+        },
+        {
+          "sceneId": "slide-10",
+          "notes": "These 6 terms will come up continuously today. Notice the crucial difference between Input Tokens and Output Tokens, keep temperature low for structured data, and watch your context window."
+        },
+        {
+          "sceneId": "slide-11",
+          "notes": "Don't just 'add AI'. Pick one of these 6 concrete patterns for your build. The app sends text over an API, gets JSON or text back, and renders it."
+        },
+        {
+          "sceneId": "slide-12",
+          "notes": "Think of an API like a waiter at a restaurant. Your app is the customer placing an order, the API is the waiter carrying requests, and OpenRouter gives you one key to access every kitchen."
+        },
+        {
+          "sceneId": "slide-13",
+          "notes": "Everyone open openrouterclaim.reskilll.com now! Log in with your registered email to grab your team's $10 OpenRouter key."
+        },
+        {
+          "sceneId": "slide-14",
+          "notes": "You don't need to hand-write fetch calls. Pass your API key, base URL, and model string to your AI coding tool, describe your app logic, and protect your team credit!"
+        }
+      ],
+      "slideSequences": []
+    }
+  </script>
+
+  <!-- SLIDE 1: COVER -->
+  <div id="slide-1-root" data-composition-id="slide-1" data-start="0" data-duration="8" data-label="Cover Slide" data-width="1920" data-height="1080" class="slide is-active">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">TECHQUEST AI TECH WORKSHOP · LEARN · BUILD · SHIP</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center; gap: 3.5vh;">
+      <div>
+        <h1 class="slide-title" style="font-size: clamp(60px, 5.8vw, 100px); margin-bottom: 22px;">
+          Building with AI: Fundamentals & OpenRouter
+        </h1>
+        <p class="slide-subtitle" style="font-size: clamp(34px, 3vw, 48px); max-width: 1500px; line-height: 1.4;">
+          From Claude Shannon's 1950 Next-Letter Prediction to Shipping AI Apps on the New iQOO Z Series.
+        </p>
+      </div>
+
+      <div class="logo-bar">
+        <div class="iqoo-logo-badge">
+          <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" style="height: 58px; border-radius: 8px; object-fit: contain;">
+        </div>
+        <div style="font-size: 28px; color: var(--text-muted); font-weight: 700;">✕</div>
+        <div class="partner-logo-badge">
+          <img src="assets/reskilll-logo.png" alt="Reskilll" style="height: 50px; object-fit: contain;">
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: CLAUDE SHANNON 1950 EXPERIMENT (THINK FAST. BUILD FASTER. SHIP TODA[ Y ]) -->
+  <div id="slide-2-root" data-composition-id="slide-2" data-start="8" data-duration="15" data-label="Claude Shannon 1950 Experiment" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">THE ORIGIN OF PREDICTION</div>
+        <h2 class="slide-title">1950: The Next-Letter Guessing Game</h2>
+        <p class="slide-subtitle">Claude & Betty Shannon prove that predicting the next letter reveals the statistical structure of language.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="grid-2" style="grid-template-columns: 1fr 1.25fr; gap: clamp(30px, 3.2vw, 52px); align-items: center;">
+        
+        <!-- Left Content (Stage 0: Loads Up Immediately) -->
+        <div class="card shimmer-card" style="padding: clamp(28px, 2.6vw, 40px); gap: 20px;">
+          <div>
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900; margin-bottom: 10px;">The 1950 Experiment: Next Letter</h3>
+            <p style="font-size: clamp(28px, 2.4vw, 35px); color: var(--text-white); line-height: 1.55;">
+              Claude Shannon showed Betty a sentence with the <strong>next letter hidden</strong>. Given enough context, the next letter was statistically certain!
+            </p>
+          </div>
+          <div style="border-top: 1px solid var(--card-border); padding-top: 18px;">
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900; margin-bottom: 10px;">Context Creates High Certainty</h3>
+            <p style="font-size: clamp(28px, 2.4vw, 35px); color: var(--text-white); line-height: 1.55;">
+              When you read <em>"THINK FAST. BUILD FASTER. SHIP TODA..."</em>, your brain instantly knows the next letter is <strong style="color: var(--accent-gold);">Y</strong>. LLMs use this exact context engine to predict tokens.
+            </p>
+          </div>
+          <div style="background: var(--accent-gold-light); border: 2px solid var(--accent-gold); padding: 16px 24px; border-radius: 14px; font-size: clamp(28px, 2.2vw, 33px); color: var(--accent-gold); font-weight: 900;">
+            Next Letter: TODA[ Y ] (1950) → Next Token/Word (Today)
+          </div>
+        </div>
+
+        <!-- Right Terminal (Stage 1: Loads on 1st Next -> Stage 2: Reveals [ Y ] on 2nd Next) -->
+        <div id="shannon-terminal" class="terminal-window shimmer-card" style="box-shadow: 0 15px 40px rgba(0,0,0,0.6); opacity: 0; transform: translateY(24px); pointer-events: none;">
+          <div class="terminal-header">
+            <span class="terminal-dot dot-red"></span>
+            <span class="terminal-dot dot-yellow"></span>
+            <span class="terminal-dot dot-green"></span>
+            <span class="terminal-title">shannon_prediction_experiment.py</span>
+          </div>
+          <div class="terminal-body">
+            <div style="color: var(--text-muted); font-size: clamp(28px, 2.2vw, 33px); font-weight: 700;"># Guessing the next LETTER in sequence:</div>
+            
+            <div style="font-size: clamp(34px, 2.8vw, 42px); color: var(--text-white); font-weight: 900; background: #13131D; padding: 24px 28px; border-radius: 14px; border: 1px solid var(--card-border); cursor: pointer;" onclick="handleNextAction()">
+              "THINK FAST. BUILD FASTER. SHIP TODA<span id="shannon-hidden-letter" style="color: var(--text-muted); font-weight: 900; border-bottom: 5px solid var(--card-border); padding: 0 6px;">[ ? ]</span>"
+            </div>
+
+            <!-- Probabilities Hidden Initially (Stage 2) -->
+            <div id="shannon-prob-section" style="opacity: 0; transform: translateY(16px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); pointer-events: none;">
+              <div style="font-size: clamp(28px, 2.2vw, 33px); color: var(--text-muted); font-weight: 800; margin-bottom: 12px;">Candidate Letter Probabilities:</div>
+              <div class="prob-bar-container">
+                <div class="prob-row">
+                  <span class="prob-label">Y</span>
+                  <div class="prob-track"><div id="prob-y" class="prob-fill"></div></div>
+                  <span class="prob-val">98%</span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-label">T</span>
+                  <div class="prob-track"><div id="prob-t" class="prob-fill"></div></div>
+                  <span class="prob-val">1%</span>
+                </div>
+                <div class="prob-row">
+                  <span class="prob-label">S</span>
+                  <div class="prob-track"><div id="prob-s" class="prob-fill"></div></div>
+                  <span class="prob-val">1%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reveal Trigger Hint -->
+            <div id="shannon-hint-pill" style="display: flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--accent-gold); background: var(--accent-gold-light); padding: 14px 22px; border-radius: 12px; border: 1px dashed var(--accent-gold); cursor: pointer;" onclick="handleNextAction()">
+              <span>Tap Next / Space to Reveal Guess & Probabilities &#8594;</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Claude Shannon 1950</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: GRAPHIC BRIDGE — SHANNON TO STREAMING TEXT -->
+  <div id="slide-3-root" data-composition-id="slide-3" data-start="23" data-duration="15" data-label="Shannon to Streaming Graphic" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">THE ARCHITECTURAL BRIDGE</div>
+        <h2 class="slide-title">From Next-Letter to Next-Token Prediction</h2>
+        <p class="slide-subtitle">How Shannon's 1950 letter-guessing experiment evolved into modern token & word prediction engines.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="display: grid; grid-template-columns: 1fr 160px 1.15fr; gap: clamp(24px, 3vw, 40px); align-items: center;">
+          
+          <!-- Left: 1950 Next Letter -->
+          <div class="card shimmer-card" style="border-color: var(--accent-gold); padding: clamp(24px, 2.3vw, 34px); gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(26px, 2.2vw, 32px); color: var(--accent-gold);">1950: NEXT LETTER</span>
+              <span class="iqoo-logo-tag" style="font-size: 18px; background: var(--accent-gold); color: #000; padding: 4px 12px; border-radius: 6px; font-weight: 800;">Character Level</span>
+            </div>
+            <h4 style="font-size: clamp(32px, 2.6vw, 38px); color: var(--text-white); margin-top: 4px;">Letter-by-Letter Guessing</h4>
+            <p style="font-size: clamp(24px, 2vw, 30px); color: var(--text-muted); line-height: 1.45;">
+              Shannon tested predicting the single next letter in sequence: <em>"SHIP TODA[ <strong style="color: var(--accent-gold);">Y</strong> ]"</em>.
+            </p>
+            <div style="background: #09090E; border: 1.5px solid rgba(255, 184, 0, 0.4); border-radius: 14px; padding: 14px 18px; font-family: var(--font-mono);">
+              <div style="font-size: 14px; color: var(--accent-gold); font-weight: 800; letter-spacing: 1px; margin-bottom: 4px;">1950 CHARACTER PROBABILITY</div>
+              <div style="font-size: clamp(24px, 2vw, 30px); color: var(--accent-gold); font-weight: 900;">
+                TODA[ <span style="text-shadow: 0 0 15px rgba(255,184,0,0.9);">Y</span> ] · 98% Certainty
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle: 70 Years Pipe -->
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+            <div style="font-family: var(--font-mono); font-size: 20px; color: var(--accent-gold); font-weight: 900; text-align: center;">70 YEARS</div>
+            <div style="width: 100%; height: 8px; background: linear-gradient(90deg, #FFB800, var(--stripe-purple)); border-radius: 4px; box-shadow: 0 0 20px var(--accent-gold-glow);"></div>
+            <div style="font-family: var(--font-mono); font-size: 20px; color: var(--stripe-purple); font-weight: 900; text-align: center;">LETTER → TOKEN</div>
+          </div>
+
+          <!-- Right: 2026 Next Token / Word (LIVE STREAMING CHAT) -->
+          <div class="card shimmer-card" style="border-color: var(--stripe-purple); box-shadow: 0 0 30px var(--stripe-purple-glow); padding: clamp(24px, 2.3vw, 34px); gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(26px, 2.2vw, 32px); color: var(--stripe-purple);">2026: NEXT TOKEN / WORD</span>
+              <span class="iqoo-logo-tag" style="background: var(--stripe-purple); color: #fff; font-size: 18px; padding: 4px 12px; border-radius: 6px; font-weight: 800;">Token Level</span>
+            </div>
+            <h4 style="font-size: clamp(32px, 2.6vw, 38px); color: var(--text-white); margin-top: 4px;">Sub-Word & Word Streaming</h4>
+            <p style="font-size: clamp(24px, 2vw, 30px); color: var(--text-muted); line-height: 1.45;">
+              Modern LLMs predict sub-word tokens (~4 chars) across a 100k+ vocabulary to stream entire answers.
+            </p>
+            
+            <!-- Live Streaming Chat Box -->
+            <div style="background: #09090E; border: 1.5px solid rgba(122, 115, 255, 0.45); border-radius: 14px; padding: 14px 18px; font-family: var(--font-mono); display: flex; flex-direction: column; gap: 6px;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 6px;">
+                <span style="font-size: 14px; color: var(--stripe-purple); font-weight: 800; letter-spacing: 1px;">⚡ LIVE TOKEN STREAMING</span>
+                <span style="font-size: 12px; color: var(--text-muted); background: rgba(122,115,255,0.18); padding: 2px 8px; border-radius: 6px;">token_by_token</span>
+              </div>
+              <div style="font-size: clamp(22px, 1.8vw, 27px); color: #FFFFFF; font-weight: 700; min-height: 64px; line-height: 1.4;">
+                <span id="streaming-token-target"></span><span class="cursor" style="background: var(--stripe-purple); box-shadow: 0 0 15px var(--stripe-purple);"></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="card shimmer-card" style="padding: 18px 30px; display: flex; flex-direction: row; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: clamp(22px, 1.7vw, 26px); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900;">THE EVOLUTION OF GRANULARITY</div>
+            <div style="font-size: clamp(28px, 2.2vw, 34px); font-family: var(--font-mono); color: var(--text-white); margin-top: 4px; font-weight: 800;">
+              1950: Next Letter (A-Z) &rarr; 2026: Next Token/Word (~100,000 candidate vocabulary).
+            </div>
+          </div>
+          <div style="background: var(--accent-gold-light); border: 2px solid var(--accent-gold); padding: 10px 22px; border-radius: 12px; font-size: clamp(24px, 1.9vw, 29px); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; white-space: nowrap;">
+            Letter &rarr; Token Scale
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Mechanics of LLMs</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: ANDROID VIEWPAGER TIMELINE — ERA 1 (1940s–1950s) -->
+  <div id="slide-4-root" data-composition-id="slide-4" data-start="38" data-duration="10" data-label="AI History: 1940s–1950s" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">70-YEAR HISTORICAL EVOLUTION · ERA 1 OF 4</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="aceternity-layout">
+        <!-- Left Column: Android ViewPager -->
+        <div class="viewpager-wheel-col">
+          <div class="viewpager-beam-pipe">
+            <div class="viewpager-beam-glow" style="background: var(--accent-gold);"></div>
+            <div class="viewpager-node-dot" style="border-color: var(--accent-gold); box-shadow: 0 0 35px var(--accent-gold-glow);"></div>
+          </div>
+          <div class="viewpager-items-stack">
+            <div class="viewpager-item-active">
+              <div class="huge-year-main">1940s–</div>
+              <div class="huge-year-accent" style="color: var(--accent-gold);">1950s</div>
+              <div style="font-family: var(--font-mono); font-size: clamp(30px, 2.4vw, 36px); color: var(--accent-gold); font-weight: 800; margin-top: 8px;">
+                The Dream of Thinking Machines
+              </div>
+            </div>
+            <div class="viewpager-item-peeking">
+              &darr; 1960s–1990s
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content Area: Large Typography 2x2 Grid -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <h2 style="font-size: clamp(38px, 3.2vw, 48px); color: var(--text-white); font-weight: 900; line-height: 1.25;">
+            "Can computers learn to think like humans, or just crunch math equations?"
+          </h2>
+
+          <div class="grid-2">
+            <div class="card shimmer-card" style="border-left: 6px solid var(--accent-gold); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1943 · THE ARTIFICIAL BRAIN CELL</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">McCulloch & Pitts (First Neuron)</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> What if a simple switch could imitate a biological brain cell?<br>
+                <strong style="color: var(--accent-gold);">Real-World Change:</strong> Shifted computers from calculators into machines wired like brains.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--accent-gold); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1950 · CAN MACHINES THINK?</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Alan Turing (The Turing Test)</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> If you talk to a machine behind a curtain and can't tell it's a computer, is it intelligent?<br>
+                <strong style="color: var(--accent-gold);">Real-World Change:</strong> Created the world's first benchmark for human-level AI.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--accent-gold); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1950 · THE NEXT-LETTER GAME</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Claude & Betty Shannon</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Claude hid letters in sentences and Betty guessed what came next. She was almost always right!<br>
+                <strong style="color: var(--accent-gold);">Real-World Change:</strong> Proved language is statistically predictable—the engine of ChatGPT.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--accent-gold); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1956 · NAMING THE FIELD</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">The Dartmouth Workshop</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> 10 top scientists spent a summer together to figure out how to make machines learn.<br>
+                <strong style="color: var(--accent-gold);">Real-World Change:</strong> Coined "Artificial Intelligence" and launched Silicon Valley's tech race.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Era 1: 1940s–1950s</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: ANDROID VIEWPAGER TIMELINE — ERA 2 (1960s–1990s) -->
+  <div id="slide-5-root" data-composition-id="slide-5" data-start="48" data-duration="10" data-label="AI History: 1960s–1990s" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">70-YEAR HISTORICAL EVOLUTION · ERA 2 OF 4</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="aceternity-layout">
+        <!-- Left Column: Android ViewPager -->
+        <div class="viewpager-wheel-col">
+          <div class="viewpager-beam-pipe">
+            <div class="viewpager-beam-glow" style="background: #FFD072;"></div>
+            <div class="viewpager-node-dot" style="border-color: #FFD072; box-shadow: 0 0 35px rgba(255,208,114,0.5);"></div>
+          </div>
+          <div class="viewpager-items-stack">
+            <div class="viewpager-item-peeking">
+              &uarr; 1940s–1950s
+            </div>
+            <div class="viewpager-item-active">
+              <div class="huge-year-main">1960s–</div>
+              <div class="huge-year-accent" style="color: #FFD072;">1990s</div>
+              <div style="font-family: var(--font-mono); font-size: clamp(30px, 2.4vw, 36px); color: #FFD072; font-weight: 800; margin-top: 8px;">
+                The Rule-Book Era & The AI Winter
+              </div>
+            </div>
+            <div class="viewpager-item-peeking">
+              &darr; 1986–2010s
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content Area -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <h2 style="font-size: clamp(38px, 3.2vw, 48px); color: var(--text-white); font-weight: 900; line-height: 1.25;">
+            "What happens when humans try to hand-write every rule into code?"
+          </h2>
+
+          <div class="grid-2">
+            <div class="card shimmer-card" style="border-left: 6px solid #FFD072; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #FFD072; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">HANDCODED RULES</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">The "If-Then" Approach</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Programmers manually wrote strict rules: <em>"IF user says hello, THEN say hi"</em>.<br>
+                <strong style="color: #FFD072;">Real-World Change:</strong> Worked for chess, but broke on messy human language and slang.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #FFD072; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #FFD072; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1966 · FIRST THERAPIST BOT</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">ELIZA at MIT</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Parroted words back: <em>"I'm feeling sad" &rarr; "Why are you sad?"</em> People poured their hearts out!<br>
+                <strong style="color: #FFD072;">Real-World Change:</strong> Proved humans love talking to bots, but exposed zero true understanding.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #FFD072; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #FFD072; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1970s–1980s · DOCTOR IN A BOX</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Expert Systems</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Doctors and banks fed 500-page rule books into computers to diagnose illness and approve loans.<br>
+                <strong style="color: #FFD072;">Real-World Change:</strong> Showed software could assist, but crashed whenever rules conflicted.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #FFD072; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #FFD072; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">THE CRASH</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">The "AI Winters"</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> When rule bots proved too brittle, companies and governments froze AI funding for a decade.<br>
+                <strong style="color: #FFD072;">Real-World Change:</strong> Forced scientists to invent machines that <em>learn from examples</em> instead.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Era 2: 1960s–1990s</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: ANDROID VIEWPAGER TIMELINE — ERA 3 (1986–2010s) -->
+  <div id="slide-6-root" data-composition-id="slide-6" data-start="58" data-duration="10" data-label="AI History: 1986–2010s" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">70-YEAR HISTORICAL EVOLUTION · ERA 3 OF 4</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="aceternity-layout">
+        <!-- Left Column: Android ViewPager -->
+        <div class="viewpager-wheel-col">
+          <div class="viewpager-beam-pipe">
+            <div class="viewpager-beam-glow" style="background: var(--stripe-purple);"></div>
+            <div class="viewpager-node-dot" style="border-color: var(--stripe-purple); box-shadow: 0 0 35px var(--stripe-purple-glow);"></div>
+          </div>
+          <div class="viewpager-items-stack">
+            <div class="viewpager-item-peeking">
+              &uarr; 1960s–1990s
+            </div>
+            <div class="viewpager-item-active">
+              <div class="huge-year-main">1986–</div>
+              <div class="huge-year-accent" style="color: var(--stripe-purple);">2010s</div>
+              <div style="font-family: var(--font-mono); font-size: clamp(30px, 2.4vw, 36px); color: var(--stripe-purple); font-weight: 800; margin-top: 8px;">
+                Learning from Examples & Deep Learning
+              </div>
+            </div>
+            <div class="viewpager-item-peeking">
+              &darr; 2017–2026
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content Area -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <h2 style="font-size: clamp(38px, 3.2vw, 48px); color: var(--text-white); font-weight: 900; line-height: 1.25;">
+            "Don't tell it the rules. Show it 1,000,000 photos and let it learn!"
+          </h2>
+
+          <div class="grid-2">
+            <div class="card shimmer-card" style="border-left: 6px solid var(--stripe-purple); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">1986 · TRIAL & ERROR LEARNING</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Backpropagation (Hinton)</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Like a kid shooting basketballs, every time the neural net misses, it tweaks connections until it scores.<br>
+                <strong style="color: var(--stripe-purple);">Real-World Change:</strong> Gave neural networks the superpower to self-correct automatically.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--stripe-purple); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">THE BIG SHIFT</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Show, Don't Tell</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Instead of describing <em>"a cat has whiskers"</em>, engineers fed the computer 100,000 labeled photos.<br>
+                <strong style="color: var(--stripe-purple);">Real-World Change:</strong> Enabled email spam filters, postal handwriting scanning, and fraud alerts.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--stripe-purple); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">2012 · GPU BREAKTHROUGH</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">AlexNet on ImageNet</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Researchers trained deep networks on fast Nvidia gaming graphics cards using millions of photos.<br>
+                <strong style="color: var(--stripe-purple);">Real-World Change:</strong> Computers beat humans at image recognition, unlocking Face ID and self-driving cars.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid var(--stripe-purple); padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">THE MOBILE REVOLUTION</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Smartphones & Big Data</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Billions of smartphone users generated endless photos, videos, and voices for AI to learn from.<br>
+                <strong style="color: var(--stripe-purple);">Real-World Change:</strong> AI moved out of academic laboratories and directly into every pocket on Earth.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Era 3: 1986–2010s</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: ANDROID VIEWPAGER TIMELINE — ERA 4 (2017–PRESENT) -->
+  <div id="slide-7-root" data-composition-id="slide-7" data-start="68" data-duration="10" data-label="AI History: 2017–Present" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">70-YEAR HISTORICAL EVOLUTION · ERA 4 OF 4</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="aceternity-layout">
+        <!-- Left Column: Android ViewPager -->
+        <div class="viewpager-wheel-col">
+          <div class="viewpager-beam-pipe">
+            <div class="viewpager-beam-glow" style="background: #00E5FF; box-shadow: 0 0 25px rgba(0,229,255,0.5);"></div>
+            <div class="viewpager-node-dot" style="border-color: #00E5FF; box-shadow: 0 0 35px rgba(0,229,255,0.6);"></div>
+          </div>
+          <div class="viewpager-items-stack">
+            <div class="viewpager-item-peeking">
+              &uarr; 1986–2010s
+            </div>
+            <div class="viewpager-item-active">
+              <div class="huge-year-main">2017–</div>
+              <div class="huge-year-accent" style="color: #00E5FF;">2026</div>
+              <div style="font-family: var(--font-mono); font-size: clamp(30px, 2.4vw, 36px); color: #00E5FF; font-weight: 800; margin-top: 8px;">
+                Transformers, LLMs & OpenRouter
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content Area -->
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <h2 style="font-size: clamp(38px, 3.2vw, 48px); color: var(--text-white); font-weight: 900; line-height: 1.25;">
+            "What if a machine could read the whole internet and predict what comes next?"
+          </h2>
+
+          <div class="grid-2">
+            <div class="card shimmer-card" style="border-left: 6px solid #00E5FF; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #00E5FF; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">2017 · THE TRANSFORMER</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">"Attention Is All You Need"</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Old AI read text word-by-word slowly. Transformers look at entire paragraphs at once, understanding context.<br>
+                <strong style="color: #00E5FF;">Real-World Change:</strong> Accelerated AI reading speeds by 1,000x to read the entire public internet.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #00E5FF; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #00E5FF; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">SHANNON SCALED UP</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">Large Language Models</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Claude Shannon's 1950 letter-guessing game scaled across billions of parameters predicting the next word.<br>
+                <strong style="color: #00E5FF;">Real-World Change:</strong> AI transformed from search engines into creative partners that write code, poetry, and apps.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #00E5FF; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #00E5FF; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">BEING HELPFUL & POLITE</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">RLHF Alignment</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> Raw internet text is messy. Human teachers graded AI replies to guide it to be polite, honest, and helpful.<br>
+                <strong style="color: #00E5FF;">Real-World Change:</strong> Turned raw probability engines into safe, friendly AI assistants anyone can talk to.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-left: 6px solid #00E5FF; padding: clamp(24px, 2.2vw, 32px);">
+              <div style="color: #00E5FF; font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.8vw, 28px); letter-spacing: 0.5px;">2026 · DEVELOPER POWER</div>
+              <h4 style="font-size: clamp(34px, 2.7vw, 40px); font-weight: 900; color: #fff; margin: 4px 0 8px 0;">OpenRouter on iQOO Z Series</h4>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: #D0D0E2; line-height: 1.5;">
+                <strong style="color: var(--text-white);">The Idea:</strong> You don't need a supercomputer. A single API key connects your app to Claude, GPT-4o, and Gemini.<br>
+                <strong style="color: #00E5FF;">Real-World Change:</strong> Anyone in this room can build and ship a full AI startup in hours!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Era 4: 2017–Present</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: AI FUNDAMENTALS — NESTING DOLLS -->
+  <div id="slide-8-root" data-composition-id="slide-8" data-start="78" data-duration="10" data-label="AI Nesting Dolls" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">AI FUNDAMENTALS</div>
+        <h2 class="slide-title">AI, ML, LLMs — The Nesting Dolls</h2>
+        <p class="slide-subtitle">By the end of this you'll know what an LLM is, how it answers you, and key terms — in plain words.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="align-items: center;">
+      <div class="nesting-container" style="max-width: 1320px; width: 100%; margin: 0 auto;">
+        <div class="nest-box level-1 shimmer-card" style="padding: clamp(22px, 2.2vw, 32px); border: 2px solid #3E3E58; border-radius: 22px;">
+          <h3 style="font-size: clamp(38px, 3.2vw, 46px); color: var(--text-white); font-weight: 900;">1. Artificial Intelligence</h3>
+          <p style="font-size: clamp(28px, 2.4vw, 35px); color: var(--text-muted); margin-top: 8px;">The broad field: machines doing things that normally need human smarts.</p>
+          
+          <div class="nest-box level-2" style="margin-top: 18px; margin-left: clamp(22px, 2.5vw, 44px); padding: clamp(20px, 2vw, 28px); border: 2px solid #5A5A7E; border-radius: 20px;">
+            <h3 style="font-size: clamp(36px, 2.9vw, 42px); color: var(--text-white); font-weight: 900;">2. Machine Learning</h3>
+            <p style="font-size: clamp(28px, 2.3vw, 34px); color: var(--text-muted); margin-top: 8px;">Systems that learn patterns from data instead of being hand-coded with rules.</p>
+            
+            <div class="nest-box level-3" style="margin-top: 18px; margin-left: clamp(22px, 2.5vw, 44px); padding: clamp(18px, 1.8vw, 26px); border: 2px solid #8282AA; border-radius: 18px;">
+              <h3 style="font-size: clamp(34px, 2.7vw, 40px); color: var(--text-white); font-weight: 900;">3. Deep Learning</h3>
+              <p style="font-size: clamp(27px, 2.2vw, 33px); color: var(--text-muted); margin-top: 8px;">ML using large neural networks — the engine behind modern speech & vision AI.</p>
+              
+              <div class="nest-box level-4" style="margin-top: 18px; margin-left: clamp(22px, 2.5vw, 44px); padding: clamp(20px, 2vw, 28px); border: 2px solid var(--accent-gold); background: rgba(255,184,0,0.12); border-radius: 16px;">
+                <h3 style="font-size: clamp(34px, 2.7vw, 40px); color: var(--accent-gold); font-weight: 900;">4. Large Language Models (LLMs)</h3>
+                <p style="font-size: clamp(28px, 2.3vw, 34px); color: var(--text-white); margin-top: 8px; font-weight: 600;">Deep neural nets trained on web text to generate and understand language (GPT, Claude, Gemini, Llama). This is what you'll call today.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">AI Fundamentals</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: HOW AN LLM ACTUALLY WORKS (INPUT VS OUTPUT TOKENS) -->
+  <div id="slide-9-root" data-composition-id="slide-9" data-start="88" data-duration="12" data-label="How an LLM Works" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">AI MECHANICS · INPUT & OUTPUT TOKENS</div>
+        <h2 class="slide-title">How an LLM Actually Works</h2>
+        <p class="slide-subtitle">From prompt tokens to streaming response tokens in 4 clear steps.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: 22px;">
+        <div class="grid-4">
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 26px;">
+            <div style="font-size: clamp(44px, 3.8vw, 56px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">01</div>
+            <h3 style="font-size: clamp(32px, 2.6vw, 36px); margin-top: 8px; margin-bottom: 8px; font-weight: 900; color: #fff;">1. Input Tokens</h3>
+            <p style="font-size: clamp(26px, 2.1vw, 31px); color: var(--text-muted); line-height: 1.45;">Your prompt & context are sliced into input tokens (~4 characters each).</p>
+          </div>
+
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 26px;">
+            <div style="font-size: clamp(44px, 3.8vw, 56px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">02</div>
+            <h3 style="font-size: clamp(32px, 2.6vw, 36px); margin-top: 8px; margin-bottom: 8px; font-weight: 900; color: #fff;">2. Context Window</h3>
+            <p style="font-size: clamp(26px, 2.1vw, 31px); color: var(--text-muted); line-height: 1.45;">The neural net reads all input tokens at once to understand the instruction.</p>
+          </div>
+
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 26px;">
+            <div style="font-size: clamp(44px, 3.8vw, 56px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">03</div>
+            <h3 style="font-size: clamp(32px, 2.6vw, 36px); margin-top: 8px; margin-bottom: 8px; font-weight: 900; color: #fff;">3. Predict Next</h3>
+            <p style="font-size: clamp(26px, 2.1vw, 31px); color: var(--text-muted); line-height: 1.45;">Scores 100k+ candidate words and picks the single best next token.</p>
+          </div>
+
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 26px;">
+            <div style="font-size: clamp(44px, 3.8vw, 56px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">04</div>
+            <h3 style="font-size: clamp(32px, 2.6vw, 36px); margin-top: 8px; margin-bottom: 8px; font-weight: 900; color: #fff;">4. Output Tokens</h3>
+            <p style="font-size: clamp(26px, 2.1vw, 31px); color: var(--text-muted); line-height: 1.45;">Appends the token, streams it to the UI, and repeats until finished.</p>
+          </div>
+        </div>
+
+        <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 2px solid var(--accent-gold); padding: 24px 34px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 28px;">
+            <div>
+              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.9vw, 29px);">INPUT TOKENS (PROMPT)</div>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: var(--text-white); margin-top: 6px; line-height: 1.45;">
+                Everything you send in (question, documents, instructions). Processed in parallel and usually cheaper.
+              </p>
+            </div>
+            <div>
+              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(24px, 1.9vw, 29px);">OUTPUT TOKENS (COMPLETION)</div>
+              <p style="font-size: clamp(28px, 2.2vw, 33px); color: var(--text-white); margin-top: 6px; line-height: 1.45;">
+                Generated token-by-token in real time. Total tokens = Input + Output (must fit inside the Context Window).
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">LLM Mechanics</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: KEY TERMS YOU'LL HEAR TODAY -->
+  <div id="slide-10-root" data-composition-id="slide-10" data-start="100" data-duration="12" data-label="Key Terms" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">KEY VOCABULARY</div>
+        <h2 class="slide-title">The Terms You'll Hear Today</h2>
+        <p class="slide-subtitle">Six fundamental concepts you will use throughout the workshop.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-3">
+          <div class="term-card shimmer-card">
+            <div class="term-title">1. Input Tokens</div>
+            <div class="term-desc">The text & instructions you send to the model. Sliced into word pieces (~4 chars).</div>
+          </div>
+          <div class="term-card shimmer-card">
+            <div class="term-title">2. Output Tokens</div>
+            <div class="term-desc">The streamed reply generated by the model. Billed and calculated token-by-token.</div>
+          </div>
+          <div class="term-card shimmer-card">
+            <div class="term-title">3. Context Window</div>
+            <div class="term-desc">The maximum total tokens (Input + Output) a model can hold in memory at once.</div>
+          </div>
+          <div class="term-card shimmer-card">
+            <div class="term-title">4. Temperature</div>
+            <div class="term-desc">The creativity dial. Low (0.0) = deterministic & focused; High (1.0) = varied & surprising.</div>
+          </div>
+          <div class="term-card shimmer-card">
+            <div class="term-title">5. System Prompt</div>
+            <div class="term-desc">Hidden master rules that define the AI's role, personality, and constraints upfront.</div>
+          </div>
+          <div class="term-card shimmer-card">
+            <div class="term-title">6. Hallucination</div>
+            <div class="term-desc">When a model invents incorrect facts with full confidence. Always verify important claims.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Key Terms</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: WHAT AI CAN DO INSIDE A BUILD -->
+  <div id="slide-11-root" data-composition-id="slide-11" data-start="112" data-duration="12" data-label="6 Build Patterns" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">BUILD PATTERNS</div>
+        <h2 class="slide-title">What AI Can Do Inside a Build</h2>
+        <p class="slide-subtitle">Six patterns cover almost every app you could build. Pick one of these instead of just “adding AI”.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: 20px;">
+        <div class="grid-3">
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">1. Chat & Q&A</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Answer questions, act as a helper or tutor inside the app.</p>
+          </div>
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">2. Generate Content</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Write captions, stories, replies, ideas, quiz questions.</p>
+          </div>
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">3. Summarise</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Turn long text or notes into a short, clean summary.</p>
+          </div>
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">4. Classify & Tag</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Sort input into categories — mood, topic, spam / not spam.</p>
+          </div>
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">5. Extract Structure</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Pull clean JSON or fields out of messy text for the UI.</p>
+          </div>
+          <div class="card shimmer-card" style="padding: 24px 28px;">
+            <h3 style="font-size: clamp(34px, 2.8vw, 38px); color: var(--accent-gold); font-weight: 800;">6. Vision</h3>
+            <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); line-height: 1.45;">Describe or read an image the user captures on the iQOO.</p>
+          </div>
+        </div>
+
+        <div class="card card-highlight shimmer-card" style="text-align: center; padding: 20px 28px;">
+          <p style="font-size: clamp(28px, 2.4vw, 35px); color: var(--text-white);">
+            <strong style="color: var(--accent-gold);">How it plugs in:</strong> The app sends text to a model over an API, gets a reply back, and shows it in the UI. That’s the whole loop.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Build Patterns</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 12: OPENROUTER & APIS -->
+  <div id="slide-12-root" data-composition-id="slide-12" data-start="124" data-duration="12" data-label="OpenRouter APIs" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">OPENROUTER APIS</div>
+        <h2 class="slide-title">APIs & Keys — One Door to Every Model</h2>
+        <p class="slide-subtitle">Understand how APIs work and why OpenRouter simplifies multi-model access.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-2">
+          <div class="card shimmer-card" style="padding: clamp(26px, 2.5vw, 36px); gap: 16px;">
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900;">An API, in One Picture</h3>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div style="background: rgba(255,255,255,0.05); padding: 18px 22px; border-radius: 14px; font-size: clamp(28px, 2.2vw, 33px);">
+                <strong style="color: var(--accent-gold);">Your App</strong> is the customer placing an order.
+              </div>
+              <div style="background: rgba(255,255,255,0.05); padding: 18px 22px; border-radius: 14px; font-size: clamp(28px, 2.2vw, 33px);">
+                <strong style="color: var(--accent-gold);">The API</strong> is the waiter carrying the order back and forth.
+              </div>
+              <div style="background: rgba(255,255,255,0.05); padding: 18px 22px; border-radius: 14px; font-size: clamp(28px, 2.2vw, 33px);">
+                <strong style="color: var(--accent-gold);">The Model</strong> is the kitchen that cooks the response.
+              </div>
+              <div style="background: var(--accent-gold-light); border: 2px solid var(--accent-gold); padding: 18px 22px; border-radius: 14px; font-size: clamp(28px, 2.2vw, 33px);">
+                <strong style="color: var(--accent-gold);">The API Key</strong> is your ID badge — proves it's you, keep it secret.
+              </div>
+            </div>
+          </div>
+
+          <div class="card shimmer-card" style="padding: clamp(26px, 2.5vw, 36px); gap: 16px;">
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900;">Why OpenRouter</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div>
+                <h4 style="font-size: clamp(32px, 2.6vw, 36px); color: var(--text-white); font-weight: 800;">One key, many models</h4>
+                <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); margin-top: 6px;">Reach OpenAI, Anthropic, Google & Meta models through a single account.</p>
+              </div>
+              <div>
+                <h4 style="font-size: clamp(32px, 2.6vw, 36px); color: var(--text-white); font-weight: 800;">Swap models in one line</h4>
+                <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); margin-top: 6px;">Change the model name in your request — no new sign-ups, no rewrite.</p>
+              </div>
+              <div>
+                <h4 style="font-size: clamp(32px, 2.6vw, 36px); color: var(--text-white); font-weight: 800;">Pay per use with credit</h4>
+                <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); margin-top: 6px;">Each team gets event credit; you only spend what you call.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">APIs & OpenRouter</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: CLAIM YOUR API KEY -->
+  <div id="slide-13-root" data-composition-id="slide-13" data-start="136" data-duration="12" data-label="Claim API Key" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 03 · OPENROUTER</div>
+        <h2 class="slide-title">Claim your API key — the Reskilll portal</h2>
+        <p class="slide-subtitle">No forms, no waiting. The portal issues your team's OpenRouter key the moment it verifies your hackathon email.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center;">
+      <div style="width: 100%; max-width: 1780px; margin: 0 auto;">
+        <div style="display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(30px, 3.2vw, 50px); align-items: stretch;">
+          
+          <!-- Left: 5 Numbered Steps (Enlarged Scale) -->
+          <div style="display: flex; flex-direction: column; justify-content: space-between; gap: 12px;">
+            <!-- Step 1 -->
+            <div class="step-row-card" style="display: grid; grid-template-columns: 56px clamp(180px, 15vw, 240px) 2px 1fr; align-items: center; gap: 20px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 16px; padding: clamp(14px, 1.5vh, 20px) clamp(18px, 1.8vw, 26px);">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center;">1</div>
+              <div style="font-size: clamp(28px, 2.2vw, 34px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Open the portal</div>
+              <div style="height: 44px; width: 2px; background: #32324A;"></div>
+              <div style="font-size: clamp(24px, 1.9vw, 29px); color: #D0D0E2; line-height: 1.4;">
+                Scan the QR (or go to <strong style="color: var(--accent-gold);">openrouterclaim.reskilll.com</strong>) and hit Claim Credits.
+              </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-row-card" style="display: grid; grid-template-columns: 56px clamp(180px, 15vw, 240px) 2px 1fr; align-items: center; gap: 20px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 16px; padding: clamp(14px, 1.5vh, 20px) clamp(18px, 1.8vw, 26px);">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center;">2</div>
+              <div style="font-size: clamp(28px, 2.2vw, 34px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Sign in</div>
+              <div style="height: 44px; width: 2px; background: #32324A;"></div>
+              <div style="font-size: clamp(24px, 1.9vw, 29px); color: #D0D0E2; line-height: 1.4;">
+                Log in with the email you registered for the hackathon with — nothing else.
+              </div>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step-row-card" style="display: grid; grid-template-columns: 56px clamp(180px, 15vw, 240px) 2px 1fr; align-items: center; gap: 20px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 16px; padding: clamp(14px, 1.5vh, 20px) clamp(18px, 1.8vw, 26px);">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center;">3</div>
+              <div style="font-size: clamp(28px, 2.2vw, 34px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Get verified</div>
+              <div style="height: 44px; width: 2px; background: #32324A;"></div>
+              <div style="font-size: clamp(24px, 1.9vw, 29px); color: #D0D0E2; line-height: 1.4;">
+                The portal checks your email against the database automatically.
+              </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-row-card" style="display: grid; grid-template-columns: 56px clamp(180px, 15vw, 240px) 2px 1fr; align-items: center; gap: 20px; background: #13131F; border: 1.5px solid #2D2D42; border-radius: 16px; padding: clamp(14px, 1.5vh, 20px) clamp(18px, 1.8vw, 26px);">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center;">4</div>
+              <div style="font-size: clamp(28px, 2.2vw, 34px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Copy your key</div>
+              <div style="height: 44px; width: 2px; background: #32324A;"></div>
+              <div style="font-size: clamp(24px, 1.9vw, 29px); color: #D0D0E2; line-height: 1.4;">
+                Your key + $10 team credit are ready instantly — copy it and store it safely.
+              </div>
+            </div>
+
+            <!-- Step 5 (Keep it secret - Alert Highlight) -->
+            <div class="step-row-card" style="display: grid; grid-template-columns: 56px clamp(180px, 15vw, 240px) 2px 1fr; align-items: center; gap: 20px; background: rgba(255, 95, 86, 0.09); border: 2px solid #FF5F56; border-radius: 16px; padding: clamp(14px, 1.5vh, 20px) clamp(18px, 1.8vw, 26px); box-shadow: 0 0 25px rgba(255, 95, 86, 0.25);">
+              <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 26px; display: flex; align-items: center; justify-content: center;">5</div>
+              <div style="font-size: clamp(28px, 2.2vw, 34px); font-weight: 900; color: #FF7070; line-height: 1.2;">Keep it secret</div>
+              <div style="height: 44px; width: 2px; background: rgba(255, 95, 86, 0.5);"></div>
+              <div style="font-size: clamp(24px, 1.9vw, 29px); color: #FFD0D0; line-height: 1.4;">
+                Never put the key in GitHub or screenshots. Treat it like a password.
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Big QR Code & High-Impact Stats Card -->
+          <div class="card card-highlight shimmer-card" style="display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; padding: clamp(26px, 2.6vw, 38px); border-radius: 24px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(28px, 2.2vw, 35px); color: var(--accent-gold); letter-spacing: 1.5px;">
+              SCAN TO CLAIM YOUR KEY
+            </div>
+
+            <div style="background: #FFFFFF; padding: 16px; border-radius: 22px; margin: 10px 0; box-shadow: 0 12px 35px rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center;">
+              <img src="assets/claim-qr-code.png" alt="Scan QR Code to Claim API Key" style="width: clamp(230px, 20vw, 280px); height: clamp(230px, 20vw, 280px); object-fit: contain; display: block; border-radius: 10px;">
+            </div>
+
+            <div style="font-family: var(--font-mono); font-size: clamp(28px, 2.2vw, 34px); color: var(--text-white); font-weight: 900; margin-bottom: 8px;">
+              openrouterclaim.reskilll.com
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; width: 100%;">
+              <div style="background: rgba(255, 184, 0, 0.1); border: 2px solid rgba(255, 184, 0, 0.5); border-radius: 14px; padding: 12px 16px; font-family: var(--font-mono); text-align: center;">
+                <span style="color: var(--accent-gold); font-size: clamp(32px, 2.6vw, 38px); font-weight: 900;">200+</span> <span style="color: var(--text-muted); font-size: clamp(22px, 1.7vw, 26px); font-weight: 800;">models</span>
+              </div>
+              <div style="background: rgba(255, 184, 0, 0.1); border: 2px solid rgba(255, 184, 0, 0.5); border-radius: 14px; padding: 12px 16px; font-family: var(--font-mono); text-align: center;">
+                <span style="color: var(--accent-gold); font-size: clamp(32px, 2.6vw, 38px); font-weight: 900;">&lt;10s</span> <span style="color: var(--text-muted); font-size: clamp(22px, 1.7vw, 26px); font-weight: 800;">setup</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Claim Key</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 14: FIRST CALL & PROTECT CREDIT -->
+  <div id="slide-14-root" data-composition-id="slide-14" data-start="148" data-duration="12" data-label="First Call & Credit Rules" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">FIRST CALL & CREDIT RULES</div>
+        <h2 class="slide-title">Which Model? Let AI Decide & Protect Credit</h2>
+        <p class="slide-subtitle">Use your AI coding tools to run your first call and follow credit rules.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-2">
+          <div class="card card-highlight shimmer-card" style="padding: clamp(26px, 2.5vw, 36px); gap: 18px;">
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900;">Don't Overthink the Model</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px;">
+              <div style="background: var(--accent-gold-light); border: 2px solid var(--accent-gold); padding: 20px; border-radius: 16px;">
+                <div class="iqoo-logo-tag" style="margin-bottom: 10px; display: inline-block; background: var(--accent-gold); color: #000; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 20px;">START HERE</div>
+                <div style="font-size: clamp(36px, 2.9vw, 42px); font-family: var(--font-mono); font-weight: 900; color: var(--accent-gold);">minimax/minimax-m3</div>
+                <div style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-white); margin-top: 8px;">Fast, cheap and capable — handles almost every build.</div>
+              </div>
+              <div>
+                <h4 style="font-size: clamp(32px, 2.6vw, 36px); color: var(--text-white); font-weight: 800;">Let AI pick for you</h4>
+                <p style="font-size: clamp(27px, 2.2vw, 32px); color: var(--text-muted); margin-top: 6px;">Use <strong style="color: var(--accent-gold);">openrouter/auto</strong> to auto-route each request.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card shimmer-card" style="padding: clamp(26px, 2.5vw, 36px); gap: 18px;">
+            <h3 style="font-size: clamp(38px, 3.1vw, 44px); color: var(--accent-gold); font-weight: 900;">Protect the Credit</h3>
+            <div style="display: flex; flex-direction: column; gap: 16px; font-size: clamp(27px, 2.2vw, 32px);">
+              <div style="background: rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 14px;">
+                $10 OpenRouter credit per team · we top up if low
+              </div>
+              <div style="background: rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 14px;">
+                Keep prompts short — you pay per token, both ways.
+              </div>
+              <div style="background: rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 14px;">
+                Set a sensible max_tokens so replies don't run long.
+              </div>
+              <div style="background: rgba(255,255,255,0.05); padding: 16px 20px; border-radius: 14px;">
+                Don't call the API in a loop or on every keystroke.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Learn it. Then ship it.</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- STANDALONE SLIDESHOW CONTROLLER WITH 3-STAGE SEQUENTIAL REVEALS, TOKEN STREAMING & CENTERED HUD -->
+  <script>
+    window.__timelines = window.__timelines || {};
+
+    const slideIds = ['slide-1', 'slide-2', 'slide-3', 'slide-4', 'slide-5', 'slide-6', 'slide-7', 'slide-8', 'slide-9', 'slide-10', 'slide-11', 'slide-12', 'slide-13', 'slide-14'];
+    slideIds.forEach(id => {
+      window.__timelines[id] = gsap.timeline({ paused: true });
+    });
+
+    let slide2SubStep = 0; // 0 = Left only, 1 = Terminal loaded with [ ? ], 2 = [ Y ] + probabilities loaded
+
+    function setSlide2Step(step) {
+      slide2SubStep = Math.max(0, Math.min(2, step));
+      const terminalEl = document.getElementById('shannon-terminal');
+      const letterEl = document.getElementById('shannon-hidden-letter');
+      const probSection = document.getElementById('shannon-prob-section');
+      const hintPill = document.getElementById('shannon-hint-pill');
+      const probY = document.getElementById('prob-y');
+      const probT = document.getElementById('prob-t');
+      const probS = document.getElementById('prob-s');
+
+      if (slide2SubStep === 0) {
+        // Stage 0: Left content only, right terminal hidden
+        if (terminalEl) {
+          terminalEl.style.opacity = '0';
+          terminalEl.style.transform = 'translateY(24px)';
+          terminalEl.style.pointerEvents = 'none';
+        }
+        if (letterEl) {
+          letterEl.innerHTML = '[ ? ]';
+          letterEl.style.color = 'var(--text-muted)';
+          letterEl.style.borderColor = 'var(--card-border)';
+          letterEl.style.textShadow = 'none';
+        }
+        if (probSection) {
+          probSection.style.opacity = '0';
+          probSection.style.transform = 'translateY(16px)';
+          probSection.style.pointerEvents = 'none';
+        }
+        if (probY) probY.style.width = '0%';
+        if (probT) probT.style.width = '0%';
+        if (probS) probS.style.width = '0%';
+      } else if (slide2SubStep === 1) {
+        // Stage 1: Terminal loaded with [ ? ], probabilities hidden
+        if (terminalEl) {
+          terminalEl.style.opacity = '1';
+          terminalEl.style.transform = 'translateY(0)';
+          terminalEl.style.pointerEvents = 'auto';
+        }
+        if (letterEl) {
+          letterEl.innerHTML = '[ ? ]';
+          letterEl.style.color = 'var(--text-muted)';
+          letterEl.style.borderColor = 'var(--card-border)';
+          letterEl.style.textShadow = 'none';
+        }
+        if (probSection) {
+          probSection.style.opacity = '0';
+          probSection.style.transform = 'translateY(16px)';
+          probSection.style.pointerEvents = 'none';
+        }
+        if (hintPill) {
+          hintPill.style.display = 'flex';
+          hintPill.innerHTML = '<span>Tap Next / Space to Reveal Guess & Probabilities &#8594;</span>';
+        }
+        if (probY) probY.style.width = '0%';
+        if (probT) probT.style.width = '0%';
+        if (probS) probS.style.width = '0%';
+      } else if (slide2SubStep === 2) {
+        // Stage 2: [ Y ] revealed and probability bars loaded
+        if (terminalEl) {
+          terminalEl.style.opacity = '1';
+          terminalEl.style.transform = 'translateY(0)';
+          terminalEl.style.pointerEvents = 'auto';
+        }
+        if (letterEl) {
+          letterEl.innerHTML = '[ Y ]';
+          letterEl.style.color = 'var(--accent-gold)';
+          letterEl.style.borderColor = 'var(--accent-gold)';
+          letterEl.style.textShadow = '0 0 25px rgba(255,184,0,0.9)';
+        }
+        if (probSection) {
+          probSection.style.opacity = '1';
+          probSection.style.transform = 'translateY(0)';
+          probSection.style.pointerEvents = 'auto';
+        }
+        if (hintPill) {
+          hintPill.style.display = 'none';
+        }
+        if (probY) probY.style.width = '98%';
+        if (probT) probT.style.width = '1%';
+        if (probS) probS.style.width = '1%';
+      }
+    }
+
+    // LIVE STREAMING TOKEN ENGINE FOR SLIDE 3
+    let streamTimer = null;
+    const streamTokens = [
+      "Modern", " LLMs", " predict", " sub-word", " tokens", 
+      " in", " milliseconds", " to", " stream", " complete", " answers.", " ⚡"
+    ];
+    const tokenDelays = [110, 130, 95, 140, 105, 150, 120, 110, 135, 100, 125, 140];
+
+    function startTokenStreaming() {
+      stopTokenStreaming();
+      const target = document.getElementById('streaming-token-target');
+      if (!target) return;
+      
+      let currentIdx = 0;
+      target.textContent = "";
+      
+      function streamStep() {
+        if (currentIdx < streamTokens.length) {
+          target.textContent += (currentIdx === 0 ? "" : " ") + streamTokens[currentIdx].trim();
+          const delay = tokenDelays[currentIdx % tokenDelays.length];
+          currentIdx++;
+          streamTimer = setTimeout(streamStep, delay);
+        } else {
+          streamTimer = setTimeout(() => {
+            target.textContent = "";
+            currentIdx = 0;
+            streamStep();
+          }, 3200);
+        }
+      }
+      streamStep();
+    }
+
+    function stopTokenStreaming() {
+      if (streamTimer) {
+        clearTimeout(streamTimer);
+        streamTimer = null;
+      }
+    }
+
+    (function() {
+      const manifestScript = document.querySelector('script[type="application/hyperframes-slideshow+json"]');
+      if (!manifestScript) return;
+
+      let manifest;
+      try { manifest = JSON.parse(manifestScript.textContent); } catch(e) { return; }
+
+      const slides = manifest.slides || [];
+      let currentIndex = 0;
+
+      const hud = document.createElement('div');
+      hud.id = 'slideshow-hud';
+      hud.setAttribute('data-layout-allow-occlusion', 'true');
+      hud.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:9999; display:flex; align-items:center; gap:16px; background:rgba(18,18,24,0.92); border:1px solid #2A2A3E; padding:8px 22px; border-radius:30px; font-family:sans-serif; font-size:16px; color:#fff; backdrop-filter:blur(12px); box-shadow:0 10px 30px rgba(0,0,0,0.6);';
+      
+      const prevBtn = document.createElement('button');
+      prevBtn.innerHTML = '&#8592; Prev';
+      prevBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:16px; outline:none; padding:4px 8px;';
+      
+      const nextBtn = document.createElement('button');
+      nextBtn.innerHTML = 'Next &#8594;';
+      nextBtn.style.cssText = 'background:none; border:none; color:#FFB800; cursor:pointer; font-weight:700; font-size:16px; outline:none; padding:4px 8px;';
+
+      const counter = document.createElement('span');
+      counter.id = 'hud-counter';
+      counter.style.cssText = 'font-family:monospace; color:#A8A8C0; margin:0 8px; font-size:16px; font-weight:700;';
+
+      const notesBtn = document.createElement('button');
+      notesBtn.innerHTML = '📝 Notes [P]';
+      notesBtn.style.cssText = 'background:rgba(255,184,0,0.15); border:1px solid #FFB800; color:#FFB800; border-radius:12px; padding:5px 12px; cursor:pointer; font-size:15px; outline:none; font-weight:700;';
+
+      hud.appendChild(prevBtn);
+      hud.appendChild(counter);
+      hud.appendChild(nextBtn);
+      hud.appendChild(notesBtn);
+      document.body.appendChild(hud);
+
+      const notesPanel = document.createElement('div');
+      notesPanel.id = 'presenter-notes-panel';
+      notesPanel.setAttribute('data-layout-allow-occlusion', 'true');
+      notesPanel.style.cssText = 'position:fixed; top:20px; right:30px; width:440px; max-height:420px; z-index:9999; background:rgba(18,18,24,0.95); border:1px solid #FFB800; border-radius:16px; padding:22px; font-family:sans-serif; color:#fff; display:none; backdrop-filter:blur(12px); box-shadow:0 15px 35px rgba(0,0,0,0.7); overflow-y:auto;';
+      notesPanel.innerHTML = '<div style="font-size:15px; font-weight:700; color:#FFB800; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Presenter Notes</div><div id="notes-content" style="font-size:18px; line-height:1.5; color:#E2E2EC;"></div>';
+      document.body.appendChild(notesPanel);
+
+      function goToSlide(index, fromDir = 'forward') {
+        if (index < 0 || index >= slides.length) return;
+        currentIndex = index;
+
+        const allSlideElements = document.querySelectorAll('.slide');
+        allSlideElements.forEach((el, i) => {
+          if (i === currentIndex) { el.classList.add('is-active'); }
+          else { el.classList.remove('is-active'); }
+        });
+
+        // Initialize Slide 2 state based on navigation direction
+        if (currentIndex === 1) {
+          setSlide2Step(fromDir === 'backward' ? 2 : 0);
+        }
+
+        // Trigger Live Token Streaming on Slide 3
+        if (currentIndex === 2) {
+          startTokenStreaming();
+        } else {
+          stopTokenStreaming();
+        }
+
+        const activeSlideRef = slides[currentIndex];
+        if (activeSlideRef && window.__timelines[activeSlideRef.sceneId]) {
+          const tl = window.__timelines[activeSlideRef.sceneId];
+          tl.play(0);
+        }
+
+        counter.textContent = `${currentIndex + 1} / ${slides.length}`;
+        const notesContent = document.getElementById('notes-content');
+        if (notesContent) { notesContent.textContent = activeSlideRef.notes || "No notes for this slide."; }
+      }
+
+      window.handleNextAction = function() {
+        if (currentIndex === 1) {
+          if (slide2SubStep < 2) {
+            setSlide2Step(slide2SubStep + 1);
+          } else {
+            goToSlide(currentIndex + 1, 'forward');
+          }
+        } else {
+          goToSlide(currentIndex + 1, 'forward');
+        }
+      };
+
+      window.handlePrevAction = function() {
+        if (currentIndex === 1) {
+          if (slide2SubStep > 0) {
+            setSlide2Step(slide2SubStep - 1);
+          } else {
+            goToSlide(currentIndex - 1, 'backward');
+          }
+        } else {
+          goToSlide(currentIndex - 1, 'backward');
+        }
+      };
+
+      prevBtn.onclick = handlePrevAction;
+      nextBtn.onclick = handleNextAction;
+      notesBtn.onclick = () => { notesPanel.style.display = notesPanel.style.display === 'none' ? 'block' : 'none'; };
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+          handleNextAction();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          handlePrevAction();
+        } else if (e.key === 'p' || e.key === 'P') {
+          notesPanel.style.display = notesPanel.style.display === 'none' ? 'block' : 'none';
+        } else if (e.key === 'f' || e.key === 'F') {
+          if (!document.fullscreenElement) { document.documentElement.requestFullscreen().catch(() => {}); }
+          else { document.exitFullscreen().catch(() => {}); }
+        }
+      });
+
+      goToSlide(0);
+    })();
+  </script>
+
+</body>
+</html>
