@@ -117,6 +117,33 @@
       font-weight: 700;
     }
 
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tech-pill-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 0.22rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
     .title {
       margin: 0;
       font-size: clamp(1.12rem, 2.5vw, 1.65rem);
@@ -185,7 +212,18 @@
 
     <section class="grid">
       <article class="card featured" style="border-color: rgba(255, 184, 0, 0.45); background: linear-gradient(160deg, rgba(28, 25, 20, 0.95), rgba(15, 18, 30, 0.96));">
-        <span class="tag" style="color: #FFB800;">TechQuest · iQOO Connect</span>
+        <div class="card-header">
+          <span class="tag" style="color: #FFB800;">TechQuest · iQOO Connect</span>
+          <div class="tech-pill-group">
+            <span class="tech-pill" style="border-color: rgba(255, 184, 0, 0.35); background: rgba(255, 184, 0, 0.08);">
+              <img src="./techquest-ai/assets/iqoo-connect-logo.png" alt="iQOO Connect" style="height: 13px; object-fit: contain;">
+            </span>
+            <span class="tech-pill" style="border-color: rgba(255, 184, 0, 0.35); color: #FFB800; background: rgba(255, 184, 0, 0.08);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+              <span>AI & OpenRouter</span>
+            </span>
+          </div>
+        </div>
         <h2 class="title" style="color: #FFFFFF;">TechQuest: Building with AI — Fundamentals & OpenRouter</h2>
         <p class="desc">Interactive presentation deck exploring Claude Shannon's 1950 next-letter prediction to streaming LLM tokens, 70-year AI evolution, and shipping on the new iQOO Z series with OpenRouter APIs.</p>
         <div class="actions">
@@ -194,7 +232,19 @@
       </article>
 
       <article class="card featured">
-        <span class="tag" style="color: #76c7ff;">KUG Chennai Build-a-thon</span>
+        <div class="card-header">
+          <span class="tag" style="color: #76c7ff;">KUG Chennai Build-a-thon</span>
+          <div class="tech-pill-group">
+            <span class="tech-pill" style="border-color: rgba(127, 82, 255, 0.4); color: #c48dfc; background: rgba(127, 82, 255, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none"><path d="M24 24H0V0h24L12 12l12 12z" fill="url(#kg-1)"/><defs><linearGradient id="kg-1" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7F52FF"/><stop offset="100%" stop-color="#E4485D"/></linearGradient></defs></svg>
+              <span>Kotlin</span>
+            </span>
+            <span class="tech-pill" style="border-color: rgba(118, 199, 255, 0.4); color: #76c7ff; background: rgba(118, 199, 255, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+              <span>AI Agents</span>
+            </span>
+          </div>
+        </div>
         <h2 class="title">The Agent Is Waiting — Are You Ready to Steer It?</h2>
         <p class="desc">How Software Jobs Are Evolving In The AI Era.</p>
         <div class="actions">
@@ -203,7 +253,19 @@
       </article>
 
       <article class="card half">
-        <span class="tag" style="color: #b19dff;">Code on JVM</span>
+        <div class="card-header">
+          <span class="tag" style="color: #b19dff;">Code on JVM</span>
+          <div class="tech-pill-group">
+            <span class="tech-pill" style="border-color: rgba(127, 82, 255, 0.4); color: #c48dfc; background: rgba(127, 82, 255, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none"><path d="M24 24H0V0h24L12 12l12 12z" fill="url(#kg-2)"/><defs><linearGradient id="kg-2" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7F52FF"/><stop offset="100%" stop-color="#E4485D"/></linearGradient></defs></svg>
+              <span>Kotlin</span>
+            </span>
+            <span class="tech-pill" style="border-color: rgba(104, 93, 224, 0.4); color: #b19dff; background: rgba(104, 93, 224, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              <span>Ktor & Backend</span>
+            </span>
+          </div>
+        </div>
         <h2 class="title">How to Build a Backend Application in Kotlin</h2>
         <p class="desc">Workshop slide deck on designing and building scalable backend services in Kotlin.</p>
         <div class="actions">
@@ -212,7 +274,15 @@
       </article>
 
       <article class="card half">
-        <span class="tag" style="color: #76c7ff;">Google I/O Extended</span>
+        <div class="card-header">
+          <span class="tag" style="color: #76c7ff;">Google I/O Extended</span>
+          <div class="tech-pill-group">
+            <span class="tech-pill" style="border-color: rgba(61, 220, 132, 0.4); color: #3DDC84; background: rgba(61, 220, 132, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="#3DDC84"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h4v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v6c0 .83.67 1.5 1.5 1.5S5 16.33 5 15.5v-6C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v6c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-6c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71-.2-.2-.51-.2-.71 0l-1.48 1.48C13.85 2.23 12.95 2 12 2c-.96 0-1.86.23-2.66.63L7.85 1.15c-.2-.2-.51-.2-.71 0-.2.2-.2.51 0 .71l1.31 1.31C6.97 4.26 6 5.92 6 7.8h12c0-1.88-.97-3.54-2.47-4.64zM9 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm6 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
+              <span>Android Glance</span>
+            </span>
+          </div>
+        </div>
         <h2 class="title">Glance: Composing Android Widgets</h2>
         <p class="desc">A deep dive into Jetpack Glance and declarative Android widget development.</p>
         <div class="actions">
@@ -221,7 +291,15 @@
       </article>
 
       <article class="card half">
-        <span class="tag" style="color: #FFB800;">DevFest Coimbatore</span>
+        <div class="card-header">
+          <span class="tag" style="color: #FFB800;">DevFest Coimbatore</span>
+          <div class="tech-pill-group">
+            <span class="tech-pill" style="border-color: rgba(127, 82, 255, 0.4); color: #c48dfc; background: rgba(127, 82, 255, 0.1);">
+              <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none"><path d="M24 24H0V0h24L12 12l12 12z" fill="url(#kg-3)"/><defs><linearGradient id="kg-3" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7F52FF"/><stop offset="100%" stop-color="#E4485D"/></linearGradient></defs></svg>
+              <span>Kotlin Multiplatform</span>
+            </span>
+          </div>
+        </div>
         <h2 class="title">Kotlin Multiplatform Adoption Guide</h2>
         <p class="desc">Practical guide and architectural patterns for adopting KMP in production.</p>
         <div class="actions">
