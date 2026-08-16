@@ -451,7 +451,7 @@
 <body>
 
   <!-- SLIDESHOW MANIFEST ISLAND -->
-  <script type="application/hyperframes-slideshow+json">
+    <script type="application/hyperframes-slideshow+json">
     {
       "slides": [
         {
@@ -488,38 +488,82 @@
         },
         {
           "sceneId": "slide-9",
-          "notes": "Let's demystify the terms. Think of them as nesting dolls: AI is the overall field, ML is learning from data, Deep Learning uses neural nets, and LLMs are the specific generative models we call today."
+          "notes": "Module 02: Intro to AI & Fundamentals. By the end of this you'll know what an LLM is, how it answers you, and the handful of terms you'll use all day — in plain words, no maths."
         },
         {
           "sceneId": "slide-10",
-          "notes": "Here is the single core principle: An LLM takes your prompt, breaks it into input tokens, scores every possible next output token, picks one, appends it, and repeats."
+          "notes": "AI, ML, LLMs — the nesting dolls: Artificial Intelligence, Machine Learning, Deep Learning, and Large Language Models (GPT, Claude, Llama, Gemini). This is what you'll be calling today."
         },
         {
           "sceneId": "slide-11",
-          "notes": "These 6 terms will come up continuously today. Notice the crucial difference between Input Tokens and Output Tokens, keep temperature low for structured data, and watch your context window."
+          "notes": "How an LLM actually works: Your text -> Tokens -> Predict next -> Repeat. The one idea to remember: 'It predicts the next token, over and over. That's the whole trick.' Context window = how much text it can see at once."
         },
         {
           "sceneId": "slide-12",
-          "notes": "Don't just 'add AI'. Pick one of these 6 concrete patterns for your build. The app sends text over an API, gets JSON or text back, and renders it."
+          "notes": "The terms you'll hear today: Model, Token, Context Window, Temperature, Hallucination, and System Prompt. Master these 6 terms for your build."
         },
         {
           "sceneId": "slide-13",
-          "notes": "Think of an API like a waiter at a restaurant. Your app is the customer placing an order, the API is the waiter carrying requests, and OpenRouter gives you one key to access every kitchen."
+          "notes": "What AI can do inside a build: Chat & Q&A, Generate content, Summarise, Classify & tag, Extract structure, and Vision. How it plugs in: app sends text over an API, gets a reply back, and shows it in the UI."
         },
         {
           "sceneId": "slide-14",
-          "notes": "Everyone open openrouterclaim.reskilll.com now! Log in with your registered email to grab your team's $10 OpenRouter key."
+          "notes": "Module 03: OpenRouter APIs. Here you'll grab an API key with credit and make your first call to a model — before wiring it into the app. One key, many models."
         },
         {
           "sceneId": "slide-15",
-          "notes": "You don't need to hand-write fetch calls. Pass your API key, base URL, and model string to your AI coding tool, describe what you want in plain English, and it writes and runs it!"
+          "notes": "APIs & keys — one door to every model. An API in one picture: Your app (customer), API (waiter), Model (kitchen), API key (ID badge). Why OpenRouter: 1 key, many models, swap in 1 line, pay per use, familiar format."
         },
         {
           "sceneId": "slide-16",
-          "notes": "Don't overthink the model. Start with minimax/minimax-m3, let AI auto-route, and follow the 5 rules to protect your team credit — we top up if you run low!"
+          "notes": "Everyone open openrouterclaim.reskilll.com now! Log in with your registered email to grab your team's $10 OpenRouter key."
         },
         {
           "sceneId": "slide-17",
+          "notes": "You don't need to hand-write fetch calls. Pass your API key, base URL, and model string to your AI coding tool, describe what you want in plain English, and it writes and runs it!"
+        },
+        {
+          "sceneId": "slide-18",
+          "notes": "Don't overthink the model. Start with minimax/minimax-m3, let AI auto-route, and follow the 5 rules to protect your team credit — we top up if you run low!"
+        },
+        {
+          "sceneId": "slide-19",
+          "notes": "Module 04: Prompting & Android Studio. Here you’ll turn a vague idea into a precise prompt, then wire it into an Android app that builds. This is where the app comes alive."
+        },
+        {
+          "sceneId": "slide-20",
+          "notes": "Anatomy of a strong prompt: Role (who the model should be), Context (what it needs to know), Task (the one clear thing to do), Format (exactly how to reply), and Examples (show one if tricky). Role + Context + Task + Format = a reply the app can drop straight into the UI."
+        },
+        {
+          "sceneId": "slide-21",
+          "notes": "Prompt patterns that ship: 1) Be specific, 2) Give an example, 3) Ask for a format, 4) Iterate live. Follow the DO rules and avoid vague prompts or untrusted facts."
+        },
+        {
+          "sceneId": "slide-22",
+          "notes": "Android Studio in five minutes: Open project, let Gradle sync, add INTERNET permission to AndroidManifest.xml early, pick the connected iQOO device, and hit Run!"
+        },
+        {
+          "sceneId": "slide-23",
+          "notes": "The request loop inside the app: User input -> HTTP request to OpenRouter -> Model replies -> Show in UI. Then build APK: Build menu -> Build APK -> Locate debug APK."
+        },
+        {
+          "sceneId": "slide-24",
+          "notes": "Prep the iQOO device: 1) Tap Build number 7 times for Developer Options, 2) Enable USB debugging, 3) Allow Install via USB, 4) Connect to laptop & tap Allow."
+        },
+        {
+          "sceneId": "slide-25",
+          "notes": "Install, smoke-test, screen-record: Install over USB with adb or copy APK directly. Run your smoke-test on venue Wi-Fi and take a screen recording as your backup safety net!"
+        },
+        {
+          "sceneId": "slide-26",
+          "notes": "Stuck? Fast fixes for the top 6 blockers: 401 Unauthorized, no internet permission, Gradle sync failure, adb unauthorized, APK install blocked, and rate limits."
+        },
+        {
+          "sceneId": "slide-27",
+          "notes": "Here is the workshop mission in one complete pipeline: 'Learn it. Then ship it.' 1) Clone GitHub starter, 2) Use AI coding tools, 3) Connect OpenRouter APIs with your $10 credit, 4) Build UI in Android Studio with Kotlin & Jetpack Compose, and 5) Deploy APK and run live on physical iQOO Z-series devices!"
+        },
+        {
+          "sceneId": "slide-28",
           "notes": "Wrap up! Connect with Shangeeth on shravz.dev, YouTube @shravzdev, and Instagram @shravzdev. Think fast, build faster, ship today!"
         }
       ],
@@ -1335,13 +1379,92 @@
     </div>
   </div>
 
-  <!-- SLIDE 9: AI FUNDAMENTALS — NESTING DOLLS -->
-  <div id="slide-9-root" data-composition-id="slide-9" data-start="88" data-duration="10" data-label="AI Nesting Dolls" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 9: MODULE 02 INTRO — INTRO TO AI & FUNDAMENTALS -->
+  <div id="slide-9-root" data-composition-id="slide-9" data-start="88" data-duration="10" data-label="Module 02: Intro to AI & Fundamentals" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
-        <div class="tag-pill">AI FUNDAMENTALS</div>
-        <h2 class="slide-title">AI, ML, DL, LLMs — The Nesting Dolls</h2>
-        <p class="slide-subtitle">Each concept nests inside the other — culminating in the LLMs you'll build with today.</p>
+        <div class="tag-pill">MODULE 02 · AI FUNDAMENTALS</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center;">
+      <div style="width: 100%; max-width: 1560px; margin: 0 auto; display: grid; grid-template-columns: clamp(200px, 18vw, 280px) 1fr; gap: clamp(32px, 3.5vw, 60px); align-items: center;">
+        
+        <!-- Big Number 02 on Left -->
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+          <div style="font-size: clamp(140px, 15vw, 230px); font-weight: 900; line-height: 0.85; color: #FFFFFF; font-family: var(--font-mono); letter-spacing: -6px; text-shadow: 0 0 50px rgba(255, 184, 0, 0.25);">
+            02
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--accent-gold); font-family: var(--font-mono); font-weight: 800; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 1.5px; margin-top: 14px;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-gold);"></span>
+            MODULE 02
+          </div>
+        </div>
+
+        <!-- Center Content: Title, Subtitle & 3 Milestone Cards -->
+        <div style="display: flex; flex-direction: column; gap: clamp(16px, 2vh, 26px);">
+          <div>
+            <h1 style="font-size: clamp(48px, 4.8vw, 76px); font-weight: 900; color: #FFFFFF; letter-spacing: -1.5px; line-height: 1.08; margin: 0;">
+              Intro to AI &<br>Fundamentals
+            </h1>
+            <div style="width: 120px; height: 5px; background: var(--accent-gold); border-radius: 3px; margin: 14px 0 16px 0; box-shadow: 0 0 18px var(--accent-gold-glow);"></div>
+            <p style="font-size: clamp(20px, 1.8vw, 28px); color: #E0E0F0; font-weight: 500; line-height: 1.45; max-width: 1100px; margin: 0;">
+              By the end of this you’ll know what an LLM is, how it answers you, and the handful of terms you’ll use all day — <strong style="color: var(--accent-gold);">in plain words, no maths.</strong>
+            </p>
+          </div>
+
+          <!-- 3 Flow Cards -->
+          <div class="grid-3" style="margin-top: 6px;">
+            <div class="card card-highlight shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🪆</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--accent-gold);">1. Nesting Dolls</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                How AI, ML, Deep Learning & LLMs fit cleanly together.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-color: var(--stripe-purple); box-shadow: 0 0 20px var(--stripe-purple-glow); padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">⚙️</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--stripe-purple);">2. LLM Mechanics</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Tokens, next-token prediction loops, and context windows.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">💡</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF;">3. Build Patterns</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                6 concrete architectures for wiring AI into real apps.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Module 02 · Overview</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: AI FUNDAMENTALS — NESTING DOLLS -->
+  <div id="slide-10-root" data-composition-id="slide-10" data-start="88" data-duration="10" data-label="AI Nesting Dolls" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 02 · AI FUNDAMENTALS</div>
+        <h2 class="slide-title">AI, ML, LLMs — the nesting dolls</h2>
       </div>
       <div class="top-logo-badge">
         <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
@@ -1352,23 +1475,26 @@
       <div class="nesting-container" style="max-width: 1220px; width: 100%; margin: 0 auto;">
         <!-- Level 1: AI (Gold) -->
         <div class="nest-box level-1 shimmer-card" style="padding: clamp(14px, 1.6vw, 22px); border: 2px solid var(--accent-gold); border-radius: 16px; box-shadow: 0 0 20px rgba(255, 184, 0, 0.1);">
-          <h3 style="font-size: clamp(21px, 1.9vw, 25px); color: var(--accent-gold); font-weight: 900; margin: 0;">1. Artificial Intelligence (AI)</h3>
-          <p style="font-size: clamp(13px, 1.2vw, 15.5px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">The broadest circle: any machine programmed to mimic human intelligence and problem-solving.</p>
+          <h3 style="font-size: clamp(21px, 1.9vw, 25px); color: var(--accent-gold); font-weight: 900; margin: 0;">Artificial Intelligence</h3>
+          <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">The broad idea: machines doing things that normally need human smarts.</p>
           
           <!-- Level 2: ML (Amber) -->
           <div class="nest-box level-2" style="margin-top: 12px; margin-left: clamp(16px, 1.8vw, 30px); padding: clamp(12px, 1.4vw, 18px); border: 2px solid #FFD072; border-radius: 14px; background: rgba(255, 208, 114, 0.04);">
-            <h3 style="font-size: clamp(19px, 1.7vw, 23px); color: #FFD072; font-weight: 900; margin: 0;">2. Machine Learning (ML)</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">Subfield of AI: systems that learn patterns from data automatically instead of being hand-coded with strict IF-THEN rules.</p>
+            <h3 style="font-size: clamp(19px, 1.7vw, 23px); color: #FFD072; font-weight: 900; margin: 0;">Machine Learning</h3>
+            <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">Systems that learn patterns from data instead of being hand-coded with rules.</p>
             
             <!-- Level 3: Deep Learning (Purple) -->
             <div class="nest-box level-3" style="margin-top: 12px; margin-left: clamp(16px, 1.8vw, 30px); padding: clamp(12px, 1.3vw, 16px); border: 2px solid var(--stripe-purple); border-radius: 12px; background: rgba(168, 85, 247, 0.05);">
-              <h3 style="font-size: clamp(18px, 1.6vw, 21px); color: var(--stripe-purple); font-weight: 900; margin: 0;">3. Deep Learning (DL)</h3>
-              <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">Subfield of ML: multi-layer neural networks trained on massive GPU clusters — powering computer vision, speech, and recognition.</p>
+              <h3 style="font-size: clamp(18px, 1.6vw, 21px); color: var(--stripe-purple); font-weight: 900; margin: 0;">Deep Learning</h3>
+              <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-muted); margin-top: 4px; margin-bottom: 0;">ML using large neural networks — the engine behind modern AI.</p>
               
               <!-- Level 4: LLMs (Cyan) -->
               <div class="nest-box level-4" style="margin-top: 12px; margin-left: clamp(16px, 1.8vw, 30px); padding: clamp(12px, 1.4vw, 18px); border: 2px solid #00E5FF; background: rgba(0,229,255,0.08); border-radius: 12px; box-shadow: 0 0 20px rgba(0, 229, 255, 0.15);">
-                <h3 style="font-size: clamp(18px, 1.6vw, 21px); color: #00E5FF; font-weight: 900; margin: 0;">4. Large Language Models (LLMs)</h3>
-                <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-white); margin-top: 4px; font-weight: 600; margin-bottom: 0;">Deep neural nets trained on web text to generate and understand human language across 200+ models. <strong style="color: var(--accent-gold);">This is what you'll call and build with today!</strong></p>
+                <div style="display: flex; align-items: center; justify-content: space-between;">
+                  <h3 style="font-size: clamp(18px, 1.6vw, 21px); color: #00E5FF; font-weight: 900; margin: 0;">Large Language Models</h3>
+                  <span style="font-family: var(--font-mono); font-size: 12px; color: var(--accent-gold); font-weight: 800; background: rgba(255,184,0,0.12); padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(255,184,0,0.3);">GPT · Claude · Llama · Gemini</span>
+                </div>
+                <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-white); margin-top: 4px; font-weight: 600; margin-bottom: 0;">Deep-learning models trained on huge text to predict and generate language. <strong style="color: var(--accent-gold);">This is what you’ll be calling today.</strong></p>
               </div>
             </div>
           </div>
@@ -1388,13 +1514,12 @@
     </div>
   </div>
 
-  <!-- SLIDE 10: HOW AN LLM ACTUALLY WORKS (INPUT VS OUTPUT TOKENS) -->
-  <div id="slide-10-root" data-composition-id="slide-10" data-start="98" data-duration="12" data-label="How an LLM Works" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 11: HOW AN LLM ACTUALLY WORKS -->
+  <div id="slide-11-root" data-composition-id="slide-11" data-start="98" data-duration="12" data-label="How an LLM Works" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
-        <div class="tag-pill">AI MECHANICS · INPUT & OUTPUT TOKENS</div>
-        <h2 class="slide-title">How an LLM Actually Works</h2>
-        <p class="slide-subtitle">From prompt tokens to streaming response tokens in 4 clear steps.</p>
+        <div class="tag-pill">MODULE 02 · AI FUNDAMENTALS</div>
+        <h2 class="slide-title">How an LLM actually works</h2>
       </div>
       <div class="top-logo-badge">
         <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
@@ -1402,47 +1527,44 @@
     </div>
 
     <div class="slide-body">
-      <div class="content-center-box" style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vh, 20px);">
         <div class="grid-4">
-          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
-            <div style="font-size: clamp(28px, 2.6vw, 36px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">01</div>
-            <h3 style="font-size: clamp(18px, 1.6vw, 22px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">1. Input Tokens</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">Your prompt & context are sliced into input tokens (~4 characters each).</p>
+          <!-- Step 1: Your text -->
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: clamp(16px, 1.8vw, 24px); border-radius: 16px;">
+            <div style="font-size: clamp(24px, 2.2vw, 32px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">01</div>
+            <h3 style="font-size: clamp(19px, 1.7vw, 23px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">Your text</h3>
+            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">The prompt you send — a question or instruction.</p>
           </div>
 
-          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
-            <div style="font-size: clamp(28px, 2.6vw, 36px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">02</div>
-            <h3 style="font-size: clamp(18px, 1.6vw, 22px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">2. Context Window</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">The total token capacity (Input + Output tokens) the model can hold in memory at once.</p>
+          <!-- Step 2: Tokens -->
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: clamp(16px, 1.8vw, 24px); border-radius: 16px;">
+            <div style="font-size: clamp(24px, 2.2vw, 32px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">02</div>
+            <h3 style="font-size: clamp(19px, 1.7vw, 23px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">Tokens</h3>
+            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">Text is chopped into tokens (word-pieces) the model can read.</p>
           </div>
 
-          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
-            <div style="font-size: clamp(28px, 2.6vw, 36px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">03</div>
-            <h3 style="font-size: clamp(18px, 1.6vw, 22px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">3. Predict Next</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">Scores 100k+ candidate words and picks the single best next token.</p>
+          <!-- Step 3: Predict next -->
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: clamp(16px, 1.8vw, 24px); border-radius: 16px;">
+            <div style="font-size: clamp(24px, 2.2vw, 32px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">03</div>
+            <h3 style="font-size: clamp(19px, 1.7vw, 23px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">Predict next</h3>
+            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">The model scores every possible next token and picks one.</p>
           </div>
 
-          <div class="card card-highlight shimmer-card" style="text-align: center; padding: 18px;">
-            <div style="font-size: clamp(28px, 2.6vw, 36px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">04</div>
-            <h3 style="font-size: clamp(18px, 1.6vw, 22px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">4. Output Tokens</h3>
-            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">Appends the token, streams it to the UI, and repeats until finished.</p>
+          <!-- Step 4: Repeat -->
+          <div class="card card-highlight shimmer-card" style="text-align: center; padding: clamp(16px, 1.8vw, 24px); border-radius: 16px;">
+            <div style="font-size: clamp(24px, 2.2vw, 32px); color: var(--accent-gold); font-weight: 900; font-family: var(--font-mono);">04</div>
+            <h3 style="font-size: clamp(19px, 1.7vw, 23px); margin-top: 4px; margin-bottom: 4px; font-weight: 900; color: #fff;">Repeat</h3>
+            <p style="font-size: clamp(13px, 1.2vw, 15px); color: var(--text-muted); line-height: 1.45;">It adds that token and predicts again… and again.</p>
           </div>
         </div>
 
-        <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: 16px 24px;">
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div>
-              <div style="color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: clamp(14px, 1.3vw, 17px);">INPUT TOKENS (PROMPT)</div>
-              <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-white); margin-top: 4px; line-height: 1.45;">
-                Everything you send in (question, documents, instructions). Processed in parallel and usually cheaper.
-              </p>
-            </div>
-            <div>
-              <div style="color: var(--stripe-purple); font-family: var(--font-mono); font-weight: 900; font-size: clamp(14px, 1.3vw, 17px);">OUTPUT TOKENS (COMPLETION)</div>
-              <p style="font-size: clamp(14px, 1.25vw, 16px); color: var(--text-white); margin-top: 4px; line-height: 1.45;">
-                Generated token-by-token in real time. Total tokens = Input + Output (must fit inside the Context Window).
-              </p>
-            </div>
+        <!-- Callout Banner matching PDF Page 4 -->
+        <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: clamp(14px, 1.6vw, 20px) clamp(20px, 2vw, 28px); border-radius: 16px; display: flex; flex-direction: column; gap: 8px;">
+          <div style="font-size: clamp(16px, 1.45vw, 19px); color: var(--text-white); font-weight: 700; line-height: 1.4;">
+            <strong style="color: var(--accent-gold); font-family: var(--font-mono);">The one idea to remember:</strong> “It predicts the next token, over and over. That’s the whole trick.”
+          </div>
+          <div style="font-size: clamp(13px, 1.2vw, 15px); color: #B0B0C8; line-height: 1.45; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 8px;">
+            <strong style="color: #FFFFFF;">Context window</strong> = how much text it can “see” at once (your prompt + its reply). Run out of room and it forgets the start. <span style="color: var(--accent-gold); font-weight: 700;">Bigger idea → shorter, sharper prompts.</span>
           </div>
         </div>
       </div>
@@ -1460,13 +1582,12 @@
     </div>
   </div>
 
-  <!-- SLIDE 11: KEY TERMS YOU'LL HEAR TODAY -->
-  <div id="slide-11-root" data-composition-id="slide-11" data-start="110" data-duration="12" data-label="Key Terms" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 12: KEY TERMS YOU'LL HEAR TODAY -->
+  <div id="slide-12-root" data-composition-id="slide-12" data-start="110" data-duration="12" data-label="Key Terms" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
-        <div class="tag-pill">KEY VOCABULARY</div>
-        <h2 class="slide-title">The Terms You'll Hear Today</h2>
-        <p class="slide-subtitle">Six fundamental concepts you will use throughout the workshop.</p>
+        <div class="tag-pill">MODULE 02 · AI FUNDAMENTALS</div>
+        <h2 class="slide-title">The terms you’ll hear today</h2>
       </div>
       <div class="top-logo-badge">
         <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
@@ -1581,12 +1702,12 @@
     </div>
   </div>
 
-  <!-- SLIDE 12: WHAT AI CAN DO INSIDE A BUILD -->
-  <div id="slide-12-root" data-composition-id="slide-12" data-start="122" data-duration="12" data-label="6 Build Patterns" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 13: WHAT AI CAN DO INSIDE A BUILD -->
+  <div id="slide-13-root" data-composition-id="slide-13" data-start="122" data-duration="12" data-label="6 Build Patterns" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
-        <div class="tag-pill">BUILD PATTERNS</div>
-        <h2 class="slide-title">What AI Can Do Inside a Build</h2>
+        <div class="tag-pill">MODULE 02 · AI FUNDAMENTALS</div>
+        <h2 class="slide-title">What AI can do inside a build</h2>
         <p class="slide-subtitle">Six patterns cover almost every app you could build. Pick one of these instead of just “adding AI”.</p>
       </div>
       <div class="top-logo-badge">
@@ -1696,8 +1817,88 @@
     </div>
   </div>
 
-  <!-- SLIDE 13: APIS & KEYS — ONE DOOR TO EVERY MODEL -->
-  <div id="slide-13-root" data-composition-id="slide-13" data-start="134" data-duration="12" data-label="APIs & Keys" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 14: MODULE 03 INTRO — OPENROUTER APIS -->
+  <div id="slide-14-root" data-composition-id="slide-14" data-start="146" data-duration="12" data-label="Module 03: OpenRouter APIs" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 03 · OPENROUTER</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center;">
+      <div style="width: 100%; max-width: 1560px; margin: 0 auto; display: grid; grid-template-columns: clamp(200px, 18vw, 280px) 1fr; gap: clamp(32px, 3.5vw, 60px); align-items: center;">
+        
+        <!-- Big Number 03 on Left -->
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+          <div style="font-size: clamp(140px, 15vw, 230px); font-weight: 900; line-height: 0.85; color: #FFFFFF; font-family: var(--font-mono); letter-spacing: -6px; text-shadow: 0 0 50px rgba(255, 184, 0, 0.25);">
+            03
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--accent-gold); font-family: var(--font-mono); font-weight: 800; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 1.5px; margin-top: 14px;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-gold);"></span>
+            MODULE 03
+          </div>
+        </div>
+
+        <!-- Center Content: Title, Subtitle & 3 Milestone Cards -->
+        <div style="display: flex; flex-direction: column; gap: clamp(16px, 2vh, 26px);">
+          <div>
+            <h1 style="font-size: clamp(48px, 4.8vw, 76px); font-weight: 900; color: #FFFFFF; letter-spacing: -1.5px; line-height: 1.08; margin: 0;">
+              OpenRouter<br>APIs
+            </h1>
+            <div style="width: 120px; height: 5px; background: var(--accent-gold); border-radius: 3px; margin: 14px 0 16px 0; box-shadow: 0 0 18px var(--accent-gold-glow);"></div>
+            <p style="font-size: clamp(20px, 1.8vw, 28px); color: #E0E0F0; font-weight: 500; line-height: 1.45; max-width: 1100px; margin: 0;">
+              Here you’ll grab an API key with credit and make your first call to a model — before wiring it into the app. <strong style="color: var(--accent-gold);">One key, many models.</strong>
+            </p>
+          </div>
+
+          <!-- 3 Flow Cards -->
+          <div class="grid-3" style="margin-top: 6px;">
+            <div class="card card-highlight shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🔑</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--accent-gold);">1. APIs & Keys</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                An API in one picture: Your app (customer) & the API (waiter).
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-color: var(--stripe-purple); box-shadow: 0 0 20px var(--stripe-purple-glow); padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🎟️</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--stripe-purple);">2. Claim $10 Key</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Instant team credit from the Reskilll portal with your email.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">⚡</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF;">3. First Model Call</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Let AI tools write the call, pick minimax, and protect credit.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Module 03 · Overview</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 15: APIS & KEYS — ONE DOOR TO EVERY MODEL -->
+  <div id="slide-15-root" data-composition-id="slide-15" data-start="134" data-duration="12" data-label="APIs & Keys" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
         <div class="tag-pill">MODULE 03 · OPENROUTER</div>
@@ -1852,8 +2053,8 @@
     </div>
   </div>
 
-  <!-- SLIDE 14: CLAIM YOUR API KEY -->
-  <div id="slide-14-root" data-composition-id="slide-14" data-start="146" data-duration="12" data-label="Claim API Key" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 16: CLAIM YOUR API KEY -->
+  <div id="slide-16-root" data-composition-id="slide-16" data-start="146" data-duration="12" data-label="Claim API Key" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
         <div class="tag-pill">MODULE 03 · OPENROUTER</div>
@@ -1877,7 +2078,7 @@
               <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Open the portal</div>
               <div style="height: 32px; width: 2px; background: #32324A;"></div>
               <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                Scan QR (or go to <strong style="color: var(--accent-gold);">openrouterclaim.reskilll.com</strong>) & hit Claim Credits.
+                Scan the QR (or go to <strong style="color: var(--accent-gold);">openrouterclaim.reskilll.com</strong>) and hit Claim Credits.
               </div>
             </div>
 
@@ -1887,7 +2088,7 @@
               <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Sign in</div>
               <div style="height: 32px; width: 2px; background: #32324A;"></div>
               <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                Log in with the email you registered for the hackathon with.
+                Log in with the email you registered for the hackathon with — nothing else.
               </div>
             </div>
 
@@ -1907,7 +2108,7 @@
               <div style="font-size: clamp(17px, 1.5vw, 21px); font-weight: 900; color: #FFFFFF; line-height: 1.2;">Copy your key</div>
               <div style="height: 32px; width: 2px; background: #32324A;"></div>
               <div style="font-size: clamp(14px, 1.25vw, 16px); color: #D0D0E2; line-height: 1.35;">
-                Your key + $10 team credit are ready instantly — copy it and store safely.
+                Your key + $10 team credit are ready instantly — copy it and store it safely.
               </div>
             </div>
 
@@ -1962,8 +2163,8 @@
     </div>
   </div>
 
-  <!-- SLIDE 15: YOUR FIRST CALL — NO CODE NEEDED -->
-  <div id="slide-15-root" data-composition-id="slide-15" data-start="158" data-duration="12" data-label="Your First Call" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 17: YOUR FIRST CALL — NO CODE NEEDED -->
+  <div id="slide-17-root" data-composition-id="slide-17" data-start="158" data-duration="12" data-label="Your First Call" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
         <div class="tag-pill">MODULE 03 · OPENROUTER</div>
@@ -2090,8 +2291,8 @@
     </div>
   </div>
 
-  <!-- SLIDE 16: WHICH MODEL? LET AI DECIDE -->
-  <div id="slide-16-root" data-composition-id="slide-16" data-start="170" data-duration="12" data-label="Which Model & Credit" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 18: WHICH MODEL? LET AI DECIDE -->
+  <div id="slide-18-root" data-composition-id="slide-18" data-start="170" data-duration="12" data-label="Which Model & Credit" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
         <div class="tag-pill">MODULE 03 · OPENROUTER</div>
@@ -2226,8 +2427,970 @@
     </div>
   </div>
 
-  <!-- SLIDE 17: CONNECT WITH SHANGEETH (SHRAVZ.DEV, YOUTUBE & INSTAGRAM) -->
-  <div id="slide-17-root" data-composition-id="slide-17" data-start="182" data-duration="12" data-label="Connect & Socials" data-width="1920" data-height="1080" class="slide">
+  <!-- SLIDE 19: MODULE 04 INTRO — PROMPTING & ANDROID STUDIO -->
+  <div id="slide-19-root" data-composition-id="slide-19" data-start="182" data-duration="12" data-label="Module 04: Prompting & Android Studio" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · BUILD & SHIP</div>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center;">
+      <div style="width: 100%; max-width: 1560px; margin: 0 auto; display: grid; grid-template-columns: clamp(200px, 18vw, 280px) 1fr; gap: clamp(32px, 3.5vw, 60px); align-items: center;">
+        
+        <!-- Big Number 04 on Left -->
+        <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start;">
+          <div style="font-size: clamp(140px, 15vw, 230px); font-weight: 900; line-height: 0.85; color: #FFFFFF; font-family: var(--font-mono); letter-spacing: -6px; text-shadow: 0 0 50px rgba(255, 184, 0, 0.25);">
+            04
+          </div>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--accent-gold); font-family: var(--font-mono); font-weight: 800; font-size: clamp(18px, 1.6vw, 22px); letter-spacing: 1.5px; margin-top: 14px;">
+            <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-gold);"></span>
+            MODULE 04
+          </div>
+        </div>
+
+        <!-- Center Content: Title, Subtitle & 3 Milestone Cards -->
+        <div style="display: flex; flex-direction: column; gap: clamp(16px, 2vh, 26px);">
+          <div>
+            <h1 style="font-size: clamp(48px, 4.8vw, 76px); font-weight: 900; color: #FFFFFF; letter-spacing: -1.5px; line-height: 1.08; margin: 0;">
+              Prompting &<br>Android Studio
+            </h1>
+            <div style="width: 120px; height: 5px; background: var(--accent-gold); border-radius: 3px; margin: 14px 0 16px 0; box-shadow: 0 0 18px var(--accent-gold-glow);"></div>
+            <p style="font-size: clamp(20px, 1.8vw, 28px); color: #E0E0F0; font-weight: 500; line-height: 1.45; max-width: 1100px; margin: 0;">
+              Here you’ll turn a vague idea into a precise prompt, then wire it into an Android app that builds. <strong style="color: var(--accent-gold);">This is where the app comes alive.</strong>
+            </p>
+          </div>
+
+          <!-- 3 Flow Cards -->
+          <div class="grid-3" style="margin-top: 6px;">
+            <div class="card card-highlight shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🎯</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--accent-gold);">1. Precise Prompts</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Role, context, task & JSON format that the app can parse directly.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="border-color: var(--stripe-purple); box-shadow: 0 0 20px var(--stripe-purple-glow); padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🤖</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--stripe-purple);">2. Android Studio</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Open starter kit, let Gradle sync, add INTERNET permission & hit Run.
+              </p>
+            </div>
+
+            <div class="card shimmer-card" style="padding: 20px 22px; gap: 8px; border-radius: 16px;">
+              <div style="font-size: 28px;">🚀</div>
+              <div style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF);">3. Ship to iQOO</div>
+              <p style="font-size: clamp(13px, 1.15vw, 15px); color: var(--text-muted); line-height: 1.4; margin: 0;">
+                Enable USB debugging, install the debug APK & demo live on hardware.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Module 04 · Overview</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 20: ANATOMY OF A STRONG PROMPT -->
+  <div id="slide-20-root" data-composition-id="slide-20" data-start="194" data-duration="12" data-label="Anatomy of a Strong Prompt" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · PROMPTING</div>
+        <h2 class="slide-title">Anatomy of a strong prompt</h2>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-2" style="gap: clamp(20px, 2.5vw, 36px); align-items: stretch;">
+          
+          <!-- Left Column: 5 Anatomy Blocks -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 2vw, 28px); gap: 12px; border-radius: 20px; justify-content: space-between;">
+            
+            <!-- 1. Role -->
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 8px; flex-shrink: 0;">ROLE</span>
+              <div>
+                <div style="font-size: clamp(16px, 1.4vw, 19px); font-weight: 800; color: #FFFFFF;">Who the model should be</div>
+                <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px; font-style: italic;">“You are a friendly travel assistant.”</div>
+              </div>
+            </div>
+
+            <!-- 2. Context -->
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 8px; flex-shrink: 0;">CONTEXT</span>
+              <div>
+                <div style="font-size: clamp(16px, 1.4vw, 19px); font-weight: 800; color: #FFFFFF;">What it needs to know</div>
+                <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px; font-style: italic;">“The user is planning a weekend trip in India.”</div>
+              </div>
+            </div>
+
+            <!-- 3. Task -->
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 8px; flex-shrink: 0;">TASK</span>
+              <div>
+                <div style="font-size: clamp(16px, 1.4vw, 19px); font-weight: 800; color: #FFFFFF;">The one clear thing to do</div>
+                <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px; font-style: italic;">“Suggest 3 places with a one-line reason each.”</div>
+              </div>
+            </div>
+
+            <!-- 4. Format -->
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 8px; flex-shrink: 0;">FORMAT</span>
+              <div>
+                <div style="font-size: clamp(16px, 1.4vw, 19px); font-weight: 800; color: #FFFFFF;">Exactly how to reply</div>
+                <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px; font-style: italic;">“Return JSON: [{place, reason}]. No extra text.”</div>
+              </div>
+            </div>
+
+            <!-- 5. Examples -->
+            <div style="display: flex; align-items: flex-start; gap: 12px;">
+              <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 8px; flex-shrink: 0;">EXAMPLES</span>
+              <div>
+                <div style="font-size: clamp(16px, 1.4vw, 19px); font-weight: 800; color: #FFFFFF;">Show one if it’s tricky</div>
+                <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px;">Give a sample input → output so it copies the shape.</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Code Window -->
+          <div class="terminal-window shimmer-card" style="border-color: var(--accent-gold); box-shadow: 0 0 25px var(--accent-gold-glow); display: flex; flex-direction: column;">
+            <div class="terminal-header" style="display: flex; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div class="terminal-dot dot-red"></div>
+                <div class="terminal-dot dot-yellow"></div>
+                <div class="terminal-dot dot-green"></div>
+                <span class="terminal-title">// a prompt that ships</span>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; color: var(--accent-gold); font-weight: 800;">PROMPT_TEMPLATE.MD</span>
+            </div>
+
+            <div class="terminal-body" style="justify-content: space-between; flex: 1; padding: clamp(16px, 1.8vw, 24px); font-family: var(--font-mono); font-size: clamp(13px, 1.15vw, 15px); line-height: 1.6; display: flex; flex-direction: column;">
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div>
+                  <span style="color: var(--accent-gold); font-weight: 900;">SYSTEM</span><br>
+                  <span style="color: #D0D0E2;">You are a friendly travel assistant for weekend trips in India.</span>
+                </div>
+
+                <div style="border-top: 1px solid #202030; padding-top: 8px;">
+                  <span style="color: var(--stripe-purple); font-weight: 900;">USER</span><br>
+                  <span style="color: #D0D0E2;">Suggest 3 places near Chennai for a 2-day trip. Return JSON only:</span><br>
+                  <span style="color: #FFD072;">[{ "place": "...", "reason": "..." }]</span>
+                </div>
+              </div>
+
+              <div style="background: rgba(255, 184, 0, 0.08); border: 1px dashed var(--accent-gold); border-radius: 10px; padding: 10px 14px; color: #A0A0B8; font-size: 12px; margin-top: 10px; line-height: 1.5;">
+                <span style="color: var(--accent-gold); font-weight: 800;">// role + context + task + format</span><br>
+                <span style="color: #FFFFFF;">// = a reply the app can drop</span><br>
+                <span style="color: #FFFFFF;">// &nbsp;&nbsp;straight into the UI</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Prompt Anatomy</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 21: PROMPT PATTERNS THAT SHIP -->
+  <div id="slide-21-root" data-composition-id="slide-21" data-start="206" data-duration="12" data-label="Prompt Patterns That Ship" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · PROMPTING</div>
+        <h2 class="slide-title">Prompt patterns that ship</h2>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-2" style="gap: clamp(20px, 2.5vw, 36px); align-items: stretch;">
+          
+          <!-- Left Column: Four patterns that work -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 2vw, 28px); gap: 14px; border-radius: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2px;">
+              <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--accent-gold); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; box-shadow: 0 0 14px var(--accent-gold-glow);">✨</div>
+              <h3 style="font-size: clamp(20px, 1.8vw, 24px); color: #FFFFFF; font-weight: 900; margin: 0;">Four patterns that work</h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <!-- 1 -->
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+                <div>
+                  <div style="font-size: clamp(15px, 1.35vw, 18px); font-weight: 800; color: #FFFFFF;">Be specific</div>
+                  <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px;">Vague in → vague out. Name the count, tone, and length you want.</div>
+                </div>
+              </div>
+
+              <!-- 2 -->
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+                <div>
+                  <div style="font-size: clamp(15px, 1.35vw, 18px); font-weight: 800; color: #FFFFFF;">Give an example</div>
+                  <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px;">One sample of the output shape beats a paragraph of description.</div>
+                </div>
+              </div>
+
+              <!-- 3 -->
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+                <div>
+                  <div style="font-size: clamp(15px, 1.35vw, 18px); font-weight: 800; color: #FFFFFF;">Ask for a format</div>
+                  <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px;">Request JSON or a list so the app can parse it cleanly.</div>
+                </div>
+              </div>
+
+              <!-- 4 -->
+              <div style="display: flex; align-items: flex-start; gap: 12px;">
+                <div style="width: 30px; height: 30px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 15px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">4</div>
+                <div>
+                  <div style="font-size: clamp(15px, 1.35vw, 18px); font-weight: 800; color: #FFFFFF;">Iterate live</div>
+                  <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 1px;">Not right? Tweak one thing and re-run. Prompting is a loop, not a guess.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: DO vs DON'T Grid -->
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 1.4vw, 18px);">
+            
+            <!-- DO Column -->
+            <div class="card card-highlight shimmer-card" style="padding: clamp(16px, 1.6vw, 22px); gap: 10px; border-radius: 18px; background: rgba(39, 201, 63, 0.05); border-color: #27C93F;">
+              <div style="display: flex; align-items: center; gap: 8px; color: #27C93F; font-family: var(--font-mono); font-weight: 900; font-size: 18px;">
+                <span>✓</span> DO
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: clamp(13px, 1.15vw, 14.5px); line-height: 1.4; color: #E0E0F0;">
+                <div style="background: rgba(39,201,63,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #27C93F;">
+                  “5 quiz questions, easy, on the solar system.”
+                </div>
+                <div style="background: rgba(39,201,63,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #27C93F;">
+                  “Reply in one short sentence.”
+                </div>
+                <div style="background: rgba(39,201,63,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #27C93F;">
+                  “Return only JSON, no notes.”
+                </div>
+                <div style="background: rgba(39,201,63,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #27C93F;">
+                  “If unsure, say you’re not sure.”
+                </div>
+              </div>
+            </div>
+
+            <!-- DON'T Column -->
+            <div class="card shimmer-card" style="padding: clamp(16px, 1.6vw, 22px); gap: 10px; border-radius: 18px; background: rgba(255, 95, 86, 0.05); border-color: #FF5F56;">
+              <div style="display: flex; align-items: center; gap: 8px; color: #FF5F56; font-family: var(--font-mono); font-weight: 900; font-size: 18px;">
+                <span>✕</span> DON'T
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: clamp(13px, 1.15vw, 14.5px); line-height: 1.4; color: #E0E0F0;">
+                <div style="background: rgba(255,95,86,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #FF5F56;">
+                  “Make a quiz.” <span style="color: #FF8080;">(too vague)</span>
+                </div>
+                <div style="background: rgba(255,95,86,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #FF5F56;">
+                  “Tell me about space.” <span style="color: #FF8080;">(no limit)</span>
+                </div>
+                <div style="background: rgba(255,95,86,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #FF5F56;">
+                  Expecting clean JSON with no ask
+                </div>
+                <div style="background: rgba(255,95,86,0.1); padding: 8px 10px; border-radius: 8px; border-left: 3px solid #FF5F56;">
+                  Trusting facts without a check
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Prompt Patterns</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 22: ANDROID STUDIO IN FIVE MINUTES -->
+  <div id="slide-22-root" data-composition-id="slide-22" data-start="218" data-duration="12" data-label="Android Studio in Five Minutes" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · ANDROID STUDIO</div>
+        <h2 class="slide-title">Android Studio in five minutes</h2>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-2" style="gap: clamp(20px, 2.5vw, 36px); align-items: stretch;">
+          
+          <!-- Left Column: Get building fast -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 2vw, 28px); gap: 12px; border-radius: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2px;">
+              <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--accent-gold); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; box-shadow: 0 0 14px var(--accent-gold-glow);">⚡</div>
+              <h3 style="font-size: clamp(20px, 1.8vw, 24px); color: #FFFFFF; font-weight: 900; margin: 0;">Get building fast</h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: clamp(13px, 1.15vw, 15px); line-height: 1.4;">
+              <div>
+                <strong style="color: var(--accent-gold);">Open the project</strong> — <span style="color: #D0D0E2;">File → Open the starter, then wait for the first index.</span>
+              </div>
+              <div>
+                <strong style="color: var(--accent-gold);">Let Gradle sync</strong> — <span style="color: #D0D0E2;">The build system pulls dependencies — let the bar finish before running.</span>
+              </div>
+              <div>
+                <strong style="color: var(--accent-gold);">Add INTERNET permission</strong> — <span style="color: #D0D0E2;">No API call works without it. Add it to <code style="font-family: var(--font-mono); color: #FFF; background: rgba(255,255,255,0.08); padding: 1px 4px; border-radius: 3px;">AndroidManifest.xml</code> early.</span>
+              </div>
+              <div>
+                <strong style="color: var(--accent-gold);">Pick a device</strong> — <span style="color: #D0D0E2;">Use the connected iQOO (real device) — faster than the emulator and it’s where you demo.</span>
+              </div>
+              <div>
+                <strong style="color: var(--accent-gold);">Hit Run</strong> — <span style="color: #D0D0E2;">The green ▶ builds and launches the app so you can see changes.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: The panels you'll use -->
+          <div class="card card-highlight shimmer-card" style="padding: clamp(18px, 2vw, 28px); gap: 12px; border-radius: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 2px;">
+              <div style="width: 38px; height: 38px; border-radius: 50%; background: var(--accent-gold); color: #000; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; box-shadow: 0 0 14px var(--accent-gold-glow);">🗂️</div>
+              <h3 style="font-size: clamp(20px, 1.8vw, 24px); color: #FFFFFF; font-weight: 900; margin: 0;">The panels you’ll use</h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: clamp(13px, 1.15vw, 15px); line-height: 1.4;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 8px 12px; border-radius: 8px;">
+                <strong style="color: #FFFFFF;">Project</strong> <span style="color: #B0B0C8;">The file tree — your code, layouts and the manifest live here.</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 8px 12px; border-radius: 8px;">
+                <strong style="color: #FFFFFF;">Editor</strong> <span style="color: #B0B0C8;">Where you write Kotlin/Java and the UI.</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 8px 12px; border-radius: 8px;">
+                <strong style="color: #FFFFFF;">Logcat</strong> <span style="color: #B0B0C8;">Live logs from the iQOO — the first place to look when it crashes.</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 8px 12px; border-radius: 8px;">
+                <strong style="color: #FFFFFF;">Run / Build</strong> <span style="color: #B0B0C8;">Launches the app, and later builds the APK.</span>
+              </div>
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 8px 12px; border-radius: 8px;">
+                <strong style="color: #FFFFFF;">Gradle</strong> <span style="color: #B0B0C8;">The build engine — “sync” pulls libraries you add.</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Android Studio</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 23: WIRE THE MODEL IN, THEN BUILD THE APK -->
+  <div id="slide-23-root" data-composition-id="slide-23" data-start="230" data-duration="12" data-label="Wire Model & Build APK" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · ANDROID STUDIO</div>
+        <h2 class="slide-title">Wire the model in, then build the APK</h2>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="gap: clamp(14px, 1.8vh, 22px);">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vh, 22px);">
+        
+        <!-- Top Section: The Request Loop Inside the App -->
+        <div class="card shimmer-card" style="padding: clamp(16px, 1.6vw, 22px); border-radius: 18px; gap: 12px;">
+          <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: var(--accent-gold); letter-spacing: 1px;">
+            THE REQUEST LOOP INSIDE THE APP
+          </div>
+          <div class="grid-4" style="gap: 12px;">
+            <div style="background: #11111B; border: 1px solid #28283C; border-radius: 12px; padding: 14px; text-align: center;">
+              <div style="font-size: 22px; margin-bottom: 4px;">📱</div>
+              <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: #FFFFFF;">User input</div>
+              <div style="font-size: clamp(12px, 1.05vw, 14px); color: #B0B0C8; margin-top: 2px;">Type / tap in the app</div>
+            </div>
+
+            <div style="background: #11111B; border: 1px solid #28283C; border-radius: 12px; padding: 14px; text-align: center;">
+              <div style="font-size: 22px; margin-bottom: 4px;">🌐</div>
+              <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: #FFFFFF;">HTTP request</div>
+              <div style="font-size: clamp(12px, 1.05vw, 14px); color: #B0B0C8; margin-top: 2px;">Send text + key to OpenRouter</div>
+            </div>
+
+            <div style="background: #11111B; border: 1px solid #28283C; border-radius: 12px; padding: 14px; text-align: center;">
+              <div style="font-size: 22px; margin-bottom: 4px;">⚡</div>
+              <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: #FFFFFF;">Model replies</div>
+              <div style="font-size: clamp(12px, 1.05vw, 14px); color: #B0B0C8; margin-top: 2px;">OpenRouter returns the answer</div>
+            </div>
+
+            <div style="background: #11111B; border: 1px solid var(--accent-gold); border-radius: 12px; padding: 14px; text-align: center; box-shadow: 0 0 15px var(--accent-gold-glow);">
+              <div style="font-size: 22px; margin-bottom: 4px;">✨</div>
+              <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: var(--accent-gold);">Show in UI</div>
+              <div style="font-size: clamp(12px, 1.05vw, 14px); color: #FFFFFF; margin-top: 2px;">Parse it and display on screen</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Section: Build the APK (3 Steps) -->
+        <div class="card card-highlight shimmer-card" style="padding: clamp(16px, 1.6vw, 22px); border-radius: 18px; gap: 12px;">
+          <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: var(--accent-gold); letter-spacing: 1px;">
+            BUILD THE APK
+          </div>
+          <div class="grid-3" style="gap: 14px;">
+            <!-- 1 -->
+            <div style="display: flex; align-items: flex-start; gap: 12px; background: #0E0E16; border: 1px solid #28283C; border-radius: 12px; padding: 12px 14px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">1</div>
+              <div>
+                <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: #FFFFFF;">Build menu</div>
+                <div style="font-size: clamp(12px, 1.1vw, 14px); color: #B0B0C8; margin-top: 2px;">Build → Build Bundle(s) / APK(s) → Build APK(s).</div>
+              </div>
+            </div>
+
+            <!-- 2 -->
+            <div style="display: flex; align-items: flex-start; gap: 12px; background: #0E0E16; border: 1px solid #28283C; border-radius: 12px; padding: 12px 14px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">2</div>
+              <div>
+                <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: #FFFFFF;">Wait for “locate”</div>
+                <div style="font-size: clamp(12px, 1.1vw, 14px); color: #B0B0C8; margin-top: 2px;">A notification pops up when the build finishes.</div>
+              </div>
+            </div>
+
+            <!-- 3 -->
+            <div style="display: flex; align-items: flex-start; gap: 12px; background: #0E0E16; border: 1.5px solid var(--accent-gold); border-radius: 12px; padding: 12px 14px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: var(--accent-gold); color: #000; font-family: var(--font-mono); font-weight: 900; font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">3</div>
+              <div>
+                <div style="font-size: clamp(15px, 1.3vw, 17px); font-weight: 800; color: var(--accent-gold);">Find the file</div>
+                <div style="font-size: clamp(11.5px, 1.05vw, 13.5px); color: #FFFFFF; font-family: var(--font-mono); margin-top: 2px; word-break: break-all;">Click “locate” → app/build/outputs/apk/debug/app-debug.apk.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Build APK</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 24: PREP THE IQOO DEVICE -->
+  <div id="slide-24-root" data-composition-id="slide-24" data-start="242" data-duration="12" data-label="Prep the iQOO Device" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · SHIP TO DEVICE</div>
+        <h2 class="slide-title">Prep the iQOO device</h2>
+        <p class="slide-subtitle">An iQOO device won’t accept a hand-built APK until developer mode is on. Do this once, early — before the build is even ready.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="gap: clamp(14px, 1.8vh, 22px);">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vh, 20px);">
+        
+        <!-- 4 Step Cards Grid -->
+        <div class="grid-2" style="gap: clamp(16px, 1.8vw, 24px);">
+          
+          <!-- Step 1 -->
+          <div class="card shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); border-radius: 16px; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: #000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px;">STEP 1</span>
+              <span style="font-size: 20px;">⚙️</span>
+            </div>
+            <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF; margin: 0;">Open Developer Options</h3>
+            <p style="font-size: clamp(13.5px, 1.2vw, 15.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+              Settings → About phone → tap “Build number” 7 times. You’ll see “You are now a developer”.
+            </p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="card shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); border-radius: 16px; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: #000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px;">STEP 2</span>
+              <span style="font-size: 20px;">🔌</span>
+            </div>
+            <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF; margin: 0;">Turn on USB debugging</h3>
+            <p style="font-size: clamp(13.5px, 1.2vw, 15.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+              Back in Settings → System → Developer options → enable USB debugging.
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="card shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); border-radius: 16px; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: #000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px;">STEP 3</span>
+              <span style="font-size: 20px;">📦</span>
+            </div>
+            <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF; margin: 0;">Allow USB install</h3>
+            <p style="font-size: clamp(13.5px, 1.2vw, 15.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+              In the same menu, allow “Install via USB” / apps from USB so the APK isn’t blocked.
+            </p>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="card card-highlight shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); border-radius: 16px; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-family: var(--font-mono); font-size: 12px; font-weight: 900; color: #000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px;">STEP 4</span>
+              <span style="font-size: 20px;">🤝</span>
+            </div>
+            <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--accent-gold); margin: 0;">Connect & authorize</h3>
+            <p style="font-size: clamp(13.5px, 1.2vw, 15.5px); color: #FFFFFF; line-height: 1.45; margin: 0;">
+              Plug the iQOO into the laptop. On the iQOO, tap “Allow” on the debugging prompt.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Bottom Tip -->
+        <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: 12px 20px; border-radius: 12px; text-align: center;">
+          <div style="font-size: clamp(13px, 1.15vw, 15px); color: #E0E0F0;">
+            <strong style="color: var(--accent-gold);">Pro-Tip:</strong> Menu names vary slightly on Funtouch OS versions — the flow is always <strong style="color: #FFF;">About → Build number ×7</strong>, then <strong style="color: #FFF;">Developer options</strong>.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Prep iQOO Device</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 25: INSTALL, SMOKE-TEST, SCREEN-RECORD -->
+  <div id="slide-25-root" data-composition-id="slide-25" data-start="254" data-duration="12" data-label="Install, Smoke-Test, Record" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">MODULE 04 · SHIP TO DEVICE</div>
+        <h2 class="slide-title">Install, smoke-test, screen-record</h2>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="gap: clamp(14px, 1.8vh, 22px);">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vh, 20px);">
+        
+        <div class="grid-3" style="gap: clamp(16px, 1.8vw, 24px); align-items: stretch;">
+          
+          <!-- Column A: Over USB (adb) -->
+          <div class="card shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); gap: 12px; border-radius: 18px; justify-content: space-between;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--accent-gold); background: rgba(255,184,0,0.12); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 4px;">OPTION A</div>
+              <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF; margin: 0;">A · Over USB (adb)</h3>
+            </div>
+
+            <div style="background: #08080C; border: 1.5px solid #28283C; border-radius: 10px; padding: 10px 14px; font-family: var(--font-mono); font-size: clamp(12px, 1.1vw, 13.5px); color: #D0D0E2; line-height: 1.5;">
+              <span style="color: var(--accent-gold);">adb devices</span> <span style="color: #6E6E88;"># is it seen?</span><br>
+              <span style="color: var(--accent-gold);">adb install \</span><br>
+              &nbsp;&nbsp;<span style="color: #FFF;">app-debug.apk</span>
+            </div>
+
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; margin: 0;">
+              Cleanest way — installs straight from the laptop.
+            </p>
+          </div>
+
+          <!-- Column B: Copy & tap -->
+          <div class="card shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); gap: 12px; border-radius: 18px; justify-content: space-between;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--stripe-purple); background: rgba(122,115,255,0.12); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 4px;">OPTION B</div>
+              <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: #FFFFFF; margin: 0;">B · Copy & tap</h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: clamp(12.5px, 1.1vw, 14px); color: #D0D0E2; line-height: 1.4;">
+              <div>• Copy <code style="font-family: var(--font-mono); color: #FFF; background: rgba(255,255,255,0.08); padding: 1px 4px; border-radius: 3px;">app-debug.apk</code> to the iQOO (USB / Drive / share)</div>
+              <div>• Open Files on the iQOO and tap the APK</div>
+              <div>• Approve “install unknown app” if asked</div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted);">
+              Great backup if adb driver has issues.
+            </div>
+          </div>
+
+          <!-- Column C: Before you demo checklist -->
+          <div class="card card-highlight shimmer-card" style="padding: clamp(16px, 1.8vw, 24px); gap: 12px; border-radius: 18px; justify-content: space-between;">
+            <div>
+              <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px; display: inline-block; margin-bottom: 4px;">CHECKLIST</div>
+              <h3 style="font-size: clamp(18px, 1.6vw, 22px); font-weight: 900; color: var(--accent-gold); margin: 0;">Before you demo</h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: clamp(13px, 1.15vw, 14.5px); color: #FFFFFF;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--accent-gold); font-weight: 900;">✓</span> App opens without crashing
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--accent-gold); font-weight: 900;">✓</span> The core AI feature actually works
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--accent-gold); font-weight: 900;">✓</span> Screen-record the happy path
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span style="color: var(--accent-gold); font-weight: 900;">✓</span> Push the final code to GitHub
+              </div>
+            </div>
+
+            <div style="background: rgba(255,184,0,0.15); padding: 4px 8px; border-radius: 6px; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--accent-gold); font-weight: 800;">
+              Ready for stage presentation!
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Callout -->
+        <div class="card shimmer-card" style="background: rgba(255, 184, 0, 0.08); border: 1.5px solid var(--accent-gold); padding: 12px 20px; border-radius: 12px; font-size: clamp(13px, 1.15vw, 15px); line-height: 1.45; color: #E0E0F0;">
+          <strong style="color: var(--accent-gold);">Smoke-test =</strong> run the one thing the demo depends on. If the AI call needs internet, test on the venue Wi-Fi — not just the laptop. <strong style="color: #FFF;">A screen recording is your safety net if the live demo hiccups.</strong>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Ship to Device</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 26: WHEN IT BREAKS — FAST FIXES -->
+  <div id="slide-26-root" data-composition-id="slide-26" data-start="266" data-duration="12" data-label="When It Breaks: Fast Fixes" data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">STUCK? QUICK FIXES</div>
+        <h2 class="slide-title">When it breaks — fast fixes</h2>
+        <p class="slide-subtitle">Most blockers are one of these six. Find the symptom, apply the fix, and keep building.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body">
+      <div class="content-center-box">
+        <div class="grid-3" style="gap: clamp(14px, 1.5vw, 20px);">
+          
+          <!-- 1. 401 Unauthorized -->
+          <div class="card shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: #FF7070;">
+              401 / “Unauthorized” from API
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; line-height: 1.4; margin: 0;">
+              Key is wrong or missing. Check the <code style="font-family: var(--font-mono); color: #FFF; background: rgba(255,255,255,0.08); padding: 1px 3px;">Authorization: Bearer</code> header and that the key was copied whole.
+            </p>
+          </div>
+
+          <!-- 2. No internet -->
+          <div class="card shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: var(--accent-gold);">
+              App can’t reach the internet
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; line-height: 1.4; margin: 0;">
+              Add the <code style="font-family: var(--font-mono); color: #FFF; background: rgba(255,255,255,0.08); padding: 1px 3px;">INTERNET</code> permission to <code style="font-family: var(--font-mono); color: #FFF; background: rgba(255,255,255,0.08); padding: 1px 3px;">AndroidManifest.xml</code>, then rebuild.
+            </p>
+          </div>
+
+          <!-- 3. Gradle sync fails -->
+          <div class="card shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: #FFD072;">
+              Gradle sync fails
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; line-height: 1.4; margin: 0;">
+              Usually network. Retry sync, check Wi-Fi, and make sure the SDK finished downloading.
+            </p>
+          </div>
+
+          <!-- 4. adb device unauthorized -->
+          <div class="card shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: var(--stripe-purple);">
+              adb: “device unauthorized”
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; line-height: 1.4; margin: 0;">
+              Re-plug the cable and tap Allow on the iQOO’s debugging prompt. Toggle USB debugging off/on.
+            </p>
+          </div>
+
+          <!-- 5. APK won't install -->
+          <div class="card shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: #00E5FF;">
+              APK won’t install
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #B0B0C8; line-height: 1.4; margin: 0;">
+              Uninstall any old copy first; enable install-from-USB / unknown apps on the iQOO.
+            </p>
+          </div>
+
+          <!-- 6. Insufficient credit -->
+          <div class="card card-highlight shimmer-card" style="padding: clamp(14px, 1.5vw, 20px); border-radius: 16px; gap: 8px;">
+            <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(15px, 1.3vw, 17px); color: var(--accent-gold);">
+              “Insufficient credit” / rate limit
+            </div>
+            <p style="font-size: clamp(12.5px, 1.1vw, 14px); color: #FFFFFF; line-height: 1.4; margin: 0;">
+              Check the OpenRouter dashboard — switch to a cheaper model or slow the calls down.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Fast Fixes</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 27: WORKSHOP ROADMAP — LEARN IT. THEN SHIP IT. -->
+  <div id="slide-27-root" data-composition-id="slide-27" data-start="278" data-duration="12" data-label="Learn It. Then Ship It." data-width="1920" data-height="1080" class="slide">
+    <div class="slide-top-bar">
+      <div class="slide-header">
+        <div class="tag-pill">TECH WORKSHOP EXPERIENCE · LEARN · BUILD · SHIP</div>
+        <h2 class="slide-title">“Learn it. Then ship it.”</h2>
+        <p class="slide-subtitle">AI → A working Android app, shipped to an iQOO device.</p>
+      </div>
+      <div class="top-logo-badge">
+        <img src="assets/iqoo-connect-logo.png" alt="iQOO Connect" class="top-logo-img">
+      </div>
+    </div>
+
+    <div class="slide-body" style="justify-content: center; gap: clamp(16px, 2vh, 24px);">
+      <div class="content-center-box" style="display: flex; flex-direction: column; gap: clamp(14px, 1.8vh, 22px); width: 100%; max-width: 1560px;">
+        
+        <!-- 5-Step Pipeline Grid -->
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: clamp(12px, 1.2vw, 18px); align-items: stretch; position: relative;">
+          
+          <!-- Step 1: GitHub -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 1.6vw, 24px) clamp(14px, 1.3vw, 18px); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 16px var(--accent-gold-glow);">
+                <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--accent-gold); background: rgba(255,184,0,0.12); border: 1px solid rgba(255,184,0,0.4); padding: 3px 8px; border-radius: 6px;">STEP 01</span>
+            </div>
+
+            <div>
+              <h3 style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">GitHub</h3>
+              <p style="font-size: clamp(13px, 1.1vw, 14.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+                Clone starter repo template & configure your project setup.
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-gold); text-align: center;">
+              git clone starter-kit
+            </div>
+          </div>
+
+          <!-- Step 2: AI -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 1.6vw, 24px) clamp(14px, 1.3vw, 18px); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 16px var(--accent-gold-glow);">
+                <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M7.5 5.6L10 7 8.6 4.5 10 2 7.5 3.4 5 2l1.4 2.5L5 7zm12 9.8L17 14l1.4 2.5L17 19l2.5-1.4L22 19l-1.4-2.5L22 14zM22 2l-2.5 1.4L17 2l1.4 2.5L17 7l2.5-1.4L22 7l-1.4-2.5zm-7.63 5.29c-.39-.39-1.02-.39-1.41 0L1.29 18.96c-.39.39-.39 1.02 0 1.41l2.34 2.34c.39.39 1.02.39 1.41 0L16.7 11.05c.39-.39.39-1.02 0-1.41l-2.33-2.35zm-1.06 3.47l-1.76-1.77 1.41-1.41 1.77 1.77-1.42 1.41z"/>
+                </svg>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--accent-gold); background: rgba(255,184,0,0.12); border: 1px solid rgba(255,184,0,0.4); padding: 3px 8px; border-radius: 6px;">STEP 02</span>
+            </div>
+
+            <div>
+              <h3 style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">AI Prompting</h3>
+              <p style="font-size: clamp(13px, 1.1vw, 14.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+                Claude Code, Cursor & Gemini write and iterate your feature code.
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; color: #FFFFFF; text-align: center;">
+              Cursor · Claude Code
+            </div>
+          </div>
+
+          <!-- Step 3: OpenRouter APIs -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 1.6vw, 24px) clamp(14px, 1.3vw, 18px); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 16px var(--accent-gold-glow);">
+                <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/>
+                </svg>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--accent-gold); background: rgba(255,184,0,0.12); border: 1px solid rgba(255,184,0,0.4); padding: 3px 8px; border-radius: 6px;">STEP 03</span>
+            </div>
+
+            <div>
+              <h3 style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">OpenRouter APIs</h3>
+              <p style="font-size: clamp(13px, 1.1vw, 14.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+                One door to 200+ models with your team's $10 event credit.
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-gold); text-align: center;">
+              $10 Team Credit · 200+ Models
+            </div>
+          </div>
+
+          <!-- Step 4: Android Studio -->
+          <div class="card shimmer-card" style="padding: clamp(18px, 1.6vw, 24px) clamp(14px, 1.3vw, 18px); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative;">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 16px var(--accent-gold-glow);">
+                <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/>
+                </svg>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 800; color: var(--accent-gold); background: rgba(255,184,0,0.12); border: 1px solid rgba(255,184,0,0.4); padding: 3px 8px; border-radius: 6px;">STEP 04</span>
+            </div>
+
+            <div>
+              <h3 style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 900; color: #FFFFFF; margin-bottom: 6px;">Android Studio</h3>
+              <p style="font-size: clamp(13px, 1.1vw, 14.5px); color: #B0B0C8; line-height: 1.45; margin: 0;">
+                Build native Kotlin UI with Jetpack Compose & wire live API data.
+              </p>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; color: #FFFFFF; text-align: center;">
+              Kotlin · Jetpack Compose
+            </div>
+          </div>
+
+          <!-- Step 5: Ship to iQOO -->
+          <div class="card card-highlight shimmer-card" style="padding: clamp(18px, 1.6vw, 24px) clamp(14px, 1.3vw, 18px); border-radius: 18px; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; position: relative; background: linear-gradient(180deg, rgba(255,184,0,0.12) 0%, rgba(20,20,30,0.95) 100%);">
+            <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+              <div style="width: 42px; height: 42px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 0 20px var(--accent-gold-glow);">
+                <svg style="width: 22px; height: 22px;" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.5s4.5 4.5 4.5 9c0 2.49-2.01 4.5-4.5 4.5S7.5 13.99 7.5 11.5c0-4.5 4.5-9 4.5-9zM12 18c-3.31 0-6 1.34-6 3v1h12v-1c0-1.66-2.69-3-6-3z"/>
+                </svg>
+              </div>
+              <span style="font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #000000; background: var(--accent-gold); padding: 3px 8px; border-radius: 6px; box-shadow: 0 0 10px var(--accent-gold-glow);">STEP 05</span>
+            </div>
+
+            <div>
+              <h3 style="font-size: clamp(18px, 1.5vw, 22px); font-weight: 900; color: var(--accent-gold); margin-bottom: 6px;">Ship to iQOO</h3>
+              <p style="font-size: clamp(13px, 1.1vw, 14.5px); color: #FFFFFF; line-height: 1.45; margin: 0; font-weight: 600;">
+                Deploy APK to physical iQOO devices & present your live demo!
+              </p>
+            </div>
+
+            <div style="background: rgba(255, 184, 0, 0.2); border: 1px solid var(--accent-gold); border-radius: 8px; padding: 6px 10px; font-family: var(--font-mono); font-size: 11px; color: var(--accent-gold); text-align: center; font-weight: 800;">
+              🚀 Live Device Demo
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Highlight Banner -->
+        <div class="card card-highlight shimmer-card" style="padding: clamp(14px, 1.4vw, 18px) clamp(20px, 2vw, 28px); display: flex; flex-direction: row; align-items: center; justify-content: space-between; border-radius: 16px; background: rgba(255, 184, 0, 0.08); gap: 16px;">
+          <div style="display: flex; align-items: center; gap: 16px;">
+            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-gold); color: #000000; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 900; flex-shrink: 0; box-shadow: 0 0 16px var(--accent-gold-glow);">
+              ⚡
+            </div>
+            <div>
+              <div style="font-family: var(--font-mono); font-weight: 900; font-size: clamp(16px, 1.45vw, 20px); color: #FFFFFF; letter-spacing: -0.3px;">
+                THE WORKSHOP GOAL: AI → A WORKING ANDROID APP, SHIPPED TO AN iQOO DEVICE
+              </div>
+              <div style="font-size: clamp(13px, 1.15vw, 15px); color: #B0B0C8; margin-top: 3px;">
+                From empty prompt to native Android intelligence running in your hands today.
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
+            <span style="background: rgba(255, 184, 0, 0.15); border: 1.5px solid var(--accent-gold); color: var(--accent-gold); font-family: var(--font-mono); font-weight: 800; font-size: clamp(12px, 1.05vw, 14px); padding: 6px 14px; border-radius: 8px; white-space: nowrap;">
+              Chennai · August 2026
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer" data-layout-allow-occlusion="true">
+      <div class="footer-left">
+        <span>TechQuest · AI Tech Workshop</span>
+        <span style="opacity: 0.3;">|</span>
+        <span style="color: var(--accent-gold); font-weight: 700;">Learn It. Then Ship It.</span>
+      </div>
+      <div>
+        <img src="assets/reskilll-logo.png" alt="Reskilll" class="footer-reskilll-logo">
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 28: CONNECT WITH SHANGEETH (SHRAVZ.DEV, YOUTUBE & INSTAGRAM) -->
+  <div id="slide-28-root" data-composition-id="slide-28" data-start="290" data-duration="12" data-label="Connect & Socials" data-width="1920" data-height="1080" class="slide">
     <div class="slide-top-bar">
       <div class="slide-header">
         <div class="tag-pill">CONNECT & KEEP BUILDING</div>
@@ -2347,10 +3510,12 @@
   <script>
     window.__timelines = window.__timelines || {};
 
-    const slideIds = [
+        const slideIds = [
       'slide-1', 'slide-2', 'slide-3', 'slide-4', 'slide-5', 'slide-6', 
       'slide-7', 'slide-8', 'slide-9', 'slide-10', 'slide-11', 'slide-12', 
-      'slide-13', 'slide-14', 'slide-15', 'slide-16', 'slide-17'
+      'slide-13', 'slide-14', 'slide-15', 'slide-16', 'slide-17', 'slide-18',
+      'slide-19', 'slide-20', 'slide-21', 'slide-22', 'slide-23', 'slide-24',
+      'slide-25', 'slide-26', 'slide-27', 'slide-28'
     ];
     slideIds.forEach(id => {
       window.__timelines[id] = gsap.timeline({ paused: true });
@@ -2542,7 +3707,7 @@
       miniDrawer.setAttribute('data-layout-allow-occlusion', 'true');
       miniDrawer.title = 'Open Controls (Press H)';
       miniDrawer.style.cssText = 'position:fixed; bottom:6px; left:50%; transform:translateX(-50%); z-index:9999; display:none; align-items:center; gap:6px; background:rgba(14,14,20,0.85); border:1px solid #2A2A3E; padding:3px 10px; border-radius:16px; font-family:sans-serif; font-size:11px; color:#A8A8C0; cursor:pointer; backdrop-filter:blur(8px); box-shadow:0 4px 14px rgba(0,0,0,0.5); transition:all 0.2s ease;';
-      miniDrawer.innerHTML = '<span style="color:#FFB800; font-size:10px;">▲</span> <span id="mini-counter" style="font-family:monospace; font-weight:700; color:#E0E0F0;">1 / 17</span>';
+      miniDrawer.innerHTML = '<span style="color:#FFB800; font-size:10px;">▲</span> <span id="mini-counter" style="font-family:monospace; font-weight:700; color:#E0E0F0;">1 / 28</span>';
 
       function toggleHudCollapse() {
         isHudCollapsed = !isHudCollapsed;
