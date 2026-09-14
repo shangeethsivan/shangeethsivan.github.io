@@ -12,7 +12,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Jio AI Pro help | Shangeeth Sivan</title>
-  <meta name="description" content="Unofficial Jio Google AI Pro setup (Basic or Custom Email), a simple AI usage comparison, and a video on building a friend's site." />
+  <meta name="description" content="Unofficial Jio Google AI Pro setup (Basic or Custom Email), a coding-assistant comparison, and a video on building a friend's site." />
   <style>
     :root {
       --bg: #ffffff;
@@ -28,6 +28,17 @@
       --radius: 12px;
       --max: min(720px, 100% - 1.5rem);
       --max-wide: min(960px, 100% - 1.5rem);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --tint-ag: rgba(66, 133, 244, 0.08);
+      --tint-codex: rgba(16, 163, 127, 0.08);
+      --tint-claude: rgba(217, 119, 87, 0.08);
+      --tint-cursor: rgba(245, 78, 0, 0.08);
     }
 
     * { box-sizing: border-box; }
@@ -45,7 +56,7 @@
     .wrap {
       width: var(--max);
       margin-inline: auto;
-      padding: 1.25rem 0 2.5rem;
+      padding: var(--space-5) 0 var(--space-7);
     }
 
     .wrap.wide { width: var(--max-wide); }
@@ -54,10 +65,10 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
       border-bottom: 1px solid var(--line);
-      padding-bottom: 0.85rem;
+      padding-bottom: var(--space-3);
     }
 
     .brand {
@@ -74,7 +85,7 @@
       text-decoration: none;
       border: 1px solid var(--line);
       border-radius: 999px;
-      padding: 0.55rem 1rem;
+      padding: var(--space-2) var(--space-4);
       font-size: 0.9rem;
       min-height: 44px;
       min-width: 44px;
@@ -103,14 +114,14 @@
     }
 
     .hub-lead {
-      margin: 0.65rem 0 0;
+      margin: var(--space-2) 0 0;
       color: var(--muted);
       font-size: 1rem;
     }
 
     .eligibility {
-      margin-top: 1rem;
-      padding: 0.85rem 1rem;
+      margin-top: var(--space-4);
+      padding: var(--space-4);
       background: var(--well);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -127,15 +138,15 @@
     .hub-cards {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
     }
 
     .hub-card {
       display: flex;
       align-items: flex-start;
-      gap: 1rem;
-      padding: 1rem 1.1rem;
+      gap: var(--space-3);
+      padding: var(--space-4);
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -144,6 +155,10 @@
       min-height: 72px;
       cursor: pointer;
       transition: border-color 160ms ease, box-shadow 160ms ease;
+    }
+
+    @media (min-width: 720px) {
+      .hub-card { padding: var(--space-5); }
     }
 
     .hub-card:hover {
@@ -181,7 +196,7 @@
     }
 
     .hub-card-help {
-      margin: 0.25rem 0 0;
+      margin: var(--space-2) 0 0;
       color: var(--muted);
       font-size: 0.92rem;
     }
@@ -190,16 +205,16 @@
     .jio-options {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
     }
 
     .jio-option {
       display: flex;
       align-items: flex-start;
-      gap: 0.85rem;
+      gap: var(--space-3);
       width: 100%;
-      padding: 1rem 1.1rem;
+      padding: var(--space-4);
       background: var(--card);
       border: 2px solid var(--line);
       border-radius: var(--radius);
@@ -233,8 +248,12 @@
       display: block;
     }
 
+    @media (min-width: 720px) {
+      .jio-option { padding: var(--space-5); }
+    }
+
     .jio-option-help {
-      margin-top: 0.25rem;
+      margin-top: var(--space-2);
       color: var(--muted);
       font-size: 0.92rem;
       line-height: 1.45;
@@ -245,28 +264,28 @@
       font-size: clamp(1.15rem, 3vw, 1.4rem);
       font-weight: 700;
       line-height: 1.25;
-      margin: 0 0 0.5rem;
+      margin: 0 0 var(--space-2);
     }
 
     .path-subhead {
       color: var(--muted);
       font-size: 0.95rem;
       line-height: 1.5;
-      margin: 0 0 1rem;
+      margin: 0 0 var(--space-4);
     }
 
     .steps {
       display: grid;
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: var(--space-4);
+      margin-top: var(--space-4);
     }
 
     .step-card {
       display: grid;
-      gap: 0.85rem;
+      gap: var(--space-4);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 1rem;
+      padding: var(--space-4);
       background: var(--card);
     }
 
@@ -293,7 +312,7 @@
       font-size: 0.72rem;
       color: var(--muted);
       text-align: center;
-      margin-top: 0.35rem;
+      margin-top: var(--space-2);
     }
 
     .step-num {
@@ -305,7 +324,7 @@
     }
 
     .step-title {
-      margin: 0.2rem 0 0.35rem;
+      margin: var(--space-1) 0 var(--space-2);
       font-size: 1.05rem;
       font-weight: 700;
     }
@@ -320,8 +339,8 @@
     .step-body a { color: var(--accent); }
 
     .callout {
-      margin-top: 1rem;
-      padding: 0.85rem 1rem;
+      margin-top: var(--space-4);
+      padding: var(--space-4);
       border-radius: var(--radius);
       border: 1px solid var(--line);
       background: var(--well);
@@ -329,15 +348,15 @@
       line-height: 1.55;
     }
 
-    .callout + .callout { margin-top: 0.65rem; }
+    .callout + .callout { margin-top: var(--space-3); }
 
     .callout p { margin: 0; }
 
     .callout a { color: var(--accent); }
 
     .recharge-alert {
-      margin-top: 1rem;
-      padding: 1rem 1.1rem;
+      margin-top: var(--space-4);
+      padding: var(--space-4);
       border-radius: var(--radius);
       border: 2px solid var(--warn);
       background: rgba(180, 83, 9, 0.06);
@@ -346,7 +365,7 @@
     }
 
     .recharge-alert h3 {
-      margin: 0 0 0.35rem;
+      margin: 0 0 var(--space-2);
       font-size: 1.05rem;
       font-weight: 700;
       color: var(--warn);
@@ -358,8 +377,8 @@
     }
 
     .footnotes {
-      margin-top: 1.25rem;
-      padding-top: 1rem;
+      margin-top: var(--space-5);
+      padding-top: var(--space-4);
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 0.88rem;
@@ -368,13 +387,13 @@
 
     .footnotes ul {
       margin: 0;
-      padding-left: 1.1rem;
+      padding-left: var(--space-4);
     }
 
-    .footnotes li + li { margin-top: 0.35rem; }
+    .footnotes li + li { margin-top: var(--space-2); }
 
     .path-actions {
-      margin-top: 1rem;
+      margin-top: var(--space-4);
     }
 
     .text-btn {
@@ -382,7 +401,7 @@
       font-size: 0.9rem;
       font-weight: 600;
       border-radius: 999px;
-      padding: 0.55rem 1rem;
+      padding: var(--space-2) var(--space-4);
       border: 1px solid var(--line);
       color: var(--accent);
       background: var(--card);
@@ -402,13 +421,13 @@
 
     /* Compare */
     .compare-caption {
-      margin: 0.5rem 0 0;
+      margin: var(--space-2) 0 0;
       color: var(--muted);
       font-size: 0.92rem;
     }
 
     .compare-table-wrap {
-      margin-top: 1.25rem;
+      margin-top: var(--space-5);
       overflow-x: auto;
     }
 
@@ -421,16 +440,16 @@
     .compare-table caption {
       caption-side: top;
       text-align: left;
-      font-weight: 700;
-      font-size: 1.05rem;
-      margin-bottom: 0.5rem;
-      color: var(--text);
+      font-weight: 400;
+      font-size: 0.92rem;
+      margin-bottom: var(--space-3);
+      color: var(--muted);
     }
 
     .compare-table th,
     .compare-table td {
       border: 1px solid var(--line);
-      padding: 0.75rem 0.85rem;
+      padding: var(--space-3) var(--space-4);
       text-align: left;
       vertical-align: top;
     }
@@ -442,32 +461,36 @@
 
     .compare-table td:first-child { font-weight: 600; }
 
-    .marker {
-      display: inline-block;
-      margin-right: 0.25rem;
-    }
-
     .compare-cards {
       display: none;
       flex-direction: column;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
     }
 
     .compare-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 1rem;
+      padding: var(--space-4);
       background: var(--card);
     }
 
+    @media (min-width: 720px) {
+      .compare-card { padding: var(--space-5); }
+    }
+
+    .compare-card[data-tool="antigravity"] { background: var(--tint-ag); }
+    .compare-card[data-tool="codex"] { background: var(--tint-codex); }
+    .compare-card[data-tool="claude"] { background: var(--tint-claude); }
+    .compare-card[data-tool="cursor"] { background: var(--tint-cursor); }
+
     .compare-card h2 {
-      margin: 0 0 0.75rem;
+      margin: 0 0 var(--space-4);
       font-size: 1.05rem;
     }
 
     .compare-metric {
-      margin-bottom: 0.65rem;
+      margin-bottom: var(--space-4);
     }
 
     .compare-metric:last-child { margin-bottom: 0; }
@@ -478,7 +501,14 @@
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: var(--muted);
-      margin-bottom: 0.15rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .compare-owner-framing {
+      margin-top: var(--space-3);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.45;
     }
 
     .compare-metric-value {
@@ -487,8 +517,8 @@
     }
 
     .compare-footer {
-      margin-top: 1.25rem;
-      padding: 0.85rem 1rem;
+      margin-top: var(--space-5);
+      padding: var(--space-4);
       background: var(--well);
       border: 1px solid var(--line);
       border-radius: var(--radius);
@@ -499,15 +529,15 @@
 
     .compare-footer a { color: var(--accent); }
 
-    @media (max-width: 719px) {
+    @media (max-width: 899px) {
       .compare-table-wrap { display: none; }
       .compare-cards { display: flex; }
     }
 
     /* Noscript */
     .noscript-block {
-      margin-top: 1.5rem;
-      padding: 1rem;
+      margin-top: var(--space-5);
+      padding: var(--space-4);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: var(--well);
@@ -515,12 +545,12 @@
 
     .noscript-block h2 {
       font-size: 1.1rem;
-      margin: 0 0 0.75rem;
+      margin: 0 0 var(--space-3);
     }
 
     .noscript-block h3 {
       font-size: 1rem;
-      margin: 1.25rem 0 0.5rem;
+      margin: var(--space-5) 0 var(--space-3);
     }
 
     .noscript-block ol,
@@ -535,14 +565,28 @@
       width: 100%;
       border-collapse: collapse;
       font-size: 0.9rem;
-      margin-top: 0.75rem;
+      margin-top: var(--space-3);
     }
 
     .noscript-table th,
     .noscript-table td {
       border: 1px solid var(--line);
-      padding: 0.5rem;
+      padding: var(--space-2);
       text-align: left;
+      vertical-align: top;
+    }
+
+    .noscript-video-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+    }
+
+    .noscript-yt-mark {
+      flex-shrink: 0;
+      width: 32px;
+      height: 22px;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -562,7 +606,7 @@
 
     <section id="view-hub" class="view" hidden aria-labelledby="hub-title">
       <h1 id="hub-title">Jio AI Pro help</h1>
-      <p class="hub-lead">Pick a topic below — setup steps, AI comparison, or a build video.</p>
+      <p class="hub-lead">Pick a topic below — setup steps, coding-assistant comparison, or a build video.</p>
       <div class="hub-cards" id="hub-cards"></div>
     </section>
 
@@ -577,8 +621,8 @@
     </section>
 
     <section id="view-compare" class="view wide" hidden aria-labelledby="compare-title">
-      <h1 id="compare-title">Simple AI Usage Comparison</h1>
-      <p class="compare-caption">Unofficial comparison for everyday use — not vendor documentation.</p>
+      <h1 id="compare-title">Coding assistant comparison</h1>
+      <p class="compare-caption">Unofficial — confirm plans and models on each vendor&apos;s site.</p>
       <div id="compare-root"></div>
     </section>
   </div>
@@ -616,41 +660,48 @@
           <p>Top up this Jio number on time. Google AI Pro rides on that eligible plan — if the plan lapses, the offer can stop.</p>
         </aside>
 
-        <h3>Simple AI Usage Comparison</h3>
+        <h3>Coding assistant comparison</h3>
         <table class="noscript-table">
-          <caption>Unofficial comparison — confirm prices on vendor plan pages.</caption>
+          <caption>Unofficial coding-assistant comparison — confirm on vendor plan pages.</caption>
           <thead>
             <tr>
-              <th>AI Tool</th>
-              <th>Regular Price</th>
-              <th>AI File Capacity</th>
-              <th>Chat Endurance</th>
+              <th>Tool</th>
+              <th>Coding usages</th>
+              <th>Model availability</th>
+              <th>Pricing</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Google AI Pro</td>
-              <td>FREE via Jio (Otherwise ₹1,950/mo)</td>
-              <td>Best — massive books, long video clips, or huge text files at once</td>
-              <td>Generous — plenty of daily messages before slowdown</td>
+              <td>Antigravity</td>
+              <td>Google&apos;s agentic platform: IDE, CLI, SDK, and a command center for parallel local agents. Frontend path uses browser-in-the-loop agents.</td>
+              <td>Gemini 3.8 / 3.7 / 3.6 Flash and Gemini 3.1 Pro on listed plans. Claude Sonnet 4.6, Claude Opus 4.6, and GPT-OSS-120b are listed Free–Ultra, not Enterprise. Confirm the picker — docs disagree on third-party vs Ultra.</td>
+              <td>Individual use is available at no charge, with weekly rate limits. Google AI Pro raises quota (5-hour refresh until a weekly cap). Ultra is the highest quota. No separate Antigravity SKU price on Google&apos;s plans page. Confirm on Antigravity plans / Google AI plans.</td>
             </tr>
             <tr>
-              <td>ChatGPT Plus</td>
-              <td>₹1,999 / month</td>
-              <td>Medium — standard documents; can struggle with a massive 500-page book</td>
-              <td>Best — hours in the same thread without the AI getting tired</td>
+              <td>ChatGPT Codex</td>
+              <td>OpenAI coding agent: desktop app (macOS and Windows), CLI, and IDE extension (VS Code, Cursor, Windsurf, JetBrains, Xcode). Reads, edits, and runs code; can hand off longer tasks to the cloud. Plugins include GitHub and Slack.</td>
+              <td>Plan picker includes GPT-6 Astra, GPT-5.6 Sol / Terra / Luna, GPT-5.5, GPT-5.4, and GPT-5.4 mini. Astra is limited on Plus; Codex pricing FAQ includes it in the $100 and $200 Pro allowances.</td>
+              <td>Included with ChatGPT Free (limited trial), Go, Plus, Pro, Business, and Enterprise. Plus: expanded Codex + desktop app. Pro: 5× or 20× Plus usage; Codex FAQ cites $100 and $200 Pro. Confirm live amounts on Codex pricing.</td>
             </tr>
             <tr>
-              <td>Claude Pro</td>
-              <td>₹2,399 / month</td>
-              <td>Excellent — can read a whole book; doing so burns energy fast</td>
-              <td>Strict — long conversations exhaust it; locks out sooner</td>
+              <td>Claude Desktop</td>
+              <td>Free desktop app: chat, create/edit files with code execution, desktop extensions. Paid: Claude Code on the Claude desktop app (local repo, diffs, preview servers, parallel tasks), plus terminal / IDE / Slack / web.</td>
+              <td>Free: Sonnet and Haiku. Pro and Max: Opus as well. Fable is credits / Max (not Free). Individual context window listed at 200k.</td>
+              <td>Desktop chat is on Free ($0). Claude Code is not on Free — Pro $20/mo ($17/mo if $200 annual) or Max from $100/mo (5× or 20×). Prices exclude tax. Confirm on claude.com/pricing.</td>
+            </tr>
+            <tr>
+              <td>Cursor</td>
+              <td>AI IDE: Agent, Chat, Tab, cloud agents, MCPs / skills / hooks. Paid individual adds frontier-model access and (usage-based) Bugbot.</td>
+              <td>Cursor Models pool: Grok 4.6, Grok 4.5, Composer 2.5. Other Models pool: OpenAI, Anthropic, Google, and more (Pro+). Hobby: limited Agent/Chat/Tab on Auto. India Start: Cursor Models only — no Other Models pool.</td>
+              <td>Hobby Free. India Start ₹649/mo tax inclusive. Pro $20/mo, Pro+ $60/mo, Ultra $200/mo. Teams $40/user/mo. USD prices exclude tax. Confirm on cursor.com/pricing.</td>
             </tr>
           </tbody>
         </table>
 
-        <p style="margin-top:1rem">
-          <a href="https://www.youtube.com/watch?v=VggMHCUtUCI&amp;t=430s" target="_blank" rel="noopener noreferrer">How I built a friend's website (YouTube, starts at 7:10)</a>
+        <p class="noscript-video-link">
+          <svg class="noscript-yt-mark" viewBox="0 0 32 22" aria-hidden="true"><rect width="32" height="22" rx="4" fill="#FF0000"/><path d="M13 6 L21 11 L13 16 Z" fill="#ffffff"/></svg>
+          <a href="https://www.youtube.com/watch?v=VggMHCUtUCI" target="_blank" rel="noopener noreferrer" aria-label="How I built a friend&apos;s website on YouTube">How I built a friend&apos;s website (YouTube · from the start)</a>
         </p>
         <p>You need a network connection to open Jio, Google, or YouTube.</p>
       </div>
@@ -667,10 +718,12 @@
     myjioIos: 'https://apps.apple.com/in/app/myjio/id1159069141',
     myjioAndroid: 'https://play.google.com/store/apps/details?id=com.jio.myjio',
     geminiWeb: 'https://gemini.google.com/',
-    friendVideo: 'https://www.youtube.com/watch?v=VggMHCUtUCI&t=430s',
-    googlePlans: 'https://gemini.google/in/subscriptions/?hl=en-IN',
-    openaiPlans: 'https://openai.com/chatgpt/pricing',
-    claudePlans: 'https://claude.ai/'
+    friendVideo: 'https://www.youtube.com/watch?v=VggMHCUtUCI',
+    agPlans: 'https://antigravity.google/docs/plans/',
+    agHome: 'https://antigravity.google/',
+    codexPlans: 'https://chatgpt.com/codex/pricing/',
+    claudePlans: 'https://claude.com/pricing',
+    cursorPlans: 'https://cursor.com/pricing'
   };
 
   var SHARED_FOOTNOTES = [
@@ -718,37 +771,44 @@
     }
   };
 
-  var MARKER_SYMBOL = { best: '\u{1F3C6}', good: '\u{1F31F}', mid: '\u26A0\uFE0F', strict: '\u26A0\uFE0F' };
-
-  var MARKER_LABEL = { best: 'Owner rating: Best', good: 'Owner rating: Generous', mid: 'Owner rating: Medium', strict: 'Owner rating: Strict' };
-
   var COMPARE_ROWS = [
     {
-      tool: 'Google AI Pro',
-      price: { text: 'FREE via Jio *(Otherwise \u20B91,950/mo)*', cellClass: 'owner-copy-price' },
-      files: { text: 'Best \u2014 massive books, long video clips, or huge text files at once', marker: 'best', cellClass: 'owner-copy' },
-      chat: { text: 'Generous \u2014 plenty of daily messages before slowdown', marker: 'good', cellClass: 'owner-copy' }
+      tool: 'Antigravity',
+      toolKey: 'antigravity',
+      coding: { text: 'Google\u2019s agentic platform: IDE, CLI, SDK, and a command center for parallel local agents. Frontend path uses browser-in-the-loop agents.', cellClass: 'cited', citeId: 'AG-home' },
+      models: { text: 'Gemini 3.8 / 3.7 / 3.6 Flash and Gemini 3.1 Pro on listed plans. Claude Sonnet 4.6, Claude Opus 4.6, and GPT-OSS-120b are listed Free\u2013Ultra, not Enterprise. Confirm the picker \u2014 docs disagree on third-party vs Ultra.', cellClass: 'cited', citeId: 'AG-models' },
+      pricing: { text: 'Individual use is available at no charge, with weekly rate limits. Google AI Pro raises quota (5-hour refresh until a weekly cap). Ultra is the highest quota. No separate Antigravity SKU price on Google\u2019s plans page. Confirm on Antigravity plans / Google AI plans.', cellClass: 'cited', citeId: 'AG-plans' },
+      ownerFraming: 'If you already claimed Google AI Pro (including via Jio), Google\u2019s India plans page lists **entry rate limits** for Antigravity on AI Pro.'
     },
     {
-      tool: 'ChatGPT Plus',
-      price: { text: '\u20B91,999 / month', cellClass: 'owner-copy-price' },
-      files: { text: 'Medium \u2014 standard documents; can struggle with a massive 500-page book', marker: 'mid', cellClass: 'owner-copy' },
-      chat: { text: 'Best \u2014 hours in the same thread without the AI getting tired', marker: 'best', cellClass: 'owner-copy' }
+      tool: 'ChatGPT Codex',
+      toolKey: 'codex',
+      coding: { text: 'OpenAI coding agent: desktop app (macOS and Windows), CLI, and IDE extension (VS Code, Cursor, Windsurf, JetBrains, Xcode). Reads, edits, and runs code; can hand off longer tasks to the cloud. Plugins include GitHub and Slack.', cellClass: 'cited', citeId: 'CX-price' },
+      models: { text: 'Plan picker includes GPT-6 Astra, GPT-5.6 Sol / Terra / Luna, GPT-5.5, GPT-5.4, and GPT-5.4 mini. Astra is limited on Plus; Codex pricing FAQ includes it in the $100 and $200 Pro allowances.', cellClass: 'cited', citeId: 'CX-price' },
+      pricing: { text: 'Included with ChatGPT Free (limited trial), Go, Plus, Pro, Business, and Enterprise. Plus: expanded Codex + desktop app. Pro: 5\u00D7 or 20\u00D7 Plus usage; Codex FAQ cites $100 and $200 Pro. Confirm live amounts on Codex pricing.', cellClass: 'cited', citeId: 'CX-price' }
     },
     {
-      tool: 'Claude Pro',
-      price: { text: '\u20B92,399 / month', cellClass: 'owner-copy-price' },
-      files: { text: 'Excellent \u2014 can read a whole book; doing so burns energy fast', marker: 'good', cellClass: 'owner-copy' },
-      chat: { text: 'Strict \u2014 long conversations exhaust it; locks out sooner', marker: 'strict', cellClass: 'owner-copy' }
+      tool: 'Claude Desktop',
+      toolKey: 'claude',
+      coding: { text: 'Free desktop app: chat, create/edit files with code execution, desktop extensions. Paid: Claude Code on the Claude desktop app (local repo, diffs, preview servers, parallel tasks), plus terminal / IDE / Slack / web.', cellClass: 'cited', citeId: 'CL-price' },
+      models: { text: 'Free: Sonnet and Haiku. Pro and Max: Opus as well. Fable is credits / Max (not Free). Individual context window listed at 200k.', cellClass: 'cited', citeId: 'CL-price' },
+      pricing: { text: 'Desktop chat is on Free ($0). Claude Code is not on Free \u2014 Pro $20/mo ($17/mo if $200 annual) or Max from $100/mo (5\u00D7 or 20\u00D7). Prices exclude tax. Confirm on claude.com/pricing.', cellClass: 'cited', citeId: 'CL-price' }
+    },
+    {
+      tool: 'Cursor',
+      toolKey: 'cursor',
+      coding: { text: 'AI IDE: Agent, Chat, Tab, cloud agents, MCPs / skills / hooks. Paid individual adds frontier-model access and (usage-based) Bugbot.', cellClass: 'cited', citeId: 'CU-price' },
+      models: { text: 'Cursor Models pool: Grok 4.6, Grok 4.5, Composer 2.5. Other Models pool: OpenAI, Anthropic, Google, and more (Pro+). Hobby: limited Agent/Chat/Tab on Auto. India Start: Cursor Models only \u2014 no Other Models pool.', cellClass: 'cited', citeId: 'CU-docs' },
+      pricing: { text: 'Hobby Free. India Start \u20B9649/mo tax inclusive. Pro $20/mo, Pro+ $60/mo, Ultra $200/mo. Teams $40/user/mo. USD prices exclude tax. Confirm on cursor.com/pricing.', cellClass: 'cited', citeId: 'CU-price' }
     }
   ];
 
-  var COMPARE_FOOTER = 'Unofficial comparison for everyday use. Prices and limits change. Confirm on <a href="' + LINKS.googlePlans + '" target="_blank" rel="noopener noreferrer">Google AI plans</a>, <a href="' + LINKS.openaiPlans + '" target="_blank" rel="noopener noreferrer">ChatGPT pricing</a>, and <a href="' + LINKS.claudePlans + '" target="_blank" rel="noopener noreferrer">Claude</a>. Not affiliated with those companies or Jio.';
+  var COMPARE_FOOTER = 'Unofficial coding-assistant comparison. Plans, models, and prices change. Confirm on <a href="' + LINKS.agPlans + '" target="_blank" rel="noopener noreferrer">Antigravity plans</a>, <a href="' + LINKS.codexPlans + '" target="_blank" rel="noopener noreferrer">Codex pricing</a>, <a href="' + LINKS.claudePlans + '" target="_blank" rel="noopener noreferrer">Claude pricing</a>, and <a href="' + LINKS.cursorPlans + '" target="_blank" rel="noopener noreferrer">Cursor pricing</a>. Not affiliated with those companies.';
 
   var HUB_CARDS = [
     { id: 'jio', title: 'Jio Setup Help', help: 'Basic or Custom Email \u00B7 5 steps', icon: 'ico-jio', route: { view: 'jio-chooser', email: null } },
-    { id: 'compare', title: 'Compare Google AI Pro / Claude / ChatGPT', help: 'Simple AI usage comparison', icon: 'ico-compare', route: { view: 'compare', email: null } },
-    { id: 'video', title: 'How I built a friend\u2019s website', help: 'YouTube \u00B7 starts at 7:10', icon: 'ico-video', href: LINKS.friendVideo }
+    { id: 'compare', title: 'Compare coding assistants', help: 'Antigravity \u00B7 Codex \u00B7 Claude Desktop \u00B7 Cursor', icon: 'ico-compare', route: { view: 'compare', email: null } },
+    { id: 'video', title: 'How I built a friend\u2019s website', help: 'YouTube \u00B7 from the start', icon: 'ico-youtube', href: LINKS.friendVideo, ariaLabel: 'How I built a friend\u2019s website on YouTube' }
   ];
 
   var JIO_OPTIONS = [
@@ -861,8 +921,8 @@
     if (id === 'ico-compare') {
       return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="18" width="5" height="10" rx="1" fill="currentColor" opacity="0.35"/><rect x="13.5" y="12" width="5" height="16" rx="1" fill="currentColor" opacity="0.6"/><rect x="21" y="6" width="5" height="22" rx="1" fill="currentColor"/></svg>';
     }
-    if (id === 'ico-video') {
-      return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="8" width="24" height="16" rx="4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M14 12 L22 16 L14 20 Z" fill="currentColor"/></svg>';
+    if (id === 'ico-youtube') {
+      return '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="9" width="24" height="14" rx="4" fill="#FF0000"/><path d="M14 13 L21 16 L14 19 Z" fill="#ffffff"/></svg>';
     }
     return '';
   }
@@ -912,12 +972,13 @@
   }
 
   function formatCell(cell) {
-    var html = '';
-    if (cell.marker && MARKER_SYMBOL[cell.marker]) {
-      html += '<span class="marker" aria-label="' + esc(MARKER_LABEL[cell.marker]) + '">' + MARKER_SYMBOL[cell.marker] + '</span>';
-    }
-    html += esc(cell.text).replace(/\*\(([^)]+)\)\*/g, '($1)').replace(/\*/g, '');
+    var html = esc(cell.text);
+    html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     return html;
+  }
+
+  function formatOwnerFraming(text) {
+    return esc(text).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
   }
 
   function renderEligibility() {
@@ -965,7 +1026,8 @@
     for (var i = 0; i < HUB_CARDS.length; i++) {
       var card = HUB_CARDS[i];
       if (card.href) {
-        html += '<a class="hub-card" href="' + esc(card.href) + '" target="_blank" rel="noopener noreferrer">';
+        var aria = card.ariaLabel ? ' aria-label="' + esc(card.ariaLabel) + '"' : '';
+        html += '<a class="hub-card" href="' + esc(card.href) + '" target="_blank" rel="noopener noreferrer"' + aria + '>';
       } else {
         html += '<a class="hub-card" href="#" data-hub="' + esc(card.id) + '">';
       }
@@ -1099,24 +1161,31 @@
     if (compareMounted) return;
 
     var tableHtml = '<div class="compare-table-wrap"><table class="compare-table">';
-    tableHtml += '<caption>Simple AI Usage Comparison</caption>';
-    tableHtml += '<thead><tr><th scope="col">AI Tool</th><th scope="col">Regular Price</th><th scope="col">AI File Capacity</th><th scope="col">Chat Endurance</th></tr></thead><tbody>';
+    tableHtml += '<caption>Unofficial coding-assistant comparison — confirm on vendor plan pages.</caption>';
+    tableHtml += '<thead><tr><th scope="col">Tool</th><th scope="col">Coding usages</th><th scope="col">Model availability</th><th scope="col">Pricing</th></tr></thead><tbody>';
     for (var i = 0; i < COMPARE_ROWS.length; i++) {
       var row = COMPARE_ROWS[i];
-      tableHtml += '<tr><td>' + esc(row.tool) + '</td>';
-      tableHtml += '<td>' + formatCell(row.price) + '</td>';
-      tableHtml += '<td>' + formatCell(row.files) + '</td>';
-      tableHtml += '<td>' + formatCell(row.chat) + '</td></tr>';
+      tableHtml += '<tr><td>' + esc(row.tool);
+      if (row.ownerFraming) {
+        tableHtml += '<div class="compare-owner-framing">' + formatOwnerFraming(row.ownerFraming) + '</div>';
+      }
+      tableHtml += '</td>';
+      tableHtml += '<td>' + formatCell(row.coding) + '</td>';
+      tableHtml += '<td>' + formatCell(row.models) + '</td>';
+      tableHtml += '<td>' + formatCell(row.pricing) + '</td></tr>';
     }
     tableHtml += '</tbody></table></div>';
 
     var cardsHtml = '<div class="compare-cards">';
     for (var j = 0; j < COMPARE_ROWS.length; j++) {
       var r = COMPARE_ROWS[j];
-      cardsHtml += '<article class="compare-card"><h2>' + esc(r.tool) + '</h2>';
-      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">Regular Price</div><div class="compare-metric-value">' + formatCell(r.price) + '</div></div>';
-      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">AI File Capacity</div><div class="compare-metric-value">' + formatCell(r.files) + '</div></div>';
-      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">Chat Endurance</div><div class="compare-metric-value">' + formatCell(r.chat) + '</div></div>';
+      cardsHtml += '<article class="compare-card" data-tool="' + esc(r.toolKey) + '"><h2>' + esc(r.tool) + '</h2>';
+      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">Coding usages</div><div class="compare-metric-value">' + formatCell(r.coding) + '</div></div>';
+      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">Model availability</div><div class="compare-metric-value">' + formatCell(r.models) + '</div></div>';
+      cardsHtml += '<div class="compare-metric"><div class="compare-metric-label">Pricing</div><div class="compare-metric-value">' + formatCell(r.pricing) + '</div></div>';
+      if (r.ownerFraming) {
+        cardsHtml += '<p class="compare-owner-framing">' + formatOwnerFraming(r.ownerFraming) + '</p>';
+      }
       cardsHtml += '</article>';
     }
     cardsHtml += '</div>';
