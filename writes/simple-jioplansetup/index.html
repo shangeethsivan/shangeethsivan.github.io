@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFMBSE1VES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SFMBSE1VES');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple Jio Google AI Pro setup | Shangeeth Sivan</title>
+  <meta name="description" content="Unofficial 5-step guide to claiming Jio's Google AI Pro offer — MyJio app or jio.com, including custom email and a family SIM." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #070b14;
+      --card: #0f1526;
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #edf3ff;
+      --muted: #9fb0cc;
+      --accent: #76c7ff;
+      --accent-2: #b19dff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Outfit", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(900px 430px at 0% -10%, rgba(58, 128, 255, 0.18), transparent 65%),
+        radial-gradient(700px 420px at 100% 0%, rgba(140, 110, 255, 0.14), transparent 68%),
+        var(--bg);
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: min(1040px, 100% - 2.2rem);
+      margin-inline: auto;
+      padding: 2rem 0 3rem;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1rem;
+    }
+
+    .brand {
+      font: 700 0.84rem/1 "Plus Jakarta Sans", sans-serif;
+      letter-spacing: 0.12em;
+      color: #d9e6ff;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .back {
+      color: #bcd6ff;
+      text-decoration: none;
+      border: 1px solid rgba(129, 162, 220, 0.5);
+      border-radius: 999px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.86rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.65rem, 4.8vw, 2.75rem);
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+
+    .eligibility {
+      margin-top: 0.85rem;
+      padding: 0.85rem 1rem;
+      background: rgba(15, 21, 38, 0.85);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.55;
+    }
+
+    .eligibility a {
+      color: var(--accent);
+    }
+
+    .panel {
+      margin-top: 1.5rem;
+      background: linear-gradient(160deg, rgba(17, 25, 45, 0.92), rgba(12, 17, 31, 0.94));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.25rem;
+    }
+
+    .panel[hidden] { display: none !important; }
+
+    .chooser-fieldset {
+      border: none;
+      margin: 0 0 1.25rem;
+      padding: 0;
+    }
+
+    .chooser-fieldset legend {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 0.65rem;
+      padding: 0;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      padding: 0.7rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: border-color 160ms ease;
+    }
+
+    .option:hover { border-color: rgba(118, 199, 255, 0.45); }
+
+    .option input {
+      margin-top: 0.2rem;
+      accent-color: var(--accent);
+    }
+
+    .option-label {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .option-help {
+      margin-top: 0.25rem;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .chooser-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      align-items: center;
+    }
+
+    .btn {
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.58rem 1rem;
+      border: 1px solid rgba(131, 159, 214, 0.55);
+      color: #d8e7ff;
+      background: transparent;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn.primary {
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #041122;
+      border: none;
+    }
+
+    .btn.primary:not(:disabled):hover,
+    .btn:not(:disabled):hover {
+      filter: brightness(1.06);
+    }
+
+    .gate-hint {
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .path-headline {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.15rem, 3vw, 1.45rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin: 0 0 0.5rem;
+    }
+
+    .path-subhead {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin: 0 0 1rem;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .step-card {
+      display: grid;
+      gap: 0.85rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem;
+      background: rgba(8, 12, 22, 0.55);
+    }
+
+    @media (min-width: 640px) {
+      .step-card {
+        grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+
+    .step-illus {
+      width: 100%;
+      max-width: 220px;
+      margin-inline: auto;
+    }
+
+    .step-illus svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .illus-disclaimer {
+      font-size: 0.68rem;
+      color: #7f95ba;
+      text-align: center;
+      margin-top: 0.35rem;
+    }
+
+    .step-num {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .step-title {
+      margin: 0.2rem 0 0.35rem;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .step-body {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.94rem;
+    }
+
+    .step-body a {
+      color: var(--accent);
+    }
+
+    .callout {
+      margin-top: 0.5rem;
+      padding: 0.85rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(118, 199, 255, 0.35);
+      background: rgba(118, 199, 255, 0.08);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+
+    .callout p { margin: 0 0 0.65rem; }
+
+    .footnotes {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: #7f95ba;
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .footnotes ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .footnotes li + li { margin-top: 0.35rem; }
+
+    .path-actions {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .noscript-block {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--card);
+    }
+
+    .noscript-block h2 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1.1rem;
+      margin: 0 0 0.75rem;
+    }
+
+    .noscript-block ol {
+      margin: 0;
+      padding-left: 1.25rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .noscript-block p {
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 360px) {
+      .wrap { width: 100%; padding-inline: 0.9rem; }
+      .option { padding: 0.6rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .option { transition: none; }
+      .btn.primary:not(:disabled):hover,
+      .btn:not(:disabled):hover { filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../../">Shangeeth Sivan</a>
+      <a class="back" href="../../">Home</a>
+    </header>
+
+    <h1>Get Jio's Google AI Pro in five steps</h1>
+
+    <p class="eligibility">
+      18+, unlimited 5G plan ₹349+ (prepaid or postpaid mobile), Jio retail only, once per unique mobile number.
+      Keep the eligible plan active for the offer duration.
+      <a href="https://www.jio.com/google-gemini-offer/" target="_blank" rel="noopener noreferrer">Official Jio offer</a>
+    </p>
+
+    <noscript>
+      <div class="noscript-block">
+        <h2>Without JavaScript</h2>
+        <p>This guide needs JavaScript for the full chooser. Here is the official MyJio path:</p>
+        <ol>
+          <li>Open the MyJio app and log in with your Jio number (OTP on the SIM).</li>
+          <li>On Home, find the Google Gemini / Google AI Pro banner.</li>
+          <li>Tap the banner and sign in with your Google Account to activate.</li>
+        </ol>
+        <p>
+          <a href="https://www.jio.com/google-gemini-offer/">Official Jio offer page</a>.
+          Custom email must already be a <a href="https://support.google.com/accounts/answer/27441">Google Account</a>.
+          Family SIM: log into MyJio with the eligible number, then sign into <strong>your</strong> Google account at the Google step.
+        </p>
+      </div>
+    </noscript>
+
+    <div id="chooser-panel" class="panel" hidden>
+      <div id="chooser-root"></div>
+    </div>
+
+    <div id="path-panel" class="panel" hidden>
+      <div id="path-root"></div>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  'use strict';
+
+  /* ── Data: outbound links ── */
+  var LINKS = {
+    offer: { url: 'https://www.jio.com/google-gemini-offer/', label: 'Official Jio offer' },
+    googleAccount: { url: 'https://support.google.com/accounts/answer/27441', label: 'Create a Google Account (any email)' },
+    myjioIos: { url: 'https://apps.apple.com/in/app/myjio/id1159069141', label: 'Get MyJio' },
+    myjioAndroid: { url: 'https://play.google.com/store/apps/details?id=com.jio.myjio', label: 'Get MyJio' },
+    geminiWeb: { url: 'https://gemini.google.com/', label: 'Use Gemini on desktop (post-claim only)' }
+  };
+
+  var SHARED_FOOTNOTES = [
+    'Eligibility: 18+, unlimited 5G ₹349+, retail Jio, once per number, keep the plan active. Source: official offer page.',
+    'This page is unofficial. Jio and Google can change screens. Prefer the live MyJio / offer page if it disagrees.',
+    'Illustrated frames are diagrams, not official screenshots.'
+  ];
+
+  var APP_BANNER_FOOTNOTE = 'Banner missing? Update MyJio, confirm ₹349+ unlimited 5G retail plan, and wait — do not rely on third-party "register interest" dates.';
+
+  /* ── Data: path content (locked copy) ── */
+  var PATH_CONTENT = {
+    'app-sim-self': {
+      pathId: 'app-sim-self',
+      headline: 'Claim on your phone, onto the Google account you already use with this number.',
+      subheadline: null,
+      isApp: true,
+      steps: [
+        { n: 1, title: 'Open MyJio.', body: 'Install or update the app. Log in with your Jio number. Enter the OTP sent to that SIM.', caption: 'Your Jio number + OTP', frameId: 'A-login' },
+        { n: 2, title: 'Find the banner.', body: 'On Home, look for the Google Gemini / Google AI Pro offer at the top.', caption: 'Home offer card', frameId: 'A-home' },
+        { n: 3, title: 'Start the claim.', body: 'Tap the banner, then continue / claim.', caption: 'Tap Claim offer', frameId: 'A-claim' },
+        { n: 4, title: 'Sign in with the usual Google account.', body: 'Pick the Gmail or Google account already associated with this number. Do not switch accounts here.', caption: 'Usual Google account', frameId: 'A-google' },
+        { n: 5, title: 'Confirm, then check Gemini.', body: 'Finish Agree / Activate. Open Gemini and confirm the plan shows AI Pro.', caption: 'Activation complete', frameId: 'A-done' }
+      ]
+    },
+    'app-custom-self': {
+      pathId: 'app-custom-self',
+      headline: 'Claim on your phone, onto a different Google account (including a custom email).',
+      subheadline: null,
+      isApp: true,
+      steps: [
+        { n: 1, title: 'Make it a Google Account first.', body: 'If the custom address is not already a Google Account, create one. See <a href="' + LINKS.googleAccount.url + '" target="_blank" rel="noopener noreferrer">Google help</a>. Jio will not enroll a raw mailbox.', caption: 'Google Account required', frameId: 'A-login' },
+        { n: 2, title: 'Open MyJio on the eligible number.', body: 'Log in; OTP goes to your SIM.', caption: 'Your Jio number + OTP', frameId: 'A-login' },
+        { n: 3, title: 'Tap the Google Gemini banner', body: 'On Home, then continue.', caption: 'Home offer card', frameId: 'A-home' },
+        { n: 4, title: 'Pick the custom account.', body: 'At Google sign-in choose Use another account and enter that Google Account. Do not accept the wrong saved Gmail.', caption: 'Use another account', frameId: 'A-google' },
+        { n: 5, title: 'Confirm on that account.', body: 'If the screen only accepts @gmail.com, stop. Use a Gmail Google Account. Do not invent a workaround.', caption: 'Confirm on your account', frameId: 'A-done' }
+      ]
+    },
+    'app-sim-family': {
+      pathId: 'app-sim-family',
+      headline: 'Use the family number\u2019s MyJio, then attach the Google account already used with that Jio profile \u2014 only if that is actually the account you want.',
+      subheadline: 'If the Pro plan should land on <em>your</em> personal Gmail, choose \u201cDifferent or custom email\u201d instead.',
+      isApp: true,
+      steps: [
+        { n: 1, title: 'Ask the family member.', body: 'They must consent. You need the eligible number\u2019s OTP.', caption: 'OTP \u2192 eligible number', frameId: 'A-login' },
+        { n: 2, title: 'Open MyJio as that number.', body: 'Log in with the family Jio number (their phone, or yours with their OTP).', caption: 'Family Jio number', frameId: 'A-login' },
+        { n: 3, title: 'Tap the Google Gemini banner', body: 'On that Home screen.', caption: 'Home offer card', frameId: 'A-home' },
+        { n: 4, title: 'Keep the SIM-linked Google account', body: 'If that is the intended destination (often theirs, not yours), keep the saved account.', caption: 'SIM-linked account', frameId: 'A-google' },
+        { n: 5, title: 'Confirm.', body: 'The benefit is tied to that Google account and that mobile number. Once per number.', caption: 'Activation complete', frameId: 'A-done' }
+      ]
+    },
+    'app-custom-family': {
+      pathId: 'app-custom-family',
+      headline: 'Eligible number is in someone else\u2019s name. Claim onto <strong>your</strong> Google account.',
+      subheadline: null,
+      isApp: true,
+      steps: [
+        { n: 1, title: 'Ask them first.', body: 'You need the eligible family number in MyJio and its OTP. There is no Jio product that \u201clinks their Jio to your email.\u201d', caption: 'OTP \u2192 eligible number', frameId: 'A-login' },
+        { n: 2, title: 'Prepare your Google Account.', body: 'Gmail or a custom address that is already a Google Account.', caption: 'Your Google Account', frameId: 'A-google' },
+        { n: 3, title: 'Log into MyJio with the eligible family number.', body: 'Home must show <em>their</em> number, not yours.', caption: 'Family Jio number', frameId: 'A-home' },
+        { n: 4, title: 'Tap the banner, then sign into YOUR Google account.', body: 'Use another account if theirs is saved. This is the step that aims Pro at you.', caption: 'Use another account', frameId: 'A-google' },
+        { n: 5, title: 'Confirm on your account.', body: 'Check Gemini while signed in as you. Keep their eligible plan active; the offer follows the number\u2019s plan rules.', caption: 'Your account confirmed', frameId: 'A-done' }
+      ]
+    },
+    'web-sim-self': {
+      pathId: 'web-sim-self',
+      headline: 'Start on Jio\u2019s website. Finish in MyJio + Google \u2014 not a desktop MyJio app.',
+      subheadline: null,
+      isApp: false,
+      steps: [
+        { n: 1, title: 'Open the official offer page', body: 'On the computer: <a href="' + LINKS.offer.url + '" target="_blank" rel="noopener noreferrer">jio.com/google-gemini-offer</a>.', caption: 'jio.com/google-gemini-offer', frameId: 'W-offer' },
+        { n: 2, title: 'Check you qualify', body: '18+, ₹349+ unlimited 5G, retail, unused on this number.', caption: 'Eligibility check', frameId: 'W-offer' },
+        { n: 3, title: 'Click Claim offer.', body: 'That button is a <strong>MyJio deep-link</strong>, not a web console. If the computer only says to open MyJio / scan a QR, pick up the phone and continue from mobile step 2. If a Google window opens in the browser, stay there.', caption: 'Claim offer button', frameId: 'W-claim' },
+        { n: 4, title: 'Sign in with the usual Google account', body: 'Pick the Google account for this number.', caption: 'Usual Google account', frameId: 'W-google' },
+        { n: 5, title: 'Confirm, then use Gemini on the computer', body: 'At <a href="' + LINKS.geminiWeb.url + '" target="_blank" rel="noopener noreferrer">gemini.google.com</a> \u2014 that is <em>usage</em> after a successful claim, not a second claim.', caption: 'gemini.google.com', frameId: 'W-done' }
+      ]
+    },
+    'web-custom-self': {
+      pathId: 'web-custom-self',
+      headline: 'Start on the Jio website; bind a different Google Account.',
+      subheadline: null,
+      isApp: false,
+      steps: [
+        { n: 1, title: 'Create the Google Account', body: 'For the custom address if needed. See <a href="' + LINKS.googleAccount.url + '" target="_blank" rel="noopener noreferrer">Google help</a>.', caption: 'Google Account required', frameId: 'W-google' },
+        { n: 2, title: 'Open the offer page', body: 'On the computer: <a href="' + LINKS.offer.url + '" target="_blank" rel="noopener noreferrer">jio.com/google-gemini-offer</a>.', caption: 'jio.com/google-gemini-offer', frameId: 'W-offer' },
+        { n: 3, title: 'Click Claim offer', body: 'MyJio handoff \u2014 same as other web paths. Continue in the Google window if it appears; otherwise finish in the MyJio app.', caption: 'Claim offer button', frameId: 'W-handoff' },
+        { n: 4, title: 'Choose Use another account', body: 'Enter the custom Google Account.', caption: 'Use another account', frameId: 'W-google' },
+        { n: 5, title: 'Confirm on that account.', body: 'Same @gmail.com refusal rule as the app custom path. Then use Gemini on the desktop while signed into that account.', caption: 'gemini.google.com', frameId: 'W-done' }
+      ]
+    },
+    'web-sim-family': {
+      pathId: 'web-sim-family',
+      headline: 'Website start; MyJio session must be the family number.',
+      subheadline: null,
+      isApp: false,
+      steps: [
+        { n: 1, title: 'Get consent and the eligible number\u2019s OTP.', body: 'You need permission and access to their SIM for OTP.', caption: 'OTP \u2192 eligible number', frameId: 'W-offer' },
+        { n: 2, title: 'Open the offer page', body: 'On the computer: <a href="' + LINKS.offer.url + '" target="_blank" rel="noopener noreferrer">jio.com/google-gemini-offer</a>.', caption: 'jio.com/google-gemini-offer', frameId: 'W-offer' },
+        { n: 3, title: 'Click Claim offer.', body: 'When MyJio or Google asks who you are, the Jio side must be the <strong>family number</strong>.', caption: 'Opens MyJio', frameId: 'W-handoff' },
+        { n: 4, title: 'Keep the SIM-linked Google account', body: 'Only if that is the intended inbox (usually not yours). Otherwise go back and choose \u201cDifferent or custom email.\u201d', caption: 'SIM-linked account', frameId: 'W-google' },
+        { n: 5, title: 'Confirm.', body: 'Do not use Jio self-care \u201clink numbers\u201d as a substitute for this flow.', caption: 'Activation complete', frameId: 'W-done' }
+      ]
+    },
+    'web-custom-family': {
+      pathId: 'web-custom-family',
+      headline: 'Website start; family number in MyJio; your Google account at sign-in.',
+      subheadline: null,
+      isApp: false,
+      steps: [
+        { n: 1, title: 'Consent + your Google Account ready', body: 'Gmail or custom-as-Google. See <a href="' + LINKS.googleAccount.url + '" target="_blank" rel="noopener noreferrer">Google help</a> if needed.', caption: 'Your Google Account', frameId: 'W-google' },
+        { n: 2, title: 'Open the offer page', body: 'On the computer: <a href="' + LINKS.offer.url + '" target="_blank" rel="noopener noreferrer">jio.com/google-gemini-offer</a>.', caption: 'jio.com/google-gemini-offer', frameId: 'W-offer' },
+        { n: 3, title: 'Click Claim offer.', body: 'Handoff to MyJio must use the <strong>eligible family number</strong> (OTP on their SIM).', caption: 'Opens MyJio', frameId: 'W-handoff' },
+        { n: 4, title: 'At Google, sign in as you', body: 'Use another account.', caption: 'Use another account', frameId: 'W-google' },
+        { n: 5, title: 'Confirm on your Gemini.', body: 'Keep their eligible plan active.', caption: 'gemini.google.com', frameId: 'W-done' }
+      ]
+    }
+  };
+
+  var VALID = {
+    surface: { app: true, web: true },
+    email: { sim: true, custom: true },
+    numberOwner: { self: true, family: true }
+  };
+
+  var HASH_KEYS = { s: 'surface', e: 'email', n: 'numberOwner' };
+
+  var state = {
+    answers: { surface: null, email: null, numberOwner: null },
+    view: 'loading',
+    pathPushed: false,
+    parsed: false
+  };
+
+  /* ── Domain ── */
+  function derivePathId(a) {
+    if (!a.surface || !a.email || !a.numberOwner) return null;
+    return a.surface + '-' + a.email + '-' + a.numberOwner;
+  }
+
+  function parseHash() {
+    var raw = location.hash.replace(/^#/, '');
+    if (!raw) return { surface: null, email: null, numberOwner: null, valid: true };
+
+    var params = {};
+    var parts = raw.split('&');
+    var valid = true;
+
+    for (var i = 0; i < parts.length; i++) {
+      var kv = parts[i].split('=');
+      if (kv.length !== 2) { valid = false; continue; }
+      if (!Object.prototype.hasOwnProperty.call(HASH_KEYS, kv[0])) { valid = false; continue; }
+      params[kv[0]] = kv[1];
+    }
+
+    if (!valid) {
+      return { surface: null, email: null, numberOwner: null, valid: false };
+    }
+
+    var answers = { surface: null, email: null, numberOwner: null };
+
+    for (var key in HASH_KEYS) {
+      if (!Object.prototype.hasOwnProperty.call(HASH_KEYS, key)) continue;
+      var field = HASH_KEYS[key];
+      if (!(key in params)) continue;
+      var val = params[key];
+      var bucket = field === 'surface' ? VALID.surface : field === 'email' ? VALID.email : VALID.numberOwner;
+      if (bucket[val]) {
+        answers[field] = val;
+      } else {
+        return { surface: null, email: null, numberOwner: null, valid: false };
+      }
+    }
+
+    return answers;
+  }
+
+  function buildHash(a) {
+    if (!a.surface && !a.email && !a.numberOwner) return '';
+    var parts = [];
+    if (a.surface) parts.push('s=' + a.surface);
+    if (a.email) parts.push('e=' + a.email);
+    if (a.numberOwner) parts.push('n=' + a.numberOwner);
+    return parts.length ? '#' + parts.join('&') : '';
+  }
+
+  function writeHash(a, usePush) {
+    var pathId = derivePathId(a);
+    var hash = buildHash(a);
+    var url = location.pathname + location.search + hash;
+    if (pathId && usePush && !state.pathPushed) {
+      history.pushState(null, '', url);
+      state.pathPushed = true;
+    } else {
+      history.replaceState(null, '', url);
+    }
+  }
+
+  function esc(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── SVG illustrations ── */
+  function phoneFrame(inner, chip) {
+    return '<svg viewBox="0 0 200 280" role="img" aria-label="' + esc(chip) + ' — illustrated, not an official screenshot">' +
+      '<rect x="40" y="8" width="120" height="264" rx="18" fill="#0a1020" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>' +
+      '<rect x="78" y="16" width="44" height="6" rx="3" fill="rgba(148,163,184,0.25)"/>' +
+      inner +
+      '<rect x="70" y="258" width="60" height="4" rx="2" fill="rgba(148,163,184,0.2)"/>' +
+      '</svg>';
+  }
+
+  function browserFrame(urlBar, inner, chip) {
+    return '<svg viewBox="0 0 240 200" role="img" aria-label="' + esc(chip) + ' — illustrated, not an official screenshot">' +
+      '<rect x="8" y="8" width="224" height="184" rx="10" fill="#0a1020" stroke="rgba(148,163,184,0.35)" stroke-width="2"/>' +
+      '<rect x="8" y="8" width="224" height="28" rx="10" fill="#121a2e"/>' +
+      '<circle cx="24" cy="22" r="4" fill="#ff6b6b"/><circle cx="38" cy="22" r="4" fill="#ffd166"/><circle cx="52" cy="22" r="4" fill="#6df0b4"/>' +
+      '<rect x="64" y="14" width="150" height="16" rx="4" fill="#070b14"/>' +
+      '<text x="72" y="26" fill="#9fb0cc" font-size="8" font-family="Outfit,sans-serif">' + esc(urlBar) + '</text>' +
+      inner +
+      '</svg>';
+  }
+
+  function renderFrame(frameId, caption) {
+    var inner = '';
+    switch (frameId) {
+      case 'A-login':
+        inner = '<rect x="52" y="48" width="96" height="14" rx="4" fill="#151d33"/>' +
+          '<rect x="52" y="72" width="96" height="14" rx="4" fill="#151d33"/>' +
+          '<rect x="52" y="100" width="96" height="28" rx="6" fill="#76c7ff"/>' +
+          '<text x="100" y="118" text-anchor="middle" fill="#041122" font-size="9" font-weight="700" font-family="Outfit,sans-serif">OTP</text>' +
+          '<text x="100" y="150" text-anchor="middle" fill="#9fb0cc" font-size="7" font-family="Outfit,sans-serif">' + esc(caption.slice(0, 28)) + '</text>';
+        return phoneFrame(inner, caption);
+      case 'A-home':
+        inner = '<rect x="52" y="44" width="96" height="36" rx="6" fill="#1a2544" stroke="#76c7ff" stroke-width="1"/>' +
+          '<text x="100" y="58" text-anchor="middle" fill="#76c7ff" font-size="7" font-weight="700" font-family="Outfit,sans-serif">Google AI Pro</text>' +
+          '<text x="100" y="72" text-anchor="middle" fill="#9fb0cc" font-size="6" font-family="Outfit,sans-serif">Gemini offer</text>' +
+          '<rect x="52" y="90" width="96" height="10" rx="3" fill="#151d33"/><rect x="52" y="108" width="72" height="10" rx="3" fill="#151d33"/>';
+        return phoneFrame(inner, caption);
+      case 'A-claim':
+        inner = '<rect x="52" y="60" width="96" height="40" rx="6" fill="#1a2544"/>' +
+          '<rect x="62" y="120" width="76" height="24" rx="8" fill="linear-gradient" style="fill:#76c7ff"/>' +
+          '<text x="100" y="136" text-anchor="middle" fill="#041122" font-size="8" font-weight="700" font-family="Outfit,sans-serif">Claim offer</text>';
+        return phoneFrame(inner, caption);
+      case 'A-google':
+        inner = '<rect x="52" y="50" width="96" height="22" rx="5" fill="#151d33" stroke="#76c7ff" stroke-width="1"/>' +
+          '<text x="100" y="64" text-anchor="middle" fill="#edf3ff" font-size="7" font-family="Outfit,sans-serif">Saved account</text>' +
+          '<rect x="52" y="82" width="96" height="22" rx="5" fill="#151d33"/>' +
+          '<text x="100" y="96" text-anchor="middle" fill="#b19dff" font-size="7" font-family="Outfit,sans-serif">Use another account</text>';
+        return phoneFrame(inner, caption);
+      case 'A-done':
+        inner = '<circle cx="100" cy="110" r="28" fill="rgba(109,240,180,0.15)" stroke="#6df0b4" stroke-width="2"/>' +
+          '<path d="M88 110 L96 118 L114 98" fill="none" stroke="#6df0b4" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>';
+        return phoneFrame(inner, caption);
+      case 'W-offer':
+        inner = '<rect x="20" y="48" width="200" height="120" rx="6" fill="#0f1526"/>' +
+          '<text x="120" y="78" text-anchor="middle" fill="#76c7ff" font-size="10" font-weight="700" font-family="Plus Jakarta Sans,sans-serif">Google AI Pro</text>' +
+          '<text x="120" y="96" text-anchor="middle" fill="#9fb0cc" font-size="8" font-family="Outfit,sans-serif">Jio offer page</text>';
+        return browserFrame('jio.com/google-gemini-offer', inner, caption);
+      case 'W-claim':
+        inner = '<rect x="20" y="48" width="200" height="100" rx="6" fill="#0f1526"/>' +
+          '<rect x="70" y="100" width="100" height="28" rx="8" fill="#76c7ff"/>' +
+          '<text x="120" y="118" text-anchor="middle" fill="#041122" font-size="9" font-weight="700" font-family="Outfit,sans-serif">Claim offer</text>';
+        return browserFrame('jio.com/google-gemini-offer', inner, caption);
+      case 'W-handoff':
+        inner = '<rect x="20" y="44" width="130" height="90" rx="6" fill="#0f1526"/>' +
+          '<rect x="130" y="70" width="60" height="100" rx="10" fill="#0a1020" stroke="rgba(148,163,184,0.35)"/>' +
+          '<text x="150" y="110" text-anchor="middle" fill="#76c7ff" font-size="6" font-family="Outfit,sans-serif">MyJio</text>' +
+          '<path d="M150 44 L150 70" stroke="#b19dff" stroke-width="2" marker-end="url(#arr)"/>' +
+          '<defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b19dff"/></marker></defs>' +
+          '<text x="85" y="130" text-anchor="middle" fill="#9fb0cc" font-size="7" font-family="Outfit,sans-serif">Opens MyJio</text>';
+        return browserFrame('jio.com/dl/dashboard', inner, caption);
+      case 'W-google':
+        inner = '<rect x="30" y="52" width="180" height="28" rx="5" fill="#151d33" stroke="#76c7ff"/>' +
+          '<text x="120" y="70" text-anchor="middle" fill="#edf3ff" font-size="8" font-family="Outfit,sans-serif">Google sign-in</text>' +
+          '<rect x="30" y="90" width="180" height="22" rx="5" fill="#151d33"/>' +
+          '<text x="120" y="104" text-anchor="middle" fill="#b19dff" font-size="7" font-family="Outfit,sans-serif">Use another account</text>';
+        return browserFrame('accounts.google.com', inner, caption);
+      case 'W-done':
+        inner = '<rect x="20" y="48" width="200" height="110" rx="6" fill="#0f1526"/>' +
+          '<text x="120" y="82" text-anchor="middle" fill="#edf3ff" font-size="9" font-family="Outfit,sans-serif">gemini.google.com</text>' +
+          '<rect x="80" y="92" width="80" height="20" rx="6" fill="rgba(118,199,255,0.2)" stroke="#76c7ff"/>' +
+          '<text x="120" y="106" text-anchor="middle" fill="#76c7ff" font-size="8" font-weight="700" font-family="Outfit,sans-serif">AI Pro</text>';
+        return browserFrame('gemini.google.com', inner, caption);
+      default:
+        return phoneFrame('<text x="100" y="120" text-anchor="middle" fill="#9fb0cc" font-size="8">Step</text>', caption);
+    }
+  }
+
+  /* ── UI render ── */
+  var chooserPanel = document.getElementById('chooser-panel');
+  var pathPanel = document.getElementById('path-panel');
+  var chooserRoot = document.getElementById('chooser-root');
+  var pathRoot = document.getElementById('path-root');
+
+  var QUESTIONS = [
+    {
+      field: 'surface',
+      legend: 'Where are you setting this up?',
+      options: [
+        { value: 'app', label: 'Phone — MyJio app', help: null },
+        { value: 'web', label: 'Computer — Jio website', help: 'Starts on Jio\u2019s public offer page. Claiming still finishes in MyJio (usually on a phone) and a Google sign-in. There is no separate MyJio desktop console.' }
+      ]
+    },
+    {
+      field: 'email',
+      legend: 'Which Google account should get AI Pro?',
+      options: [
+        { value: 'sim', label: 'Email already on this Jio number', help: null },
+        { value: 'custom', label: 'Different or custom email', help: 'That address must already be a Google Account, or you create one first. Jio\u2019s screens say Gmail ID. If they refuse a non-Gmail address, use Gmail.' }
+      ]
+    },
+    {
+      field: 'numberOwner',
+      legend: 'Whose Jio number is eligible?',
+      options: [
+        { value: 'self', label: 'My number', help: null },
+        { value: 'family', label: 'Family member\u2019s number', help: 'Log into MyJio with the eligible number, then sign into <strong>your</strong> Google account. Jio has no extra \u201cfamily link\u201d product for this offer. You need that number\u2019s OTP (ask them).' }
+      ]
+    }
+  ];
+
+  function isComplete(a) {
+    return !!(a.surface && a.email && a.numberOwner);
+  }
+
+  function renderChooser() {
+    var a = state.answers;
+    var html = '';
+
+    for (var qi = 0; qi < QUESTIONS.length; qi++) {
+      var q = QUESTIONS[qi];
+      html += '<fieldset class="chooser-fieldset" role="radiogroup" aria-labelledby="q-' + q.field + '">';
+      html += '<legend id="q-' + q.field + '">' + esc(q.legend) + '</legend>';
+
+      for (var oi = 0; oi < q.options.length; oi++) {
+        var opt = q.options[oi];
+        var id = q.field + '-' + opt.value;
+        var checked = a[q.field] === opt.value ? ' checked' : '';
+        html += '<label class="option" for="' + id + '">';
+        html += '<input type="radio" name="' + q.field + '" id="' + id + '" value="' + opt.value + '"' + checked + ' />';
+        html += '<span><span class="option-label">' + esc(opt.label) + '</span>';
+        if (opt.help) {
+          html += '<div class="option-help">' + opt.help + '</div>';
+        }
+        html += '</span></label>';
+      }
+      html += '</fieldset>';
+    }
+
+    var complete = isComplete(a);
+    html += '<div class="chooser-actions">';
+    html += '<button type="button" class="btn primary" id="continue-btn"' + (complete ? '' : ' disabled') +
+      ' aria-disabled="' + (complete ? 'false' : 'true') + '"' +
+      (complete ? '' : ' title="Answer all three questions first"') + '>Continue</button>';
+    if (!complete) {
+      html += '<span class="gate-hint" id="gate-hint">Answer all three</span>';
+    }
+    html += '</div>';
+
+    chooserRoot.innerHTML = html;
+
+    var radios = chooserRoot.querySelectorAll('input[type="radio"]');
+    for (var ri = 0; ri < radios.length; ri++) {
+      radios[ri].addEventListener('change', onRadioChange);
+    }
+
+    document.getElementById('continue-btn').addEventListener('click', onContinue);
+  }
+
+  function renderPath(pathId) {
+    var content = PATH_CONTENT[pathId];
+    if (!content) return;
+
+    var html = '<h2 class="path-headline">' + content.headline + '</h2>';
+    if (content.subheadline) {
+      html += '<p class="path-subhead">' + content.subheadline + '</p>';
+    }
+
+    html += '<div class="steps">';
+    for (var si = 0; si < content.steps.length; si++) {
+      var step = content.steps[si];
+      html += '<article class="step-card">';
+      html += '<div class="step-illus">' + renderFrame(step.frameId, step.caption);
+      html += '<div class="illus-disclaimer">Illustrated — not an official screenshot.</div></div>';
+      html += '<div class="step-copy">';
+      html += '<div class="step-num">Step ' + step.n + '</div>';
+      html += '<h3 class="step-title">' + esc(step.title) + '</h3>';
+      html += '<p class="step-body">' + step.body + '</p>';
+
+      if (!content.isApp && step.n === 3) {
+        html += '<aside class="callout" aria-label="Desktop claim handoff">';
+        html += '<p>Official Claim offer opens MyJio (<code>jio.com/dl/dashboard</code>), not a desktop MyJio console. Switch to the phone steps if that is all you get.</p>';
+        html += '<button type="button" class="btn primary" id="phone-steps-btn">Show the phone steps</button>';
+        html += '</aside>';
+      }
+
+      html += '</div></article>';
+    }
+    html += '</div>';
+
+    html += '<div class="path-actions">';
+    html += '<button type="button" class="btn" id="change-answers-btn">Change answers</button>';
+    html += '</div>';
+
+    html += '<footer class="footnotes"><ul>';
+    for (var fi = 0; fi < SHARED_FOOTNOTES.length; fi++) {
+      html += '<li>' + esc(SHARED_FOOTNOTES[fi]) + '</li>';
+    }
+    if (content.isApp) {
+      html += '<li>' + esc(APP_BANNER_FOOTNOTE) + '</li>';
+    }
+    html += '<li>You need a network connection to claim on Jio/Google.</li>';
+    html += '</ul></footer>';
+
+    pathRoot.innerHTML = html;
+
+    document.getElementById('change-answers-btn').addEventListener('click', function () {
+      state.view = 'chooser';
+      state.pathPushed = false;
+      writeHash(state.answers, false);
+      updateView();
+    });
+
+    var phoneBtn = document.getElementById('phone-steps-btn');
+    if (phoneBtn) {
+      phoneBtn.addEventListener('click', function () {
+        state.answers.surface = 'app';
+        state.pathPushed = false;
+        var newPath = derivePathId(state.answers);
+        writeHash(state.answers, true);
+        state.view = 'path';
+        renderPath(newPath);
+        updateView();
+      });
+    }
+  }
+
+  function updateView() {
+    var pathId = derivePathId(state.answers);
+
+    if (state.view === 'path' && pathId && PATH_CONTENT[pathId]) {
+      chooserPanel.hidden = true;
+      pathPanel.hidden = false;
+      renderPath(pathId);
+    } else {
+      state.view = 'chooser';
+      chooserPanel.hidden = false;
+      pathPanel.hidden = true;
+      renderChooser();
+    }
+  }
+
+  function onRadioChange(ev) {
+    var name = ev.target.name;
+    state.answers[name] = ev.target.value;
+    state.pathPushed = false;
+    writeHash(state.answers, false);
+
+    if (isComplete(state.answers) && state.view === 'path') {
+      state.view = 'path';
+      writeHash(state.answers, true);
+    }
+
+    if (state.view === 'chooser') {
+      renderChooser();
+    }
+  }
+
+  function onContinue() {
+    if (!isComplete(state.answers)) return;
+    state.view = 'path';
+    writeHash(state.answers, true);
+    updateView();
+  }
+
+  function boot() {
+    var parsed = parseHash();
+    if (parsed.valid === false) {
+      state.answers = { surface: null, email: null, numberOwner: null };
+      history.replaceState(null, '', location.pathname + location.search);
+    } else {
+      state.answers = {
+        surface: parsed.surface || null,
+        email: parsed.email || null,
+        numberOwner: parsed.numberOwner || null
+      };
+    }
+
+    if (isComplete(state.answers)) {
+      state.view = 'path';
+      state.pathPushed = true;
+    } else {
+      state.view = 'chooser';
+    }
+
+    state.parsed = true;
+    updateView();
+  }
+
+  window.addEventListener('hashchange', function () {
+    var parsed = parseHash();
+    if (parsed.valid === false) {
+      state.answers = { surface: null, email: null, numberOwner: null };
+      state.view = 'chooser';
+      state.pathPushed = false;
+    } else {
+      state.answers = {
+        surface: parsed.surface || null,
+        email: parsed.email || null,
+        numberOwner: parsed.numberOwner || null
+      };
+      state.view = isComplete(state.answers) ? 'path' : 'chooser';
+    }
+    updateView();
+  });
+
+  window.addEventListener('popstate', function () {
+    var parsed = parseHash();
+    state.answers = parsed.valid === false
+      ? { surface: null, email: null, numberOwner: null }
+      : { surface: parsed.surface || null, email: parsed.email || null, numberOwner: parsed.numberOwner || null };
+    state.view = isComplete(state.answers) ? 'path' : 'chooser';
+    state.pathPushed = isComplete(state.answers);
+    updateView();
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
+  </script>
+</body>
+</html>
