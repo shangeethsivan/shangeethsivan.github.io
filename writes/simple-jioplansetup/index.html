@@ -528,10 +528,10 @@
 
   var state = {
     answers: { surface: null, email: null, numberOwner: null },
-    view: 'loading',
-    pathPushed: false,
-    parsed: false
+    view: 'loading'
   };
+
+  var chooserMounted = false;
 
   /* ── Domain ── */
   function derivePathId(a) {
@@ -585,16 +585,32 @@
     return parts.length ? '#' + parts.join('&') : '';
   }
 
-  function writeHash(a, usePush) {
-    var pathId = derivePathId(a);
-    var hash = buildHash(a);
+  function copyAnswers(a) {
+    return { surface: a.surface, email: a.email, numberOwner: a.numberOwner };
+  }
+
+  function historyPayload(view, answers) {
+    return { view: view, answers: copyAnswers(answers) };
+  }
+
+  function syncHistory(view, usePush) {
+    var hash = buildHash(state.answers);
     var url = location.pathname + location.search + hash;
-    if (pathId && usePush && !state.pathPushed) {
-      history.pushState(null, '', url);
-      state.pathPushed = true;
+    var payload = historyPayload(view, state.answers);
+    if (usePush) {
+      history.pushState(payload, '', url);
     } else {
-      history.replaceState(null, '', url);
+      history.replaceState(payload, '', url);
     }
+  }
+
+  function applyHistoryState(st) {
+    if (st && st.answers) {
+      state.answers = copyAnswers(st.answers);
+      state.view = st.view === 'path' ? 'path' : 'chooser';
+      return true;
+    }
+    return false;
   }
 
   function esc(s) {
@@ -729,8 +745,7 @@
     return !!(a.surface && a.email && a.numberOwner);
   }
 
-  function renderChooser() {
-    var a = state.answers;
+  function mountChooser() {
     var html = '';
 
     for (var qi = 0; qi < QUESTIONS.length; qi++) {
@@ -741,9 +756,8 @@
       for (var oi = 0; oi < q.options.length; oi++) {
         var opt = q.options[oi];
         var id = q.field + '-' + opt.value;
-        var checked = a[q.field] === opt.value ? ' checked' : '';
         html += '<label class="option" for="' + id + '">';
-        html += '<input type="radio" name="' + q.field + '" id="' + id + '" value="' + opt.value + '"' + checked + ' />';
+        html += '<input type="radio" name="' + q.field + '" id="' + id + '" value="' + opt.value + '" />';
         html += '<span><span class="option-label">' + esc(opt.label) + '</span>';
         if (opt.help) {
           html += '<div class="option-help">' + opt.help + '</div>';
@@ -753,24 +767,43 @@
       html += '</fieldset>';
     }
 
-    var complete = isComplete(a);
     html += '<div class="chooser-actions">';
-    html += '<button type="button" class="btn primary" id="continue-btn"' + (complete ? '' : ' disabled') +
-      ' aria-disabled="' + (complete ? 'false' : 'true') + '"' +
-      (complete ? '' : ' title="Answer all three questions first"') + '>Continue</button>';
-    if (!complete) {
-      html += '<span class="gate-hint" id="gate-hint">Answer all three</span>';
-    }
+    html += '<button type="button" class="btn primary" id="continue-btn" disabled aria-label="Continue. Answer all three questions first">Continue</button>';
+    html += '<span class="gate-hint" id="gate-hint">Answer all three</span>';
     html += '</div>';
 
     chooserRoot.innerHTML = html;
 
-    var radios = chooserRoot.querySelectorAll('input[type="radio"]');
-    for (var ri = 0; ri < radios.length; ri++) {
-      radios[ri].addEventListener('change', onRadioChange);
-    }
+    chooserRoot.addEventListener('change', function (ev) {
+      if (ev.target.type === 'radio') onRadioChange(ev);
+    });
 
     document.getElementById('continue-btn').addEventListener('click', onContinue);
+    chooserMounted = true;
+  }
+
+  function syncChooserUI() {
+    if (!chooserMounted) mountChooser();
+
+    var a = state.answers;
+    for (var qi = 0; qi < QUESTIONS.length; qi++) {
+      var field = QUESTIONS[qi].field;
+      var radios = chooserRoot.querySelectorAll('input[name="' + field + '"]');
+      for (var ri = 0; ri < radios.length; ri++) {
+        radios[ri].checked = radios[ri].value === a[field];
+      }
+    }
+
+    var complete = isComplete(a);
+    var continueBtn = document.getElementById('continue-btn');
+    var gateHint = document.getElementById('gate-hint');
+    continueBtn.disabled = !complete;
+    if (complete) {
+      continueBtn.removeAttribute('aria-label');
+    } else {
+      continueBtn.setAttribute('aria-label', 'Continue. Answer all three questions first');
+    }
+    gateHint.hidden = complete;
   }
 
   function renderPath(pathId) {
@@ -822,8 +855,7 @@
 
     document.getElementById('change-answers-btn').addEventListener('click', function () {
       state.view = 'chooser';
-      state.pathPushed = false;
-      writeHash(state.answers, false);
+      syncHistory('chooser', false);
       updateView();
     });
 
@@ -831,11 +863,8 @@
     if (phoneBtn) {
       phoneBtn.addEventListener('click', function () {
         state.answers.surface = 'app';
-        state.pathPushed = false;
-        var newPath = derivePathId(state.answers);
-        writeHash(state.answers, true);
         state.view = 'path';
-        renderPath(newPath);
+        syncHistory('path', true);
         updateView();
       });
     }
@@ -852,81 +881,64 @@
       state.view = 'chooser';
       chooserPanel.hidden = false;
       pathPanel.hidden = true;
-      renderChooser();
+      syncChooserUI();
     }
   }
 
   function onRadioChange(ev) {
-    var name = ev.target.name;
-    state.answers[name] = ev.target.value;
-    state.pathPushed = false;
-    writeHash(state.answers, false);
-
-    if (isComplete(state.answers) && state.view === 'path') {
-      state.view = 'path';
-      writeHash(state.answers, true);
-    }
-
-    if (state.view === 'chooser') {
-      renderChooser();
-    }
+    state.answers[ev.target.name] = ev.target.value;
+    syncHistory('chooser', false);
+    syncChooserUI();
   }
 
   function onContinue() {
     if (!isComplete(state.answers)) return;
     state.view = 'path';
-    writeHash(state.answers, true);
+    syncHistory('path', true);
     updateView();
   }
 
-  function boot() {
+  function restoreFromHash() {
     var parsed = parseHash();
     if (parsed.valid === false) {
       state.answers = { surface: null, email: null, numberOwner: null };
-      history.replaceState(null, '', location.pathname + location.search);
-    } else {
-      state.answers = {
-        surface: parsed.surface || null,
-        email: parsed.email || null,
-        numberOwner: parsed.numberOwner || null
-      };
-    }
-
-    if (isComplete(state.answers)) {
-      state.view = 'path';
-      state.pathPushed = true;
-    } else {
       state.view = 'chooser';
+      history.replaceState(historyPayload('chooser', state.answers), '', location.pathname + location.search);
+      return;
+    }
+    state.answers = {
+      surface: parsed.surface || null,
+      email: parsed.email || null,
+      numberOwner: parsed.numberOwner || null
+    };
+    state.view = isComplete(state.answers) ? 'path' : 'chooser';
+  }
+
+  function boot() {
+    if (!applyHistoryState(history.state)) {
+      restoreFromHash();
     }
 
-    state.parsed = true;
+    syncHistory(state.view, false);
     updateView();
   }
 
   window.addEventListener('hashchange', function () {
-    var parsed = parseHash();
-    if (parsed.valid === false) {
-      state.answers = { surface: null, email: null, numberOwner: null };
-      state.view = 'chooser';
-      state.pathPushed = false;
-    } else {
-      state.answers = {
-        surface: parsed.surface || null,
-        email: parsed.email || null,
-        numberOwner: parsed.numberOwner || null
-      };
-      state.view = isComplete(state.answers) ? 'path' : 'chooser';
+    if (applyHistoryState(history.state)) {
+      updateView();
+      return;
     }
+    restoreFromHash();
+    syncHistory(state.view, false);
     updateView();
   });
 
-  window.addEventListener('popstate', function () {
-    var parsed = parseHash();
-    state.answers = parsed.valid === false
-      ? { surface: null, email: null, numberOwner: null }
-      : { surface: parsed.surface || null, email: parsed.email || null, numberOwner: parsed.numberOwner || null };
-    state.view = isComplete(state.answers) ? 'path' : 'chooser';
-    state.pathPushed = isComplete(state.answers);
+  window.addEventListener('popstate', function (event) {
+    if (applyHistoryState(event.state)) {
+      updateView();
+      return;
+    }
+    restoreFromHash();
     updateView();
   });
 
