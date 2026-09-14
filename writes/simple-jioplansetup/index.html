@@ -189,14 +189,23 @@
       display: block;
     }
 
+    .hub-card-copy {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+
     .hub-card-title {
+      display: block;
       font-weight: 700;
       font-size: 1.05rem;
       margin: 0;
     }
 
     .hub-card-help {
-      margin: var(--space-2) 0 0;
+      display: block;
+      margin: 0;
       color: var(--muted);
       font-size: 0.92rem;
     }
@@ -242,10 +251,17 @@
       outline-offset: 2px;
     }
 
+    .jio-option-copy {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 0;
+    }
+
     .jio-option-label {
+      display: block;
       font-weight: 700;
       font-size: 1.05rem;
-      display: block;
     }
 
     @media (min-width: 720px) {
@@ -253,7 +269,8 @@
     }
 
     .jio-option-help {
-      margin-top: var(--space-2);
+      display: block;
+      margin: 0;
       color: var(--muted);
       font-size: 0.92rem;
       line-height: 1.45;
@@ -1032,7 +1049,7 @@
         html += '<a class="hub-card" href="#" data-hub="' + esc(card.id) + '">';
       }
       html += '<span class="hub-card-icon">' + iconSvg(card.icon) + '</span>';
-      html += '<span><span class="hub-card-title">' + esc(card.title) + '</span>';
+      html += '<span class="hub-card-copy"><span class="hub-card-title">' + esc(card.title) + '</span>';
       html += '<span class="hub-card-help">' + esc(card.help) + '</span></span>';
       html += '</a>';
     }
@@ -1060,7 +1077,7 @@
     for (var i = 0; i < JIO_OPTIONS.length; i++) {
       var opt = JIO_OPTIONS[i];
       html += '<button type="button" class="jio-option" data-email="' + opt.email + '" aria-pressed="false">';
-      html += '<span><span class="jio-option-label">' + esc(opt.label) + '</span>';
+      html += '<span class="jio-option-copy"><span class="jio-option-label">' + esc(opt.label) + '</span>';
       html += '<span class="jio-option-help">' + esc(opt.help) + '</span></span>';
       html += '</button>';
     }
