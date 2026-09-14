@@ -437,12 +437,6 @@
     }
 
     /* Compare */
-    .compare-caption {
-      margin: var(--space-2) 0 0;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
     .compare-table-wrap {
       margin-top: var(--space-5);
       overflow-x: auto;
@@ -639,7 +633,6 @@
 
     <section id="view-compare" class="view wide" hidden aria-labelledby="compare-title">
       <h1 id="compare-title">Coding assistant comparison</h1>
-      <p class="compare-caption">Unofficial — confirm plans and models on each vendor&apos;s site.</p>
       <div id="compare-root"></div>
     </section>
   </div>
@@ -718,7 +711,7 @@
 
         <p class="noscript-video-link">
           <svg class="noscript-yt-mark" viewBox="0 0 32 22" aria-hidden="true"><rect width="32" height="22" rx="4" fill="#FF0000"/><path d="M13 6 L21 11 L13 16 Z" fill="#ffffff"/></svg>
-          <a href="https://www.youtube.com/watch?v=VggMHCUtUCI" target="_blank" rel="noopener noreferrer" aria-label="How I built a friend&apos;s website on YouTube">How I built a friend&apos;s website (YouTube · from the start)</a>
+          <a href="https://www.youtube.com/watch?v=VggMHCUtUCI&amp;t=0s" target="_blank" rel="noopener noreferrer" aria-label="How I built a friend&apos;s website on YouTube">How I built a friend&apos;s website (YouTube)</a>
         </p>
         <p>You need a network connection to open Jio, Google, or YouTube.</p>
       </div>
@@ -735,7 +728,7 @@
     myjioIos: 'https://apps.apple.com/in/app/myjio/id1159069141',
     myjioAndroid: 'https://play.google.com/store/apps/details?id=com.jio.myjio',
     geminiWeb: 'https://gemini.google.com/',
-    friendVideo: 'https://www.youtube.com/watch?v=VggMHCUtUCI',
+    friendVideo: 'https://www.youtube.com/watch?v=VggMHCUtUCI&t=0s',
     agPlans: 'https://antigravity.google/docs/plans/',
     agHome: 'https://antigravity.google/',
     codexPlans: 'https://chatgpt.com/codex/pricing/',
@@ -744,9 +737,7 @@
   };
 
   var SHARED_FOOTNOTES = [
-    'Eligibility: 18+, unlimited 5G ₹349+, retail Jio, once per number, keep the plan active. Source: official offer page.',
-    'This page is unofficial. Jio and Google can change screens. Prefer the live MyJio / offer page if it disagrees.',
-    'Illustrated frames are diagrams, not official screenshots.'
+    'This page is unofficial. Jio and Google can change screens. Prefer the live MyJio / offer page if it disagrees.'
   ];
 
   var BANNER_FOOTNOTE = 'Banner missing? Update MyJio, confirm ₹349+ unlimited 5G retail plan, and wait — do not rely on third-party "register interest" dates.';
@@ -825,7 +816,7 @@
   var HUB_CARDS = [
     { id: 'jio', title: 'Jio Setup Help', help: 'Basic or Custom Email \u00B7 5 steps', icon: 'ico-jio', route: { view: 'jio-chooser', email: null } },
     { id: 'compare', title: 'Compare coding assistants', help: 'Antigravity \u00B7 Codex \u00B7 Claude Desktop \u00B7 Cursor', icon: 'ico-compare', route: { view: 'compare', email: null } },
-    { id: 'video', title: 'How I built a friend\u2019s website', help: 'YouTube \u00B7 from the start', icon: 'ico-youtube', href: LINKS.friendVideo, ariaLabel: 'How I built a friend\u2019s website on YouTube' }
+    { id: 'video', title: 'How I built a friend\u2019s website', help: 'YouTube', icon: 'ico-youtube', href: LINKS.friendVideo, ariaLabel: 'How I built a friend\u2019s website on YouTube' }
   ];
 
   var JIO_OPTIONS = [
@@ -1214,7 +1205,7 @@
   function updateView() {
     renderBack();
 
-    var showEligibility = route.view === 'hub' || route.view === 'jio-chooser' || route.view === 'jio-path';
+    var showEligibility = route.view === 'jio-chooser' || route.view === 'jio-path';
     if (showEligibility) renderEligibility();
     else clearEligibility();
 
