@@ -335,6 +335,28 @@
 
     .callout a { color: var(--accent); }
 
+    .recharge-alert {
+      margin-top: 1rem;
+      padding: 1rem 1.1rem;
+      border-radius: var(--radius);
+      border: 2px solid var(--warn);
+      background: rgba(180, 83, 9, 0.06);
+      font-size: 0.95rem;
+      line-height: 1.55;
+    }
+
+    .recharge-alert h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--warn);
+    }
+
+    .recharge-alert p {
+      margin: 0;
+      color: var(--text);
+    }
+
     .footnotes {
       margin-top: 1.25rem;
       padding-top: 1rem;
@@ -588,6 +610,11 @@
           <li><strong>Pick the custom account.</strong> At Google sign-in choose Use another account and enter that Google Account. Do not accept the wrong saved Gmail.</li>
           <li><strong>Confirm on that account.</strong> If the screen only accepts @gmail.com, stop. Use a Gmail Google Account. Do not invent a workaround.</li>
         </ol>
+
+        <aside class="recharge-alert" role="status" aria-labelledby="noscript-recharge-title">
+          <h3 id="noscript-recharge-title">Stay recharged.</h3>
+          <p>Top up this Jio number on time. Google AI Pro rides on that eligible plan — if the plan lapses, the offer can stop.</p>
+        </aside>
 
         <h3>Simple AI Usage Comparison</h3>
         <table class="noscript-table">
@@ -1003,6 +1030,13 @@
     return '';
   }
 
+  function renderRechargeAlert() {
+    return '<aside class="recharge-alert" role="status" aria-labelledby="recharge-alert-title">' +
+      '<h3 id="recharge-alert-title">Stay recharged.</h3>' +
+      '<p>Top up this Jio number on time. Google AI Pro rides on that eligible plan \u2014 if the plan lapses, the offer can stop.</p>' +
+      '</aside>';
+  }
+
   function renderPath() {
     var pathId = derivePathId(route.email);
     var content = PATH_CONTENT[pathId];
@@ -1030,6 +1064,8 @@
       html += '</div></article>';
     }
     html += '</div>';
+
+    html += renderRechargeAlert();
 
     for (var ci = 0; ci < content.callouts.length; ci++) {
       html += renderCallout(content.callouts[ci]);
