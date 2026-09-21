@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Comment &amp; I'll send you | ShravzDev</title>
-  <meta name="description" content="Comment on the video and get 3 follow-ups: Antigravity website guide, vibe-coded GitHub hosting, and Jio setup help." />
+  <title>3 links as Promised | ShravzDev</title>
+  <meta name="description" content="Three follow-up links: Antigravity website and game guide, vibe-coded GitHub hosting video, and Jio setup help." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -49,7 +49,6 @@
       flex-direction: column;
     }
 
-    /* Soft radial glows */
     .glows {
       position: fixed;
       inset: 0;
@@ -109,27 +108,18 @@
       gap: clamp(1rem, 3.5vw, 1.5rem);
     }
 
-    /* Hero */
     .hero {
       text-align: center;
     }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(2rem, 9vw, 2.75rem);
+      font-size: clamp(1.75rem, 8vw, 2.5rem);
       font-weight: 800;
       letter-spacing: -0.03em;
-      line-height: 1.08;
+      line-height: 1.12;
     }
 
-    .hero p {
-      margin: 0.5rem 0 0;
-      font-size: clamp(1.05rem, 4.5vw, 1.25rem);
-      font-weight: 500;
-      color: var(--muted);
-    }
-
-    /* Offer cards */
     .cards {
       display: flex;
       flex-direction: column;
@@ -138,7 +128,7 @@
 
     .card {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       gap: 0.875rem;
       padding: 1rem 1.125rem;
       background: rgba(255, 255, 255, 0.92);
@@ -192,6 +182,7 @@
 
     .card-body {
       min-width: 0;
+      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 0.35rem;
@@ -212,77 +203,21 @@
       line-height: 1.3;
     }
 
-    /* CTA */
-    .cta {
-      text-align: center;
-      padding-top: 0.25rem;
+    .card-arrow {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      color: var(--card-border);
+      opacity: 0.85;
     }
 
-    .cta h2 {
-      margin: 0 0 0.75rem;
-      font-size: clamp(1.5rem, 6vw, 1.85rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
+    a.card:hover .card-arrow,
+    a.card:focus-visible .card-arrow {
+      opacity: 1;
+      transform: translateX(2px);
+      transition: transform 160ms ease, opacity 160ms ease;
     }
 
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 0.625rem;
-    }
-
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 48px;
-      padding: 0.625rem 1.25rem;
-      font-family: inherit;
-      font-size: clamp(0.95rem, 3.8vw, 1.05rem);
-      font-weight: 600;
-      text-decoration: none;
-      color: var(--text);
-      background: #fff;
-      border: 2px solid var(--g-yellow);
-      border-radius: 999px;
-      box-shadow: 0 4px 20px rgba(251, 188, 5, 0.2);
-      transition: transform 160ms ease, box-shadow 160ms ease;
-    }
-
-    .chip:hover,
-    .chip:focus-visible {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(251, 188, 5, 0.28);
-    }
-
-    .chip:focus-visible {
-      outline: 2px solid var(--g-blue);
-      outline-offset: 3px;
-    }
-
-    .chip-emoji {
-      font-size: 1.35rem;
-      line-height: 1;
-      border-color: var(--g-red);
-      box-shadow: 0 4px 20px rgba(234, 67, 53, 0.18);
-      min-width: 48px;
-      padding-inline: 0.875rem;
-    }
-
-    .chip-emoji:hover,
-    .chip-emoji:focus-visible {
-      box-shadow: 0 6px 28px rgba(234, 67, 53, 0.26);
-    }
-
-    .cta-help {
-      margin: 0.75rem 0 0;
-      font-size: clamp(0.9rem, 3.5vw, 1rem);
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    /* Footer */
     footer {
       position: relative;
       z-index: 1;
@@ -336,7 +271,6 @@
       border-radius: 4px;
     }
 
-    /* Bottom accent bar */
     .accent-bar {
       position: relative;
       z-index: 1;
@@ -362,8 +296,8 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .card,
-      .chip { transition: none; }
+      .card { transition: none; }
+      .card-arrow { transition: none; }
     }
   </style>
 </head>
@@ -377,25 +311,30 @@
 
   <main>
     <header class="hero">
-      <h1>Comment &amp; I&rsquo;ll send you</h1>
-      <p>3 follow-ups after you drop a comment</p>
+      <h1>&mdash; 3 links as Promised &mdash;</h1>
     </header>
 
-    <section class="cards" aria-label="Follow-up offers">
-      <article class="card" data-n="1">
+    <section class="cards" aria-label="Follow-up links">
+      <a class="card" data-n="1" href="../antigravity-website-game/" aria-label="Doc: How to build a website/game using Antigravity">
         <span class="card-num" aria-hidden="true">1</span>
         <div class="card-body">
           <span class="card-label">Doc</span>
-          <p class="card-text">How to build a website using Antigravity</p>
+          <p class="card-text">How to build a website/game using Antigravity</p>
         </div>
-      </article>
+        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
+      </a>
 
-      <a class="card" data-n="2" href="https://www.youtube.com/watch?v=zr3a1X9MkjM&amp;t=337s" target="_blank" rel="noopener noreferrer" aria-label="YouTube: How this college kid hosted a vibe-coded site on GitHub — for free">
+      <a class="card" data-n="2" href="https://www.youtube.com/watch?v=zr3a1X9MkjM" target="_blank" rel="noopener noreferrer" aria-label="YouTube: How this college kid hosted a vibe-coded site on GitHub — for free">
         <span class="card-num" aria-hidden="true">2</span>
         <div class="card-body">
           <span class="card-label">YouTube</span>
           <p class="card-text">How this college kid hosted a vibe-coded site on GitHub — for free</p>
         </div>
+        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
       </a>
 
       <a class="card" data-n="3" href="https://shravz.dev/writes/simple-jioplansetup/" aria-label="Doc: How to get Antigravity for free with Jio setup help">
@@ -404,16 +343,10 @@
           <span class="card-label">Doc</span>
           <p class="card-text">How to get Antigravity for free with Jio setup help</p>
         </div>
+        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
       </a>
-    </section>
-
-    <section class="cta" aria-labelledby="cta-heading">
-      <h2 id="cta-heading">Comment</h2>
-      <div class="chips">
-        <a class="chip" href="https://www.youtube.com/watch?v=zr3a1X9MkjM&amp;t=337s" target="_blank" rel="noopener noreferrer">Let&rsquo;s build something</a>
-        <a class="chip chip-emoji" href="https://www.youtube.com/watch?v=zr3a1X9MkjM&amp;t=337s" target="_blank" rel="noopener noreferrer" aria-label="Comment with rocket emoji on YouTube">🚀</a>
-      </div>
-      <p class="cta-help">Comment one of those on the YouTube video.</p>
     </section>
   </main>
 
