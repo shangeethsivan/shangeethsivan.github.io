@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFMBSE1VES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SFMBSE1VES');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to build a website/game using Antigravity | ShravzDev</title>
+  <meta name="description" content="Download Antigravity 2.0 and paste a prompt to build a website or browser game — step-by-step for beginners." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --g-blue: #4285F4;
+      --g-red: #EA4335;
+      --g-yellow: #FBBC05;
+      --g-green: #34A853;
+      --bg: #ffffff;
+      --well: #f6f7f9;
+      --line: #e8eaee;
+      --text: #12141a;
+      --muted: #5c6570;
+      --font: "Outfit", system-ui, sans-serif;
+      --wordmark: "Caveat", cursive;
+      --radius: 12px;
+      --max: min(720px, 100% - 1.5rem);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 16px;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100dvh;
+      line-height: 1.5;
+    }
+
+    .glows {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .glows span {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+    }
+
+    .glows .g1 { width: 260px; height: 260px; background: var(--g-blue); top: -40px; left: -60px; }
+    .glows .g2 { width: 220px; height: 220px; background: var(--g-red); top: 40%; right: -80px; }
+    .glows .g3 { width: 200px; height: 200px; background: var(--g-yellow); bottom: 30%; left: -50px; }
+    .glows .g4 { width: 240px; height: 240px; background: var(--g-green); bottom: -60px; right: -30px; }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: var(--max);
+      margin-inline: auto;
+      padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(2rem, 5vw, 3rem);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.75rem;
+    }
+
+    .brand {
+      font-family: var(--wordmark);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand:hover { color: var(--g-blue); }
+
+    .back {
+      color: var(--g-blue);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+
+    .back:hover {
+      border-color: var(--g-blue);
+      background: var(--well);
+    }
+
+    .back:focus-visible {
+      outline: 2px solid var(--g-blue);
+      outline-offset: 2px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4.5vw, 2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0.5rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 3.5vw, 1.05rem);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .lead a {
+      color: var(--g-blue);
+      font-weight: 600;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .step-card {
+      display: grid;
+      gap: 1rem;
+      border: 2px solid var(--step-border, var(--g-blue));
+      border-radius: var(--radius);
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 4px 20px var(--step-glow, rgba(66, 133, 244, 0.1));
+    }
+
+    .step-card[data-n="1"] { --step-border: var(--g-blue); --step-glow: rgba(66, 133, 244, 0.12); }
+    .step-card[data-n="2"] { --step-border: var(--g-red); --step-glow: rgba(234, 67, 53, 0.12); }
+    .step-card[data-n="3"] { --step-border: var(--g-yellow); --step-glow: rgba(251, 188, 5, 0.14); }
+    .step-card[data-n="4"] { --step-border: var(--g-green); --step-glow: rgba(52, 168, 83, 0.12); }
+    .step-card[data-n="5"] { --step-border: var(--g-blue); --step-glow: rgba(66, 133, 244, 0.12); }
+
+    @media (min-width: 640px) {
+      .step-card {
+        grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+        align-items: start;
+        padding: 1.25rem;
+      }
+    }
+
+    .step-illus {
+      width: 100%;
+      max-width: 200px;
+      margin-inline: auto;
+    }
+
+    .step-illus svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .illus-disclaimer {
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    .step-num {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--step-border);
+      font-weight: 700;
+    }
+
+    .step-title {
+      margin: 0.25rem 0 0.5rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .step-body {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .step-body a {
+      color: var(--g-blue);
+      font-weight: 600;
+    }
+
+    .step-body strong {
+      color: var(--text);
+    }
+
+    .prompts {
+      margin-top: 2rem;
+    }
+
+    .prompts h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.25rem, 4vw, 1.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .prompts-lead {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .prompt-block {
+      margin-bottom: 1rem;
+      border: 2px solid var(--prompt-border, var(--g-blue));
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--bg);
+      box-shadow: 0 4px 20px var(--prompt-glow, rgba(66, 133, 244, 0.1));
+    }
+
+    .prompt-block[data-kind="website"] {
+      --prompt-border: var(--g-blue);
+      --prompt-glow: rgba(66, 133, 244, 0.12);
+    }
+
+    .prompt-block[data-kind="game"] {
+      --prompt-border: var(--g-red);
+      --prompt-glow: rgba(234, 67, 53, 0.12);
+    }
+
+    .prompt-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.625rem 1rem;
+      background: color-mix(in srgb, var(--prompt-border) 8%, white);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .prompt-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--prompt-border);
+    }
+
+    .copy-btn {
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--g-blue);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.75rem;
+      cursor: pointer;
+      min-height: 36px;
+    }
+
+    .copy-btn:hover {
+      border-color: var(--g-blue);
+      background: var(--well);
+    }
+
+    .copy-btn:focus-visible {
+      outline: 2px solid var(--g-blue);
+      outline-offset: 2px;
+    }
+
+    .prompt-text {
+      margin: 0;
+      padding: 1rem;
+      font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, monospace;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
+      user-select: all;
+    }
+
+    .footnotes {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .footnotes p { margin: 0; }
+    .footnotes p + p { margin-top: 0.5rem; }
+    .footnotes a { color: var(--g-blue); }
+
+    .accent-bar {
+      position: relative;
+      z-index: 1;
+      height: 5px;
+      display: flex;
+    }
+
+    .accent-bar span { flex: 1; }
+    .accent-bar .b { background: var(--g-blue); }
+    .accent-bar .r { background: var(--g-red); }
+    .accent-bar .y { background: var(--g-yellow); }
+    .accent-bar .g { background: var(--g-green); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .copy-btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glows" aria-hidden="true">
+    <span class="g1"></span>
+    <span class="g2"></span>
+    <span class="g3"></span>
+    <span class="g4"></span>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../../">ShravzDev</a>
+      <a class="back" href="../comment-followups/">&larr; 3 links</a>
+    </header>
+
+    <h1>How to build a website/game using Antigravity</h1>
+    <p class="lead">
+      Download the desktop app, open a project, and paste a prompt. Need more quota first?
+      See <a href="https://shravz.dev/writes/simple-jioplansetup/">Jio setup help</a>.
+    </p>
+
+    <div class="steps" aria-label="Download and setup steps">
+      <article class="step-card" data-n="1">
+        <div class="step-illus">
+          <svg viewBox="0 0 200 140" role="img" aria-label="Browser download page — illustrated, not an official screenshot">
+            <rect x="8" y="12" width="184" height="116" rx="8" fill="#fff" stroke="#e8eaee" stroke-width="2"/>
+            <rect x="8" y="12" width="184" height="22" rx="8" fill="#f6f7f9"/>
+            <rect x="8" y="26" width="184" height="8" fill="#f6f7f9"/>
+            <circle cx="22" cy="23" r="4" fill="#EA4335"/><circle cx="34" cy="23" r="4" fill="#FBBC05"/><circle cx="46" cy="23" r="4" fill="#34A853"/>
+            <rect x="52" y="18" width="120" height="10" rx="4" fill="#fff" stroke="#e8eaee"/>
+            <text x="100" y="68" text-anchor="middle" fill="#4285F4" font-size="11" font-weight="700" font-family="Outfit,system-ui,sans-serif">antigravity.google/download</text>
+            <rect x="60" y="82" width="80" height="24" rx="6" fill="#4285F4"/>
+            <text x="100" y="98" text-anchor="middle" fill="#fff" font-size="8" font-weight="700" font-family="Outfit,system-ui,sans-serif">Download</text>
+          </svg>
+          <div class="illus-disclaimer">Illustrated — not an official screenshot.</div>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">Step 1</div>
+          <h2 class="step-title">Open the download page</h2>
+          <p class="step-body">Go to <a href="https://antigravity.google/download/" target="_blank" rel="noopener noreferrer">antigravity.google/download</a>.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="2">
+        <div class="step-illus">
+          <svg viewBox="0 0 200 140" role="img" aria-label="OS download buttons — illustrated, not an official screenshot">
+            <rect x="8" y="12" width="184" height="116" rx="8" fill="#fff" stroke="#e8eaee" stroke-width="2"/>
+            <text x="100" y="38" text-anchor="middle" fill="#12141a" font-size="9" font-weight="700" font-family="Outfit,system-ui,sans-serif">Antigravity 2.0</text>
+            <rect x="24" y="52" width="48" height="28" rx="6" fill="#f6f7f9" stroke="#4285F4" stroke-width="1.5"/>
+            <text x="48" y="70" text-anchor="middle" fill="#4285F4" font-size="7" font-weight="600" font-family="Outfit,system-ui,sans-serif">Mac</text>
+            <rect x="76" y="52" width="48" height="28" rx="6" fill="#f6f7f9" stroke="#EA4335" stroke-width="1.5"/>
+            <text x="100" y="70" text-anchor="middle" fill="#EA4335" font-size="7" font-weight="600" font-family="Outfit,system-ui,sans-serif">Windows</text>
+            <rect x="128" y="52" width="48" height="28" rx="6" fill="#f6f7f9" stroke="#34A853" stroke-width="1.5"/>
+            <text x="152" y="70" text-anchor="middle" fill="#34A853" font-size="7" font-weight="600" font-family="Outfit,system-ui,sans-serif">Linux</text>
+            <path d="M100 88 L100 108" stroke="#FBBC05" stroke-width="2" marker-end="url(#arrow)"/>
+            <rect x="70" y="108" width="60" height="12" rx="3" fill="#FBBC05" opacity="0.3"/>
+            <text x="100" y="117" text-anchor="middle" fill="#5c6570" font-size="6" font-family="Outfit,system-ui,sans-serif">Downloading…</text>
+          </svg>
+          <div class="illus-disclaimer">Illustrated — not an official screenshot.</div>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">Step 2</div>
+          <h2 class="step-title">Download Antigravity 2.0</h2>
+          <p class="step-body">Pick your system: Mac, Windows, or Linux.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="3">
+        <div class="step-illus">
+          <svg viewBox="0 0 200 140" role="img" aria-label="Installer dialog — illustrated, not an official screenshot">
+            <rect x="40" y="20" width="120" height="100" rx="10" fill="#fff" stroke="#e8eaee" stroke-width="2"/>
+            <rect x="40" y="20" width="120" height="24" rx="10" fill="#f6f7f9"/>
+            <rect x="40" y="36" width="120" height="8" fill="#f6f7f9"/>
+            <text x="100" y="36" text-anchor="middle" fill="#12141a" font-size="8" font-weight="700" font-family="Outfit,system-ui,sans-serif">Install Antigravity</text>
+            <text x="100" y="62" text-anchor="middle" fill="#5c6570" font-size="7" font-family="Outfit,system-ui,sans-serif">Antigravity already exists.</text>
+            <rect x="52" y="72" width="44" height="22" rx="6" fill="#f6f7f9" stroke="#e8eaee"/>
+            <text x="74" y="86" text-anchor="middle" fill="#5c6570" font-size="6" font-family="Outfit,system-ui,sans-serif">Keep Both</text>
+            <rect x="104" y="72" width="44" height="22" rx="6" fill="#4285F4" stroke="#4285F4" stroke-width="1.5"/>
+            <text x="126" y="86" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" font-family="Outfit,system-ui,sans-serif">Replace</text>
+          </svg>
+          <div class="illus-disclaimer">Illustrated — not an official screenshot.</div>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">Step 3</div>
+          <h2 class="step-title">Run the installer</h2>
+          <p class="step-body">Open the file you downloaded. If it asks <strong>Keep Both</strong> or <strong>Replace</strong>, pick <strong>Replace</strong>.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="4">
+        <div class="step-illus">
+          <svg viewBox="0 0 200 140" role="img" aria-label="Google sign-in — illustrated, not an official screenshot">
+            <rect x="8" y="12" width="184" height="116" rx="8" fill="#fff" stroke="#e8eaee" stroke-width="2"/>
+            <circle cx="100" cy="48" r="16" fill="#4285F4" opacity="0.15"/>
+            <text x="100" cy="52" text-anchor="middle" fill="#4285F4" font-size="14" font-weight="700" font-family="Outfit,system-ui,sans-serif">G</text>
+            <text x="100" y="78" text-anchor="middle" fill="#12141a" font-size="8" font-weight="700" font-family="Outfit,system-ui,sans-serif">Sign in with Google</text>
+            <rect x="52" y="88" width="96" height="22" rx="6" fill="#4285F4"/>
+            <text x="100" y="102" text-anchor="middle" fill="#fff" font-size="7" font-weight="700" font-family="Outfit,system-ui,sans-serif">Continue</text>
+          </svg>
+          <div class="illus-disclaimer">Illustrated — not an official screenshot.</div>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">Step 4</div>
+          <h2 class="step-title">Launch and sign in</h2>
+          <p class="step-body">Open Antigravity. Sign in with your Google account. See <a href="https://antigravity.google/docs/getting-started/" target="_blank" rel="noopener noreferrer">getting started</a> if the app looks different.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="5">
+        <div class="step-illus">
+          <svg viewBox="0 0 200 140" role="img" aria-label="New project and chat — illustrated, not an official screenshot">
+            <rect x="8" y="12" width="184" height="116" rx="8" fill="#fff" stroke="#e8eaee" stroke-width="2"/>
+            <rect x="8" y="12" width="48" height="116" rx="8" fill="#f6f7f9"/>
+            <rect x="16" y="24" width="32" height="8" rx="2" fill="#4285F4" opacity="0.4"/>
+            <rect x="16" y="38" width="28" height="6" rx="2" fill="#e8eaee"/>
+            <rect x="16" y="50" width="28" height="6" rx="2" fill="#e8eaee"/>
+            <text x="72" y="32" fill="#12141a" font-size="7" font-weight="700" font-family="Outfit,system-ui,sans-serif">New Project</text>
+            <rect x="64" y="40" width="120" height="10" rx="3" fill="#f6f7f9" stroke="#34A853" stroke-width="1"/>
+            <text x="70" y="48" fill="#34A853" font-size="6" font-family="Outfit,system-ui,sans-serif">my-first-site</text>
+            <rect x="64" y="58" width="120" height="52" rx="6" fill="#f6f7f9" stroke="#e8eaee"/>
+            <text x="70" y="72" fill="#5c6570" font-size="6" font-family="Outfit,system-ui,sans-serif">Paste your prompt here…</text>
+            <rect x="64" y="98" width="36" height="14" rx="4" fill="#4285F4"/>
+            <text x="82" y="108" text-anchor="middle" fill="#fff" font-size="6" font-weight="700" font-family="Outfit,system-ui,sans-serif">Send</text>
+          </svg>
+          <div class="illus-disclaimer">Illustrated — not an official screenshot.</div>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">Step 5</div>
+          <h2 class="step-title">New Project &rarr; paste a prompt</h2>
+          <p class="step-body">Click <strong>New Project</strong>, add a folder on your computer, then paste one of the prompts below into chat.</p>
+        </div>
+      </article>
+    </div>
+
+    <section class="prompts" aria-labelledby="prompts-heading">
+      <h2 id="prompts-heading">Sample prompts</h2>
+      <p class="prompts-lead">Copy one, paste it into Antigravity, and let it build.</p>
+
+      <div class="prompt-block" data-kind="website">
+        <div class="prompt-head">
+          <span class="prompt-label">Website</span>
+          <button type="button" class="copy-btn" data-copy="website">Copy</button>
+        </div>
+        <pre class="prompt-text" id="prompt-website">Build a single-page mobile-first website I can open as one HTML file. White background, huge readable type, Outfit font. Hero with a name and one-line bio. Three project cards. Footer with Instagram and YouTube. No backend, no build step.</pre>
+      </div>
+
+      <div class="prompt-block" data-kind="game">
+        <div class="prompt-head">
+          <span class="prompt-label">Game</span>
+          <button type="button" class="copy-btn" data-copy="game">Copy</button>
+        </div>
+        <pre class="prompt-text" id="prompt-game">Build a simple browser game I can open as one HTML file. Catch falling items: I move left and right, items drop from the top, score goes up when I catch them. Big on-screen buttons for a phone. No backend, no build step.</pre>
+      </div>
+    </section>
+
+    <footer class="footnotes">
+      <p>Unofficial guide. Google can change Antigravity screens — prefer the live <a href="https://antigravity.google/download/" target="_blank" rel="noopener noreferrer">download</a> and <a href="https://antigravity.google/docs/getting-started/" target="_blank" rel="noopener noreferrer">docs</a> if they disagree.</p>
+      <p>You need a network connection to download Antigravity or open Google sign-in.</p>
+    </footer>
+  </div>
+
+  <div class="accent-bar" aria-hidden="true">
+    <span class="b"></span>
+    <span class="r"></span>
+    <span class="y"></span>
+    <span class="g"></span>
+  </div>
+
+  <script>
+    (function () {
+      var buttons = document.querySelectorAll('.copy-btn');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function () {
+          var id = this.getAttribute('data-copy');
+          var el = document.getElementById('prompt-' + id);
+          if (!el) return;
+          var text = el.textContent;
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+              var btn = document.querySelector('[data-copy="' + id + '"]');
+              if (btn) { btn.textContent = 'Copied!'; setTimeout(function () { btn.textContent = 'Copy'; }, 2000); }
+            });
+          } else {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
