@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shangeeth Sivan - Resume</title>
+  <link rel="canonical" href="https://shravz.dev/resume" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Roboto+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue: #2b7de9;
+      --text: #222;
+      --muted: #5c5c5c;
+      --desk: #d8d3cb;
+      --ink: #161616;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { background: var(--desk); }
+
+    body {
+      font-family: "Montserrat", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: var(--ink);
+      color: #f4f1ea;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+
+    .brand strong {
+      font-family: "Merriweather", Georgia, serif;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .brand span {
+      font-size: 11px;
+      color: #b8b3aa;
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      font-size: 11px;
+      color: #9ad07a;
+      margin-right: 6px;
+      min-width: 7.5rem;
+    }
+
+    .status.idle { color: #b8b3aa; }
+
+    .toolbar button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+
+    .toolbar button.secondary {
+      background: transparent;
+      color: #f4f1ea;
+      border: 1px solid #4a4a4a;
+    }
+
+    .toolbar button.secondary:hover { border-color: #888; }
+
+    .toolbar button.primary {
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .toolbar button.primary:hover { filter: brightness(1.08); }
+
+    .hint {
+      padding: 8px 18px 0;
+      font-size: 11.5px;
+      color: #5a564f;
+    }
+
+    .stage {
+      display: flex;
+      justify-content: center;
+      padding: 18px 16px 40px;
+    }
+
+    .sheet-wrap {
+      width: min(210mm, calc(100vw - 32px));
+      overflow: hidden;
+    }
+
+    .sheet {
+      display: flex;
+      flex-direction: column;
+      width: 210mm;
+      min-height: 297mm;
+      height: 297mm;
+      overflow: hidden;
+      padding: 12mm 15mm 12.5mm;
+      background: #fff;
+      color: var(--text);
+      font-size: 8.2pt;
+      line-height: 1.32;
+      box-shadow: 0 18px 50px rgba(40, 32, 20, 0.18);
+      outline: none;
+      transform-origin: top left;
+      transform: scale(var(--scale, 1));
+    }
+
+    .sheet:focus-within {
+      box-shadow: 0 18px 50px rgba(40, 32, 20, 0.18), 0 0 0 2px rgba(43, 125, 233, 0.35);
+    }
+
+    h1 {
+      font-family: "Merriweather", Georgia, serif;
+      font-weight: 700;
+      font-size: 25.5pt;
+      letter-spacing: -0.4px;
+      color: #1a1a1a;
+      line-height: 1.04;
+      margin: 0 0 4px 0;
+    }
+
+    .subtitle {
+      color: var(--blue);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 9.2pt;
+      margin-bottom: 3px;
+      white-space: nowrap;
+    }
+
+    .subtitle .dot { font-style: normal; padding: 0 6px; }
+
+    .contact {
+      color: var(--blue);
+      font-size: 8pt;
+      font-weight: 500;
+      white-space: nowrap;
+      margin-bottom: 10px;
+    }
+
+    a { color: var(--blue); text-decoration: underline; text-underline-offset: 2px; }
+    .sep { padding: 0 5px; opacity: 0.7; }
+
+    .grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1.68fr 1fr;
+      column-gap: 16px;
+      align-items: start;
+      min-height: 0;
+    }
+
+    .col {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .grid > div.col {
+      gap: 11pt;
+    }
+
+    h2 {
+      font-size: 9.3pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--blue);
+      text-transform: uppercase;
+      border-bottom: 1.1px solid var(--blue);
+      padding-bottom: 2px;
+      margin: 0 0 5px 0;
+    }
+
+    .summary { margin-bottom: 0; }
+    .summary p { font-size: 8.15pt; line-height: 1.34; }
+
+    .job { margin-bottom: 7px; }
+    .job:last-child { margin-bottom: 0; }
+    .job-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .job-title { font-weight: 700; font-size: 8.6pt; color: #1c1c1c; line-height: 1.22; }
+    .job-dates {
+      font-family: "Roboto Mono", ui-monospace, monospace;
+      font-size: 7.2pt;
+      font-weight: 500;
+      color: #444;
+      white-space: nowrap;
+    }
+    .job-meta { font-style: italic; color: var(--muted); font-size: 7.3pt; margin: 1px 0 2.5px; }
+    ul { padding-left: 13px; }
+    li { margin-bottom: 1.8px; }
+    li:last-child { margin-bottom: 0; }
+
+    .block { margin-bottom: 4px; }
+    .block:last-child { margin-bottom: 0; }
+    .label { font-weight: 700; }
+    .proj { margin-bottom: 6px; }
+    .proj:last-child { margin-bottom: 0; }
+    .proj-name { font-weight: 700; font-size: 8.2pt; }
+    .flag { font-style: italic; font-weight: 500; }
+    .community p, .pub p, .edu p { margin-bottom: 2.5px; }
+    .community p:last-child, .edu p:last-child { margin-bottom: 0; }
+    .edu { margin-top: 1px; }
+    .oss-intro { margin-bottom: 0; line-height: 1.3; }
+
+    .links {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .links a {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 7.7pt;
+      font-weight: 500;
+      line-height: 1.2;
+    }
+    .links a span { text-decoration: underline; text-underline-offset: 2px; }
+    .links svg {
+      width: 11px;
+      height: 11px;
+      flex: 0 0 11px;
+      fill: currentColor;
+      pointer-events: none;
+    }
+
+    @page { size: A4; margin: 0; }
+
+    @media print {
+      html, body { background: #fff !important; }
+      .toolbar, .hint { display: none !important; }
+      .stage { padding: 0; display: block; }
+      .sheet-wrap {
+        width: 210mm;
+        overflow: visible;
+      }
+      .sheet {
+        width: 210mm;
+        height: 297mm;
+        min-height: 297mm;
+        max-height: 297mm;
+        overflow: hidden;
+        box-shadow: none !important;
+        margin: 0;
+        transform: none !important;
+        page-break-after: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="toolbar">
+    <div class="brand">
+      <strong>Resume editor</strong>
+      <span>Click the page to edit · Print saves a PDF</span>
+    </div>
+    <div class="actions">
+      <button type="button" class="primary" id="printBtn">Print / Save PDF</button>
+      <button type="button" class="secondary" id="downloadHtmlBtn">Download HTML</button>
+      <button type="button" class="secondary" id="resetBtn">Reset</button>
+      <span class="status idle" id="status">File version</span>
+    </div>
+  </header>
+  <p class="hint">Edits stay in this browser. Print → Destination: Save as PDF → Margins: None → uncheck Headers and footers.</p>
+
+  <main class="stage">
+    <div class="sheet-wrap" id="sheetWrap">
+    <article class="sheet" id="resume" contenteditable="true" spellcheck="true">
+      <h1>Shangeeth Sivan</h1>
+      <div class="subtitle">Staff Software Engineer<span class="dot">·</span>Android<span class="dot">·</span>Organiser, KUG Chennai</div>
+      <div class="contact">
+        Chennai, India<span class="sep">·</span><a href="tel:+919159816148">+91 91598 16148</a><span class="sep">·</span><a href="mailto:shangeeth95@gmail.com">shangeeth95@gmail.com</a>
+      </div>
+
+      <div class="grid">
+        <div class="col">
+          <section>
+          <h2>Summary</h2>
+          <div class="summary">
+            <p>Android engineer with 9+ years building mobile apps used by millions. Leads Android at <a href="https://play.google.com/store/apps/details?id=com.poshmark.app" target="_blank" rel="noopener">Poshmark</a> (80M+ users, 50M+ downloads): live auctions, payments, app links, and Play Store releases. Grew from engineer to staff on the same app. Organiser of <a href="https://github.com/kugchennai" target="_blank" rel="noopener">Kotlin User Group Chennai</a> and volunteer at <a href="https://gdg.community.dev/gdg-chennai/" target="_blank" rel="noopener">GDG Chennai</a>. Builds open-source tools for meetups and notes sync. Kotlin Multiplatform on side projects.</p>
+          </div>
+          </section>
+
+          <section>
+          <h2>Experience</h2>
+
+          <div class="job">
+            <div class="job-head">
+              <div class="job-title">Poshmark, Staff Software Engineer, Android</div>
+              <div class="job-dates">Jul 2019 - Present</div>
+            </div>
+            <div class="job-meta">Chennai (Hybrid) | Shopping app, 80M+ users, 50M+ downloads · <a href="https://play.google.com/store/apps/details?id=com.poshmark.app" target="_blank" rel="noopener">Play Store</a></div>
+            <ul>
+              <li>Lead Android on a busy shopping app. Grew from engineer to staff across six role changes.</li>
+              <li>Built Posh Shows live auctions and payments for other countries (cards, GPay, PayPal, Adyen).</li>
+              <li>Reworked app links. Added Hilt next to the old setup, and used MVI, MVVM, and clean architecture where needed.</li>
+              <li>Brought crash-free users to 99.5% and auto-publish to Play Store when code merges to main.</li>
+              <li>Part of the core team that implemented CI/CD pipelines. Added lint checks in the app and helped the team integrate tools like SonarQube for code coverage.</li>
+              <li>Led small feature teams, mentored new hires and interns, and helped with hiring interviews.</li>
+            </ul>
+          </div>
+
+          <div class="job">
+            <div class="job-head">
+              <div class="job-title">FULL Creative, Jr. Software Engineer, Android</div>
+              <div class="job-dates">Mar 2017 - Jul 2019</div>
+            </div>
+            <div class="job-meta">Chennai | <a href="https://play.google.com/store/apps/details?id=com.full.aw" target="_blank" rel="noopener">AnywhereWorks</a> (Slack-like team chat, 10k+ Play Store downloads) · <a href="https://play.google.com/store/apps/details?id=com.anywhere.link" target="_blank" rel="noopener">Teleport.Video</a> (video calling)</div>
+            <ul>
+              <li>Owned important features end to end. Built video calling in Teleport.Video from scratch, including Twilio, WebSockets, REST, background work, and live updates, through Play Store release.</li>
+              <li>Worked on AnywhereWorks, a Slack-like team chat app. Redesigned the app, including critical screens such as the feed, and improved performance on those pages.</li>
+              <li>Pushed the team to adopt CI/CD. Built early proofs of concept on Jenkins, CircleCI, and Bitrise that later helped get pipelines running. Helped integrate Renovate Bot so dependencies update automatically.</li>
+            </ul>
+          </div>
+
+          <div class="job">
+            <div class="job-head">
+              <div class="job-title">Earlier, Jr. Android Developer</div>
+              <div class="job-dates">Jun 2016 - Dec 2016</div>
+            </div>
+            <div class="job-meta">Coimbatore | Code Khadi · Pepiras Technologies</div>
+            <ul>
+              <li>Built an Android app and PHP APIs so 100,000+ farmers in Andhra Pradesh could share farm equipment, plus a Facebook Messenger chatbot.</li>
+            </ul>
+          </div>
+          </section>
+
+          <section>
+          <h2>Key Achievements</h2>
+          <ul>
+            <li>Introduced Jetpack Compose into the existing Poshmark app while it still used many fragments. Put Compose UI in its own module so the team could adopt it without a full rewrite, and continue to maintain that module.</li>
+            <li>Reduced app startup time by about 30-40% using Perfetto and baseline profiles. Identified the key paths (feed, login, order checkout, and offer checkout) and added baseline profiles for each. Continue to drive app-health work across the team.</li>
+            <li>Leading AI-assisted coding at work: multi-agent workflows, sub-agents for specific tasks, and getting the repository ready for AI coding. Automate a lot of manual workflows on the team.</li>
+            <li>Organise internal hackathons and meetups at Poshmark. Part of the tech club that drives new tech initiatives. Stay active in Slack sharing updates on Android and AI.</li>
+          </ul>
+          </section>
+        </div>
+
+        <aside class="col">
+          <section>
+          <h2>Links</h2>
+          <div class="links">
+            <a href="https://shravz.dev" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg><span>shravz.dev</span></a>
+            <a href="https://github.com/shangeethsivan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg><span>github.com/shangeethsivan</span></a>
+            <a href="https://www.linkedin.com/in/shangeethsivan" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg><span>linkedin.com/in/shangeethsivan</span></a>
+            <a href="https://youtube.com/@shravzdev" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span>youtube.com/@shravzdev</span></a>
+            <a href="https://x.com/shravzdev" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.727-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg><span>x.com/shravzdev</span></a>
+          </div>
+          </section>
+
+          <section>
+          <h2>Core Expertise</h2>
+          <div class="block"><span class="label">Leadership:</span> Mentoring, hiring, shipping features, running communities</div>
+          <div class="block"><span class="label">Architecture:</span> Android at scale, MVI / MVVM, CI/CD (Jenkins, CircleCI, Bitrise, GitHub Actions), Renovate Bot, SonarQube</div>
+          <div class="block"><span class="label">Languages &amp; Frameworks:</span> Kotlin, Java, Coroutines, Jetpack Compose, Hilt / Dagger / Koin, Ktor, REST, WebSockets, Crashlytics / Grafana / Kibana, Kotlin Multiplatform / Compose Multiplatform / Flutter (side projects)</div>
+          <div class="block"><span class="label">AI / GenAI:</span> LLMs, Agentic AI systems, RAG, MCP, Gemini API &amp; Nano, Vertex AI, on-device / Edge AI, prompt engineering, Koog, Claude</div>
+          </section>
+
+          <section>
+          <h2>Open Source</h2>
+          <p class="oss-intro">Keeps me up to date on new APIs and how other teams write code. Merged Glance widget into Google's JetChat sample (<a href="https://github.com/android/compose-samples/pull/1425" target="_blank" rel="noopener">compose-samples#1425</a>). Enhanced <a href="https://github.com/shangeethsivan/obs-zoom-to-mouse" target="_blank" rel="noopener">OBS Zoom to Mouse</a> for recordings.</p>
+          </section>
+
+          <section>
+          <h2>Speaking &amp; Community</h2>
+          <div class="community">
+            <p>Organiser, <a href="https://github.com/kugchennai" target="_blank" rel="noopener">Kotlin User Group Chennai</a>. Meetups, hackathons, KMP workshops</p>
+            <p>Volunteer, <a href="https://gdg.community.dev/gdg-chennai/" target="_blank" rel="noopener">GDG Chennai</a> (2019 - Present). DevFest 24 and 25 photo, video, and <a href="https://youtube.com/@shravzdev" target="_blank" rel="noopener">YouTube</a></p>
+            <p>Nominated, JetBrains Golden Kodee Community Award 2026 (In-Person Presence)</p>
+            <p>Speaker, DevFest Coimbatore 24: <em>KMP Adoption Strategies</em></p>
+            <p>Talk on AI agents and the job market. Meetup host and panel moderator</p>
+          </div>
+          </section>
+
+          <section>
+          <h2>Side Projects</h2>
+          <div class="proj">
+            <div class="proj-name">Syncidian <span class="flag">(Flagship)</span></div>
+            <div><a href="https://syncidian.com" target="_blank" rel="noopener">syncidian.com</a></div>
+            <p>Open-source tool to sync <a href="https://obsidian.md" target="_blank" rel="noopener">Obsidian</a> notes across devices and back them up to GitHub. Built-in MCP server. Go backend. Android app in progress.</p>
+          </div>
+          <div class="proj">
+            <div class="proj-name">MeetupManager</div>
+            <div><a href="https://github.com/kugchennai/MeetupManager" target="_blank" rel="noopener">github.com/kugchennai/MeetupManager</a></div>
+            <p>Open-source tool for meetup organisers: attendance, follow-ups, and event workflows.</p>
+          </div>
+          </section>
+
+          <section>
+          <h2>Education</h2>
+          <div class="edu">
+            <p style="font-weight:700;">Bachelor of Engineering (BE), Computer Science</p>
+            <p style="font-style:italic;color:var(--muted);">Arunai Engineering College, Tamil Nadu</p>
+          </div>
+          </section>
+        </aside>
+      </div>
+    </article>
+    </div>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "shravz-resume-html-v26";
+    const resume = document.getElementById("resume");
+    const sheetWrap = document.getElementById("sheetWrap");
+    const statusEl = document.getElementById("status");
+    const originalHtml = resume.innerHTML;
+    let saveTimer;
+
+    function fitSheet() {
+      const available = sheetWrap.clientWidth;
+      const scale = Math.min(1, available / resume.offsetWidth);
+      resume.style.setProperty("--scale", String(scale));
+      sheetWrap.style.height = `${resume.offsetHeight * scale}px`;
+    }
+
+    function setStatus(text, draft) {
+      statusEl.textContent = text;
+      statusEl.classList.toggle("idle", !draft);
+    }
+
+    function saveDraft() {
+      localStorage.setItem(STORAGE_KEY, resume.innerHTML);
+      setStatus("Draft saved", true);
+    }
+
+    function restoreDraft() {
+      const draft = localStorage.getItem(STORAGE_KEY);
+      if (draft) {
+        resume.innerHTML = draft;
+        setStatus("Draft restored", true);
+      }
+    }
+
+    resume.addEventListener("input", () => {
+      setStatus("Saving…", true);
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveDraft, 250);
+      fitSheet();
+    });
+
+    resume.addEventListener("click", (event) => {
+      const link = event.target.closest("a");
+      if (!link || !link.href) return;
+      event.preventDefault();
+      window.open(link.href, "_blank", "noopener");
+    });
+
+    document.getElementById("printBtn").addEventListener("click", () => {
+      saveDraft();
+      window.print();
+    });
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (!confirm("Clear browser edits and restore the file version?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      resume.innerHTML = originalHtml;
+      setStatus("File version", false);
+    });
+
+    document.getElementById("downloadHtmlBtn").addEventListener("click", () => {
+      const blob = new Blob([document.documentElement.outerHTML], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Shangeeth_Sivan_Resume.html";
+      a.click();
+      URL.revokeObjectURL(url);
+    });
+
+    window.addEventListener("beforeprint", () => {
+      saveDraft();
+      resume.style.setProperty("--scale", "1");
+      sheetWrap.style.height = "auto";
+    });
+    window.addEventListener("afterprint", fitSheet);
+    window.addEventListener("resize", fitSheet);
+    ["shravz-resume-html-v1", "shravz-resume-html-v2", "shravz-resume-html-v3", "shravz-resume-html-v4", "shravz-resume-html-v5", "shravz-resume-html-v6", "shravz-resume-html-v7", "shravz-resume-html-v8", "shravz-resume-html-v9", "shravz-resume-html-v10", "shravz-resume-html-v11", "shravz-resume-html-v12", "shravz-resume-html-v13", "shravz-resume-html-v14", "shravz-resume-html-v15", "shravz-resume-html-v16", "shravz-resume-html-v17", "shravz-resume-html-v18", "shravz-resume-html-v19", "shravz-resume-html-v20", "shravz-resume-html-v21", "shravz-resume-html-v22", "shravz-resume-html-v23", "shravz-resume-html-v24", "shravz-resume-html-v25"].forEach((key) => localStorage.removeItem(key));
+    restoreDraft();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(fitSheet);
+    }
+    fitSheet();
+  </script>
+</body>
+</html>
