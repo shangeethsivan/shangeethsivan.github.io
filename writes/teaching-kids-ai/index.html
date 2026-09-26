@@ -155,6 +155,24 @@
       --card-glow: rgba(52, 168, 83, 0.14);
     }
 
+    .card[data-n="4"] {
+      --card-border: var(--g-yellow);
+      --card-glow: rgba(251, 188, 5, 0.14);
+    }
+
+    .card[data-n="5"] {
+      --card-border: var(--g-red);
+      --card-glow: rgba(234, 67, 53, 0.14);
+    }
+
+    .also-heading {
+      margin: 0.5rem 0 0;
+      font-size: clamp(1.15rem, 5vw, 1.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      text-align: center;
+    }
+
     a.card:hover,
     a.card:focus-visible {
       transform: translateY(-2px);
@@ -342,6 +360,32 @@
         <div class="card-body">
           <span class="card-label">Doc</span>
           <p class="card-text">How to get Antigravity for free with Jio setup help</p>
+        </div>
+        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
+      </a>
+    </section>
+
+    <h2 class="also-heading">Also</h2>
+
+    <section class="cards" aria-label="More writes">
+      <a class="card" data-n="4" href="../basic-warmup-guide/" aria-label="Doc: Basic running warm-up guide">
+        <span class="card-num" aria-hidden="true">4</span>
+        <div class="card-body">
+          <span class="card-label">Doc</span>
+          <p class="card-text">Basic running warm-up guide</p>
+        </div>
+        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 6l6 6-6 6"/>
+        </svg>
+      </a>
+
+      <a class="card" data-n="5" href="../java-jit-android/" aria-label="Doc: Java JIT and Android">
+        <span class="card-num" aria-hidden="true">5</span>
+        <div class="card-body">
+          <span class="card-label">Doc</span>
+          <p class="card-text">Java JIT and Android</p>
         </div>
         <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 6l6 6-6 6"/>

@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFMBSE1VES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SFMBSE1VES');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic running warm-up guide | ShravzDev</title>
+  <meta name="description" content="Five dynamic warm-ups before a run and five static stretches after — with simple animated figures." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --g-blue: #4285F4;
+      --g-red: #EA4335;
+      --g-yellow: #FBBC05;
+      --g-green: #34A853;
+      --bg: #ffffff;
+      --well: #f6f7f9;
+      --line: #e8eaee;
+      --text: #12141a;
+      --muted: #5c6570;
+      --font: "Outfit", system-ui, sans-serif;
+      --wordmark: "Caveat", cursive;
+      --radius: 12px;
+      --max: min(720px, 100% - 1.5rem);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-size: 16px;
+      color: var(--text);
+      background: var(--bg);
+      min-height: 100dvh;
+      line-height: 1.5;
+    }
+
+    .glows {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .glows span {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+    }
+
+    .glows .g1 { width: 260px; height: 260px; background: var(--g-blue); top: -40px; left: -60px; }
+    .glows .g2 { width: 220px; height: 220px; background: var(--g-red); top: 40%; right: -80px; }
+    .glows .g3 { width: 200px; height: 200px; background: var(--g-yellow); bottom: 30%; left: -50px; }
+    .glows .g4 { width: 240px; height: 240px; background: var(--g-green); bottom: -60px; right: -30px; }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      width: var(--max);
+      margin-inline: auto;
+      padding: clamp(1.25rem, 4vw, 2rem) 0 clamp(2rem, 5vw, 3rem);
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.75rem;
+    }
+
+    .brand {
+      font-family: var(--wordmark);
+      font-weight: 700;
+      font-size: 1.35rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand:hover { color: var(--g-blue); }
+
+    .back {
+      color: var(--g-blue);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+
+    .back:hover { border-color: var(--g-blue); background: var(--well); }
+    .back:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.5rem, 4.5vw, 2rem);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .lead {
+      margin: 0.5rem 0 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 3.5vw, 1.05rem);
+      font-weight: 500;
+      line-height: 1.45;
+    }
+
+    .lead a { color: var(--g-blue); font-weight: 600; }
+
+    .group-heading {
+      margin: 2rem 0 0.75rem;
+      font-size: clamp(1.15rem, 3.5vw, 1.35rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .group-heading:first-of-type { margin-top: 1.25rem; }
+
+    .steps { display: grid; gap: 1rem; }
+
+    .step-card {
+      display: grid;
+      gap: 1rem;
+      border: 2px solid var(--step-border, var(--g-blue));
+      border-radius: var(--radius);
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 4px 20px var(--step-glow, rgba(66, 133, 244, 0.1));
+    }
+
+    .step-card[data-n="1"] { --step-border: var(--g-blue); --step-glow: rgba(66, 133, 244, 0.12); }
+    .step-card[data-n="2"] { --step-border: var(--g-red); --step-glow: rgba(234, 67, 53, 0.12); }
+    .step-card[data-n="3"] { --step-border: var(--g-yellow); --step-glow: rgba(251, 188, 5, 0.14); }
+    .step-card[data-n="4"] { --step-border: var(--g-green); --step-glow: rgba(52, 168, 83, 0.12); }
+    .step-card[data-n="5"] { --step-border: var(--g-blue); --step-glow: rgba(66, 133, 244, 0.12); }
+
+    @media (min-width: 640px) {
+      .step-card {
+        grid-template-columns: minmax(96px, 200px) minmax(0, 1fr);
+        align-items: start;
+        padding: 1.25rem;
+      }
+    }
+
+    .step-illus {
+      width: 100%;
+      min-width: 96px;
+      min-height: 96px;
+      max-width: 200px;
+      margin-inline: auto;
+    }
+
+    .step-illus svg {
+      width: 100%;
+      height: auto;
+      min-height: 96px;
+      display: block;
+    }
+
+    .step-num {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--step-border);
+      font-weight: 700;
+    }
+
+    .step-title {
+      margin: 0.25rem 0 0.35rem;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .step-body {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+
+    .disclaimer {
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .stick { stroke: #12141a; stroke-width: 3; stroke-linecap: round; fill: none; }
+    .joint { fill: #12141a; }
+
+    .anim-jacks .limb-spread { animation: jacks-spread 0.9s ease-in-out infinite alternate; transform-origin: 60px 52px; }
+    @keyframes jacks-spread { from { transform: scale(0.75, 1); } to { transform: scale(1.15, 1); } }
+
+    .anim-circles .arm-spin { animation: arm-spin 1.4s linear infinite; transform-origin: 60px 38px; }
+    @keyframes arm-spin { to { transform: rotate(360deg); } }
+
+    .anim-swing .swing-leg { animation: leg-swing 1s ease-in-out infinite alternate; transform-origin: 60px 70px; }
+    @keyframes leg-swing { from { transform: rotate(-25deg); } to { transform: rotate(25deg); } }
+
+    .anim-knees .knee-l { animation: knee-up-l 0.55s ease-in-out infinite alternate; transform-origin: 60px 70px; }
+    .anim-knees .knee-r { animation: knee-up-r 0.55s ease-in-out infinite alternate 0.55s; transform-origin: 60px 70px; }
+    @keyframes knee-up-l { from { transform: rotate(0deg); } to { transform: rotate(-35deg); } }
+    @keyframes knee-up-r { from { transform: rotate(0deg); } to { transform: rotate(35deg); } }
+
+    .anim-lunge .lunge-body { animation: lunge-step 1.2s ease-in-out infinite alternate; transform-origin: 60px 80px; }
+    @keyframes lunge-step { from { transform: translateX(-6px); } to { transform: translateX(8px); } }
+
+    .anim-quad .heel-lift { animation: quad-hold 2.5s ease-in-out infinite alternate; transform-origin: 48px 72px; }
+    @keyframes quad-hold { from { transform: rotate(-8deg); } to { transform: rotate(-28deg); } }
+
+    .anim-ham .hinge { animation: ham-hinge 2.5s ease-in-out infinite alternate; transform-origin: 60px 38px; }
+    @keyframes ham-hinge { from { transform: rotate(0deg); } to { transform: rotate(28deg); } }
+
+    .anim-calf .lean { animation: calf-lean 2.5s ease-in-out infinite alternate; transform-origin: 30px 80px; }
+    @keyframes calf-lean { from { transform: rotate(0deg); } to { transform: rotate(12deg); } }
+
+    .anim-hip .hip-lunge { animation: hip-tuck 2.5s ease-in-out infinite alternate; transform-origin: 70px 75px; }
+    @keyframes hip-tuck { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+
+    .anim-fig4 .sit-back { animation: fig4-sit 2.5s ease-in-out infinite alternate; transform-origin: 60px 55px; }
+    @keyframes fig4-sit { from { transform: translateY(0); } to { transform: translateY(6px); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .anim-jacks .limb-spread,
+      .anim-circles .arm-spin,
+      .anim-swing .swing-leg,
+      .anim-knees .knee-l,
+      .anim-knees .knee-r,
+      .anim-lunge .lunge-body,
+      .anim-quad .heel-lift,
+      .anim-ham .hinge,
+      .anim-calf .lean,
+      .anim-hip .hip-lunge,
+      .anim-fig4 .sit-back {
+        animation: none;
+      }
+    }
+
+    .accent-bar {
+      position: relative;
+      z-index: 1;
+      height: 5px;
+      display: flex;
+    }
+
+    .accent-bar span { flex: 1; }
+    .accent-bar .b { background: var(--g-blue); }
+    .accent-bar .r { background: var(--g-red); }
+    .accent-bar .y { background: var(--g-yellow); }
+    .accent-bar .g { background: var(--g-green); }
+  </style>
+</head>
+<body>
+  <div class="glows" aria-hidden="true">
+    <span class="g1"></span>
+    <span class="g2"></span>
+    <span class="g3"></span>
+    <span class="g4"></span>
+  </div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <a class="brand" href="../../">ShravzDev</a>
+      <a class="back" href="../teaching-kids-ai/">&larr; Teaching kids AI</a>
+    </header>
+
+    <h1>Basic running warm-up</h1>
+    <p class="lead">
+      Five moves to wake up before you run, five to cool down after.
+      Also: <a href="../java-jit-android/">Java JIT and Android</a>.
+    </p>
+
+    <h2 class="group-heading">Before you run (dynamic)</h2>
+    <div class="steps" aria-label="Before you run">
+      <article class="step-card" data-n="1">
+        <div class="step-illus anim-jacks">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Jumping jacks animation">
+            <line class="stick" x1="60" y1="38" x2="60" y2="70"/>
+            <circle class="joint" cx="60" cy="28" r="8"/>
+            <g class="limb-spread">
+              <line class="stick" x1="60" y1="48" x2="38" y2="58"/>
+              <line class="stick" x1="60" y1="48" x2="82" y2="58"/>
+              <line class="stick" x1="60" y1="70" x2="42" y2="98"/>
+              <line class="stick" x1="60" y1="70" x2="78" y2="98"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">1</div>
+          <h3 class="step-title">Jumping jacks</h3>
+          <p class="step-body">30 seconds. Arms and legs open and close together.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="2">
+        <div class="step-illus anim-circles">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Arm circles animation">
+            <line class="stick" x1="60" y1="38" x2="60" y2="78"/>
+            <circle class="joint" cx="60" cy="28" r="8"/>
+            <line class="stick" x1="60" y1="78" x2="48" y2="108"/>
+            <line class="stick" x1="60" y1="78" x2="72" y2="108"/>
+            <g class="arm-spin">
+              <line class="stick" x1="60" y1="42" x2="28" y2="52"/>
+              <line class="stick" x1="60" y1="42" x2="92" y2="52"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">2</div>
+          <h3 class="step-title">Arm circles</h3>
+          <p class="step-body">10 forward, 10 back. Start small, then bigger.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="3">
+        <div class="step-illus anim-swing">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Leg swings animation">
+            <rect x="8" y="20" width="8" height="88" rx="2" fill="#e8eaee"/>
+            <line class="stick" x1="60" y1="38" x2="60" y2="78"/>
+            <circle class="joint" cx="60" cy="28" r="8"/>
+            <line class="stick" x1="60" y1="78" x2="72" y2="108"/>
+            <g class="swing-leg">
+              <line class="stick" x1="60" y1="78" x2="88" y2="95"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">3</div>
+          <h3 class="step-title">Leg swings</h3>
+          <p class="step-body">10 each leg, front-to-back, hold a wall if needed.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="4">
+        <div class="step-illus anim-knees">
+          <svg viewBox="0 0 120 120" role="img" aria-label="High knees animation">
+            <line class="stick" x1="60" y1="38" x2="60" y2="72"/>
+            <circle class="joint" cx="60" cy="28" r="8"/>
+            <line class="stick" x1="60" y1="72" x2="72" y2="108"/>
+            <g class="knee-l">
+              <line class="stick" x1="60" y1="72" x2="44" y2="88"/>
+            </g>
+            <g class="knee-r">
+              <line class="stick" x1="60" y1="72" x2="76" y2="88" opacity="0.35"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">4</div>
+          <h3 class="step-title">High knees</h3>
+          <p class="step-body">20 total. Soft landings, tall posture.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="5">
+        <div class="step-illus anim-lunge">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Walking lunges animation">
+            <g class="lunge-body">
+              <line class="stick" x1="58" y1="32" x2="52" y2="68"/>
+              <circle class="joint" cx="58" cy="24" r="8"/>
+              <line class="stick" x1="52" y1="68" x2="38" y2="108"/>
+              <line class="stick" x1="52" y1="68" x2="78" y2="98"/>
+              <line class="stick" x1="52" y1="44" x2="68" y2="52"/>
+              <line class="stick" x1="52" y1="44" x2="36" y2="50"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">5</div>
+          <h3 class="step-title">Walking lunges</h3>
+          <p class="step-body">8 each side. Knee tracks over the front foot.</p>
+        </div>
+      </article>
+    </div>
+
+    <h2 class="group-heading">After you run (hold still)</h2>
+    <div class="steps" aria-label="After you run">
+      <article class="step-card" data-n="1">
+        <div class="step-illus anim-quad">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Standing quad stretch">
+            <line class="stick" x1="60" y1="38" x2="60" y2="78"/>
+            <circle class="joint" cx="60" cy="28" r="8"/>
+            <line class="stick" x1="60" y1="78" x2="72" y2="108"/>
+            <g class="heel-lift">
+              <line class="stick" x1="60" y1="78" x2="48" y2="92"/>
+              <line class="stick" x1="48" y1="92" x2="52" y2="72"/>
+            </g>
+            <line class="stick" x1="60" y1="42" x2="72" y2="58"/>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">1</div>
+          <h3 class="step-title">Standing quad stretch</h3>
+          <p class="step-body">20–30s each side. Heel toward glute, knees together.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="2">
+        <div class="step-illus anim-ham">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Standing hamstring stretch">
+            <g class="hinge">
+              <line class="stick" x1="60" y1="48" x2="60" y2="78"/>
+              <circle class="joint" cx="60" cy="38" r="8"/>
+              <line class="stick" x1="60" y1="48" x2="48" y2="58"/>
+              <line class="stick" x1="60" y1="48" x2="72" y2="58"/>
+            </g>
+            <line class="stick" x1="60" y1="78" x2="52" y2="108"/>
+            <line class="stick" x1="60" y1="78" x2="68" y2="108"/>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">2</div>
+          <h3 class="step-title">Standing hamstring stretch</h3>
+          <p class="step-body">20–30s each side. Hinge at the hip, long spine.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="3">
+        <div class="step-illus anim-calf">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Calf stretch at wall">
+            <rect x="6" y="24" width="10" height="84" rx="2" fill="#4285F4" opacity="0.25"/>
+            <g class="lean">
+              <line class="stick" x1="52" y1="42" x2="38" y2="78"/>
+              <circle class="joint" cx="52" cy="34" r="8"/>
+              <line class="stick" x1="38" y1="78" x2="32" y2="108"/>
+              <line class="stick" x1="38" y1="78" x2="58" y2="108"/>
+              <line class="stick" x1="52" y1="46" x2="28" y2="52"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">3</div>
+          <h3 class="step-title">Calf stretch</h3>
+          <p class="step-body">20–30s each side. Hands on a wall, back heel down.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="4">
+        <div class="step-illus anim-hip">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Hip-flexor lunge stretch">
+            <g class="hip-lunge">
+              <line class="stick" x1="68" y1="36" x2="58" y2="68"/>
+              <circle class="joint" cx="68" cy="28" r="8"/>
+              <line class="stick" x1="58" y1="68" x2="42" y2="98"/>
+              <line class="stick" x1="58" y1="68" x2="88" y2="108"/>
+              <circle class="joint" cx="88" cy="108" r="5" fill="#EA4335"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">4</div>
+          <h3 class="step-title">Hip-flexor lunge stretch</h3>
+          <p class="step-body">20–30s each side. Back knee down, tuck the pelvis.</p>
+        </div>
+      </article>
+
+      <article class="step-card" data-n="5">
+        <div class="step-illus anim-fig4">
+          <svg viewBox="0 0 120 120" role="img" aria-label="Figure-four stretch">
+            <g class="sit-back">
+              <line class="stick" x1="60" y1="48" x2="60" y2="72"/>
+              <circle class="joint" cx="60" cy="40" r="8"/>
+              <line class="stick" x1="60" y1="72" x2="48" y2="98"/>
+              <line class="stick" x1="60" y1="72" x2="78" y2="98"/>
+              <line class="stick" x1="60" y1="52" x2="78" y2="68"/>
+              <line class="stick" x1="78" y1="68" x2="88" y2="78"/>
+            </g>
+          </svg>
+        </div>
+        <div class="step-copy">
+          <div class="step-num">5</div>
+          <h3 class="step-title">Figure-four stretch</h3>
+          <p class="step-body">20–30s each side. Ankle on opposite knee, sit back.</p>
+        </div>
+      </article>
+    </div>
+
+    <p class="disclaimer">
+      General mobility routine only — not medical advice. Skip anything that hurts, and check with a clinician if you are unsure.
+    </p>
+  </div>
+
+  <div class="accent-bar" aria-hidden="true">
+    <span class="b"></span>
+    <span class="r"></span>
+    <span class="y"></span>
+    <span class="g"></span>
+  </div>
+</body>
+</html>
