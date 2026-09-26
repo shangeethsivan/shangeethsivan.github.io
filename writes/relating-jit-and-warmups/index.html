@@ -11,8 +11,8 @@
   </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Teaching kids AI | ShravzDev</title>
-  <meta name="description" content="Teaching kids AI — three links: Antigravity website and game guide, vibe-coded GitHub hosting video, and Jio setup help." />
+  <title>Relating-JIT-and-Warmups | ShravzDev</title>
+  <meta name="description" content="Two notes that sit together — a body warm-up before running, and how a JIT warms up hot code on Android." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -25,6 +25,8 @@
       --bg: #ffffff;
       --text: #12141a;
       --muted: #5c6570;
+      --line: #e8eaee;
+      --well: #f6f7f9;
       --font: "Outfit", system-ui, sans-serif;
       --wordmark: "Caveat", cursive;
       --radius: 16px;
@@ -33,9 +35,7 @@
 
     * { box-sizing: border-box; }
 
-    html {
-      -webkit-text-size-adjust: 100%;
-    }
+    html { -webkit-text-size-adjust: 100%; }
 
     body {
       margin: 0;
@@ -64,37 +64,10 @@
       opacity: 0.35;
     }
 
-    .glows .g1 {
-      width: 280px;
-      height: 280px;
-      background: var(--g-blue);
-      top: -60px;
-      left: -80px;
-    }
-
-    .glows .g2 {
-      width: 240px;
-      height: 240px;
-      background: var(--g-red);
-      top: 30%;
-      right: -100px;
-    }
-
-    .glows .g3 {
-      width: 220px;
-      height: 220px;
-      background: var(--g-yellow);
-      bottom: 20%;
-      left: -60px;
-    }
-
-    .glows .g4 {
-      width: 260px;
-      height: 260px;
-      background: var(--g-green);
-      bottom: -80px;
-      right: -40px;
-    }
+    .glows .g1 { width: 280px; height: 280px; background: var(--g-blue); top: -60px; left: -80px; }
+    .glows .g2 { width: 240px; height: 240px; background: var(--g-red); top: 30%; right: -100px; }
+    .glows .g3 { width: 220px; height: 220px; background: var(--g-yellow); bottom: 20%; left: -60px; }
+    .glows .g4 { width: 260px; height: 260px; background: var(--g-green); bottom: -80px; right: -40px; }
 
     main {
       position: relative;
@@ -108,16 +81,58 @@
       gap: clamp(1rem, 3.5vw, 1.5rem);
     }
 
-    .hero {
-      text-align: center;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.75rem;
     }
+
+    .brand {
+      font-family: var(--wordmark);
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand:hover { color: var(--g-blue); }
+
+    .back {
+      color: var(--g-blue);
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.5rem 0.875rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      background: var(--bg);
+    }
+
+    .back:hover { border-color: var(--g-blue); background: var(--well); }
+    .back:focus-visible { outline: 2px solid var(--g-blue); outline-offset: 2px; }
 
     .hero h1 {
       margin: 0;
-      font-size: clamp(1.75rem, 8vw, 2.5rem);
+      font-size: clamp(1.5rem, 7vw, 2rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       line-height: 1.12;
+      text-align: center;
+    }
+
+    .hero .lead {
+      margin: 0.75rem 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: clamp(0.95rem, 3.5vw, 1.05rem);
+      font-weight: 500;
+      line-height: 1.45;
     }
 
     .cards {
@@ -138,35 +153,11 @@
       text-decoration: none;
       color: inherit;
       transition: transform 160ms ease, box-shadow 160ms ease;
+      min-height: 44px;
     }
 
-    .card[data-n="1"] {
-      --card-border: var(--g-blue);
-      --card-glow: rgba(66, 133, 244, 0.14);
-    }
-
-    .card[data-n="2"] {
-      --card-border: var(--g-red);
-      --card-glow: rgba(234, 67, 53, 0.14);
-    }
-
-    .card[data-n="3"] {
-      --card-border: var(--g-green);
-      --card-glow: rgba(52, 168, 83, 0.14);
-    }
-
-    .card[data-n="4"] {
-      --card-border: var(--g-yellow);
-      --card-glow: rgba(251, 188, 5, 0.14);
-    }
-
-    .also-heading {
-      margin: 0.5rem 0 0;
-      font-size: clamp(1.15rem, 5vw, 1.35rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      text-align: center;
-    }
+    .card[data-n="1"] { --card-border: var(--g-blue); --card-glow: rgba(66, 133, 244, 0.14); }
+    .card[data-n="2"] { --card-border: var(--g-red); --card-glow: rgba(234, 67, 53, 0.14); }
 
     a.card:hover,
     a.card:focus-visible {
@@ -224,13 +215,6 @@
       opacity: 0.85;
     }
 
-    a.card:hover .card-arrow,
-    a.card:focus-visible .card-arrow {
-      opacity: 1;
-      transform: translateX(2px);
-      transition: transform 160ms ease, opacity 160ms ease;
-    }
-
     footer {
       position: relative;
       z-index: 1;
@@ -244,44 +228,6 @@
       font-size: clamp(1.75rem, 7vw, 2.25rem);
       font-weight: 700;
       color: var(--text);
-      text-decoration: none;
-      padding-bottom: 0.35rem;
-      background: linear-gradient(
-        90deg,
-        var(--g-blue) 0%,
-        var(--g-blue) 25%,
-        var(--g-red) 25%,
-        var(--g-red) 50%,
-        var(--g-yellow) 50%,
-        var(--g-yellow) 75%,
-        var(--g-green) 75%,
-        var(--g-green) 100%
-      ) bottom / 100% 4px no-repeat;
-    }
-
-    .social {
-      display: flex;
-      justify-content: center;
-      gap: 1.25rem;
-      margin-top: 0.625rem;
-    }
-
-    .social a {
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--muted);
-      text-decoration: none;
-    }
-
-    .social a:hover,
-    .social a:focus-visible {
-      color: var(--g-blue);
-    }
-
-    .social a:focus-visible {
-      outline: 2px solid var(--g-blue);
-      outline-offset: 2px;
-      border-radius: 4px;
     }
 
     .accent-bar {
@@ -292,25 +238,14 @@
       flex-shrink: 0;
     }
 
-    .accent-bar span {
-      flex: 1;
-    }
-
+    .accent-bar span { flex: 1; }
     .accent-bar .b { background: var(--g-blue); }
     .accent-bar .r { background: var(--g-red); }
     .accent-bar .y { background: var(--g-yellow); }
     .accent-bar .g { background: var(--g-green); }
 
-    @media (min-width: 640px) {
-      :root { --max: min(480px, 100% - 3rem); }
-      main { gap: 1.75rem; }
-      .cards { gap: 1rem; }
-      .card { padding: 1.125rem 1.25rem; }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .card { transition: none; }
-      .card-arrow { transition: none; }
     }
   </style>
 </head>
@@ -323,52 +258,33 @@
   </div>
 
   <main>
-    <header class="hero">
-      <h1>&mdash; 3 links as Promised &mdash;</h1>
+    <header class="topbar">
+      <a class="brand" href="../../">ShravzDev</a>
+      <a class="back" href="../teaching-kids-ai/">&larr; All writes</a>
     </header>
 
-    <section class="cards" aria-label="Follow-up links">
-      <a class="card" data-n="1" href="../antigravity-website-game/" aria-label="Doc: How to build a website/game using Antigravity">
+    <div class="hero">
+      <h1>Relating-JIT-and-Warmups</h1>
+      <p class="lead">These two notes sit together — a body warm-up before you run, and how a JIT “warms up” hot code on your phone.</p>
+    </div>
+
+    <section class="cards" aria-label="Relating JIT and warmups">
+      <a class="card" data-n="1" href="../basic-warmup-guide/" aria-label="Doc: Basic running warm-up guide">
         <span class="card-num" aria-hidden="true">1</span>
         <div class="card-body">
           <span class="card-label">Doc</span>
-          <p class="card-text">How to build a website/game using Antigravity</p>
+          <p class="card-text">Basic running warm-up guide</p>
         </div>
         <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 6l6 6-6 6"/>
         </svg>
       </a>
 
-      <a class="card" data-n="2" href="https://www.youtube.com/watch?v=zr3a1X9MkjM" target="_blank" rel="noopener noreferrer" aria-label="YouTube: How this college kid hosted a vibe-coded site on GitHub — for free">
+      <a class="card" data-n="2" href="../java-jit-android/" aria-label="Doc: Java JIT and Android">
         <span class="card-num" aria-hidden="true">2</span>
         <div class="card-body">
-          <span class="card-label">YouTube</span>
-          <p class="card-text">How this college kid hosted a vibe-coded site on GitHub — for free</p>
-        </div>
-        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 6l6 6-6 6"/>
-        </svg>
-      </a>
-
-      <a class="card" data-n="3" href="https://shravz.dev/writes/simple-jioplansetup/" aria-label="Doc: How to get Antigravity for free with Jio setup help">
-        <span class="card-num" aria-hidden="true">3</span>
-        <div class="card-body">
           <span class="card-label">Doc</span>
-          <p class="card-text">How to get Antigravity for free with Jio setup help</p>
-        </div>
-        <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M9 6l6 6-6 6"/>
-        </svg>
-      </a>
-    </section>
-
-    <section class="cards" aria-label="More writes">
-      <h2 class="also-heading">Also</h2>
-      <a class="card" data-n="4" href="../relating-jit-and-warmups/" aria-label="Doc: Relating-JIT-and-Warmups">
-        <span class="card-num" aria-hidden="true">4</span>
-        <div class="card-body">
-          <span class="card-label">Doc</span>
-          <p class="card-text">Relating-JIT-and-Warmups</p>
+          <p class="card-text">Java JIT and Android</p>
         </div>
         <svg class="card-arrow" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 6l6 6-6 6"/>
@@ -379,10 +295,6 @@
 
   <footer>
     <span class="wordmark">ShravzDev</span>
-    <nav class="social" aria-label="Social links">
-      <a href="https://www.instagram.com/shravzdev/" target="_blank" rel="noopener noreferrer">Instagram</a>
-      <a href="https://www.youtube.com/@shravzdev" target="_blank" rel="noopener noreferrer">YouTube</a>
-    </nav>
   </footer>
 
   <div class="accent-bar" aria-hidden="true">
