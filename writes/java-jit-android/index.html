@@ -212,6 +212,31 @@
       .flow-hot { animation: none; }
     }
 
+    .medium-read {
+      margin-top: 1.75rem;
+      padding: 1rem 1.125rem;
+      border: 2px dashed var(--line);
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    .medium-read a {
+      color: var(--g-blue);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .medium-read .medium-pending {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
     .accent-bar {
       position: relative;
       z-index: 1;
@@ -237,7 +262,7 @@
   <div class="wrap">
     <header class="topbar">
       <a class="brand" href="../../">ShravzDev</a>
-      <a class="back" href="../teaching-kids-ai/">&larr; All writes</a>
+      <a class="back" href="../relating-jit-and-warmups/">&larr; Relating-JIT-and-Warmups</a>
     </header>
 
     <h1>Just-in-time compilation</h1>
@@ -327,6 +352,12 @@
       </svg>
       <figcaption>Hot methods get compiled while the app runs; cold code can stay interpreted longer.</figcaption>
     </figure>
+
+    <p class="medium-read" id="medium-art-jit">
+      <!-- href TBD: owner Medium URL — lock in PLANS/WRITES_RELATING_JIT_WARMUPS.md -->
+      This is a detailed Medium page on ART and JIT.
+      <span class="medium-pending">Medium link pending — paste the URL in the thread to activate.</span>
+    </p>
   </div>
 
   <div class="accent-bar" aria-hidden="true">
