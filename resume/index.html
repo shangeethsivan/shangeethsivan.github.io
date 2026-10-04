@@ -502,7 +502,7 @@
     }
 
     function setupEditMode() {
-      document.getElementById("viewBar").remove();
+      document.getElementById("viewBar").hidden = true;
       document.getElementById("editToolbar").hidden = false;
       document.getElementById("editHint").hidden = false;
       resume.contentEditable = "true";
@@ -550,6 +550,7 @@
     }
 
     function setupViewMode() {
+      resume.removeAttribute("contenteditable");
       document.getElementById("editToolbar").remove();
       document.getElementById("editHint").remove();
       document.getElementById("viewBar").hidden = false;
