@@ -19,6 +19,8 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    [hidden] { display: none !important; }
+
     html, body { background: var(--desk); }
 
     body {
@@ -102,6 +104,28 @@
     }
 
     .toolbar button.primary:hover { filter: brightness(1.08); }
+
+    .viewbar {
+      display: flex;
+      justify-content: flex-end;
+      padding: 12px 16px 0;
+    }
+
+    .viewbar button {
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      padding: 8px 12px;
+      border-radius: 4px;
+      background: var(--blue);
+      color: #fff;
+    }
+
+    .viewbar button:hover { filter: brightness(1.08); }
 
     .hint {
       padding: 8px 18px 0;
@@ -268,7 +292,7 @@
 
     @media print {
       html, body { background: #fff !important; }
-      .toolbar, .hint { display: none !important; }
+      .toolbar, .hint, .viewbar { display: none !important; }
       .stage { padding: 0; display: block; }
       .sheet-wrap {
         width: 210mm;
@@ -290,7 +314,10 @@
   </style>
 </head>
 <body>
-  <header class="toolbar">
+  <div class="viewbar" id="viewBar" hidden>
+    <button type="button" id="pdfBtn">Download as PDF</button>
+  </div>
+  <header class="toolbar" id="editToolbar" hidden>
     <div class="brand">
       <strong>Resume editor</strong>
       <span>Click the page to edit · Print saves a PDF</span>
@@ -302,11 +329,11 @@
       <span class="status idle" id="status">File version</span>
     </div>
   </header>
-  <p class="hint">Edits stay in this browser. Print → Destination: Save as PDF → Margins: None → uncheck Headers and footers.</p>
+  <p class="hint" id="editHint" hidden>Edits stay in this browser. Print → Destination: Save as PDF → Margins: None → uncheck Headers and footers.</p>
 
   <main class="stage">
     <div class="sheet-wrap" id="sheetWrap">
-    <article class="sheet" id="resume" contenteditable="true" spellcheck="true">
+    <article class="sheet" id="resume" spellcheck="true">
       <h1>Shangeeth Sivan</h1>
       <div class="subtitle">Staff Software Engineer<span class="dot">·</span>Android<span class="dot">·</span>Organiser, KUG Chennai</div>
       <div class="contact">
@@ -441,6 +468,7 @@
   </main>
 
   <script>
+    const isEditMode = new URLSearchParams(window.location.search).get("edit") === "true";
     const STORAGE_KEY = "shravz-resume-html-v27";
     const resume = document.getElementById("resume");
     const sheetWrap = document.getElementById("sheetWrap");
@@ -473,51 +501,74 @@
       }
     }
 
-    resume.addEventListener("input", () => {
-      setStatus("Saving…", true);
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(saveDraft, 250);
-      fitSheet();
-    });
+    function setupEditMode() {
+      document.getElementById("viewBar").remove();
+      document.getElementById("editToolbar").hidden = false;
+      document.getElementById("editHint").hidden = false;
+      resume.contentEditable = "true";
 
-    resume.addEventListener("click", (event) => {
-      const link = event.target.closest("a");
-      if (!link || !link.href) return;
-      event.preventDefault();
-      window.open(link.href, "_blank", "noopener");
-    });
+      resume.addEventListener("input", () => {
+        setStatus("Saving…", true);
+        clearTimeout(saveTimer);
+        saveTimer = setTimeout(saveDraft, 250);
+        fitSheet();
+      });
 
-    document.getElementById("printBtn").addEventListener("click", () => {
-      saveDraft();
-      window.print();
-    });
+      resume.addEventListener("click", (event) => {
+        const link = event.target.closest("a");
+        if (!link || !link.href) return;
+        event.preventDefault();
+        window.open(link.href, "_blank", "noopener");
+      });
 
-    document.getElementById("resetBtn").addEventListener("click", () => {
-      if (!confirm("Clear browser edits and restore the file version?")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      resume.innerHTML = originalHtml;
-      setStatus("File version", false);
-    });
+      document.getElementById("printBtn").addEventListener("click", () => {
+        saveDraft();
+        window.print();
+      });
 
-    document.getElementById("downloadHtmlBtn").addEventListener("click", () => {
-      const blob = new Blob([document.documentElement.outerHTML], { type: "text/html" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "Shangeeth_Sivan_Resume.html";
-      a.click();
-      URL.revokeObjectURL(url);
-    });
+      document.getElementById("resetBtn").addEventListener("click", () => {
+        if (!confirm("Clear browser edits and restore the file version?")) return;
+        localStorage.removeItem(STORAGE_KEY);
+        resume.innerHTML = originalHtml;
+        setStatus("File version", false);
+      });
+
+      document.getElementById("downloadHtmlBtn").addEventListener("click", () => {
+        const blob = new Blob([document.documentElement.outerHTML], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Shangeeth_Sivan_Resume.html";
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      window.addEventListener("beforeprint", saveDraft);
+
+      ["shravz-resume-html-v1", "shravz-resume-html-v2", "shravz-resume-html-v3", "shravz-resume-html-v4", "shravz-resume-html-v5", "shravz-resume-html-v6", "shravz-resume-html-v7", "shravz-resume-html-v8", "shravz-resume-html-v9", "shravz-resume-html-v10", "shravz-resume-html-v11", "shravz-resume-html-v12", "shravz-resume-html-v13", "shravz-resume-html-v14", "shravz-resume-html-v15", "shravz-resume-html-v16", "shravz-resume-html-v17", "shravz-resume-html-v18", "shravz-resume-html-v19", "shravz-resume-html-v20", "shravz-resume-html-v21", "shravz-resume-html-v22", "shravz-resume-html-v23", "shravz-resume-html-v24", "shravz-resume-html-v25", "shravz-resume-html-v26"].forEach((key) => localStorage.removeItem(key));
+      restoreDraft();
+    }
+
+    function setupViewMode() {
+      document.getElementById("editToolbar").remove();
+      document.getElementById("editHint").remove();
+      document.getElementById("viewBar").hidden = false;
+      document.getElementById("pdfBtn").addEventListener("click", () => window.print());
+    }
 
     window.addEventListener("beforeprint", () => {
-      saveDraft();
       resume.style.setProperty("--scale", "1");
       sheetWrap.style.height = "auto";
     });
     window.addEventListener("afterprint", fitSheet);
     window.addEventListener("resize", fitSheet);
-    ["shravz-resume-html-v1", "shravz-resume-html-v2", "shravz-resume-html-v3", "shravz-resume-html-v4", "shravz-resume-html-v5", "shravz-resume-html-v6", "shravz-resume-html-v7", "shravz-resume-html-v8", "shravz-resume-html-v9", "shravz-resume-html-v10", "shravz-resume-html-v11", "shravz-resume-html-v12", "shravz-resume-html-v13", "shravz-resume-html-v14", "shravz-resume-html-v15", "shravz-resume-html-v16", "shravz-resume-html-v17", "shravz-resume-html-v18", "shravz-resume-html-v19", "shravz-resume-html-v20", "shravz-resume-html-v21", "shravz-resume-html-v22", "shravz-resume-html-v23", "shravz-resume-html-v24", "shravz-resume-html-v25", "shravz-resume-html-v26"].forEach((key) => localStorage.removeItem(key));
-    restoreDraft();
+
+    if (isEditMode) {
+      setupEditMode();
+    } else {
+      setupViewMode();
+    }
+
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(fitSheet);
     }
