@@ -137,6 +137,46 @@
 
     .graphic.wide { width: min(340px, 52vw); }
 
+    .shots {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.65rem;
+      margin-top: 1.35rem;
+      width: min(100%, 1080px);
+    }
+
+    .shot {
+      flex: 1;
+      min-width: 0;
+      max-width: 340px;
+      margin: 0;
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.08);
+      background: #fff;
+    }
+
+    .shot span {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .shots.two .shot { max-width: 420px; }
+    .shots.one { max-width: 560px; margin-inline: auto; }
+    .shots.one .shot { max-width: 560px; }
+
     .qr-wrap {
       margin-top: 1.4rem;
       display: grid;
@@ -279,16 +319,33 @@
       <div class="chips"><span class="chip">Getting paid takes resilience</span></div>
     </article>
 
-    <article class="slide air" data-index="2">
+    <article class="slide" data-index="2">
+      <h1>Take Startup School.</h1>
+      <p class="sub">Free. Online. From YC.</p>
+      <div class="qr-wrap">
+        <img src="./assets/startup-school-qr.png" width="396" height="396" alt="QR code for Y Combinator Startup School" />
+      </div>
+    </article>
+    <article class="slide air" data-index="3">
       <h1>You don't need a big team.</h1>
       <p class="sub">Or months. Or an ad budget.</p>
+      <div class="shots two">
+        <figure class="shot">
+          <img src="./assets/shot-supermeme.jpg" width="960" height="492" alt="Super Meme homepage: AI meme generator that turns text into memes" />
+          <span>Super Meme</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-droidclaw.jpg" width="960" height="492" alt="DroidClaw homepage: turn old phones into AI agents" />
+          <span>DroidClaw</span>
+        </figure>
+      </div>
       <div class="chips">
         <span class="chip">Super Meme</span>
         <span class="chip">DroidClaw</span>
       </div>
     </article>
 
-    <article class="slide tight" data-index="3">
+    <article class="slide tight" data-index="4">
       <h1>You don't need the next Instagram.</h1>
       <p class="sub">One problem. A few people.</p>
       <div class="chips">
@@ -299,9 +356,23 @@
       </div>
     </article>
 
-    <article class="slide drop" data-index="4">
+    <article class="slide drop" data-index="5">
       <h1>These already exist.</h1>
       <p class="sub">One job. A real price.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="./assets/shot-maaa.jpg" width="960" height="492" alt="Maaa homepage: gentle reminders in the Mac notch" />
+          <span>Maaa</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-luckycharm.jpg" width="960" height="492" alt="Lucky Charm homepage: hang a little luck on your screen" />
+          <span>Lucky Charm</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-carrd.jpg" width="960" height="492" alt="Carrd homepage: simple one-page sites" />
+          <span>Carrd</span>
+        </figure>
+      </div>
       <div class="chips">
         <span class="chip">Maaa</span>
         <span class="chip">Lucky Charm</span>
@@ -309,12 +380,38 @@
       </div>
     </article>
 
-    <article class="slide" data-index="5">
+    <article class="slide" data-index="6">
       <h1>You don't have to invent it.</h1>
       <p class="sub">A better version is enough.</p>
+          <div class="shots one">
+        <figure class="shot">
+          <img src="./assets/shot-dunsocial.jpg" width="960" height="492" alt="DunSocial homepage: AI social scheduler" />
+          <span>DunSocial</span>
+        </figure>
+      </div>
     </article>
 
-    <article class="slide" data-index="6">
+    <article class="slide" data-index="7">
+      <h1>One job. People know these.</h1>
+      <p class="sub">A launcher. An editor. A store.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="./assets/shot-raycast.jpg" width="960" height="492" alt="Raycast homepage: your shortcut to everything" />
+          <span>Raycast</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-photopea.jpg" width="960" height="492" alt="Photopea homepage: free online photo editor" />
+          <span>Photopea</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-gumroad.jpg" width="960" height="492" alt="Gumroad homepage: go from 0 to $1" />
+          <span>Gumroad</span>
+        </figure>
+      </div>
+    </article>
+
+
+    <article class="slide" data-index="8">
       <h1>Start with the product.</h1>
       <p class="sub">A game, a charm, or a tiny app.</p>
       <svg class="graphic" viewBox="0 0 160 96" fill="none" aria-hidden="true">
@@ -326,7 +423,7 @@
       </svg>
     </article>
 
-    <article class="slide" data-index="7">
+    <article class="slide" data-index="9">
       <h1>Then take payment.</h1>
       <p class="sub">One price. One checkout.</p>
       <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
@@ -342,7 +439,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="8">
+    <article class="slide" data-index="10">
       <h1>Then watch what they do.</h1>
       <p class="sub">One analytics tool is enough.</p>
       <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
@@ -356,7 +453,7 @@
       <div class="chips"><span class="chip">PostHog</span></div>
     </article>
 
-    <article class="slide" data-index="9">
+    <article class="slide" data-index="11">
       <h1>Then give them a place to talk.</h1>
       <p class="sub">Discord is enough.</p>
       <svg class="graphic" viewBox="0 0 160 88" fill="none" aria-hidden="true">
@@ -369,17 +466,17 @@
       </svg>
     </article>
 
-    <article class="slide" data-index="10">
+    <article class="slide" data-index="12">
       <h1>They stay when you solve the next problem.</h1>
       <p class="sub">Likes are not customers.</p>
     </article>
 
-    <article class="slide lift" data-index="11">
+    <article class="slide lift" data-index="13">
       <h1>Your first paying customer beats another feature.</h1>
       <p class="sub">Too simple is why it stays in GitHub.</p>
     </article>
 
-    <article class="slide air" data-index="12">
+    <article class="slide air" data-index="14">
       <h1 class="math">Five people × ₹199.</h1>
       <p class="sub">Your first ₹1,000.</p>
       <div class="chips">
@@ -390,7 +487,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="13">
+    <article class="slide" data-index="15">
       <h1>Build anything. Ship something.</h1>
       <p class="sub">Solo or team.</p>
       <div class="chips">
@@ -401,14 +498,14 @@
       </div>
     </article>
 
-    <article class="slide" data-index="14">
+    <article class="slide" data-index="16">
       <h1>One sheet. Set Review Ready.</h1>
       <div class="qr-wrap">
         <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
       </div>
     </article>
 
-    <article class="slide lift" data-index="15">
+    <article class="slide lift" data-index="17">
       <h1>Thursday. Make it live.</h1>
       <div class="chips">
         <span class="chip">Deployed</span>
@@ -417,19 +514,14 @@
       </div>
     </article>
 
-    <article class="slide" data-index="16">
+    <article class="slide" data-index="18">
       <h1>Ship it. Get reviewed.</h1>
       <p class="quote">“We're going to see 10 person billion-dollar companies pretty soon.”<cite>Sam Altman</cite></p>
       <div class="chips"><span class="chip">DevFest tickets</span></div>
     </article>
 
-    <article class="slide banner" data-index="17">
-      <div class="banner-frame">
-        <img src="./assets/devfest-chennai-2026-banner.webp" width="2160" height="1080" alt="DevFest Chennai 2026 — Saturday 17 October, IITM Research Park. Google Developer Group Chennai." />
-      </div>
-    </article>
 
-    <article class="slide banner" data-index="18">
+    <article class="slide banner" data-index="19">
       <div class="banner-frame">
         <img src="./assets/kug-chennai-banner.jpg" width="2560" height="1440" alt="Kotlin User Group Chennai community partner offer for DevFest Chennai. Vanakkam Chennai. 17th October." />
       </div>
@@ -442,110 +534,117 @@
   </aside>
   <section class="overview" id="overview"></section>
   <div class="hud">
-    <div class="counter" id="counter">1 / 19</div>
+    <div class="counter" id="counter">1 / 20</div>
     <div class="watermark">KUG Chennai · Shipaton</div>
     <div class="hint">← → · P notes · O overview · F fullscreen</div>
     <div class="progress"><span id="progressFill"></span></div>
   </div>
 
   <script type="application/json" id="speaker-notes">
-  [
+  
+[
     {
-      "title": "Title card",
-      "html": "<p><strong>Tanglish:</strong> “Vanakkam. Indha card-ah vechi vidunga.”</p><p>Leave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
-      "text": "Tanglish: Vanakkam. Indha card-ah vechi vidunga.\nLeave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.\nhttps://luma.com/mprx0ocg"
+        "title": "Title card",
+        "html": "<p><strong>Tanglish:</strong> “Vanakkam. Indha card-ah vechi vidunga.”</p><p>Leave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Vanakkam. Indha card-ah vechi vidunga.\nLeave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.\nhttps://luma.com/mprx0ocg"
     },
     {
-      "title": "What's stopping us from getting paid?",
-      "html": "<p><strong>Tanglish:</strong> “Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.”</p><p>Vibe coding is easy. Getting someone to pay takes resilience. Most of us have a GitHub graveyard. Polishing is not a test of demand.</p><p>Ask people just out of college to take YC Startup School — free, online — and actually use it. Say “early Startup School lessons.” Do not invent a lesson number.</p><p>Course: <a href=\"https://www.startupschool.org/\">startupschool.org</a>. Public matches: <a href=\"https://www.youtube.com/watch?v=BUE-icVYRFU\">resilience</a>, <a href=\"https://www.youtube.com/watch?v=BJjsfNO5JTo\">vibe coding</a>.</p>",
-      "text": "Tanglish: Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.\nVibe coding is easy. Getting someone to pay takes resilience.\nAsk people just out of college to take YC Startup School (free, online). Say “early Startup School lessons.” Do not invent a lesson number.\nhttps://www.startupschool.org/\nhttps://www.youtube.com/watch?v=BUE-icVYRFU\nhttps://www.youtube.com/watch?v=BJjsfNO5JTo"
+        "title": "What's stopping us from getting paid?",
+        "html": "<p><strong>Tanglish:</strong> “Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.”</p><p>Vibe coding is easy. Getting someone to pay takes resilience. Most of us have a GitHub graveyard. Polishing is not a test of demand.</p><p>Ask people just out of college to take YC Startup School — free, online — and actually use it. Say “early Startup School lessons.” Do not invent a lesson number.</p><p>Course: <a href=\"https://www.startupschool.org/\">startupschool.org</a>. Public matches: <a href=\"https://www.youtube.com/watch?v=BUE-icVYRFU\">resilience</a>, <a href=\"https://www.youtube.com/watch?v=BJjsfNO5JTo\">vibe coding</a>.</p>",
+        "text": "Tanglish: Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.\nVibe coding is easy. Getting someone to pay takes resilience.\nAsk people just out of college to take YC Startup School (free, online). Say “early Startup School lessons.” Do not invent a lesson number.\nhttps://www.startupschool.org/\nhttps://www.youtube.com/watch?v=BUE-icVYRFU\nhttps://www.youtube.com/watch?v=BJjsfNO5JTo"
     },
     {
-      "title": "You don't need a big team",
-      "html": "<p><strong>Tanglish:</strong> “Periya team venam. Months venam. Ad budget-um venam.”</p><p>Credit <strong>Sanjeev NC, DevFest 2024</strong> for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. Do not claim revenue, ARR, or size. Same for DroidClaw.</p><p><a href=\"https://supermeme.ai/\">supermeme.ai</a> · <a href=\"https://droidclaw.ai/\">droidclaw.ai</a>. Do not invent a YouTube id for Sanjeev's talk.</p>",
-      "text": "Tanglish: Periya team venam. Months venam. Ad budget-um venam.\nCredit Sanjeev NC, DevFest 2024 for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. No revenue, ARR, or size claims. Same for DroidClaw.\nhttps://supermeme.ai/\nhttps://droidclaw.ai/\nDo not invent a YouTube id for Sanjeev's talk."
+        "title": "Take Startup School.",
+        "html": "<p><strong>Tanglish:</strong> “Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.”</p><p>Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.</p><p>Scan the QR, or open <a href=\"https://www.startupschool.org/\">startupschool.org</a>.</p>",
+        "text": "Tanglish: Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.\nTake Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.\nhttps://www.startupschool.org/"
     },
     {
-      "title": "You don't need the next Instagram",
-      "html": "<p><strong>Tanglish:</strong> “Instagram venam. Oru problem. Konjam per. Adhu pothum.”</p><p>These are small products. More examples to speak: word game, quiz, casual browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.</p><p>Illustrative ways to charge: paid levels, one-time, credits, subscription, hosted plan, license. Event: <a href=\"https://luma.com/mprx0ocg\">Shipaton Luma</a>.</p>",
-      "text": "Tanglish: Instagram venam. Oru problem. Konjam per. Adhu pothum.\nThese are small products. Also: word game, quiz, browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.\nIllustrative monetization: paid levels, one-time, credits, subscription, hosted plan, license.\nhttps://luma.com/mprx0ocg"
+        "title": "You don't need a big team",
+        "html": "<p><strong>Tanglish:</strong> “Periya team venam. Months venam. Ad budget-um venam.”</p><p>Credit <strong>Sanjeev NC, DevFest 2024</strong> for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. Do not claim revenue, ARR, or size. Same for DroidClaw.</p><p><a href=\"https://supermeme.ai/\">supermeme.ai</a> · <a href=\"https://droidclaw.ai/\">droidclaw.ai</a>. Do not invent a YouTube id for Sanjeev's talk.</p>",
+        "text": "Tanglish: Periya team venam. Months venam. Ad budget-um venam.\nCredit Sanjeev NC, DevFest 2024 for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. No revenue, ARR, or size claims. Same for DroidClaw.\nhttps://supermeme.ai/\nhttps://droidclaw.ai/\nDo not invent a YouTube id for Sanjeev's talk."
     },
     {
-      "title": "These already exist",
-      "html": "<p><strong>Tanglish:</strong> “Puthiya invention venam. Oru job. Oru price. Adhu pothum.”</p><p><a href=\"https://www.maaa.app/\">Maaa</a> is a Mac notch reminder. Pro is $2.99 once for two computers. <a href=\"https://luckycharm.kraftostech.com/\">Lucky Charm</a> hangs a charm on the desktop. <a href=\"https://carrd.co/\">Carrd</a> is one-page sites. Inspiration only — no revenue or popularity counts.</p>",
-      "text": "Tanglish: Puthiya invention venam. Oru job. Oru price. Adhu pothum.\nMaaa is a Mac notch reminder. Pro is $2.99 once for two computers. https://www.maaa.app/\nLucky Charm hangs a charm on the desktop. https://luckycharm.kraftostech.com/\nCarrd is one-page sites. https://carrd.co/\nNo revenue or popularity counts."
+        "title": "You don't need the next Instagram",
+        "html": "<p><strong>Tanglish:</strong> “Instagram venam. Oru problem. Konjam per. Adhu pothum.”</p><p>These are small products. More examples to speak: word game, quiz, casual browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.</p><p>Illustrative ways to charge: paid levels, one-time, credits, subscription, hosted plan, license. Event: <a href=\"https://luma.com/mprx0ocg\">Shipaton Luma</a>.</p>",
+        "text": "Tanglish: Instagram venam. Oru problem. Konjam per. Adhu pothum.\nThese are small products. Also: word game, quiz, browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.\nIllustrative monetization: paid levels, one-time, credits, subscription, hosted plan, license.\nhttps://luma.com/mprx0ocg"
     },
     {
-      "title": "You don't have to invent it",
-      "html": "<p><strong>Tanglish:</strong> “Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.”</p><p><a href=\"https://dunsocial.com/\">DunSocial</a> is one more scheduler in a market that already has them. Public list price on that site is $20/month. That is not a success claim. The owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors. The easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide.</p>",
-      "text": "Tanglish: Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.\nDunSocial is one more scheduler in a market that already has them. Public list price is $20/month — not a success claim. https://dunsocial.com/\nThe owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors.\nThe easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide."
+        "title": "These already exist",
+        "html": "<p><strong>Tanglish:</strong> “Puthiya invention venam. Oru job. Oru price. Adhu pothum.”</p><p><a href=\"https://www.maaa.app/\">Maaa</a> is a Mac notch reminder. Pro is $2.99 once for two computers. <a href=\"https://luckycharm.kraftostech.com/\">Lucky Charm</a> hangs a charm on the desktop. <a href=\"https://carrd.co/\">Carrd</a> is one-page sites. Inspiration only — no revenue or popularity counts.</p>",
+        "text": "Tanglish: Puthiya invention venam. Oru job. Oru price. Adhu pothum.\nMaaa is a Mac notch reminder. Pro is $2.99 once for two computers. https://www.maaa.app/\nLucky Charm hangs a charm on the desktop. https://luckycharm.kraftostech.com/\nCarrd is one-page sites. https://carrd.co/\nNo revenue or popularity counts."
     },
     {
-      "title": "Start with the product",
-      "html": "<p><strong>Tanglish:</strong> “First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.”</p><p>The first part of the recipe is something one person can finish. Keep the examples already named: a puzzle, a charm on the desktop, a tiny utility. <a href=\"https://www.maaa.app/\">maaa.app</a></p>",
-      "text": "Tanglish: First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.\nThe first part of the recipe is something one person can finish. Examples stay the ones already named.\nhttps://www.maaa.app/"
+        "title": "You don't have to invent it",
+        "html": "<p><strong>Tanglish:</strong> “Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.”</p><p><a href=\"https://www.dunsocial.com/\">DunSocial</a> is one more scheduler in a market that already has them. Public list price on that site is $20/month. That is not a success claim. The owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors. The easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide.</p>",
+        "text": "Tanglish: Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.\nDunSocial is one more scheduler in a market that already has them. Public list price is $20/month — not a success claim. https://www.dunsocial.com/\nThe owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors.\nThe easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide."
     },
     {
-      "title": "Then take payment",
-      "html": "<p><strong>Tanglish:</strong> “Oru price. Oru checkout. Adhu dhaan payment.”</p><p>Prices on the chips are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
-      "text": "Tanglish: Oru price. Oru checkout. Adhu dhaan payment.\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
+        "title": "One job. People know these.",
+        "html": "<p><strong>Tanglish:</strong> “Oru job. Ivanga already therinjavanga. Inspiration dhaan.”</p><p><a href=\"https://www.raycast.com/\">Raycast</a> is a launcher. <a href=\"https://www.photopea.com/\">Photopea</a> is a browser photo editor. <a href=\"https://gumroad.com/\">Gumroad</a> is a store for files and memberships. Screenshots are from the live sites. Inspiration only — no revenue, user-count, or success claims.</p>",
+        "text": "Tanglish: Oru job. Ivanga already therinjavanga. Inspiration dhaan.\nRaycast is a launcher. https://www.raycast.com/\nPhotopea is a browser photo editor. https://www.photopea.com/\nGumroad is a store for files and memberships. https://gumroad.com/\nScreenshots are from the live sites. Inspiration only — no revenue, user-count, or success claims."
     },
     {
-      "title": "Then watch what they do",
-      "html": "<p><strong>Tanglish:</strong> “Analytics-ku oru tool pothum. Ella logo-um venam.”</p><p>Chip is <a href=\"https://posthog.com/\">PostHog</a>. Also name Plausible, Firebase Analytics, and Mixpanel — pick one. Track visitors, activation, retention, paid conversion, churn.</p>",
-      "text": "Tanglish: Analytics-ku oru tool pothum. Ella logo-um venam.\nPostHog: https://posthog.com/\nAlso name Plausible, Firebase Analytics, and Mixpanel, and say pick one.\nTrack visitors, activation, retention, paid conversion, churn."
+        "title": "Start with the product",
+        "html": "<p><strong>Tanglish:</strong> “First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.”</p><p>The first part of the recipe is something one person can finish. Keep the examples already named: a puzzle, a charm on the desktop, a tiny utility. <a href=\"https://www.maaa.app/\">maaa.app</a></p>",
+        "text": "Tanglish: First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.\nThe first part of the recipe is something one person can finish. Examples stay the ones already named.\nhttps://www.maaa.app/"
     },
     {
-      "title": "Then give them a place to talk",
-      "html": "<p><strong>Tanglish:</strong> “Support-ku Discord pothum. Periya team venam.”</p><p><a href=\"https://discord.com/\">Discord</a>, email, or GitHub Discussions. Nobody needs a support org.</p>",
-      "text": "Tanglish: Support-ku Discord pothum. Periya team venam.\nDiscord, email, or GitHub Discussions. Nobody needs a support org.\nhttps://discord.com/"
+        "title": "Then take payment",
+        "html": "<p><strong>Tanglish:</strong> “Oru price. Oru checkout. Adhu dhaan payment.”</p><p>Prices on the chips are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+        "text": "Tanglish: Oru price. Oru checkout. Adhu dhaan payment.\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
     },
     {
-      "title": "Likes are not customers",
-      "html": "<p><strong>Tanglish:</strong> “Like count customer illa. Problem solve panna, people trust pannuvaanga.”</p><p>The owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number. People stay when you solve the next problem. <a href=\"https://dunsocial.com/\">dunsocial.com</a></p>",
-      "text": "Tanglish: Like count customer illa. Problem solve panna, people trust pannuvaanga.\nThe owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number.\nhttps://dunsocial.com/"
+        "title": "Then watch what they do",
+        "html": "<p><strong>Tanglish:</strong> “Analytics-ku oru tool pothum. Ella logo-um venam.”</p><p>Chip is <a href=\"https://posthog.com/\">PostHog</a>. Also name Plausible, Firebase Analytics, and Mixpanel — pick one. Track visitors, activation, retention, paid conversion, churn.</p>",
+        "text": "Tanglish: Analytics-ku oru tool pothum. Ella logo-um venam.\nPostHog: https://posthog.com/\nAlso name Plausible, Firebase Analytics, and Mixpanel, and say pick one.\nTrack visitors, activation, retention, paid conversion, churn."
     },
     {
-      "title": "First paying customer",
-      "html": "<p><strong>Tanglish:</strong> “Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.”</p><p>Talk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy. Sanjeev's path to mix in: validate demand, smallest version someone will pay for, turn the product into a business, grow organically, and an exit is possible later on <a href=\"https://acquire.com/\">Acquire.com</a>.</p><p>Prices on earlier slides are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
-      "text": "Tanglish: Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.\nTalk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy.\nValidate demand. Smallest version someone will pay for. Turn the product into a business. Organic growth. An exit is possible later on https://acquire.com/\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
+        "title": "Then give them a place to talk",
+        "html": "<p><strong>Tanglish:</strong> “Support-ku Discord pothum. Periya team venam.”</p><p><a href=\"https://discord.com/\">Discord</a>, email, or GitHub Discussions. Nobody needs a support org.</p>",
+        "text": "Tanglish: Support-ku Discord pothum. Periya team venam.\nDiscord, email, or GitHub Discussions. Nobody needs a support org.\nhttps://discord.com/"
     },
     {
-      "title": "First ₹1,000",
-      "html": "<p><strong>Tanglish:</strong> “Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.”</p><p>Seven steps: identify one painful problem; build the smallest useful solution; landing page and pricing; an appropriate payment method; share it; measure and collect feedback; improve from real behavior.</p><p>Loop: Launch → Analytics → Feedback → Improvements → Retention → Revenue. Tools you can name: PostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.</p><p>Payment is evidence someone will pay. It is not product-market fit. <a href=\"https://razorpay.com/docs/\">razorpay.com/docs</a></p>",
-      "text": "Tanglish: Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.\n7-step path: painful problem → smallest useful solution → landing + pricing → payment method → share → measure → improve from behavior.\nLoop: Launch → Analytics → Feedback → Improvements → Retention → Revenue.\nPostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.\nPayment is evidence someone will pay. It is not product-market fit.\nhttps://razorpay.com/docs/"
+        "title": "Likes are not customers",
+        "html": "<p><strong>Tanglish:</strong> “Like count customer illa. Problem solve panna, people trust pannuvaanga.”</p><p>The owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number. People stay when you solve the next problem. <a href=\"https://www.dunsocial.com/\">dunsocial.com</a></p>",
+        "text": "Tanglish: Like count customer illa. Problem solve panna, people trust pannuvaanga.\nThe owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number.\nhttps://www.dunsocial.com/"
     },
     {
-      "title": "Build anything. Ship something.",
-      "html": "<p><strong>Tanglish:</strong> “Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.”</p><p>Individuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider. RevenueCat is a collaborator on the Luma page, not a requirement. A workable way to charge counts. Big revenue during the event is not required.</p><p><a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
-      "text": "Tanglish: Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.\nIndividuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider.\nRevenueCat is a Luma collaborator, not a requirement. A workable way to charge counts. Big revenue during the event is not required.\nhttps://luma.com/mprx0ocg"
+        "title": "First paying customer",
+        "html": "<p><strong>Tanglish:</strong> “Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.”</p><p>Talk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy. Sanjeev's path to mix in: validate demand, smallest version someone will pay for, turn the product into a business, grow organically, and an exit is possible later on <a href=\"https://acquire.com/\">Acquire.com</a>.</p><p>Prices on earlier slides are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+        "text": "Tanglish: Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.\nTalk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy.\nValidate demand. Smallest version someone will pay for. Turn the product into a business. Organic growth. An exit is possible later on https://acquire.com/\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
     },
     {
-      "title": "One sheet. Set Review Ready.",
-      "html": "<p><strong>Tanglish:</strong> “Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.”</p><p>Scan the QR, or open <a href=\"https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\">the shared sheet</a>.</p><p>Columns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.</p><p>Workflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval.</p>",
-      "text": "Tanglish: Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.\nSheet: https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\nColumns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.\nWorkflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval."
+        "title": "First ₹1,000",
+        "html": "<p><strong>Tanglish:</strong> “Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.”</p><p>Seven steps: identify one painful problem; build the smallest useful solution; landing page and pricing; an appropriate payment method; share it; measure and collect feedback; improve from real behavior.</p><p>Loop: Launch → Analytics → Feedback → Improvements → Retention → Revenue. Tools you can name: PostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.</p><p>Payment is evidence someone will pay. It is not product-market fit. <a href=\"https://razorpay.com/docs/\">razorpay.com/docs</a></p>",
+        "text": "Tanglish: Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.\n7-step path: painful problem → smallest useful solution → landing + pricing → payment method → share → measure → improve from behavior.\nLoop: Launch → Analytics → Feedback → Improvements → Retention → Revenue.\nPostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.\nPayment is evidence someone will pay. It is not product-market fit.\nhttps://razorpay.com/docs/"
     },
     {
-      "title": "Thursday. Make it live.",
-      "html": "<p><strong>Tanglish:</strong> “Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.”</p><p>Say Thursday. Do not print a calendar date. Production Ready by Thursday means deployed and usable. Review Ready means please review.</p><p>Checklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test. Extra DevFest prize eligibility, not an automatic win.</p><p><a href=\"https://luma.com/mprx0ocg\">Luma</a> · <a href=\"https://devfest.gdgchennai.in/\">DevFest Chennai</a></p>",
-      "text": "Tanglish: Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.\nSay Thursday. Do not print a calendar date.\nProduction Ready by Thursday = deployed and usable. Review Ready = please review.\nChecklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test.\nExtra DevFest prize eligibility, not an automatic win.\nhttps://luma.com/mprx0ocg\nhttps://devfest.gdgchennai.in/"
+        "title": "Build anything. Ship something.",
+        "html": "<p><strong>Tanglish:</strong> “Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.”</p><p>Individuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider. RevenueCat is a collaborator on the Luma page, not a requirement. A workable way to charge counts. Big revenue during the event is not required.</p><p><a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.\nIndividuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider.\nRevenueCat is a Luma collaborator, not a requirement. A workable way to charge counts. Big revenue during the event is not required.\nhttps://luma.com/mprx0ocg"
     },
     {
-      "title": "Ship it. Get reviewed.",
-      "html": "<p><strong>Tanglish:</strong> “Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.”</p><p>On the slide, the owner's sentence, attributed to Sam Altman: “We're going to see 10 person billion-dollar companies pretty soon.”</p><p>Fuller reported line: “We're going to see 10-person companies with billion-dollar valuations pretty soon.” Source: <a href=\"https://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\">Forbes</a>.</p><p>Organizers review. Selected winners get DevFest Chennai tickets. Prizes are also awarded at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize. Judging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, weights, or guarantees.</p><p><strong>Close:</strong> Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p><p><a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a></p>",
-      "text": "Tanglish: Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.\nOn the slide, attributed to Sam Altman: We're going to see 10 person billion-dollar companies pretty soon.\nFuller reported line: We're going to see 10-person companies with billion-dollar valuations pretty soon.\nhttps://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\nOrganizers review. Selected winners get DevFest Chennai tickets. Prizes also at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize — not a guarantee.\nJudging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, or weights.\nClose: Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.\nhttps://devfest.gdgchennai.in/"
+        "title": "One sheet. Set Review Ready.",
+        "html": "<p><strong>Tanglish:</strong> “Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.”</p><p>Scan the QR, or open <a href=\"https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\">the shared sheet</a>.</p><p>Columns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.</p><p>Workflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval.</p>",
+        "text": "Tanglish: Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.\nSheet: https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\nColumns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.\nWorkflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval."
     },
     {
-      "title": "DevFest Chennai banner",
-      "html": "<p><strong>Tanglish:</strong> “Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.”</p><p>Leave the banner up. Point people to <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a> — Saturday 17 October 2026, IITM Research Park. Official file: <a href=\"https://devfest.gdgchennai.in/banner/main.webp\">banner/main.webp</a>. No title overlay. No invented QR.</p>",
-      "text": "Tanglish: Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.\nLeave the banner up. Point people to DevFest.\nhttps://devfest.gdgchennai.in/\nhttps://devfest.gdgchennai.in/banner/main.webp"
+        "title": "Thursday. Make it live.",
+        "html": "<p><strong>Tanglish:</strong> “Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.”</p><p>Say Thursday. Do not print a calendar date. Production Ready by Thursday means deployed and usable. Review Ready means please review.</p><p>Checklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test. Extra DevFest prize eligibility, not an automatic win.</p><p><a href=\"https://luma.com/mprx0ocg\">Luma</a> · <a href=\"https://devfest.gdgchennai.in/\">DevFest Chennai</a></p>",
+        "text": "Tanglish: Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.\nSay Thursday. Do not print a calendar date.\nProduction Ready by Thursday = deployed and usable. Review Ready = please review.\nChecklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test.\nExtra DevFest prize eligibility, not an automatic win.\nhttps://luma.com/mprx0ocg\nhttps://devfest.gdgchennai.in/"
     },
     {
-      "title": "KUG Chennai banner",
-      "html": "<p><strong>Tanglish:</strong> “Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.”</p><p>This is the KUG community-partner art. Full image, no crop, no title overlay, no second QR drawn on top. The printed URL on the art is <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>. The on-art QR did not decode in our check; use that same URL. Do not invent another.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>",
-      "text": "Tanglish: Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.\nKUG community-partner art. Full image, no crop, no overlay, no second QR drawn on top.\nThe on-art QR did not decode in our check. Use https://devfest.gdgchennai.in/ — do not invent another.\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
+        "title": "Ship it. Get reviewed.",
+        "html": "<p><strong>Tanglish:</strong> “Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.”</p><p>On the slide, the owner's sentence, attributed to Sam Altman: “We're going to see 10 person billion-dollar companies pretty soon.”</p><p>Fuller reported line: “We're going to see 10-person companies with billion-dollar valuations pretty soon.” Source: <a href=\"https://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\">Forbes</a>.</p><p>Organizers review. Selected winners get DevFest Chennai tickets. Prizes are also awarded at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize. Judging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, weights, or guarantees.</p><p><strong>Close:</strong> Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p><p><a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a></p>",
+        "text": "Tanglish: Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.\nOn the slide, attributed to Sam Altman: We're going to see 10 person billion-dollar companies pretty soon.\nFuller reported line: We're going to see 10-person companies with billion-dollar valuations pretty soon.\nhttps://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\nOrganizers review. Selected winners get DevFest Chennai tickets. Prizes also at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize — not a guarantee.\nJudging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, or weights.\nClose: Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.\nhttps://devfest.gdgchennai.in/"
+    },
+    {
+        "title": "KUG Chennai banner",
+        "html": "<p><strong>Tanglish:</strong> “Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.”</p><p>This is the KUG community-partner art. Full image, no crop, no title overlay, no second QR drawn on top. The printed URL on the art is <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>. The on-art QR did not decode in our check; use that same URL. Do not invent another.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>",
+        "text": "Tanglish: Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.\nKUG community-partner art. Full image, no crop, no overlay, no second QR drawn on top.\nThe on-art QR did not decode in our check. Use https://devfest.gdgchennai.in/ — do not invent another.\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
     }
-  ]
+]
+  
   </script>
 
   <script>
