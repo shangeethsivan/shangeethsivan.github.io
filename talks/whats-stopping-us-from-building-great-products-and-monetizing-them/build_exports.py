@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build 16:9 PPTX (and notes) for the 20-slide Shipaton keynote."""
+"""Build 16:9 PPTX (and notes) for the 25-slide Shipaton keynote."""
 
 from __future__ import annotations
 
@@ -20,6 +20,7 @@ KUG_JPG = ROOT / "assets" / "kug-chennai-banner.jpg"
 TITLE_PNG = ROOT / "assets" / "shipaton-title-card.png"
 QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
 YC_QR = ROOT / "assets" / "startup-school-qr.png"
+PHONE_JPG = ROOT / "assets" / "shot-luckycharm-phone.jpg"
 PPTX_PATH = ROOT / "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx"
 ASSETS = ROOT / "assets"
 YC_URL = "https://www.startupschool.org/"
@@ -28,7 +29,10 @@ BG = RGBColor(0xF5, 0xF5, 0xF7)
 INK = RGBColor(0x1D, 0x1D, 0x1F)
 MUTED = RGBColor(0x6E, 0x6E, 0x73)
 CHIP = RGBColor(0xE8, 0xE8, 0xED)
+WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 DARK = RGBColor(0x07, 0x07, 0x10)
+QUOTE = RGBColor(0xF5, 0xF5, 0xF7)
+QUOTE_MUTED = RGBColor(0xA1, 0xA1, 0xA6)
 VIOLET = RGBColor(0x7C, 0x5C, 0xFF)
 CYAN = RGBColor(0x1E, 0xC8, 0xE6)
 SHEET_URL = "https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing"
@@ -44,8 +48,8 @@ def notes_from_html() -> list[dict]:
     if not match:
         raise SystemExit("speaker-notes JSON island missing")
     notes = json.loads(match.group(1))
-    if len(notes) != 20:
-        raise SystemExit(f"expected 20 notes, got {len(notes)}")
+    if len(notes) != 25:
+        raise SystemExit(f"expected 25 notes, got {len(notes)}")
     blob = html.lower()
     if "microsaas" in blob:
         raise SystemExit("forbidden term found in index.html")
@@ -204,6 +208,75 @@ def add_shots(slide, names, top=3.85, height=2.05):
         x += w + gap
 
 
+def add_exist_shots(slide):
+    maaa = ASSETS / "shot-maaa.jpg"
+    phone = PHONE_JPG
+    carrd = ASSETS / "shot-carrd.jpg"
+    land_w, land_h = 3.35, 1.88
+    phone_h = 2.55
+    phone_w = phone_h * (360 / 640)
+    gap = 0.22
+    total = land_w + gap + phone_w + gap + land_w
+    x = (13.333 - total) / 2
+    top = 3.35
+    phone_top = top - 0.12
+    slide.shapes.add_picture(str(maaa), Inches(x), Inches(top), width=Inches(land_w), height=Inches(land_h))
+    x += land_w + gap
+    slide.shapes.add_picture(str(phone), Inches(x), Inches(phone_top), width=Inches(phone_w), height=Inches(phone_h))
+    x += phone_w + gap
+    slide.shapes.add_picture(str(carrd), Inches(x), Inches(top), width=Inches(land_w), height=Inches(land_h))
+
+
+def growth_cards(slide):
+    cards = [
+        ("Ads", "Google Ads. Meta ads. Apple Search Ads."),
+        ("Experiments", "PostHog experiments. GrowthBook. Firebase A/B Testing."),
+        ("The stream", "Events you already track. A flag ships a variant. Keep the winner."),
+    ]
+    w, h, gap = 3.55, 2.35, 0.22
+    total = 3 * w + 2 * gap
+    x = (13.333 - total) / 2
+    top = 3.35
+    for title, body in cards:
+        sh = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(top), Inches(w), Inches(h))
+        shape_fill(sh, WHITE)
+        add_textbox(slide, Inches(x + 0.15), Inches(top + 0.28), Inches(w - 0.3), Inches(0.45), title, 18, INK, True)
+        add_textbox(slide, Inches(x + 0.18), Inches(top + 0.85), Inches(w - 0.36), Inches(1.25), body, 14, MUTED, False)
+        x += w + gap
+
+
+def fund_cards(slide):
+    cards = [
+        ("Creedom", "AI for creators. ₹1.9 crore deployed."),
+        ("GrooveBook", "Photo app. Acquired for $14.5M."),
+        ("Scholly", "Scholarship app. Shark Tank, later acquired."),
+    ]
+    w, h, gap = 3.55, 2.15, 0.22
+    total = 3 * w + 2 * gap
+    x = (13.333 - total) / 2
+    top = 3.55
+    for title, body in cards:
+        sh = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(top), Inches(w), Inches(h))
+        shape_fill(sh, WHITE)
+        add_textbox(slide, Inches(x + 0.15), Inches(top + 0.35), Inches(w - 0.3), Inches(0.55), title, 20, INK, True)
+        add_textbox(slide, Inches(x + 0.18), Inches(top + 1.0), Inches(w - 0.36), Inches(0.85), body, 14, MUTED, False)
+        x += w + gap
+
+
+def provider_lines(slide):
+    lines = [
+        "Razorpay",
+        "Stripe, where available",
+        "RevenueCat — mobile subscriptions",
+        "Google Pay — wallet, including UPI",
+        "Apple Pay — wallet, where available",
+    ]
+    top = 3.05
+    for text in lines:
+        add_textbox(slide, Inches(0.7), Inches(top), Inches(11.9), Inches(0.48), text, 22, INK, True)
+        top += 0.55
+
+
 def build_pptx(notes: list[dict]) -> None:
     prs = Presentation()
     prs.slide_width = Inches(13.333)
@@ -226,11 +299,6 @@ def build_pptx(notes: list[dict]) -> None:
     chips(s, ["Getting paid takes resilience"], 5.85)
 
     s = add()
-    add_textbox(s, Inches(0.7), Inches(0.7), Inches(11.9), Inches(1.15), "Take Startup School.", 36, INK, True)
-    add_textbox(s, Inches(0.7), Inches(1.9), Inches(11.9), Inches(0.55), "Free. Online. From YC.", 22, MUTED, False)
-    s.shapes.add_picture(str(YC_QR), Inches(4.55), Inches(2.55), width=Inches(4.2), height=Inches(4.2))
-
-    s = add()
     title_sub(s, "You don't need a big team.", "Or months. Or an ad budget.", 0.55, 32)
     add_shots(s, ["supermeme", "droidclaw"], 3.55)
     chips(s, ["Super Meme", "DroidClaw"], 6.35)
@@ -241,7 +309,7 @@ def build_pptx(notes: list[dict]) -> None:
 
     s = add()
     title_sub(s, "These already exist.", "One job. A real price.", 0.45, 32)
-    add_shots(s, ["maaa", "luckycharm", "carrd"], 3.45, 1.95)
+    add_exist_shots(s)
     chips(s, ["Maaa", "Lucky Charm", "Carrd"], 6.35)
 
     s = add()
@@ -253,8 +321,16 @@ def build_pptx(notes: list[dict]) -> None:
     add_shots(s, ["raycast", "photopea", "gumroad"], 3.45, 1.95)
 
     s = add()
+    title_sub(s, "You don't need Shark Tank.", "We have Startup Singam.", 0.55, 32)
+    fund_cards(s)
+
+    s = add()
     title_sub(s, "Start with the product.", "A game, a charm, or a tiny app.", 1.15)
     graphic_product(s)
+
+    s = add()
+    title_sub(s, "Pick a checkout.", "None of these is required.", 0.45, 34)
+    provider_lines(s)
 
     s = add()
     title_sub(s, "Then take payment.", "One price. One checkout.", 1.15)
@@ -262,13 +338,40 @@ def build_pptx(notes: list[dict]) -> None:
     chips(s, ["₹99–₹499", "₹199/month"], 6.35)
 
     s = add()
-    title_sub(s, "Then watch what they do.", "One analytics tool is enough.", 1.15)
+    title_sub(s, "Then watch what they do.", "One analytics tool is enough.", 0.45, 32)
     graphic_chart(s)
-    chips(s, ["PostHog"], 6.35)
+    chips(
+        s,
+        [
+            "PostHog",
+            "Google Analytics",
+            "Plausible",
+            "Firebase Analytics",
+            "Crashlytics",
+            "Performance Monitoring",
+        ],
+        5.85,
+    )
+    add_textbox(
+        s,
+        Inches(0.7),
+        Inches(6.45),
+        Inches(11.9),
+        Inches(0.5),
+        "Most of these Firebase products are free.",
+        16,
+        MUTED,
+        False,
+    )
+
+    s = add()
+    title_sub(s, "Growth is a system you can learn.", "Ads, experiments, and the event stream.", 0.45, 30)
+    growth_cards(s)
 
     s = add()
     title_sub(s, "Then give them a place to talk.", "Discord is enough.", 1.25, 32)
     graphic_chat(s)
+    chips(s, ["Discord", "email", "GitHub Discussions"], 6.35)
 
     s = add()
     title_sub(s, "They stay when you solve the next problem.", "Likes are not customers.", 2.05, 30)
@@ -308,13 +411,38 @@ def build_pptx(notes: list[dict]) -> None:
     add_textbox(s, Inches(0.7), Inches(4.7), Inches(11.9), Inches(0.4), "Sam Altman", 14, MUTED, True)
     chips(s, ["DevFest tickets"], 5.75)
 
+    s = add()
+    title_sub(s, "Just follow these for now.", "Don't get overwhelmed.", 1.7, 34)
+    chips(s, ["X", "Product Hunt", "Startup School"], 5.55)
+
+    s = add()
+    add_textbox(s, Inches(0.7), Inches(0.7), Inches(11.9), Inches(1.15), "Take Startup School.", 36, INK, True)
+    add_textbox(s, Inches(0.7), Inches(1.9), Inches(11.9), Inches(0.55), "Free. Online. From YC.", 22, MUTED, False)
+    s.shapes.add_picture(str(YC_QR), Inches(4.55), Inches(2.55), width=Inches(4.2), height=Inches(4.2))
+
     s = prs.slides.add_slide(prs.slide_layouts[6])
     paint_bg(s, DARK)
     contain_picture(s, KUG_JPG, 2560, 1440)
     slides.append(s)
 
-    if len(prs.slides) != 20:
-        raise SystemExit(f"expected 20 pptx slides, got {len(prs.slides)}")
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    paint_bg(s, DARK)
+    add_textbox(
+        s,
+        Inches(1.2),
+        Inches(2.05),
+        Inches(10.9),
+        Inches(2.6),
+        "The people who are crazy enough to think they can change the world are the ones who do.",
+        28,
+        QUOTE,
+        True,
+    )
+    add_textbox(s, Inches(1.2), Inches(4.85), Inches(10.9), Inches(0.45), "Steve Jobs", 14, QUOTE_MUTED, True)
+    slides.append(s)
+
+    if len(prs.slides) != 25:
+        raise SystemExit(f"expected 25 pptx slides, got {len(prs.slides)}")
     for slide, note in zip(slides, notes):
         add_notes(slide, note["text"])
         if "microsaas" in note["text"].lower() or "microsaas" in note["html"].lower():
@@ -325,18 +453,57 @@ def build_pptx(notes: list[dict]) -> None:
             raise SystemExit(f"missing Tanglish: {note['title']}")
         if "<a href" not in note["html"]:
             raise SystemExit(f"missing clickable source: {note['title']}")
-    if SHEET_URL not in notes[16]["text"]:
-        raise SystemExit("sheet URL missing from slide 17 notes")
-    if YC_URL not in notes[2]["text"]:
-        raise SystemExit("Startup School URL missing from slide 3 notes")
+    if SHEET_URL not in notes[18]["text"]:
+        raise SystemExit("sheet URL missing from slide 19 notes")
+    if YC_URL not in notes[22]["text"]:
+        raise SystemExit("Startup School URL missing from slide 23 notes")
+    checkout = notes[9]["text"]
+    for name in ("Razorpay", "Stripe", "RevenueCat", "Google Pay", "Apple Pay"):
+        if name not in checkout:
+            raise SystemExit(f"{name} missing from checkout notes")
+    if "developers.google.com/pay" not in checkout or "developer.apple.com/apple-pay" not in checkout:
+        raise SystemExit("Google Pay or Apple Pay source missing from checkout notes")
+    analytics = notes[11]["text"]
+    for name in ("PostHog", "Google Analytics", "Plausible", "Firebase Analytics", "Crashlytics", "Performance Monitoring"):
+        if name not in analytics:
+            raise SystemExit(f"{name} missing from analytics notes")
+    if "firebase.google.com/pricing" not in analytics:
+        raise SystemExit("Firebase pricing source missing from analytics notes")
+    if "Do not say all of Firebase is free" not in analytics:
+        raise SystemExit("Firebase free-vs-paid caveat missing from analytics notes")
+    if "Firestore" not in analytics:
+        raise SystemExit("Firestore paid caveat missing from analytics notes")
+    growth = notes[12]["text"]
+    for name in ("Google Ads", "Meta ads", "Apple Search Ads", "PostHog experiments", "GrowthBook", "Firebase A/B Testing"):
+        if name not in growth:
+            raise SystemExit(f"{name} missing from growth notes")
+    growth_slide = " ".join(shape.text_frame.text for shape in slides[12].shapes if shape.has_text_frame)
+    if "Google Optimize" in growth_slide:
+        raise SystemExit("Google Optimize must not appear on the growth slide")
+    if "Kafka" in growth_slide:
+        raise SystemExit("Kafka must not appear on the growth slide")
+    follow = notes[21]["text"]
+    for name in ("X", "Product Hunt", "Startup School"):
+        if name not in follow:
+            raise SystemExit(f"{name} missing from follow notes")
+    follow_slide = " ".join(shape.text_frame.text for shape in slides[21].shapes if shape.has_text_frame)
+    if "LinkedIn" in follow_slide or "Reddit" in follow_slide or "YouTube" in follow_slide:
+        raise SystemExit("follow slide named extra networks")
+    if any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[21].shapes):
+        raise SystemExit("follow slide must not have a QR")
+    thursday = " ".join(shape.text_frame.text for shape in slides[19].shapes if shape.has_text_frame)
+    if re.search(r"\b20\d{2}\b|\bOct|\bOctober\b|\b\d{1,2}/\d{1,2}\b", thursday):
+        raise SystemExit(f"Thursday slide printed a calendar date: {thursday!r}")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[0].shapes):
         raise SystemExit("slide 1 missing title card")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[2].shapes):
-        raise SystemExit("slide 3 missing Startup School QR")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[16].shapes):
-        raise SystemExit("slide 17 missing sheet QR")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[19].shapes):
-        raise SystemExit("slide 20 missing KUG banner")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[4].shapes):
+        raise SystemExit("slide 5 missing product shots")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[18].shapes):
+        raise SystemExit("slide 19 missing sheet QR")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[22].shapes):
+        raise SystemExit("slide 23 missing Startup School QR")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[23].shapes):
+        raise SystemExit("slide 24 missing KUG banner")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
@@ -345,9 +512,9 @@ def main() -> None:
     notes = notes_from_html()
     shots = [
         ASSETS / f"shot-{name}.jpg"
-        for name in ("supermeme", "droidclaw", "maaa", "luckycharm", "carrd", "dunsocial", "raycast", "photopea", "gumroad")
+        for name in ("supermeme", "droidclaw", "maaa", "carrd", "dunsocial", "raycast", "photopea", "gumroad")
     ]
-    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, *shots):
+    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, PHONE_JPG, *shots):
         if not path.exists():
             raise SystemExit(f"missing {path}")
     title = Image.open(TITLE_PNG)
@@ -356,6 +523,9 @@ def main() -> None:
     kug = Image.open(KUG_JPG)
     if kug.size != (2560, 1440):
         raise SystemExit(f"kug size {kug.size}, expected 2560x1440")
+    phone = Image.open(PHONE_JPG)
+    if phone.size != (360, 640):
+        raise SystemExit(f"lucky charm phone size {phone.size}, expected 360x640")
     build_pptx(notes)
 
 
