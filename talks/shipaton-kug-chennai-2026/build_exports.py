@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build 16:9 PPTX (and notes) for the 18-slide Shipaton keynote."""
+"""Build 16:9 PPTX (and notes) for the 19-slide Shipaton keynote."""
 
 from __future__ import annotations
 
@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parent
 HTML = ROOT / "index.html"
 BANNER_WEBP = ROOT / "assets" / "devfest-chennai-2026-banner.webp"
 KUG_JPG = ROOT / "assets" / "kug-chennai-banner.jpg"
+TITLE_PNG = ROOT / "assets" / "shipaton-title-card.png"
 QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
 PPTX_PATH = ROOT / "shipaton-kug-chennai-2026.pptx"
 
@@ -42,8 +43,8 @@ def notes_from_html() -> list[dict]:
     if not match:
         raise SystemExit("speaker-notes JSON island missing")
     notes = json.loads(match.group(1))
-    if len(notes) != 18:
-        raise SystemExit(f"expected 18 notes, got {len(notes)}")
+    if len(notes) != 19:
+        raise SystemExit(f"expected 19 notes, got {len(notes)}")
     blob = html.lower()
     if "microsaas" in blob:
         raise SystemExit("forbidden term found in index.html")
@@ -202,6 +203,11 @@ def build_pptx(notes: list[dict]) -> None:
         slides.append(s)
         return s
 
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    paint_bg(s, DARK)
+    contain_picture(s, TITLE_PNG, 3840, 2160)
+    slides.append(s)
+
     s = add()
     title_sub(s, "What's stopping us from getting paid?", "We know how to build.", 1.55, 36)
     chips(s, ["Getting paid takes resilience"], 5.85)
@@ -291,8 +297,8 @@ def build_pptx(notes: list[dict]) -> None:
     contain_picture(s, KUG_JPG, 2560, 1440)
     slides.append(s)
 
-    if len(prs.slides) != 18:
-        raise SystemExit(f"expected 18 pptx slides, got {len(prs.slides)}")
+    if len(prs.slides) != 19:
+        raise SystemExit(f"expected 19 pptx slides, got {len(prs.slides)}")
     for slide, note in zip(slides, notes):
         add_notes(slide, note["text"])
         if "microsaas" in note["text"].lower() or "microsaas" in note["html"].lower():
@@ -303,23 +309,28 @@ def build_pptx(notes: list[dict]) -> None:
             raise SystemExit(f"missing Tanglish: {note['title']}")
         if "<a href" not in note["html"]:
             raise SystemExit(f"missing clickable source: {note['title']}")
-    if SHEET_URL not in notes[13]["text"]:
-        raise SystemExit("sheet URL missing from slide 14 notes")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[13].shapes):
-        raise SystemExit("slide 14 missing QR picture")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[16].shapes):
-        raise SystemExit("slide 17 missing banner")
+    if SHEET_URL not in notes[14]["text"]:
+        raise SystemExit("sheet URL missing from slide 15 notes")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[0].shapes):
+        raise SystemExit("slide 1 missing title card")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[14].shapes):
+        raise SystemExit("slide 15 missing QR picture")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[17].shapes):
-        raise SystemExit("slide 18 missing KUG banner")
+        raise SystemExit("slide 18 missing banner")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[18].shapes):
+        raise SystemExit("slide 19 missing KUG banner")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
 
 def main() -> None:
     notes = notes_from_html()
-    for path in (BANNER_WEBP, KUG_JPG, QR_PNG):
+    for path in (BANNER_WEBP, KUG_JPG, QR_PNG, TITLE_PNG):
         if not path.exists():
             raise SystemExit(f"missing {path}")
+    title = Image.open(TITLE_PNG)
+    if title.size != (3840, 2160):
+        raise SystemExit(f"title card size {title.size}, expected 3840x2160")
     im = Image.open(BANNER_WEBP)
     if im.size != (2160, 1080):
         raise SystemExit(f"banner size {im.size}, expected 2160x1080")
