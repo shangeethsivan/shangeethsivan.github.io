@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFMBSE1VES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SFMBSE1VES');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Stopping Us from Shipping Great Products and Monetizing Them?</title>
+  <meta name="description" content="Shipaton keynote for Kotlin User Group Chennai — from side projects to paying customers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --ink: #1d1d1f;
+      --muted: #6e6e73;
+      --line: #d2d2d7;
+      --chip: #e8e8ed;
+      --violet: #7c5cff;
+      --cyan: #1ec8e6;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow: hidden;
+    }
+
+    .deck { width: 100vw; height: 100vh; position: relative; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 8vh 8vw 12vh;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 500ms ease, transform 600ms cubic-bezier(.22,.65,.11,1);
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .slide.prev { transform: translateY(-8px); }
+
+    h1 {
+      margin: 0;
+      font-weight: 600;
+      letter-spacing: -0.045em;
+      line-height: 0.98;
+      font-size: clamp(3rem, 6.8vw, 6.2rem);
+      max-width: 18ch;
+    }
+
+    .sub {
+      margin: 1.05rem 0 0;
+      font-size: clamp(1.3rem, 2.5vw, 2.05rem);
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: -0.03em;
+      max-width: 28ch;
+      line-height: 1.25;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2.1rem;
+    }
+
+    .slide.air .chips { margin-top: 3.4rem; }
+    .slide.tight .chips { margin-top: 1.2rem; }
+    .slide.lift { padding-bottom: 18vh; }
+    .slide.drop { padding-top: 16vh; }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--chip);
+      color: var(--ink);
+      font-size: clamp(0.82rem, 1.15vw, 1rem);
+      font-weight: 500;
+      padding: 0.42rem 0.78rem;
+      letter-spacing: -0.01em;
+    }
+
+    .math { font-size: clamp(3.2rem, 7.4vw, 6.8rem); letter-spacing: -0.06em; }
+
+    .quote {
+      margin: 1.3rem 0 0;
+      font-size: clamp(1.4rem, 2.6vw, 2.1rem);
+      font-weight: 500;
+      letter-spacing: -0.035em;
+      line-height: 1.2;
+      max-width: 34ch;
+      color: var(--ink);
+    }
+
+    .quote cite {
+      display: block;
+      margin-top: 0.65rem;
+      font-style: normal;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .graphic {
+      margin: 1.6rem 0 0;
+      width: min(280px, 42vw);
+      height: auto;
+    }
+
+    .graphic.wide { width: min(340px, 52vw); }
+
+    .shots {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0.65rem;
+      margin-top: 1.35rem;
+      width: min(100%, 1080px);
+    }
+
+    .shot {
+      flex: 1;
+      min-width: 0;
+      max-width: 340px;
+      margin: 0;
+    }
+
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 14px;
+      box-shadow: 0 14px 36px rgba(0,0,0,0.08);
+      background: #fff;
+    }
+
+    .shot span {
+      display: block;
+      margin-top: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .shots.two .shot { max-width: 420px; }
+    .shots.one { max-width: 560px; margin-inline: auto; }
+    .shots.one .shot { max-width: 560px; }
+
+    .qr-wrap {
+      margin-top: 1.4rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .qr-wrap img {
+      width: min(38vh, 340px);
+      height: min(38vh, 340px);
+      background: #fff;
+      padding: 12px;
+      border-radius: 18px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+    }
+
+    .slide.banner {
+      padding: 0;
+      background: #070710;
+      justify-content: center;
+    }
+
+    .banner-frame {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+    }
+
+    .banner-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .hud { position: fixed; inset: 0; pointer-events: none; z-index: 6; }
+
+    .counter, .watermark, .hint {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+
+    .counter { position: absolute; top: 1.4rem; right: 2rem; }
+    .watermark { position: absolute; left: 2rem; bottom: 1.15rem; }
+    .hint { position: absolute; right: 2rem; bottom: 1.15rem; font-size: 0.68rem; }
+
+    .progress {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: var(--ink);
+      transition: width 280ms ease;
+    }
+
+    body.banner-mode .counter,
+    body.banner-mode .watermark,
+    body.banner-mode .hint,
+    body.banner-mode .progress,
+    body.export .hud { display: none; }
+
+    .presenter {
+      position: fixed;
+      right: 0.9rem;
+      top: 3.2rem;
+      width: min(36vw, 420px);
+      max-height: calc(100vh - 5rem);
+      overflow: auto;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1rem 1.05rem;
+      z-index: 8;
+      display: none;
+      pointer-events: auto;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
+    }
+
+    .presenter.show { display: block; }
+    .presenter h4 {
+      margin: 0 0 0.55rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .presenter p, .presenter li { color: var(--ink); line-height: 1.45; font-size: 0.95rem; }
+    .presenter p { margin: 0 0 0.65rem; }
+    .presenter ul { margin: 0 0 0.65rem; padding-left: 1.1rem; }
+    .presenter a { color: #0071e3; }
+
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 7;
+      background: rgba(245,245,247,0.97);
+      padding: 1.2rem;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.8rem;
+      overflow: auto;
+    }
+
+    .overview.show { display: grid; }
+
+    .thumb {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      padding: 0.85rem;
+      min-height: 108px;
+      cursor: pointer;
+      color: inherit;
+      text-align: left;
+    }
+
+    .thumb strong { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.35rem; }
+    .thumb p { margin: 0; font-size: 0.95rem; line-height: 1.25; }
+  </style>
+</head>
+<body>
+  <main class="deck" id="deck">
+    <article class="slide banner active" data-index="0">
+      <div class="banner-frame">
+        <img src="./assets/shipaton-title-card.png" width="3840" height="2160" alt="Shipaton lightning talk title card for Kotlin User Group Chennai. What's stopping us from shipping great products and monetizing them? Shangeeth Sivan." />
+      </div>
+    </article>
+
+    <article class="slide lift" data-index="1">
+      <h1>What's stopping us from getting paid?</h1>
+      <p class="sub">We know how to build.</p>
+      <div class="chips"><span class="chip">Getting paid takes resilience</span></div>
+    </article>
+
+    <article class="slide" data-index="2">
+      <h1>Take Startup School.</h1>
+      <p class="sub">Free. Online. From YC.</p>
+      <div class="qr-wrap">
+        <img src="./assets/startup-school-qr.png" width="396" height="396" alt="QR code for Y Combinator Startup School" />
+      </div>
+    </article>
+    <article class="slide air" data-index="3">
+      <h1>You don't need a big team.</h1>
+      <p class="sub">Or months. Or an ad budget.</p>
+      <div class="shots two">
+        <figure class="shot">
+          <img src="./assets/shot-supermeme.jpg" width="960" height="492" alt="Super Meme homepage: AI meme generator that turns text into memes" />
+          <span>Super Meme</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-droidclaw.jpg" width="960" height="492" alt="DroidClaw homepage: turn old phones into AI agents" />
+          <span>DroidClaw</span>
+        </figure>
+      </div>
+      <div class="chips">
+        <span class="chip">Super Meme</span>
+        <span class="chip">DroidClaw</span>
+      </div>
+    </article>
+
+    <article class="slide tight" data-index="4">
+      <h1>You don't need the next Instagram.</h1>
+      <p class="sub">One problem. A few people.</p>
+      <div class="chips">
+        <span class="chip">Puzzle game</span>
+        <span class="chip">Resume formatter</span>
+        <span class="chip">Invoice reminders</span>
+        <span class="chip">CI dashboard</span>
+      </div>
+    </article>
+
+    <article class="slide drop" data-index="5">
+      <h1>These already exist.</h1>
+      <p class="sub">One job. A real price.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="./assets/shot-maaa.jpg" width="960" height="492" alt="Maaa homepage: gentle reminders in the Mac notch" />
+          <span>Maaa</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-luckycharm.jpg" width="960" height="492" alt="Lucky Charm homepage: hang a little luck on your screen" />
+          <span>Lucky Charm</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-carrd.jpg" width="960" height="492" alt="Carrd homepage: simple one-page sites" />
+          <span>Carrd</span>
+        </figure>
+      </div>
+      <div class="chips">
+        <span class="chip">Maaa</span>
+        <span class="chip">Lucky Charm</span>
+        <span class="chip">Carrd</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="6">
+      <h1>You don't have to invent it.</h1>
+      <p class="sub">A better version is enough.</p>
+          <div class="shots one">
+        <figure class="shot">
+          <img src="./assets/shot-dunsocial.jpg" width="960" height="492" alt="DunSocial homepage: AI social scheduler" />
+          <span>DunSocial</span>
+        </figure>
+      </div>
+    </article>
+
+    <article class="slide" data-index="7">
+      <h1>One job. People know these.</h1>
+      <p class="sub">A launcher. An editor. A store.</p>
+      <div class="shots">
+        <figure class="shot">
+          <img src="./assets/shot-raycast.jpg" width="960" height="492" alt="Raycast homepage: your shortcut to everything" />
+          <span>Raycast</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-photopea.jpg" width="960" height="492" alt="Photopea homepage: free online photo editor" />
+          <span>Photopea</span>
+        </figure>
+        <figure class="shot">
+          <img src="./assets/shot-gumroad.jpg" width="960" height="492" alt="Gumroad homepage: go from 0 to $1" />
+          <span>Gumroad</span>
+        </figure>
+      </div>
+    </article>
+
+
+    <article class="slide" data-index="8">
+      <h1>Start with the product.</h1>
+      <p class="sub">A game, a charm, or a tiny app.</p>
+      <svg class="graphic" viewBox="0 0 160 96" fill="none" aria-hidden="true">
+        <rect x="52" y="18" width="56" height="68" rx="10" stroke="var(--violet)" stroke-width="2.2"/>
+        <rect x="62" y="28" width="36" height="40" rx="4" stroke="var(--cyan)" stroke-width="2"/>
+        <circle cx="80" cy="76" r="3" fill="var(--violet)"/>
+        <path d="M28 12v22" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="28" cy="42" r="10" stroke="var(--violet)" stroke-width="2"/>
+      </svg>
+    </article>
+
+    <article class="slide" data-index="9">
+      <h1>Then take payment.</h1>
+      <p class="sub">One price. One checkout.</p>
+      <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
+        <rect x="18" y="22" width="144" height="48" rx="10" stroke="var(--violet)" stroke-width="2.2"/>
+        <rect x="18" y="22" width="144" height="14" rx="10" fill="var(--cyan)" opacity="0.18"/>
+        <path d="M34 52h36" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="132" cy="52" r="8" stroke="var(--violet)" stroke-width="2"/>
+        <path d="M128 52l3 3 6-7" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="chips">
+        <span class="chip">₹99–₹499</span>
+        <span class="chip">₹199/month</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="10">
+      <h1>Then watch what they do.</h1>
+      <p class="sub">One analytics tool is enough.</p>
+      <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
+        <path d="M22 70V18M22 70h136" stroke="var(--violet)" stroke-width="2" stroke-linecap="round"/>
+        <rect x="40" y="42" width="16" height="28" rx="3" fill="var(--cyan)" opacity="0.35"/>
+        <rect x="66" y="30" width="16" height="40" rx="3" fill="var(--violet)" opacity="0.35"/>
+        <rect x="92" y="36" width="16" height="34" rx="3" fill="var(--cyan)" opacity="0.35"/>
+        <rect x="118" y="22" width="16" height="48" rx="3" fill="var(--violet)" opacity="0.45"/>
+        <path d="M48 46 L74 34 L100 40 L126 26" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <div class="chips"><span class="chip">PostHog</span></div>
+    </article>
+
+    <article class="slide" data-index="11">
+      <h1>Then give them a place to talk.</h1>
+      <p class="sub">Discord is enough.</p>
+      <svg class="graphic" viewBox="0 0 160 88" fill="none" aria-hidden="true">
+        <rect x="18" y="18" width="78" height="38" rx="12" stroke="var(--violet)" stroke-width="2.2"/>
+        <path d="M36 56l8-8" stroke="var(--violet)" stroke-width="2.2" stroke-linecap="round"/>
+        <rect x="64" y="40" width="78" height="32" rx="12" stroke="var(--cyan)" stroke-width="2.2"/>
+        <circle cx="40" cy="36" r="3.2" fill="var(--cyan)"/>
+        <circle cx="54" cy="36" r="3.2" fill="var(--violet)"/>
+        <circle cx="68" cy="36" r="3.2" fill="var(--cyan)"/>
+      </svg>
+    </article>
+
+    <article class="slide" data-index="12">
+      <h1>They stay when you solve the next problem.</h1>
+      <p class="sub">Likes are not customers.</p>
+    </article>
+
+    <article class="slide lift" data-index="13">
+      <h1>Your first paying customer beats another feature.</h1>
+      <p class="sub">Too simple is why it stays in GitHub.</p>
+    </article>
+
+    <article class="slide air" data-index="14">
+      <h1 class="math">Five people × ₹199.</h1>
+      <p class="sub">Your first ₹1,000.</p>
+      <div class="chips">
+        <span class="chip">₹199 extension</span>
+        <span class="chip">₹299 app</span>
+        <span class="chip">₹499/month</span>
+        <span class="chip">Level pack</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="15">
+      <h1>Build anything. Ship something.</h1>
+      <p class="sub">Solo or team.</p>
+      <div class="chips">
+        <span class="chip">Game</span>
+        <span class="chip">App</span>
+        <span class="chip">Site</span>
+        <span class="chip">Tool</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="16">
+      <h1>One sheet. Set Review Ready.</h1>
+      <div class="qr-wrap">
+        <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
+      </div>
+    </article>
+
+    <article class="slide lift" data-index="17">
+      <h1>Thursday. Make it live.</h1>
+      <div class="chips">
+        <span class="chip">Deployed</span>
+        <span class="chip">Usable</span>
+        <span class="chip">Payments work</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="18">
+      <h1>Ship it. Get reviewed.</h1>
+      <p class="quote">“We're going to see 10 person billion-dollar companies pretty soon.”<cite>Sam Altman</cite></p>
+      <div class="chips"><span class="chip">DevFest tickets</span></div>
+    </article>
+
+
+    <article class="slide banner" data-index="19">
+      <div class="banner-frame">
+        <img src="./assets/kug-chennai-banner.jpg" width="2560" height="1440" alt="Kotlin User Group Chennai community partner offer for DevFest Chennai. Vanakkam Chennai. 17th October." />
+      </div>
+    </article>
+  </main>
+
+  <aside class="presenter" id="presenterPanel">
+    <h4>Speaker Notes</h4>
+    <div id="presenterText"></div>
+  </aside>
+  <section class="overview" id="overview"></section>
+  <div class="hud">
+    <div class="counter" id="counter">1 / 20</div>
+    <div class="watermark">KUG Chennai · Shipaton</div>
+    <div class="hint">← → · P notes · O overview · F fullscreen</div>
+    <div class="progress"><span id="progressFill"></span></div>
+  </div>
+
+  <script type="application/json" id="speaker-notes">
+  
+[
+    {
+        "title": "Title card",
+        "html": "<p><strong>Tanglish:</strong> “Vanakkam. Indha card-ah vechi vidunga.”</p><p>Leave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Vanakkam. Indha card-ah vechi vidunga.\nLeave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.\nhttps://luma.com/mprx0ocg"
+    },
+    {
+        "title": "What's stopping us from getting paid?",
+        "html": "<p><strong>Tanglish:</strong> “Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.”</p><p>Vibe coding is easy. Getting someone to pay takes resilience. Most of us have a GitHub graveyard. Polishing is not a test of demand.</p><p>Ask people just out of college to take YC Startup School — free, online — and actually use it. Say “early Startup School lessons.” Do not invent a lesson number.</p><p>Course: <a href=\"https://www.startupschool.org/\">startupschool.org</a>. Public matches: <a href=\"https://www.youtube.com/watch?v=BUE-icVYRFU\">resilience</a>, <a href=\"https://www.youtube.com/watch?v=BJjsfNO5JTo\">vibe coding</a>.</p>",
+        "text": "Tanglish: Build panna theriyum. Pay vaangardhu dhaan kashtam. Adhukku resilience venum.\nVibe coding is easy. Getting someone to pay takes resilience.\nAsk people just out of college to take YC Startup School (free, online). Say “early Startup School lessons.” Do not invent a lesson number.\nhttps://www.startupschool.org/\nhttps://www.youtube.com/watch?v=BUE-icVYRFU\nhttps://www.youtube.com/watch?v=BJjsfNO5JTo"
+    },
+    {
+        "title": "Take Startup School.",
+        "html": "<p><strong>Tanglish:</strong> “Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.”</p><p>Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.</p><p>Scan the QR, or open <a href=\"https://www.startupschool.org/\">startupschool.org</a>.</p>",
+        "text": "Tanglish: Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.\nTake Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.\nhttps://www.startupschool.org/"
+    },
+    {
+        "title": "You don't need a big team",
+        "html": "<p><strong>Tanglish:</strong> “Periya team venam. Months venam. Ad budget-um venam.”</p><p>Credit <strong>Sanjeev NC, DevFest 2024</strong> for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. Do not claim revenue, ARR, or size. Same for DroidClaw.</p><p><a href=\"https://supermeme.ai/\">supermeme.ai</a> · <a href=\"https://droidclaw.ai/\">droidclaw.ai</a>. Do not invent a YouTube id for Sanjeev's talk.</p>",
+        "text": "Tanglish: Periya team venam. Months venam. Ad budget-um venam.\nCredit Sanjeev NC, DevFest 2024 for the tiny-team, no-ad-budget, ship-before-polish point. Super Meme is the spoken example — inspiration only. No revenue, ARR, or size claims. Same for DroidClaw.\nhttps://supermeme.ai/\nhttps://droidclaw.ai/\nDo not invent a YouTube id for Sanjeev's talk."
+    },
+    {
+        "title": "You don't need the next Instagram",
+        "html": "<p><strong>Tanglish:</strong> “Instagram venam. Oru problem. Konjam per. Adhu pothum.”</p><p>These are small products. More examples to speak: word game, quiz, casual browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.</p><p>Illustrative ways to charge: paid levels, one-time, credits, subscription, hosted plan, license. Event: <a href=\"https://luma.com/mprx0ocg\">Shipaton Luma</a>.</p>",
+        "text": "Tanglish: Instagram venam. Oru problem. Konjam per. Adhu pothum.\nThese are small products. Also: word game, quiz, browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.\nIllustrative monetization: paid levels, one-time, credits, subscription, hosted plan, license.\nhttps://luma.com/mprx0ocg"
+    },
+    {
+        "title": "These already exist",
+        "html": "<p><strong>Tanglish:</strong> “Puthiya invention venam. Oru job. Oru price. Adhu pothum.”</p><p><a href=\"https://www.maaa.app/\">Maaa</a> is a Mac notch reminder. Pro is $2.99 once for two computers. <a href=\"https://luckycharm.kraftostech.com/\">Lucky Charm</a> hangs a charm on the desktop. <a href=\"https://carrd.co/\">Carrd</a> is one-page sites. Inspiration only — no revenue or popularity counts.</p>",
+        "text": "Tanglish: Puthiya invention venam. Oru job. Oru price. Adhu pothum.\nMaaa is a Mac notch reminder. Pro is $2.99 once for two computers. https://www.maaa.app/\nLucky Charm hangs a charm on the desktop. https://luckycharm.kraftostech.com/\nCarrd is one-page sites. https://carrd.co/\nNo revenue or popularity counts."
+    },
+    {
+        "title": "You don't have to invent it",
+        "html": "<p><strong>Tanglish:</strong> “Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.”</p><p><a href=\"https://www.dunsocial.com/\">DunSocial</a> is one more scheduler in a market that already has them. Public list price on that site is $20/month. That is not a success claim. The owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors. The easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide.</p>",
+        "text": "Tanglish: Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.\nDunSocial is one more scheduler in a market that already has them. Public list price is $20/month — not a success claim. https://www.dunsocial.com/\nThe owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors.\nThe easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide."
+    },
+    {
+        "title": "One job. People know these.",
+        "html": "<p><strong>Tanglish:</strong> “Oru job. Ivanga already therinjavanga. Inspiration dhaan.”</p><p><a href=\"https://www.raycast.com/\">Raycast</a> is a launcher. <a href=\"https://www.photopea.com/\">Photopea</a> is a browser photo editor. <a href=\"https://gumroad.com/\">Gumroad</a> is a store for files and memberships. Screenshots are from the live sites. Inspiration only — no revenue, user-count, or success claims.</p>",
+        "text": "Tanglish: Oru job. Ivanga already therinjavanga. Inspiration dhaan.\nRaycast is a launcher. https://www.raycast.com/\nPhotopea is a browser photo editor. https://www.photopea.com/\nGumroad is a store for files and memberships. https://gumroad.com/\nScreenshots are from the live sites. Inspiration only — no revenue, user-count, or success claims."
+    },
+    {
+        "title": "Start with the product",
+        "html": "<p><strong>Tanglish:</strong> “First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.”</p><p>The first part of the recipe is something one person can finish. Keep the examples already named: a puzzle, a charm on the desktop, a tiny utility. <a href=\"https://www.maaa.app/\">maaa.app</a></p>",
+        "text": "Tanglish: First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.\nThe first part of the recipe is something one person can finish. Examples stay the ones already named.\nhttps://www.maaa.app/"
+    },
+    {
+        "title": "Then take payment",
+        "html": "<p><strong>Tanglish:</strong> “Oru price. Oru checkout. Adhu dhaan payment.”</p><p>Prices on the chips are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+        "text": "Tanglish: Oru price. Oru checkout. Adhu dhaan payment.\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
+    },
+    {
+        "title": "Then watch what they do",
+        "html": "<p><strong>Tanglish:</strong> “Analytics-ku oru tool pothum. Ella logo-um venam.”</p><p>Chip is <a href=\"https://posthog.com/\">PostHog</a>. Also name Plausible, Firebase Analytics, and Mixpanel — pick one. Track visitors, activation, retention, paid conversion, churn.</p>",
+        "text": "Tanglish: Analytics-ku oru tool pothum. Ella logo-um venam.\nPostHog: https://posthog.com/\nAlso name Plausible, Firebase Analytics, and Mixpanel, and say pick one.\nTrack visitors, activation, retention, paid conversion, churn."
+    },
+    {
+        "title": "Then give them a place to talk",
+        "html": "<p><strong>Tanglish:</strong> “Support-ku Discord pothum. Periya team venam.”</p><p><a href=\"https://discord.com/\">Discord</a>, email, or GitHub Discussions. Nobody needs a support org.</p>",
+        "text": "Tanglish: Support-ku Discord pothum. Periya team venam.\nDiscord, email, or GitHub Discussions. Nobody needs a support org.\nhttps://discord.com/"
+    },
+    {
+        "title": "Likes are not customers",
+        "html": "<p><strong>Tanglish:</strong> “Like count customer illa. Problem solve panna, people trust pannuvaanga.”</p><p>The owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number. People stay when you solve the next problem. <a href=\"https://www.dunsocial.com/\">dunsocial.com</a></p>",
+        "text": "Tanglish: Like count customer illa. Problem solve panna, people trust pannuvaanga.\nThe owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number.\nhttps://www.dunsocial.com/"
+    },
+    {
+        "title": "First paying customer",
+        "html": "<p><strong>Tanglish:</strong> “Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.”</p><p>Talk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy. Sanjeev's path to mix in: validate demand, smallest version someone will pay for, turn the product into a business, grow organically, and an exit is possible later on <a href=\"https://acquire.com/\">Acquire.com</a>.</p><p>Prices on earlier slides are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+        "text": "Tanglish: Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.\nTalk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy.\nValidate demand. Smallest version someone will pay for. Turn the product into a business. Organic growth. An exit is possible later on https://acquire.com/\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
+    },
+    {
+        "title": "First ₹1,000",
+        "html": "<p><strong>Tanglish:</strong> “Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.”</p><p>Seven steps: identify one painful problem; build the smallest useful solution; landing page and pricing; an appropriate payment method; share it; measure and collect feedback; improve from real behavior.</p><p>Loop: Launch → Analytics → Feedback → Improvements → Retention → Revenue. Tools you can name: PostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.</p><p>Payment is evidence someone will pay. It is not product-market fit. <a href=\"https://razorpay.com/docs/\">razorpay.com/docs</a></p>",
+        "text": "Tanglish: Anju per ₹199 kudutha, almost thousand. Gross idhu — tax, fees illa. PMF illa, willingness to pay.\n7-step path: painful problem → smallest useful solution → landing + pricing → payment method → share → measure → improve from behavior.\nLoop: Launch → Analytics → Feedback → Improvements → Retention → Revenue.\nPostHog, Firebase Analytics, Mixpanel, Plausible, Discord, GitHub Discussions, email, X, LinkedIn, Reddit, Product Hunt, YouTube, Instagram, SEO, Sentry, Crashlytics. Nobody needs every tool.\nPayment is evidence someone will pay. It is not product-market fit.\nhttps://razorpay.com/docs/"
+    },
+    {
+        "title": "Build anything. Ship something.",
+        "html": "<p><strong>Tanglish:</strong> “Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.”</p><p>Individuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider. RevenueCat is a collaborator on the Luma page, not a requirement. A workable way to charge counts. Big revenue during the event is not required.</p><p><a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.\nIndividuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider.\nRevenueCat is a Luma collaborator, not a requirement. A workable way to charge counts. Big revenue during the event is not required.\nhttps://luma.com/mprx0ocg"
+    },
+    {
+        "title": "One sheet. Set Review Ready.",
+        "html": "<p><strong>Tanglish:</strong> “Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.”</p><p>Scan the QR, or open <a href=\"https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\">the shared sheet</a>.</p><p>Columns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.</p><p>Workflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval.</p>",
+        "text": "Tanglish: Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.\nSheet: https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\nColumns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.\nWorkflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval."
+    },
+    {
+        "title": "Thursday. Make it live.",
+        "html": "<p><strong>Tanglish:</strong> “Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.”</p><p>Say Thursday. Do not print a calendar date. Production Ready by Thursday means deployed and usable. Review Ready means please review.</p><p>Checklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test. Extra DevFest prize eligibility, not an automatic win.</p><p><a href=\"https://luma.com/mprx0ocg\">Luma</a> · <a href=\"https://devfest.gdgchennai.in/\">DevFest Chennai</a></p>",
+        "text": "Tanglish: Thursday-kku live aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na users use panna ready.\nSay Thursday. Do not print a calendar date.\nProduction Ready by Thursday = deployed and usable. Review Ready = please review.\nChecklist: production URL; core flow works; usable onboarding; no critical blockers; a clear way to charge; payment flow works when they charge; basic analytics or feedback; enough for organizers to test.\nExtra DevFest prize eligibility, not an automatic win.\nhttps://luma.com/mprx0ocg\nhttps://devfest.gdgchennai.in/"
+    },
+    {
+        "title": "Ship it. Get reviewed.",
+        "html": "<p><strong>Tanglish:</strong> “Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.”</p><p>On the slide, the owner's sentence, attributed to Sam Altman: “We're going to see 10 person billion-dollar companies pretty soon.”</p><p>Fuller reported line: “We're going to see 10-person companies with billion-dollar valuations pretty soon.” Source: <a href=\"https://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\">Forbes</a>.</p><p>Organizers review. Selected winners get DevFest Chennai tickets. Prizes are also awarded at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize. Judging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, weights, or guarantees.</p><p><strong>Close:</strong> Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p><p><a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a></p>",
+        "text": "Tanglish: Ship pannunga. Review aaganum. Ticket-na bonus — guarantee illa.\nOn the slide, attributed to Sam Altman: We're going to see 10 person billion-dollar companies pretty soon.\nFuller reported line: We're going to see 10-person companies with billion-dollar valuations pretty soon.\nhttps://www.forbes.com/sites/michaelashley/2025/02/17/the-future-is-solo-ai-is-creating-billion-dollar-one-person-companies/\nOrganizers review. Selected winners get DevFest Chennai tickets. Prizes also at DevFest, Sat 17 Oct 2026, IITM Research Park. Thursday production-ready teams are considered for an additional prize — not a guarantee.\nJudging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, or weights.\nClose: Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.\nhttps://devfest.gdgchennai.in/"
+    },
+    {
+        "title": "KUG Chennai banner",
+        "html": "<p><strong>Tanglish:</strong> “Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.”</p><p>This is the KUG community-partner art. Full image, no crop, no title overlay, no second QR drawn on top. The printed URL on the art is <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>. The on-art QR did not decode in our check; use that same URL. Do not invent another.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>",
+        "text": "Tanglish: Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.\nKUG community-partner art. Full image, no crop, no overlay, no second QR drawn on top.\nThe on-art QR did not decode in our check. Use https://devfest.gdgchennai.in/ — do not invent another.\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
+    }
+]
+  
+  </script>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const notes = JSON.parse(document.getElementById("speaker-notes").textContent);
+    const counter = document.getElementById("counter");
+    const progressFill = document.getElementById("progressFill");
+    const overview = document.getElementById("overview");
+    const presenterPanel = document.getElementById("presenterPanel");
+    const presenterText = document.getElementById("presenterText");
+
+    let current = 0;
+    let inOverview = false;
+    let presenterMode = false;
+
+    overview.innerHTML = notes.map((n, i) => `
+      <button class="thumb" data-go="${i}">
+        <strong>${String(i + 1).padStart(2, "0")}</strong>
+        <p>${n.title}</p>
+      </button>
+    `).join("");
+
+    overview.querySelectorAll("[data-go]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        goTo(Number(btn.dataset.go));
+        toggleOverview(false);
+      });
+    });
+
+    function updateHUD() {
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+      presenterText.innerHTML = notes[current].html;
+      presenterText.querySelectorAll("a").forEach((a) => {
+        a.target = "_blank";
+        a.rel = "noreferrer";
+      });
+      document.body.classList.toggle("banner-mode", slides[current].classList.contains("banner"));
+    }
+
+    function goTo(index, animate = true) {
+      if (index < 0 || index >= slides.length) return;
+      slides.forEach((el, i) => {
+        el.classList.remove("active", "prev");
+        if (i < index) el.classList.add("prev");
+      });
+      const target = slides[index];
+      current = index;
+      if (!animate) target.style.transition = "none";
+      requestAnimationFrame(() => {
+        target.classList.add("active");
+        if (!animate) {
+          target.offsetHeight;
+          target.style.transition = "";
+        }
+        updateHUD();
+        history.replaceState(null, "", `#${index + 1}`);
+      });
+    }
+
+    function next() { goTo(Math.min(slides.length - 1, current + 1)); }
+    function prev() { goTo(Math.max(0, current - 1)); }
+    function toggleOverview(force) {
+      inOverview = typeof force === "boolean" ? force : !inOverview;
+      overview.classList.toggle("show", inOverview);
+    }
+    function togglePresenter(force) {
+      presenterMode = typeof force === "boolean" ? force : !presenterMode;
+      presenterPanel.classList.toggle("show", presenterMode);
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); if (!inOverview) next(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); if (!inOverview) prev(); }
+      else if (e.key.toLowerCase() === "o" || e.key === "Escape") { e.preventDefault(); toggleOverview(); }
+      else if (e.key.toLowerCase() === "p") { e.preventDefault(); togglePresenter(); }
+      else if (e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
+    });
+
+    document.getElementById("deck").addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      if (!inOverview) next();
+    });
+
+    let sx = 0, sy = 0;
+    document.getElementById("deck").addEventListener("touchstart", (e) => {
+      const t = e.changedTouches[0];
+      sx = t.clientX; sy = t.clientY;
+    }, { passive: true });
+    document.getElementById("deck").addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        if (dx < 0) next(); else prev();
+      }
+    }, { passive: true });
+
+    if (new URLSearchParams(location.search).has("export")) {
+      document.body.classList.add("export");
+    }
+
+    const start = Number((location.hash || "#1").slice(1));
+    goTo(Number.isFinite(start) && start >= 1 && start <= slides.length ? start - 1 : 0, false);
+  </script>
+</body>
+</html>

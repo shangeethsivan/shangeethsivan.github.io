@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Build 16:9 PPTX (and notes) for the 19-slide Shipaton keynote."""
+"""Build 16:9 PPTX (and notes) for the 20-slide Shipaton keynote."""
 
 from __future__ import annotations
 
 import json
 import re
-import tempfile
 from pathlib import Path
 
 from PIL import Image
@@ -17,11 +16,13 @@ from pptx.util import Inches, Pt
 
 ROOT = Path(__file__).resolve().parent
 HTML = ROOT / "index.html"
-BANNER_WEBP = ROOT / "assets" / "devfest-chennai-2026-banner.webp"
 KUG_JPG = ROOT / "assets" / "kug-chennai-banner.jpg"
 TITLE_PNG = ROOT / "assets" / "shipaton-title-card.png"
 QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
-PPTX_PATH = ROOT / "shipaton-kug-chennai-2026.pptx"
+YC_QR = ROOT / "assets" / "startup-school-qr.png"
+PPTX_PATH = ROOT / "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx"
+ASSETS = ROOT / "assets"
+YC_URL = "https://www.startupschool.org/"
 
 BG = RGBColor(0xF5, 0xF5, 0xF7)
 INK = RGBColor(0x1D, 0x1D, 0x1F)
@@ -43,8 +44,8 @@ def notes_from_html() -> list[dict]:
     if not match:
         raise SystemExit("speaker-notes JSON island missing")
     notes = json.loads(match.group(1))
-    if len(notes) != 19:
-        raise SystemExit(f"expected 19 notes, got {len(notes)}")
+    if len(notes) != 20:
+        raise SystemExit(f"expected 20 notes, got {len(notes)}")
     blob = html.lower()
     if "microsaas" in blob:
         raise SystemExit("forbidden term found in index.html")
@@ -191,6 +192,18 @@ def graphic_chat(slide):
         shape_fill(dot, color)
 
 
+def add_shots(slide, names, top=3.85, height=2.05):
+    paths = [ASSETS / f"shot-{name}.jpg" for name in names]
+    n = len(paths)
+    gap = 0.18
+    w = 3.55 if n >= 3 else (4.4 if n == 2 else 5.4)
+    total = n * w + gap * (n - 1)
+    x = (13.333 - total) / 2
+    for path in paths:
+        slide.shapes.add_picture(str(path), Inches(x), Inches(top), width=Inches(w), height=Inches(height))
+        x += w + gap
+
+
 def build_pptx(notes: list[dict]) -> None:
     prs = Presentation()
     prs.slide_width = Inches(13.333)
@@ -213,7 +226,13 @@ def build_pptx(notes: list[dict]) -> None:
     chips(s, ["Getting paid takes resilience"], 5.85)
 
     s = add()
-    title_sub(s, "You don't need a big team.", "Or months. Or an ad budget.", 1.85)
+    add_textbox(s, Inches(0.7), Inches(0.7), Inches(11.9), Inches(1.15), "Take Startup School.", 36, INK, True)
+    add_textbox(s, Inches(0.7), Inches(1.9), Inches(11.9), Inches(0.55), "Free. Online. From YC.", 22, MUTED, False)
+    s.shapes.add_picture(str(YC_QR), Inches(4.55), Inches(2.55), width=Inches(4.2), height=Inches(4.2))
+
+    s = add()
+    title_sub(s, "You don't need a big team.", "Or months. Or an ad budget.", 0.55, 32)
+    add_shots(s, ["supermeme", "droidclaw"], 3.55)
     chips(s, ["Super Meme", "DroidClaw"], 6.35)
 
     s = add()
@@ -221,11 +240,17 @@ def build_pptx(notes: list[dict]) -> None:
     chips(s, ["Puzzle game", "Resume formatter", "Invoice reminders", "CI dashboard"], 5.55)
 
     s = add()
-    title_sub(s, "These already exist.", "One job. A real price.", 2.35)
-    chips(s, ["Maaa", "Lucky Charm", "Carrd"], 6.15)
+    title_sub(s, "These already exist.", "One job. A real price.", 0.45, 32)
+    add_shots(s, ["maaa", "luckycharm", "carrd"], 3.45, 1.95)
+    chips(s, ["Maaa", "Lucky Charm", "Carrd"], 6.35)
 
     s = add()
-    title_sub(s, "You don't have to invent it.", "A better version is enough.", 2.15)
+    title_sub(s, "You don't have to invent it.", "A better version is enough.", 0.55, 32)
+    add_shots(s, ["dunsocial"], 3.35, 2.35)
+
+    s = add()
+    title_sub(s, "One job. People know these.", "A launcher. An editor. A store.", 0.45, 32)
+    add_shots(s, ["raycast", "photopea", "gumroad"], 3.45, 1.95)
 
     s = add()
     title_sub(s, "Start with the product.", "A game, a charm, or a tiny app.", 1.15)
@@ -285,20 +310,11 @@ def build_pptx(notes: list[dict]) -> None:
 
     s = prs.slides.add_slide(prs.slide_layouts[6])
     paint_bg(s, DARK)
-    with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as tmp:
-        Image.open(BANNER_WEBP).save(tmp.name, "PNG")
-        banner_png = Path(tmp.name)
-    contain_picture(s, banner_png, 2160, 1080)
-    banner_png.unlink(missing_ok=True)
-    slides.append(s)
-
-    s = prs.slides.add_slide(prs.slide_layouts[6])
-    paint_bg(s, DARK)
     contain_picture(s, KUG_JPG, 2560, 1440)
     slides.append(s)
 
-    if len(prs.slides) != 19:
-        raise SystemExit(f"expected 19 pptx slides, got {len(prs.slides)}")
+    if len(prs.slides) != 20:
+        raise SystemExit(f"expected 20 pptx slides, got {len(prs.slides)}")
     for slide, note in zip(slides, notes):
         add_notes(slide, note["text"])
         if "microsaas" in note["text"].lower() or "microsaas" in note["html"].lower():
@@ -309,31 +325,34 @@ def build_pptx(notes: list[dict]) -> None:
             raise SystemExit(f"missing Tanglish: {note['title']}")
         if "<a href" not in note["html"]:
             raise SystemExit(f"missing clickable source: {note['title']}")
-    if SHEET_URL not in notes[14]["text"]:
-        raise SystemExit("sheet URL missing from slide 15 notes")
+    if SHEET_URL not in notes[16]["text"]:
+        raise SystemExit("sheet URL missing from slide 17 notes")
+    if YC_URL not in notes[2]["text"]:
+        raise SystemExit("Startup School URL missing from slide 3 notes")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[0].shapes):
         raise SystemExit("slide 1 missing title card")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[14].shapes):
-        raise SystemExit("slide 15 missing QR picture")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[17].shapes):
-        raise SystemExit("slide 18 missing banner")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[18].shapes):
-        raise SystemExit("slide 19 missing KUG banner")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[2].shapes):
+        raise SystemExit("slide 3 missing Startup School QR")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[16].shapes):
+        raise SystemExit("slide 17 missing sheet QR")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[19].shapes):
+        raise SystemExit("slide 20 missing KUG banner")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
 
 def main() -> None:
     notes = notes_from_html()
-    for path in (BANNER_WEBP, KUG_JPG, QR_PNG, TITLE_PNG):
+    shots = [
+        ASSETS / f"shot-{name}.jpg"
+        for name in ("supermeme", "droidclaw", "maaa", "luckycharm", "carrd", "dunsocial", "raycast", "photopea", "gumroad")
+    ]
+    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, *shots):
         if not path.exists():
             raise SystemExit(f"missing {path}")
     title = Image.open(TITLE_PNG)
     if title.size != (3840, 2160):
         raise SystemExit(f"title card size {title.size}, expected 3840x2160")
-    im = Image.open(BANNER_WEBP)
-    if im.size != (2160, 1080):
-        raise SystemExit(f"banner size {im.size}, expected 2160x1080")
     kug = Image.open(KUG_JPG)
     if kug.size != (2560, 1440):
         raise SystemExit(f"kug size {kug.size}, expected 2560x1440")
