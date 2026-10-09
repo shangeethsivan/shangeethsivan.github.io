@@ -233,10 +233,10 @@ def growth_cards(slide):
         ("Experiments", "PostHog experiments. GrowthBook. Firebase A/B Testing."),
         ("The stream", "Events you already track. A flag ships a variant. Keep the winner."),
     ]
-    w, h, gap = 3.55, 2.35, 0.22
+    w, h, gap = 3.55, 2.2, 0.22
     total = 3 * w + 2 * gap
     x = (13.333 - total) / 2
-    top = 3.35
+    top = 3.7
     for title, body in cards:
         sh = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(top), Inches(w), Inches(h))
         shape_fill(sh, WHITE)
@@ -365,7 +365,18 @@ def build_pptx(notes: list[dict]) -> None:
     )
 
     s = add()
-    title_sub(s, "Growth is a system you can learn.", "Ads, experiments, and the event stream.", 0.45, 30)
+    title_sub(s, "Growth is a system you can learn.", "Ads, experiments, and the event stream.", 0.28, 28)
+    add_textbox(
+        s,
+        Inches(0.7),
+        Inches(2.95),
+        Inches(11.9),
+        Inches(0.55),
+        "Grow the product first. Then revenue, like ads.",
+        20,
+        INK,
+        True,
+    )
     growth_cards(s)
 
     s = add()
@@ -478,6 +489,12 @@ def build_pptx(notes: list[dict]) -> None:
         if name not in growth:
             raise SystemExit(f"{name} missing from growth notes")
     growth_slide = " ".join(shape.text_frame.text for shape in slides[12].shapes if shape.has_text_frame)
+    if "Grow the product first. Then revenue, like ads." not in growth_slide:
+        raise SystemExit("growth-first line missing from the growth slide")
+    if "Do not skip the earlier payment slides" not in notes[12]["text"]:
+        raise SystemExit("growth notes must keep the payment slides")
+    if "Customer checkout and ad revenue are different" not in notes[12]["text"]:
+        raise SystemExit("growth notes must distinguish checkout from ads")
     if "Google Optimize" in growth_slide:
         raise SystemExit("Google Optimize must not appear on the growth slide")
     if "Kafka" in growth_slide:
