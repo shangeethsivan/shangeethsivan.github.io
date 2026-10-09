@@ -1,0 +1,1450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SFMBSE1VES"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-SFMBSE1VES');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What's Stopping Us from Shipping Great Products and Monetizing Them?</title>
+  <meta name="description" content="Shipaton keynote for Kotlin User Group Chennai — from side projects to paying customers." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+  <style>
+    :root {
+      --bg: #070710;
+      --text: #f7f8ff;
+      --muted: #c9d0ee;
+      --violet: #b794ff;
+      --violet-deep: #7c3aed;
+      --cyan: #5ce1ff;
+      --glow: 0 0 28px rgba(155, 92, 255, 0.38), 0 0 54px rgba(0, 212, 255, 0.2);
+      --ok: #5dffb2;
+      --warn: #ffd166;
+      --live: #5ce1ff;
+      --ready: #ffd166;
+      --reviewed: #5dffb2;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Outfit", sans-serif;
+      overflow: hidden;
+    }
+
+    .bg-mesh {
+      position: fixed;
+      inset: -20vmax;
+      background:
+        radial-gradient(45vmax 45vmax at 10% 25%, rgba(155, 92, 255, 0.2), transparent 70%),
+        radial-gradient(45vmax 45vmax at 85% 20%, rgba(0, 212, 255, 0.16), transparent 72%),
+        radial-gradient(35vmax 35vmax at 60% 85%, rgba(90, 46, 189, 0.22), transparent 70%);
+      filter: blur(16px) saturate(130%);
+      animation: meshShift 26s ease-in-out infinite alternate;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes meshShift {
+      0% { transform: translate3d(-2%, -1%, 0) scale(1); }
+      50% { transform: translate3d(2%, 2%, 0) scale(1.08); }
+      100% { transform: translate3d(-1%, 3%, 0) scale(1.02); }
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      z-index: 2;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: clamp(1.1rem, 3vw, 2.2rem) clamp(1.3rem, 4vw, 3.6rem) clamp(3.4rem, 8vh, 5.6rem);
+      opacity: 0;
+      transform: translateX(7vw);
+      transition: opacity 560ms ease, transform 700ms cubic-bezier(.22,.65,.11,1);
+      pointer-events: none;
+      display: grid;
+      align-content: start;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .slide.prev { transform: translateX(-7vw); }
+
+    .slide:not(.banner)::before {
+      content: "";
+      position: absolute;
+      inset: 1.35rem;
+      border: 1px solid rgba(154, 160, 200, 0.16);
+      border-radius: 22px;
+      background: linear-gradient(165deg, rgba(255,255,255,0.035), rgba(255,255,255,0.012));
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .kicker {
+      font: 700 0.78rem/1 "Space Mono", monospace;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--cyan);
+    }
+
+    h1, h2 {
+      margin: 0;
+      font-family: "Bebas Neue", sans-serif;
+      font-weight: 400;
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+    }
+
+    .headline {
+      font-size: clamp(2.6rem, 6.4vw, 5.8rem);
+      max-width: 18ch;
+      text-shadow: var(--glow);
+    }
+
+    .subhead {
+      margin-top: 0.7rem;
+      font-size: clamp(1.15rem, 2.4vw, 1.85rem);
+      color: #e8ecff;
+      font-weight: 500;
+      line-height: 1.25;
+      max-width: 40ch;
+    }
+
+    .whisper {
+      margin-top: 0.85rem;
+      color: var(--cyan);
+      font-size: clamp(1rem, 1.8vw, 1.28rem);
+      font-weight: 600;
+    }
+
+    .hud {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .counter, .watermark, .hint {
+      font-family: "Space Mono", monospace;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .counter {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.1rem;
+      font-weight: 700;
+      color: var(--cyan);
+      font-size: clamp(0.86rem, 1.7vw, 1.08rem);
+    }
+
+    .watermark {
+      position: absolute;
+      left: 1.1rem;
+      bottom: 0.85rem;
+      color: rgba(210, 218, 255, 0.82);
+      font-size: clamp(0.68rem, 1.3vw, 0.86rem);
+      font-weight: 600;
+    }
+
+    .hint {
+      position: absolute;
+      right: 1.1rem;
+      bottom: 0.85rem;
+      color: rgba(180, 190, 230, 0.62);
+      font-size: 0.68rem;
+    }
+
+    .progress {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(150, 165, 225, 0.16);
+    }
+
+    .progress > span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--violet-deep), var(--cyan));
+      box-shadow: 0 0 16px rgba(0,212,255,.55);
+      transition: width 280ms ease;
+    }
+
+    body.banner-mode .counter,
+    body.banner-mode .watermark,
+    body.banner-mode .hint,
+    body.banner-mode .progress { display: none; }
+
+    .presenter {
+      position: fixed;
+      right: 0.8rem;
+      top: 3rem;
+      width: min(36vw, 420px);
+      max-height: calc(100vh - 5rem);
+      overflow: auto;
+      background: rgba(7, 10, 24, 0.94);
+      border: 1px solid rgba(129, 145, 201, 0.4);
+      border-radius: 14px;
+      padding: 0.95rem 1rem;
+      z-index: 8;
+      display: none;
+      pointer-events: auto;
+    }
+
+    .presenter.show { display: block; }
+
+    .presenter h4 {
+      margin: 0 0 0.55rem;
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      color: var(--cyan);
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+    }
+
+    .presenter p, .presenter li {
+      color: #f2f4ff;
+      line-height: 1.45;
+      font-size: 0.98rem;
+    }
+
+    .presenter p { margin: 0 0 0.7rem; }
+    .presenter ul { margin: 0 0 0.7rem; padding-left: 1.1rem; }
+    .presenter a { color: var(--cyan); }
+
+    .overview {
+      position: fixed;
+      inset: 0;
+      z-index: 7;
+      background: rgba(5, 6, 15, 0.95);
+      padding: 1rem;
+      display: none;
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+      gap: 0.8rem;
+      overflow: auto;
+    }
+
+    .overview.show { display: grid; }
+
+    .thumb {
+      border: 1px solid rgba(143, 156, 210, 0.3);
+      border-radius: 12px;
+      background: linear-gradient(180deg, rgba(17,20,38,.92), rgba(10,11,22,.92));
+      padding: 0.75rem;
+      min-height: 108px;
+      cursor: pointer;
+      color: inherit;
+      text-align: left;
+    }
+
+    .thumb:hover { border-color: rgba(0,212,255,0.65); transform: translateY(-2px); }
+    .thumb strong { display: block; font-family: "Space Mono", monospace; font-size: 0.72rem; color: var(--cyan); margin-bottom: 0.35rem; }
+    .thumb p { margin: 0; font-size: 0.92rem; line-height: 1.25; color: #edf1ff; }
+
+    /* Slide 1 graveyard */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: clamp(1rem, 3vw, 2.4rem);
+      height: 100%;
+      align-items: center;
+    }
+
+    .graveyard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+    }
+
+    .app-tile {
+      border-radius: 14px;
+      padding: 0.9rem;
+      min-height: 6.4rem;
+      background: rgba(12, 14, 32, 0.72);
+      border: 1px solid rgba(160, 170, 210, 0.22);
+      font-size: 0.95rem;
+      color: #d7dcf7;
+    }
+
+    .app-tile small {
+      display: block;
+      margin-top: 0.35rem;
+      color: #9aa3c9;
+      font-family: "Space Mono", monospace;
+      font-size: 0.68rem;
+    }
+
+    .app-tile.dead {
+      opacity: 0.38;
+      filter: grayscale(0.7);
+      transform: scale(0.97);
+    }
+
+    .app-tile.alive {
+      border-color: rgba(92, 225, 255, 0.9);
+      box-shadow: 0 0 32px rgba(0, 212, 255, 0.35);
+      background: linear-gradient(160deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.22));
+    }
+
+    .customers {
+      margin-top: 0.75rem;
+      margin-left: auto;
+      width: max-content;
+      background: #04131a;
+      border: 1px solid var(--cyan);
+      color: var(--cyan);
+      font: 700 0.78rem/1 "Space Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.5rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    /* Slide 2 four categories */
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.85rem;
+      margin-top: 1.1rem;
+    }
+
+    .cat {
+      border-radius: 18px;
+      padding: 1rem 0.95rem 1.05rem;
+      background: rgba(9, 11, 24, 0.7);
+      border: 1px solid rgba(150, 160, 210, 0.22);
+    }
+
+    .cat h3 {
+      margin: 0 0 0.7rem;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.5rem, 2.4vw, 2.1rem);
+      letter-spacing: 0.04em;
+    }
+
+    .mock {
+      height: 7.2rem;
+      border-radius: 12px;
+      margin-bottom: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mock-game {
+      background:
+        radial-gradient(circle at 30% 40%, #5ce1ff 0 8%, transparent 9%),
+        radial-gradient(circle at 70% 60%, #b794ff 0 10%, transparent 11%),
+        linear-gradient(160deg, #14162c, #2a1850);
+    }
+
+    .mock-app {
+      background: linear-gradient(180deg, #1b1236, #0d1c2c);
+    }
+
+    .mock-saas {
+      background:
+        linear-gradient(90deg, rgba(92,225,255,0.2) 2px, transparent 2px) 0 0 / 18px 18px,
+        linear-gradient(180deg, #10182c, #15102a);
+    }
+
+    .mock-tool {
+      background:
+        repeating-linear-gradient(90deg, rgba(93,255,178,0.35) 0 8px, transparent 8px 16px),
+        linear-gradient(180deg, #0f1a1c, #1a1430);
+    }
+
+    .phone {
+      width: 42%;
+      height: 88%;
+      margin: 8% auto 0;
+      border-radius: 10px;
+      background: #07070f;
+      border: 2px solid rgba(255,255,255,0.35);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+    }
+
+    .dash-bars {
+      position: absolute;
+      inset: 18% 12% auto;
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      height: 58%;
+    }
+
+    .dash-bars span {
+      flex: 1;
+      background: linear-gradient(180deg, var(--cyan), var(--violet));
+      border-radius: 4px 4px 0 0;
+    }
+
+    .cat li {
+      list-style: none;
+      margin: 0 0 0.38rem;
+      font-size: clamp(0.92rem, 1.35vw, 1.08rem);
+      color: #eef1ff;
+      line-height: 1.3;
+    }
+
+    .cat ul { margin: 0; padding: 0; }
+
+    .money {
+      margin-top: 0.8rem;
+      color: var(--cyan);
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .real-tag {
+      display: inline-block;
+      margin-left: 0.25rem;
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--warn);
+      border: 1px solid rgba(255, 209, 102, 0.45);
+      padding: 0.08rem 0.32rem;
+      border-radius: 999px;
+      vertical-align: 0.12em;
+    }
+
+    /* Slide 3 pipeline */
+    .pipe {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0.45rem;
+      margin: 1.1rem 0 1.2rem;
+    }
+
+    .node {
+      background: rgba(10,12,28,0.8);
+      border: 1px solid rgba(92,225,255,0.28);
+      border-radius: 14px;
+      padding: 0.8rem 0.6rem;
+      text-align: center;
+      position: relative;
+    }
+
+    .node strong {
+      display: block;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.1rem, 2vw, 1.6rem);
+      letter-spacing: 0.04em;
+    }
+
+    .node span { font-size: 0.78rem; color: var(--muted); }
+
+    .prices, .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .chip {
+      border-radius: 999px;
+      padding: 0.38rem 0.7rem;
+      border: 1px solid rgba(183,148,255,0.4);
+      background: rgba(124,58,237,0.16);
+      font-size: clamp(0.82rem, 1.3vw, 1rem);
+      font-weight: 600;
+    }
+
+    .checkout {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.6rem;
+      margin-top: 1rem;
+    }
+
+    .pay-card {
+      border-radius: 14px;
+      padding: 0.8rem;
+      background: rgba(8,10,22,0.75);
+      border: 1px solid rgba(150,160,210,0.22);
+      min-height: 7.2rem;
+    }
+
+    .pay-card .label {
+      font-family: "Space Mono", monospace;
+      font-size: 0.7rem;
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .pay-card h3 {
+      margin: 0.35rem 0 0.4rem;
+      font-size: 1.15rem;
+    }
+
+    .fake-ui {
+      height: 2.6rem;
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(92,225,255,0.18), rgba(183,148,255,0.18));
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Slide 4 loop */
+    .loop-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 1.2rem;
+      margin-top: 0.6rem;
+      align-items: center;
+    }
+
+    .orbit {
+      position: relative;
+      width: min(100%, 520px);
+      aspect-ratio: 1;
+      margin: 0 auto;
+    }
+
+    .orbit-ring {
+      position: absolute;
+      inset: 12%;
+      border: 2px dashed rgba(92,225,255,0.35);
+      border-radius: 50%;
+      animation: spin 28s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .orbit-core {
+      position: absolute;
+      inset: 34%;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background: radial-gradient(circle, rgba(92,225,255,0.2), rgba(12,10,28,0.9));
+      border: 1px solid rgba(183,148,255,0.45);
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    .orbit-node {
+      position: absolute;
+      width: 118px;
+      padding: 0.45rem 0.4rem;
+      border-radius: 999px;
+      text-align: center;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #0c1022;
+      border: 1px solid var(--violet);
+    }
+
+    .orbit-node.n { top: 0; left: 50%; transform: translateX(-50%); }
+    .orbit-node.ne { top: 18%; right: 0; }
+    .orbit-node.se { bottom: 18%; right: 0; }
+    .orbit-node.s { bottom: 0; left: 50%; transform: translateX(-50%); }
+    .orbit-node.sw { bottom: 18%; left: 0; }
+    .orbit-node.nw { top: 18%; left: 0; }
+
+    .tool-col { display: grid; gap: 0.65rem; }
+
+    .tool-box {
+      border-radius: 14px;
+      padding: 0.75rem 0.85rem;
+      background: rgba(9,11,24,0.72);
+      border: 1px solid rgba(150,160,210,0.2);
+    }
+
+    .tool-box h3 {
+      margin: 0 0 0.3rem;
+      font-size: 0.95rem;
+      color: var(--cyan);
+      font-family: "Space Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .tool-box p {
+      margin: 0;
+      color: #e8ecff;
+      font-size: clamp(0.92rem, 1.4vw, 1.08rem);
+      line-height: 1.4;
+    }
+
+    /* Slide 5 math */
+    .math {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(3.2rem, 8vw, 6.4rem);
+      letter-spacing: 0.03em;
+      margin: 0.4rem 0 0.2rem;
+    }
+
+    .math b { color: var(--cyan); }
+
+    .caveat {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin-bottom: 0.9rem;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.45rem;
+    }
+
+    .step {
+      background: rgba(10,12,28,0.78);
+      border-radius: 12px;
+      padding: 0.7rem 0.55rem;
+      border-top: 3px solid var(--violet);
+      min-height: 8.4rem;
+    }
+
+    .step .n {
+      font-family: "Space Mono", monospace;
+      color: var(--cyan);
+      font-size: 0.8rem;
+    }
+
+    .step p {
+      margin: 0.35rem 0 0;
+      font-size: clamp(0.86rem, 1.2vw, 1.02rem);
+      line-height: 1.3;
+    }
+
+    .examples {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.55rem;
+      margin-top: 0.85rem;
+    }
+
+    .ex {
+      border-radius: 12px;
+      padding: 0.7rem;
+      background: rgba(8,10,22,0.7);
+      border: 1px solid rgba(92,225,255,0.2);
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .ex strong { color: var(--cyan); display: block; font-size: 1.15rem; margin-bottom: 0.2rem; }
+
+    /* Slide 6 collage */
+    .collage {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 1.1rem;
+      margin-top: 0.5rem;
+    }
+
+    .mosaic {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, minmax(9.5rem, 1fr));
+      gap: 0.7rem;
+      min-height: 22rem;
+    }
+
+    .tile {
+      border-radius: 14px;
+      padding: 0.7rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .rules { display: grid; gap: 0.5rem; }
+
+    .rule {
+      border-radius: 12px;
+      padding: 0.7rem 0.8rem;
+      background: rgba(9,11,24,0.74);
+      border: 1px solid rgba(183,148,255,0.28);
+      font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+    }
+
+    .big-yes {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(1.8rem, 3.4vw, 2.8rem);
+      color: var(--cyan);
+      letter-spacing: 0.04em;
+    }
+
+    /* Slide 7 sheet */
+    .sheet-layout {
+      display: grid;
+      grid-template-columns: 1.45fr 0.55fr;
+      gap: 0.9rem;
+      margin-top: 0.55rem;
+    }
+
+    .sheet {
+      background: #f4f6fb;
+      color: #1b2433;
+      border-radius: 12px;
+      overflow: auto;
+      align-self: start;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.35);
+    }
+
+    .sheet-bar {
+      background: #188038;
+      color: #fff;
+      padding: 0.45rem 0.7rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .sheet table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+    }
+
+    .sheet th {
+      background: #e8f0fe;
+      text-align: left;
+      padding: 0.48rem 0.5rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .sheet td {
+      padding: 0.4rem;
+      border-top: 1px solid #d9e2ef;
+      white-space: nowrap;
+    }
+
+    .pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 0.12rem 0.42rem;
+      font-weight: 700;
+      font-size: 0.64rem;
+    }
+
+    .pill-live { background: #d1f5e3; color: #0b6b3a; }
+    .pill-test { background: #fff3c4; color: #8a6400; }
+    .pill-ready { background: #ffe08a; color: #6a4b00; }
+    .pill-progress { background: #d7e3ff; color: #1a4b9b; }
+    .pill-yes { background: #c9f7e0; color: #0b6b3a; }
+
+    .flow { display: grid; gap: 0.45rem; }
+
+    .flow div {
+      background: rgba(9,11,24,0.78);
+      border-radius: 12px;
+      padding: 0.65rem 0.7rem;
+      border-left: 3px solid var(--cyan);
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .placeholder {
+      margin-top: 0.55rem;
+      font-family: "Space Mono", monospace;
+      font-size: 0.82rem;
+      color: var(--warn);
+    }
+
+    /* Slide 8 timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.55rem;
+      margin: 0.9rem 0 1rem;
+    }
+
+    .day {
+      border-radius: 14px;
+      padding: 0.85rem;
+      background: rgba(9,11,24,0.72);
+      border: 1px solid rgba(150,160,210,0.2);
+      min-height: 7.2rem;
+    }
+
+    .day.deadline {
+      border-color: var(--cyan);
+      box-shadow: 0 0 28px rgba(0,212,255,0.18);
+      background: linear-gradient(180deg, rgba(0,212,255,0.12), rgba(12,10,28,0.8));
+    }
+
+    .day .d {
+      font-family: "Space Mono", monospace;
+      color: var(--cyan);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+    }
+
+    .day h3 {
+      margin: 0.25rem 0 0.35rem;
+      font-family: "Bebas Neue", sans-serif;
+      font-size: 2rem;
+    }
+
+    .split2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.7rem;
+    }
+
+    .status-card {
+      border-radius: 14px;
+      padding: 0.85rem 1rem;
+      background: rgba(9,11,24,0.74);
+      border: 1px solid rgba(150,160,210,0.22);
+    }
+
+    .status-card h3 {
+      margin: 0 0 0.35rem;
+      font-size: 1.2rem;
+      color: var(--cyan);
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.35rem 0.8rem;
+      margin-top: 0.8rem;
+      font-size: 1rem;
+    }
+
+    .checks span::before { content: "▸ "; color: var(--cyan); }
+
+    /* Slide 9 awards */
+    .awards {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 1rem;
+      margin-top: 0.6rem;
+    }
+
+    .ticket {
+      border-radius: 18px;
+      min-height: 16rem;
+      padding: 1.2rem;
+      background:
+        linear-gradient(135deg, rgba(255,215,140,0.16), rgba(183,148,255,0.12)),
+        linear-gradient(180deg, #16121f, #0c0d18);
+      border: 1px solid rgba(255, 214, 140, 0.45);
+      box-shadow: 0 0 40px rgba(255, 200, 110, 0.12);
+      position: relative;
+    }
+
+    .ticket::after {
+      content: "";
+      position: absolute;
+      right: 1.2rem;
+      top: 1.2rem;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 8px dashed rgba(255,214,140,0.5);
+    }
+
+    .ticket .t1 {
+      font-family: "Space Mono", monospace;
+      color: #ffd27a;
+      letter-spacing: 0.12em;
+      font-size: 0.78rem;
+    }
+
+    .ticket h3 {
+      font-family: "Bebas Neue", sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.4rem);
+      margin: 0.4rem 0;
+    }
+
+    .prize-grid { display: grid; gap: 0.55rem; }
+
+    .prize {
+      border-radius: 14px;
+      padding: 0.75rem 0.9rem;
+      background: rgba(9,11,24,0.76);
+      border: 1px solid rgba(255,214,140,0.25);
+    }
+
+    .themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.7rem;
+    }
+
+    .themes span {
+      border-radius: 999px;
+      padding: 0.32rem 0.62rem;
+      background: rgba(183,148,255,0.16);
+      border: 1px solid rgba(183,148,255,0.35);
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    .close-line {
+      margin-top: 0.8rem;
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      color: #eef1ff;
+      max-width: 62ch;
+    }
+
+    /* Slide 10 */
+    .slide.banner {
+      padding: 0;
+      background: #070710;
+    }
+
+    .banner-frame {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      background: #070710;
+    }
+
+    .banner-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid, .cat-grid, .loop-layout, .collage, .sheet-layout, .awards, .pipe, .steps, .examples, .split2, .checkout, .timeline {
+        grid-template-columns: 1fr;
+      }
+      .cat, .mosaic { min-height: unset; }
+      .mosaic { grid-template-rows: repeat(2, 5.4rem); grid-template-columns: 1fr 1fr; }
+      .sheet { overflow: auto; }
+      .orbit { width: min(100%, 340px); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-mesh"></div>
+  <main class="deck" id="deck">
+    <article class="slide hero active" data-index="0">
+      <div class="hero-grid">
+        <div>
+          <div class="kicker">KUG Chennai · Shipaton — Road to DevFest, Kotlin Edition</div>
+          <h1 class="headline">What's Stopping Us from Shipping Great Products and Monetizing Them?</h1>
+          <p class="subhead">We know how to build. But do we know how to sell?</p>
+          <p class="whisper">Vibe coding is easy. Getting someone to pay takes resilience.</p>
+        </div>
+        <div>
+          <div class="graveyard">
+            <div class="app-tile dead">Puzzle Drop<small>last commit 14 months ago</small></div>
+            <div class="app-tile dead">InvoiceBot<small>README: "almost done"</small></div>
+            <div class="app-tile dead">FitTrack<small>private repo · 0 users</small></div>
+            <div class="app-tile dead">QuizNight<small>works on my emulator</small></div>
+            <div class="app-tile alive">TinyInvoice<small>live · 1 paying customer</small></div>
+            <div class="app-tile dead">LogLens<small>starred, never shipped</small></div>
+            <div class="app-tile dead">ResumeFix<small>local only</small></div>
+            <div class="app-tile dead">HabitKit<small>v0.9 forever</small></div>
+            <div class="app-tile dead">DashLite<small>GitHub graveyard</small></div>
+          </div>
+          <div class="customers">→ paying customers</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="1">
+      <div class="kicker">Small products can become real businesses</div>
+      <h1 class="headline" style="max-width:none">You don't need the next Instagram.</h1>
+      <p class="whisper">Even a tiny utility solving one meaningful problem can become a sellable product.</p>
+      <div class="cat-grid">
+        <section class="cat">
+          <div class="mock mock-game"><div class="phone"></div></div>
+          <h3>Mini Games</h3>
+          <ul>
+            <li>Daily puzzle</li>
+            <li>Word guessing</li>
+            <li>Multiplayer quiz</li>
+            <li>Casual browser game</li>
+          </ul>
+          <p class="money">Paid levels, cosmetics, ads, premium packs</p>
+        </section>
+        <section class="cat">
+          <div class="mock mock-app"><div class="phone"></div></div>
+          <h3>Mini Apps</h3>
+          <ul>
+            <li>Supermeme.ai <span class="real-tag">live example</span></li>
+            <li>DroidClaw <span class="real-tag">inspiration</span></li>
+            <li>Resume formatter</li>
+            <li>PDF utilities · expense widget</li>
+          </ul>
+          <p class="money">One-time, credits, subscriptions</p>
+        </section>
+        <section class="cat">
+          <div class="mock mock-saas"><div class="dash-bars"><span style="height:40%"></span><span style="height:70%"></span><span style="height:55%"></span><span style="height:88%"></span><span style="height:46%"></span></div></div>
+          <h3>Micro-SaaS</h3>
+          <ul>
+            <li>Invoice reminders</li>
+            <li>Social scheduling</li>
+            <li>Small-business inventory</li>
+            <li>Booking reminders · dev dashboards</li>
+          </ul>
+          <p class="money">Monthly, pay-per-use, business licenses</p>
+        </section>
+        <section class="cat">
+          <div class="mock mock-tool"><div class="dash-bars"><span style="height:30%"></span><span style="height:62%"></span><span style="height:80%"></span><span style="height:44%"></span><span style="height:95%"></span></div></div>
+          <h3>Developer Tools</h3>
+          <ul>
+            <li>Android perf reports</li>
+            <li>CI/CD dashboard</li>
+            <li>API testing utility</li>
+            <li>Log analysis</li>
+          </ul>
+          <p class="money">Hosted plans, team seats, one-time licenses</p>
+        </section>
+      </div>
+    </article>
+
+    <article class="slide" data-index="2">
+      <div class="kicker">Start monetizing, not just coding</div>
+      <h1 class="headline" style="font-size:clamp(2.2rem,5.2vw,4.2rem);max-width:22ch">Your first paying customer matters more than another unfinished feature.</h1>
+      <div class="pipe">
+        <div class="node"><strong>Idea</strong><span>pain, not novelty</span></div>
+        <div class="node"><strong>MVP</strong><span>smallest useful</span></div>
+        <div class="node"><strong>Real user</strong><span>someone outside you</span></div>
+        <div class="node"><strong>Payment</strong><span>willingness to pay</span></div>
+        <div class="node"><strong>Feedback</strong><span>what they actually do</span></div>
+        <div class="node"><strong>Better</strong><span>build the asked thing</span></div>
+      </div>
+      <div class="prices">
+        <span class="chip">₹99–₹499 one-time</span>
+        <span class="chip">₹199 / month</span>
+        <span class="chip">Freemium upgrade</span>
+        <span class="chip">Credits / usage</span>
+        <span class="chip">Team plans</span>
+        <span class="chip">Preorders</span>
+        <span class="chip">Memberships</span>
+      </div>
+      <div class="checkout">
+        <div class="pay-card"><div class="label">01 Landing</div><h3>Problem + price</h3><div class="fake-ui"></div></div>
+        <div class="pay-card"><div class="label">02 Pricing</div><h3>Pick a plan</h3><div class="fake-ui"></div></div>
+        <div class="pay-card"><div class="label">03 Checkout</div><h3>Razorpay / Stripe / IAP</h3><div class="fake-ui"></div></div>
+        <div class="pay-card"><div class="label">04 Confirmation</div><h3>Receipt + access</h3><div class="fake-ui"></div></div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="3">
+      <div class="kicker">Ship, track, learn, repeat</div>
+      <h1 class="headline" style="max-width:none">A launch without feedback is just a deployment.</h1>
+      <div class="loop-layout">
+        <div class="orbit">
+          <div class="orbit-ring"></div>
+          <div class="orbit-node n">Launch</div>
+          <div class="orbit-node ne">Analytics</div>
+          <div class="orbit-node se">Feedback</div>
+          <div class="orbit-node s">Improve</div>
+          <div class="orbit-node sw">Retention</div>
+          <div class="orbit-node nw">Revenue</div>
+          <div class="orbit-core">Indie<br>loop</div>
+        </div>
+        <div class="tool-col">
+          <div class="tool-box"><h3>Analytics</h3><p>PostHog · Firebase Analytics · Mixpanel · Plausible — visitors, activation, retention, paid conversion, churn.</p></div>
+          <div class="tool-box"><h3>Support</h3><p>Discord · GitHub Discussions · email · a simple form. Talk to the people who already showed up.</p></div>
+          <div class="tool-box"><h3>Distribution</h3><p>X · LinkedIn · Reddit · Product Hunt · YouTube / Instagram demos · SEO for the long game.</p></div>
+          <div class="tool-box"><h3>Quality</h3><p>Sentry · Firebase Crashlytics · user-reported issues. Nobody needs every tool. Pick a tiny set.</p></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="4">
+      <div class="kicker">Your simplest path to revenue</div>
+      <h1 class="headline" style="max-width:none">Can you earn your first ₹1,000?</h1>
+      <div class="math">5 × ₹199 = <b>₹995</b></div>
+      <p class="caveat">Illustrative gross revenue — before taxes and fees. Payment is evidence of willingness to pay, not product-market fit.</p>
+      <div class="steps">
+        <div class="step"><div class="n">01</div><p>Identify one painful problem.</p></div>
+        <div class="step"><div class="n">02</div><p>Build the smallest useful solution.</p></div>
+        <div class="step"><div class="n">03</div><p>Add a landing page and pricing.</p></div>
+        <div class="step"><div class="n">04</div><p>Set up an appropriate payment method.</p></div>
+        <div class="step"><div class="n">05</div><p>Share it with potential users.</p></div>
+        <div class="step"><div class="n">06</div><p>Measure activity and collect feedback.</p></div>
+        <div class="step"><div class="n">07</div><p>Improve from real customer behavior.</p></div>
+      </div>
+      <div class="examples">
+        <div class="ex"><strong>₹199</strong>browser extension</div>
+        <div class="ex"><strong>₹299</strong>mobile utility</div>
+        <div class="ex"><strong>₹499/mo</strong>small-business tool</div>
+        <div class="ex"><strong>Paid pack</strong>mini-game levels</div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="5">
+      <div class="kicker">The Shipaton challenge</div>
+      <h1 class="headline" style="max-width:none">BUILD ANYTHING. SHIP SOMETHING.</h1>
+      <div class="collage">
+        <div class="mosaic">
+          <div class="tile" style="background:linear-gradient(160deg,#1b1030,#123044)">Mini game</div>
+          <div class="tile" style="background:linear-gradient(160deg,#102033,#2a1450)">Mobile app</div>
+          <div class="tile" style="background:linear-gradient(160deg,#14201c,#102844)">Web product</div>
+          <div class="tile" style="background:linear-gradient(160deg,#201028,#10303a)">AI tool</div>
+          <div class="tile" style="background:linear-gradient(160deg,#101828,#241448)">Micro-SaaS</div>
+          <div class="tile" style="background:linear-gradient(160deg,#182010,#1a2044)">Dev tool</div>
+        </div>
+        <div class="rules">
+          <div class="big-yes">Solo or team? We don't care.</div>
+          <div class="rule">Individuals and teams are both welcome.</div>
+          <div class="rule">Existing products and brand-new ideas.</div>
+          <div class="rule">Any suitable stack. Any policy-compliant payment provider.</div>
+          <div class="rule">RevenueCat is a collaborator on the event page — not a requirement.</div>
+          <div class="rule">A workable monetization model counts. Big revenue this week is not required.</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="6">
+      <div class="kicker">Submission + review</div>
+      <h1 class="headline" style="font-size:clamp(2.1rem,4.8vw,3.8rem);max-width:none">One shared sheet. One place to track your progress.</h1>
+      <div class="sheet-layout">
+        <div class="sheet">
+          <div class="sheet-bar"><span>Shipaton KUG Chennai — submissions</span><span>Google Sheets</span></div>
+          <table>
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Creator / Team</th>
+                <th>Category</th>
+                <th>Demo URL</th>
+                <th>Repo</th>
+                <th>Monetization</th>
+                <th>Payments</th>
+                <th>Deploy</th>
+                <th>Review Status</th>
+                <th>Prod Ready Thu</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>TinyInvoice</td>
+                <td>Solo</td>
+                <td>Micro-SaaS</td>
+                <td>example.com</td>
+                <td>Optional</td>
+                <td>₹199/month</td>
+                <td><span class="pill pill-live">Live</span></td>
+                <td>Production Ready</td>
+                <td><span class="pill pill-ready">Review Ready</span></td>
+                <td><span class="pill pill-yes">Yes</span></td>
+                <td>Tester feedback</td>
+              </tr>
+              <tr>
+                <td>QuizNight</td>
+                <td>Team Alpha</td>
+                <td>Mini Game</td>
+                <td>quiz.example</td>
+                <td>github.com/…</td>
+                <td>Paid levels</td>
+                <td><span class="pill pill-test">Test</span></td>
+                <td>Deployed</td>
+                <td><span class="pill pill-progress">In Progress</span></td>
+                <td>No</td>
+                <td>Need onboarding</td>
+              </tr>
+              <tr>
+                <td>LogLens</td>
+                <td>Solo</td>
+                <td>Dev tool</td>
+                <td>—</td>
+                <td>Optional</td>
+                <td>Team seats</td>
+                <td>Planned</td>
+                <td>Building</td>
+                <td>In Progress</td>
+                <td>No</td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="flow">
+          <div>1. Fill the shared sheet.</div>
+          <div>2. Update progress and product URLs.</div>
+          <div>3. You set <strong>Review Status → Review Ready</strong>.</div>
+          <div>4. Organizers review only those rows.</div>
+          <div>5. Organizers record the outcome.</div>
+          <div><strong>Review Ready is your signal, not approval.</strong></div>
+          <div class="placeholder">Sheet: SHEET_LINK_PLACEHOLDER</div>
+        </div>
+      </div>
+    </article>
+
+    <article class="slide" data-index="7">
+      <div class="kicker">The production-ready deadline</div>
+      <h1 class="headline" style="max-width:none">Thursday is your shipping deadline.</h1>
+      <div class="timeline">
+        <div class="day"><div class="d">Challenge week</div><h3>Build</h3><p>Start new or improve what you already have.</p></div>
+        <div class="day"><div class="d">Anytime</div><h3>Review Ready</h3><p>You ask organizers to look.</p></div>
+        <div class="day deadline"><div class="d">Deadline</div><h3>Thursday</h3><p>Deployed and production-ready for extra DevFest prize consideration.</p></div>
+        <div class="day"><div class="d">After</div><h3>Reviewed</h3><p>Organizers score execution, not the checkbox.</p></div>
+      </div>
+      <div class="split2">
+        <div class="status-card">
+          <h3>Review Ready</h3>
+          <p>You want organizers to review the product. Participant-controlled. Not the same as shipped.</p>
+        </div>
+        <div class="status-card">
+          <h3>Production Ready by Thursday</h3>
+          <p>Deployed, usable, and actually ready for users. Extra prize eligibility — not an automatic win.</p>
+        </div>
+      </div>
+      <div class="checks">
+        <span>Working production URL or accessible release</span>
+        <span>Core functionality works</span>
+        <span>Usable onboarding</span>
+        <span>No critical blockers</span>
+        <span>Clear monetization approach</span>
+        <span>Payment flow functioning when applicable</span>
+        <span>Basic analytics or feedback collection</span>
+        <span>Enough information for organizers to test</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="8">
+      <div class="kicker">Tickets, prizes, recognition</div>
+      <h1 class="headline" style="max-width:none">SHIP IT. GET REVIEWED. WIN BIG.</h1>
+      <div class="awards">
+        <div class="ticket">
+          <div class="t1">Admit one · DevFest Chennai</div>
+          <h3>Selected winners get DevFest tickets</h3>
+          <p>Sat 17 Oct 2026 · IITM Research Park</p>
+        </div>
+        <div class="prize-grid">
+          <div class="prize">Organizers review products. Selected winners receive DevFest Chennai tickets.</div>
+          <div class="prize">Prizes are also awarded at DevFest itself.</div>
+          <div class="prize">Thursday production-ready teams are considered for an additional prize — eligibility, not a guarantee.</div>
+          <div class="prize">We recognize execution, utility, quality, monetization thinking, and the ability to ship.</div>
+          <div class="themes">
+            <span>Usefulness</span>
+            <span>Execution</span>
+            <span>UX</span>
+            <span>Monetization potential</span>
+            <span>Real deployment</span>
+            <span>Learning</span>
+          </div>
+        </div>
+      </div>
+      <p class="close-line">Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>
+    </article>
+
+    <article class="slide banner" data-index="9">
+      <div class="banner-frame">
+        <img src="./assets/devfest-chennai-2026-banner.webp" width="2160" height="1080" alt="DevFest Chennai 2026 — Saturday 17 October, IITM Research Park. Google Developer Group Chennai." />
+      </div>
+    </article>
+  </main>
+
+  <aside class="presenter" id="presenterPanel">
+    <h4>Speaker Notes</h4>
+    <div id="presenterText"></div>
+  </aside>
+  <section class="overview" id="overview"></section>
+  <div class="hud">
+    <div class="counter" id="counter">1 / 10</div>
+    <div class="watermark">KUG Chennai · Shipaton · From Side Projects to Paying Customers</div>
+    <div class="hint">← → · P notes · O overview · F fullscreen</div>
+    <div class="progress"><span id="progressFill"></span></div>
+  </div>
+
+  <script type="application/json" id="speaker-notes">
+  [
+    {
+      "title": "The big question",
+      "html": "<p><strong>Open slow:</strong> “We know how to build. But do we know how to sell?”</p><p><strong>Tanglish:</strong> “Vibe coding easy-ya irukku da. Oruthan pay panna veikkardhu dhaan kashtam. Adhukku oru resilience venum.”</p><p>AI made building cheap. Most of us have a GitHub graveyard. Polishing is not a test of demand. The goal today is to change that.</p><p>Younger folks just out of college have an upper hand — fewer habits to unlearn, more room to stay with the hard part. Ask them to take YC Startup School, free and online, and actually use it.</p><p>Say “early Startup School lessons.” Do not invent a lesson number. Public matches: resilience in <a href=\"https://www.youtube.com/watch?v=BUE-icVYRFU\">Should You Start A Startup?</a> and <a href=\"https://www.youtube.com/watch?v=BJjsfNO5JTo\">vibe coding</a>. Course home: <a href=\"https://www.startupschool.org/\">startupschool.org</a>.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">Shipaton — Road to DevFest, Kotlin Edition</a>.</p>",
+      "text": "Open slow: We know how to build. But do we know how to sell?\nTanglish: Vibe coding easy-ya irukku da. Oruthan pay panna veikkardhu dhaan kashtam. Adhukku oru resilience venum.\nAI made building cheap. Most of us have a GitHub graveyard. Polishing is not a test of demand.\nPeople just out of college have an upper hand — fewer habits to unlearn. Ask them to take YC Startup School (free, online) and use it.\nSay “early Startup School lessons.” Do not invent a lesson number.\nhttps://www.startupschool.org/\nResilience: https://www.youtube.com/watch?v=BUE-icVYRFU\nVibe coding: https://www.youtube.com/watch?v=BJjsfNO5JTo\nEvent: https://luma.com/mprx0ocg"
+    },
+    {
+      "title": "You don't need the next Instagram",
+      "html": "<p><strong>Tanglish:</strong> “Instagram venam da. Oru small utility, oru problem solve panna, adhuvum sell aagum.”</p><p>Walk the four columns. Mini games, mini apps, micro-SaaS, developer tools. Hypothetical examples vs two live products:</p><ul><li><a href=\"https://supermeme.ai/\">Supermeme.ai</a> — focused AI meme tool. Inspiration, not a revenue claim.</li><li><a href=\"https://droidclaw.ai/\">DroidClaw</a> — focused Android agent. Inspiration, not ARR, not “same size.”</li></ul><p>Close: even a tiny utility solving one meaningful problem can become a sellable product.</p>",
+      "text": "Tanglish: Instagram venam da. Oru small utility, oru problem solve panna, adhuvum sell aagum.\nFour groups: mini games, mini apps, micro-SaaS, developer tools.\nSupermeme.ai (https://supermeme.ai/) and DroidClaw (https://droidclaw.ai/) are focused-product inspiration only. Do not claim revenue, ARR, or that they are the same size.\nClose: even a tiny utility solving one meaningful problem can become a sellable product."
+    },
+    {
+      "title": "First paying customer",
+      "html": "<p><strong>Tanglish:</strong> “Innoru feature add panna kedayadhu. First paying customer dhaan matter.”</p><p>Walk Idea → MVP → Real User → Payment → Feedback → Better Product. Prices on the slide are illustrative, not a price list.</p><p>Show pricing before overbuilding. Talk to customers. Accept preorders where it fits. Run a paid pilot. Publish a clear refund and delivery policy.</p><p>Payments for this room: <a href=\"https://razorpay.com/\">Razorpay</a> is the default India path (UPI, cards, subscriptions). <a href=\"https://support.stripe.com/questions/stripe-accounts-are-invite-only-in-india\">Stripe in India is invite-only</a> — use it where you already have access. Apps selling digital goods through Play/App Store must use <a href=\"https://support.google.com/googleplay/android-developer/answer/9858738\">platform-compliant billing</a> (Play Billing; India also has a user-choice alternative-billing program).</p><p>Crowdfunding is not guaranteed funding. Kickstarter creator countries do <a href=\"https://updates.kickstarter.com/who-is-eligible-to-use-kickstarter/\">not include India</a>. Fees, fulfillment, and eligibility always apply.</p>",
+      "text": "Tanglish: Innoru feature add panna kedayadhu. First paying customer dhaan matter.\nPipeline: Idea → MVP → Real User → Payment → Feedback → Better Product.\nPrices are illustrative: ₹99–₹499 one-time, ₹199/month, freemium, credits, team plans, preorders, memberships.\nTalk to customers. Show pricing early. Paid pilot. Clear refund and delivery policy.\nRazorpay: https://razorpay.com/\nStripe India is invite-only: https://support.stripe.com/questions/stripe-accounts-are-invite-only-in-india\nPlay Billing: https://support.google.com/googleplay/android-developer/answer/9858738\nCrowdfunding is not guaranteed. Kickstarter creator countries do not include India: https://updates.kickstarter.com/who-is-eligible-to-use-kickstarter/"
+    },
+    {
+      "title": "Ship, track, learn",
+      "html": "<p><strong>Line:</strong> Shipping is the start of your feedback loop, not the end. “A launch without feedback is just a deployment.”</p><p><strong>Tanglish:</strong> “Deploy pannitom-nu ninaikadheenga. Feedback varala-na, adhu launch illa — adhu just deployment.”</p><p>Nobody needs every logo on this slide. Pick a tiny set for your users.</p><ul><li>Analytics: <a href=\"https://posthog.com/\">PostHog</a>, <a href=\"https://firebase.google.com/docs/analytics\">Firebase Analytics</a>, <a href=\"https://mixpanel.com/\">Mixpanel</a>, <a href=\"https://plausible.io/\">Plausible</a></li><li>Quality: <a href=\"https://sentry.io/\">Sentry</a>, <a href=\"https://firebase.google.com/docs/crashlytics\">Crashlytics</a></li><li>Launch surfaces: <a href=\"https://www.producthunt.com/\">Product Hunt</a>, X, LinkedIn, Reddit, YouTube, Instagram, SEO</li></ul>",
+      "text": "Shipping is the start of your feedback loop, not the end.\nTanglish: Deploy pannitom-nu ninaikadheenga. Feedback varala-na, adhu launch illa — adhu just deployment.\nNobody needs every tool. Pick a tiny set.\nLoop: Launch → Analytics → Feedback → Improvements → Retention → Revenue.\nPostHog https://posthog.com/\nFirebase Analytics https://firebase.google.com/docs/analytics\nMixpanel https://mixpanel.com/\nPlausible https://plausible.io/\nSentry https://sentry.io/\nCrashlytics https://firebase.google.com/docs/crashlytics\nProduct Hunt https://www.producthunt.com/"
+    },
+    {
+      "title": "First ₹1,000",
+      "html": "<p>Read the math out loud: five customers at ₹199 is ₹995 gross — before GST and gateway fees. That is the point. First ₹1,000 is a reachable test, not a business plan.</p><p><strong>Tanglish:</strong> “Anju per ₹199 kudutha, almost thousand. Athu thaan first test — PMF illa, willingness to pay.”</p><p>Walk the seven steps. Then the examples: ₹199 extension, ₹299 mobile utility, ₹499/month small-business tool, paid level pack.</p><p>A payment validates willingness to pay. Profitability and product-market fit need more evidence.</p>",
+      "text": "Five customers × ₹199 = ₹995 gross, before tax and fees.\nTanglish: Anju per ₹199 kudutha, almost thousand. Athu thaan first test — PMF illa, willingness to pay.\nSeven steps: painful problem → smallest useful solution → landing + pricing → payment method → share → measure → improve from behavior.\nExamples: ₹199 browser extension, ₹299 mobile utility, ₹499/month small-business tool, paid mini-game level pack.\nPayment validates willingness to pay. It is not product-market fit."
+    },
+    {
+      "title": "BUILD ANYTHING. SHIP SOMETHING.",
+      "html": "<p>Energy up. Solo or team — we do not care. Existing product or new idea. Games, mobile, web, AI, micro-SaaS, any stack.</p><p><strong>Tanglish:</strong> “Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.”</p><p><a href=\"https://luma.com/mprx0ocg\">Luma</a> lists RevenueCat as a collaborator, and “RevenueCat for subscriptions” as a topic. That is optional help, not a mandate. Any supported, policy-compliant payment provider is allowed.</p><p>You do not need substantial revenue during the event. A meaningful, workable monetization model counts.</p>",
+      "text": "BUILD ANYTHING. SHIP SOMETHING.\nSolo or team. Existing products and new ideas. Games, mobile, web, AI, micro-SaaS, any stack.\nTanglish: Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.\nRevenueCat is an event collaborator on https://luma.com/mprx0ocg — not a requirement. Any policy-compliant payment provider is allowed.\nA workable monetization model counts. Big revenue during the event is not required."
+    },
+    {
+      "title": "The shared sheet",
+      "html": "<p>We will share one Google Sheet. That is the tracker. Columns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.</p><p><strong>Workflow:</strong> fill the sheet → keep URLs current → when you want a review, you change Review Status to Review Ready → organizers use that status → they record the outcome.</p><p>Review Ready is participant-controlled. It is not automatic approval.</p><p>Sheet URL placeholder until organizers paste the real link: SHEET_LINK_PLACEHOLDER</p>",
+      "text": "One shared Google Sheet for register + progress.\nColumns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration (Live / Test / Planned), Deployment Status, Review Status (In Progress / Review Ready / Reviewed), Production Ready by Thursday (Yes / No), Notes.\nWorkflow: fill sheet → update URLs → participant sets Review Status to Review Ready → organizers review those rows → organizers record the outcome.\nReview Ready is not approval.\nSheet URL: SHEET_LINK_PLACEHOLDER"
+    },
+    {
+      "title": "Thursday deadline",
+      "html": "<p>Do not print a calendar date. Say Thursday.</p><p><strong>Tanglish:</strong> “Thursday-kku deploy aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na ‘users use panna ready.’”</p><p>Review Ready = please review. Production Ready by Thursday = deployed and genuinely usable. That Thursday mark is extra DevFest prize eligibility, not an automatic win, and not the same as Review Ready.</p><p>Read the checklist if the room looks anxious: production URL, core works, onboarding, no critical blockers, clear monetization, payments working when applicable, some analytics or feedback, enough for organizers to test.</p>",
+      "text": "Thursday is the shipping deadline. Do not invent a calendar date.\nTanglish: Thursday-kku deploy aaganum. Review Ready-na ‘paathu videoonga.’ Production Ready-na ‘users use panna ready.’\nReview Ready = please review. Production Ready by Thursday = deployed and usable.\nThursday is extra DevFest prize eligibility, not an automatic win, and not the same as Review Ready.\nChecklist: working production URL or accessible release; core functionality; usable onboarding; no critical blockers; clear monetization; payment flow when applicable; basic analytics or feedback; enough for organizers to test."
+    },
+    {
+      "title": "Win big",
+      "html": "<p>Organizers review. Selected winners receive DevFest Chennai tickets. Prizes are also awarded at DevFest: Saturday 17 October 2026, IITM Research Park — <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>.</p><p>Thursday production-ready teams are considered for an additional prize. Completing that milestone is eligibility, not a win.</p><p>Judging themes only — no weights, no amounts, no winner counts: usefulness, execution, UX, monetization potential, real deployment, learning and iteration.</p><p><strong>Close the talk here, before the banner:</strong> “Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.”</p>",
+      "text": "Organizers review. Selected winners receive DevFest Chennai tickets.\nPrizes also awarded at DevFest: Saturday 17 October 2026, IITM Research Park. https://devfest.gdgchennai.in/\nThursday production-ready teams are considered for an additional prize — eligibility, not a guarantee.\nJudging themes only: usefulness, execution, UX, monetization potential, real deployment, learning. Do not invent amounts, winner counts, or weights.\nClose: Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
+    },
+    {
+      "title": "DevFest Chennai banner",
+      "html": "<p>This slide is the official GDG / DevFest Chennai 2026 banner. No title overlay. Leave it up. Point people to <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a> — Saturday 17 October 2026, IITM Research Park.</p><p>The published banner has no QR code. Do not invent one. Source: <a href=\"https://devfest.gdgchennai.in/banner/main.webp\">devfest.gdgchennai.in/banner/main.webp</a> (2160×1080).</p>",
+      "text": "Official DevFest Chennai 2026 banner. No title overlay. Leave it up.\nhttps://devfest.gdgchennai.in/ — Saturday 17 October 2026, IITM Research Park.\nPublished banner has no QR code. Do not invent one.\nSource: https://devfest.gdgchennai.in/banner/main.webp (2160×1080)."
+    }
+  ]
+  </script>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const notes = JSON.parse(document.getElementById("speaker-notes").textContent);
+    const counter = document.getElementById("counter");
+    const progressFill = document.getElementById("progressFill");
+    const overview = document.getElementById("overview");
+    const presenterPanel = document.getElementById("presenterPanel");
+    const presenterText = document.getElementById("presenterText");
+
+    let current = 0;
+    let inOverview = false;
+    let presenterMode = false;
+
+    overview.innerHTML = notes.map((n, i) => `
+      <button class="thumb" data-go="${i}">
+        <strong>${String(i + 1).padStart(2, "0")}</strong>
+        <p>${n.title}</p>
+      </button>
+    `).join("");
+
+    overview.querySelectorAll("[data-go]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        goTo(Number(btn.dataset.go));
+        toggleOverview(false);
+      });
+    });
+
+    function updateHUD() {
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      progressFill.style.width = `${((current + 1) / slides.length) * 100}%`;
+      presenterText.innerHTML = notes[current].html;
+      presenterText.querySelectorAll("a").forEach((a) => {
+        a.target = "_blank";
+        a.rel = "noreferrer";
+      });
+      document.body.classList.toggle("banner-mode", slides[current].classList.contains("banner"));
+    }
+
+    function runEntry(slideEl) {
+      if (!window.gsap || slideEl.classList.contains("banner")) return;
+      const headline = slideEl.querySelector(".headline");
+      const items = slideEl.querySelectorAll(".app-tile, .cat, .node, .pay-card, .tool-box, .step, .ex, .rule, .day, .status-card, .prize, .ticket");
+      if (headline) gsap.fromTo(headline, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65, ease: "power3.out" });
+      if (items.length) gsap.fromTo(items, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.045, delay: 0.08, ease: "power2.out" });
+    }
+
+    function goTo(index, animate = true) {
+      if (index < 0 || index >= slides.length) return;
+      slides.forEach((el, i) => {
+        el.classList.remove("active", "prev");
+        if (i < index) el.classList.add("prev");
+      });
+      const target = slides[index];
+      current = index;
+      if (!animate) target.style.transition = "none";
+      requestAnimationFrame(() => {
+        target.classList.add("active");
+        if (!animate) {
+          target.offsetHeight;
+          target.style.transition = "";
+        }
+        runEntry(target);
+        updateHUD();
+        history.replaceState(null, "", `#${index + 1}`);
+      });
+    }
+
+    function next() { goTo(Math.min(slides.length - 1, current + 1)); }
+    function prev() { goTo(Math.max(0, current - 1)); }
+    function toggleOverview(force) {
+      inOverview = typeof force === "boolean" ? force : !inOverview;
+      overview.classList.toggle("show", inOverview);
+    }
+    function togglePresenter(force) {
+      presenterMode = typeof force === "boolean" ? force : !presenterMode;
+      presenterPanel.classList.toggle("show", presenterMode);
+    }
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === " ") { e.preventDefault(); if (!inOverview) next(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); if (!inOverview) prev(); }
+      else if (e.key.toLowerCase() === "o" || e.key === "Escape") { e.preventDefault(); toggleOverview(); }
+      else if (e.key.toLowerCase() === "p") { e.preventDefault(); togglePresenter(); }
+      else if (e.key.toLowerCase() === "f") {
+        e.preventDefault();
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+        else document.exitFullscreen?.();
+      }
+    });
+
+    document.getElementById("deck").addEventListener("click", (e) => {
+      if (e.target.closest("a, button")) return;
+      if (!inOverview) next();
+    });
+
+    let sx = 0, sy = 0;
+    document.getElementById("deck").addEventListener("touchstart", (e) => {
+      const t = e.changedTouches[0];
+      sx = t.clientX; sy = t.clientY;
+    }, { passive: true });
+    document.getElementById("deck").addEventListener("touchend", (e) => {
+      const t = e.changedTouches[0];
+      const dx = t.clientX - sx;
+      const dy = t.clientY - sy;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.2) {
+        if (dx < 0) next(); else prev();
+      }
+    }, { passive: true });
+
+    const start = Number((location.hash || "#1").slice(1));
+    goTo(Number.isFinite(start) && start >= 1 && start <= 10 ? start - 1 : 0, false);
+  </script>
+</body>
+</html>
