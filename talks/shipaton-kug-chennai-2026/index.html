@@ -22,6 +22,8 @@
       --muted: #6e6e73;
       --line: #d2d2d7;
       --chip: #e8e8ed;
+      --violet: #7c5cff;
+      --cyan: #1ec8e6;
     }
 
     * { box-sizing: border-box; }
@@ -40,13 +42,16 @@
     .slide {
       position: absolute;
       inset: 0;
-      padding: 7vh 8vw 12vh;
+      padding: 8vh 8vw 12vh;
       opacity: 0;
       transform: translateY(12px);
       transition: opacity 500ms ease, transform 600ms cubic-bezier(.22,.65,.11,1);
       pointer-events: none;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
     }
 
     .slide.active {
@@ -62,13 +67,13 @@
       font-weight: 600;
       letter-spacing: -0.045em;
       line-height: 0.98;
-      font-size: clamp(3.2rem, 7.4vw, 6.6rem);
-      max-width: 16ch;
+      font-size: clamp(3rem, 6.8vw, 6.2rem);
+      max-width: 18ch;
     }
 
     .sub {
-      margin: 1.1rem 0 0;
-      font-size: clamp(1.35rem, 2.6vw, 2.15rem);
+      margin: 1.05rem 0 0;
+      font-size: clamp(1.3rem, 2.5vw, 2.05rem);
       font-weight: 400;
       color: var(--muted);
       letter-spacing: -0.03em;
@@ -79,10 +84,15 @@
     .chips {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 0.5rem;
-      margin-top: auto;
-      padding-top: 2.5rem;
+      margin-top: 2.1rem;
     }
+
+    .slide.air .chips { margin-top: 3.4rem; }
+    .slide.tight .chips { margin-top: 1.2rem; }
+    .slide.lift { padding-bottom: 18vh; }
+    .slide.drop { padding-top: 16vh; }
 
     .chip {
       display: inline-flex;
@@ -96,44 +106,11 @@
       letter-spacing: -0.01em;
     }
 
-    .center {
-      align-items: center;
-      text-align: center;
-      justify-content: center;
-    }
-
-    .center h1 { max-width: 18ch; }
-    .center .sub { max-width: 28ch; }
-
-    .center .chips { justify-content: center; }
-
-    .left-bottom { justify-content: flex-end; }
-
-    .split {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 3vw;
-      align-items: center;
-      height: 100%;
-    }
-
-    .qr-wrap {
-      display: grid;
-      place-items: center;
-    }
-
-    .qr-wrap img {
-      width: min(42vh, 420px);
-      height: min(42vh, 420px);
-      background: #fff;
-      padding: 12px;
-      border-radius: 18px;
-      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
-    }
+    .math { font-size: clamp(3.2rem, 7.4vw, 6.8rem); letter-spacing: -0.06em; }
 
     .quote {
-      margin: 1.4rem 0 0;
-      font-size: clamp(1.45rem, 2.8vw, 2.25rem);
+      margin: 1.3rem 0 0;
+      font-size: clamp(1.4rem, 2.6vw, 2.1rem);
       font-weight: 500;
       letter-spacing: -0.035em;
       line-height: 1.2;
@@ -143,24 +120,42 @@
 
     .quote cite {
       display: block;
-      margin-top: 0.7rem;
+      margin-top: 0.65rem;
       font-style: normal;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 500;
       color: var(--muted);
       letter-spacing: 0.04em;
       text-transform: uppercase;
     }
 
-    .math {
-      font-size: clamp(3.4rem, 8vw, 7.2rem);
-      letter-spacing: -0.06em;
-      font-weight: 600;
+    .graphic {
+      margin: 1.6rem 0 0;
+      width: min(280px, 42vw);
+      height: auto;
+    }
+
+    .graphic.wide { width: min(340px, 52vw); }
+
+    .qr-wrap {
+      margin-top: 1.4rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .qr-wrap img {
+      width: min(38vh, 340px);
+      height: min(38vh, 340px);
+      background: #fff;
+      padding: 12px;
+      border-radius: 18px;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.08);
     }
 
     .slide.banner {
       padding: 0;
       background: #070710;
+      justify-content: center;
     }
 
     .banner-frame {
@@ -177,12 +172,7 @@
       display: block;
     }
 
-    .hud {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 6;
-    }
+    .hud { position: fixed; inset: 0; pointer-events: none; z-index: 6; }
 
     .counter, .watermark, .hint {
       font-size: 0.78rem;
@@ -213,7 +203,8 @@
     body.banner-mode .counter,
     body.banner-mode .watermark,
     body.banner-mode .hint,
-    body.banner-mode .progress { display: none; }
+    body.banner-mode .progress,
+    body.export .hud { display: none; }
 
     .presenter {
       position: fixed;
@@ -272,22 +263,17 @@
 
     .thumb strong { display: block; font-size: 0.72rem; color: var(--muted); margin-bottom: 0.35rem; }
     .thumb p { margin: 0; font-size: 0.95rem; line-height: 1.25; }
-
-    @media (max-width: 900px) {
-      .split { grid-template-columns: 1fr; }
-      .qr-wrap img { width: min(48vw, 280px); height: min(48vw, 280px); }
-    }
   </style>
 </head>
 <body>
   <main class="deck" id="deck">
-    <article class="slide center active" data-index="0">
+    <article class="slide active lift" data-index="0">
       <h1>What's stopping us from getting paid?</h1>
       <p class="sub">We know how to build.</p>
       <div class="chips"><span class="chip">Getting paid takes resilience</span></div>
     </article>
 
-    <article class="slide" data-index="1">
+    <article class="slide air" data-index="1">
       <h1>You don't need a big team.</h1>
       <p class="sub">Or months. Or an ad budget.</p>
       <div class="chips">
@@ -296,7 +282,7 @@
       </div>
     </article>
 
-    <article class="slide center" data-index="2">
+    <article class="slide tight" data-index="2">
       <h1>You don't need the next Instagram.</h1>
       <p class="sub">One problem. A few people.</p>
       <div class="chips">
@@ -307,17 +293,87 @@
       </div>
     </article>
 
-    <article class="slide left-bottom" data-index="3">
-      <h1>Your first paying customer beats another feature.</h1>
-      <p class="sub">Too simple is why it stays in GitHub.</p>
+    <article class="slide drop" data-index="3">
+      <h1>These already exist.</h1>
+      <p class="sub">One job. A real price.</p>
       <div class="chips">
-        <span class="chip">₹99–₹499</span>
-        <span class="chip">₹199/month</span>
-        <span class="chip">Freemium</span>
+        <span class="chip">Maaa</span>
+        <span class="chip">Lucky Charm</span>
+        <span class="chip">Carrd</span>
       </div>
     </article>
 
-    <article class="slide center" data-index="4">
+    <article class="slide" data-index="4">
+      <h1>You don't have to invent it.</h1>
+      <p class="sub">A better version is enough.</p>
+    </article>
+
+    <article class="slide" data-index="5">
+      <h1>Start with the product.</h1>
+      <p class="sub">A game, a charm, or a tiny app.</p>
+      <svg class="graphic" viewBox="0 0 160 96" fill="none" aria-hidden="true">
+        <rect x="52" y="18" width="56" height="68" rx="10" stroke="var(--violet)" stroke-width="2.2"/>
+        <rect x="62" y="28" width="36" height="40" rx="4" stroke="var(--cyan)" stroke-width="2"/>
+        <circle cx="80" cy="76" r="3" fill="var(--violet)"/>
+        <path d="M28 12v22" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="28" cy="42" r="10" stroke="var(--violet)" stroke-width="2"/>
+      </svg>
+    </article>
+
+    <article class="slide" data-index="6">
+      <h1>Then take payment.</h1>
+      <p class="sub">One price. One checkout.</p>
+      <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
+        <rect x="18" y="22" width="144" height="48" rx="10" stroke="var(--violet)" stroke-width="2.2"/>
+        <rect x="18" y="22" width="144" height="14" rx="10" fill="var(--cyan)" opacity="0.18"/>
+        <path d="M34 52h36" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"/>
+        <circle cx="132" cy="52" r="8" stroke="var(--violet)" stroke-width="2"/>
+        <path d="M128 52l3 3 6-7" stroke="var(--cyan)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div class="chips">
+        <span class="chip">₹99–₹499</span>
+        <span class="chip">₹199/month</span>
+      </div>
+    </article>
+
+    <article class="slide" data-index="7">
+      <h1>Then watch what they do.</h1>
+      <p class="sub">One analytics tool is enough.</p>
+      <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
+        <path d="M22 70V18M22 70h136" stroke="var(--violet)" stroke-width="2" stroke-linecap="round"/>
+        <rect x="40" y="42" width="16" height="28" rx="3" fill="var(--cyan)" opacity="0.35"/>
+        <rect x="66" y="30" width="16" height="40" rx="3" fill="var(--violet)" opacity="0.35"/>
+        <rect x="92" y="36" width="16" height="34" rx="3" fill="var(--cyan)" opacity="0.35"/>
+        <rect x="118" y="22" width="16" height="48" rx="3" fill="var(--violet)" opacity="0.45"/>
+        <path d="M48 46 L74 34 L100 40 L126 26" stroke="var(--cyan)" stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <div class="chips"><span class="chip">PostHog</span></div>
+    </article>
+
+    <article class="slide" data-index="8">
+      <h1>Then give them a place to talk.</h1>
+      <p class="sub">Discord is enough.</p>
+      <svg class="graphic" viewBox="0 0 160 88" fill="none" aria-hidden="true">
+        <rect x="18" y="18" width="78" height="38" rx="12" stroke="var(--violet)" stroke-width="2.2"/>
+        <path d="M36 56l8-8" stroke="var(--violet)" stroke-width="2.2" stroke-linecap="round"/>
+        <rect x="64" y="40" width="78" height="32" rx="12" stroke="var(--cyan)" stroke-width="2.2"/>
+        <circle cx="40" cy="36" r="3.2" fill="var(--cyan)"/>
+        <circle cx="54" cy="36" r="3.2" fill="var(--violet)"/>
+        <circle cx="68" cy="36" r="3.2" fill="var(--cyan)"/>
+      </svg>
+    </article>
+
+    <article class="slide" data-index="9">
+      <h1>They stay when you solve the next problem.</h1>
+      <p class="sub">Likes are not customers.</p>
+    </article>
+
+    <article class="slide lift" data-index="10">
+      <h1>Your first paying customer beats another feature.</h1>
+      <p class="sub">Too simple is why it stays in GitHub.</p>
+    </article>
+
+    <article class="slide air" data-index="11">
       <h1 class="math">Five people × ₹199.</h1>
       <p class="sub">Your first ₹1,000.</p>
       <div class="chips">
@@ -328,7 +384,7 @@
       </div>
     </article>
 
-    <article class="slide center" data-index="5">
+    <article class="slide" data-index="12">
       <h1>Build anything. Ship something.</h1>
       <p class="sub">Solo or team.</p>
       <div class="chips">
@@ -339,18 +395,14 @@
       </div>
     </article>
 
-    <article class="slide" data-index="6">
-      <div class="split">
-        <div>
-          <h1>One sheet. Set Review Ready.</h1>
-        </div>
-        <div class="qr-wrap">
-          <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
-        </div>
+    <article class="slide" data-index="13">
+      <h1>One sheet. Set Review Ready.</h1>
+      <div class="qr-wrap">
+        <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
       </div>
     </article>
 
-    <article class="slide center" data-index="7">
+    <article class="slide lift" data-index="14">
       <h1>Thursday. Make it live.</h1>
       <div class="chips">
         <span class="chip">Deployed</span>
@@ -359,15 +411,21 @@
       </div>
     </article>
 
-    <article class="slide" data-index="8">
+    <article class="slide" data-index="15">
       <h1>Ship it. Get reviewed.</h1>
       <p class="quote">“We're going to see 10 person billion-dollar companies pretty soon.”<cite>Sam Altman</cite></p>
       <div class="chips"><span class="chip">DevFest tickets</span></div>
     </article>
 
-    <article class="slide banner" data-index="9">
+    <article class="slide banner" data-index="16">
       <div class="banner-frame">
         <img src="./assets/devfest-chennai-2026-banner.webp" width="2160" height="1080" alt="DevFest Chennai 2026 — Saturday 17 October, IITM Research Park. Google Developer Group Chennai." />
+      </div>
+    </article>
+
+    <article class="slide banner" data-index="17">
+      <div class="banner-frame">
+        <img src="./assets/kug-chennai-banner.jpg" width="2560" height="1440" alt="Kotlin User Group Chennai community partner offer for DevFest Chennai. Vanakkam Chennai. 17th October." />
       </div>
     </article>
   </main>
@@ -378,7 +436,7 @@
   </aside>
   <section class="overview" id="overview"></section>
   <div class="hud">
-    <div class="counter" id="counter">1 / 10</div>
+    <div class="counter" id="counter">1 / 18</div>
     <div class="watermark">KUG Chennai · Shipaton</div>
     <div class="hint">← → · P notes · O overview · F fullscreen</div>
     <div class="progress"><span id="progressFill"></span></div>
@@ -402,8 +460,43 @@
       "text": "Tanglish: Instagram venam. Oru problem. Konjam per. Adhu pothum.\nThese are small products. Also: word game, quiz, browser game, PDF utilities, expense widget, social scheduling, inventory, booking reminders, productivity dashboards, Android performance report, API testing, log analysis.\nIllustrative monetization: paid levels, one-time, credits, subscription, hosted plan, license.\nhttps://luma.com/mprx0ocg"
     },
     {
+      "title": "These already exist",
+      "html": "<p><strong>Tanglish:</strong> “Puthiya invention venam. Oru job. Oru price. Adhu pothum.”</p><p><a href=\"https://www.maaa.app/\">Maaa</a> is a Mac notch reminder. Pro is $2.99 once for two computers. <a href=\"https://luckycharm.kraftostech.com/\">Lucky Charm</a> hangs a charm on the desktop. <a href=\"https://carrd.co/\">Carrd</a> is one-page sites. Inspiration only — no revenue or popularity counts.</p>",
+      "text": "Tanglish: Puthiya invention venam. Oru job. Oru price. Adhu pothum.\nMaaa is a Mac notch reminder. Pro is $2.99 once for two computers. https://www.maaa.app/\nLucky Charm hangs a charm on the desktop. https://luckycharm.kraftostech.com/\nCarrd is one-page sites. https://carrd.co/\nNo revenue or popularity counts."
+    },
+    {
+      "title": "You don't have to invent it",
+      "html": "<p><strong>Tanglish:</strong> “Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.”</p><p><a href=\"https://dunsocial.com/\">DunSocial</a> is one more scheduler in a market that already has them. Public list price on that site is $20/month. That is not a success claim. The owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors. The easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide.</p>",
+      "text": "Tanglish: Copycat-nu ninaikadheenga. Better version pothum. Market already irukku.\nDunSocial is one more scheduler in a market that already has them. Public list price is $20/month — not a success claim. https://dunsocial.com/\nThe owner talked to the founder, who did not want an interview. What he did say: people trust you when you solve a problem, and he studies competitors.\nThe easiest test of a market is to ship a better version of something that already exists. Do not put a like count on this slide."
+    },
+    {
+      "title": "Start with the product",
+      "html": "<p><strong>Tanglish:</strong> “First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.”</p><p>The first part of the recipe is something one person can finish. Keep the examples already named: a puzzle, a charm on the desktop, a tiny utility. <a href=\"https://www.maaa.app/\">maaa.app</a></p>",
+      "text": "Tanglish: First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.\nThe first part of the recipe is something one person can finish. Examples stay the ones already named.\nhttps://www.maaa.app/"
+    },
+    {
+      "title": "Then take payment",
+      "html": "<p><strong>Tanglish:</strong> “Oru price. Oru checkout. Adhu dhaan payment.”</p><p>Prices on the chips are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+      "text": "Tanglish: Oru price. Oru checkout. Adhu dhaan payment.\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
+    },
+    {
+      "title": "Then watch what they do",
+      "html": "<p><strong>Tanglish:</strong> “Analytics-ku oru tool pothum. Ella logo-um venam.”</p><p>Chip is <a href=\"https://posthog.com/\">PostHog</a>. Also name Plausible, Firebase Analytics, and Mixpanel — pick one. Track visitors, activation, retention, paid conversion, churn.</p>",
+      "text": "Tanglish: Analytics-ku oru tool pothum. Ella logo-um venam.\nPostHog: https://posthog.com/\nAlso name Plausible, Firebase Analytics, and Mixpanel, and say pick one.\nTrack visitors, activation, retention, paid conversion, churn."
+    },
+    {
+      "title": "Then give them a place to talk",
+      "html": "<p><strong>Tanglish:</strong> “Support-ku Discord pothum. Periya team venam.”</p><p><a href=\"https://discord.com/\">Discord</a>, email, or GitHub Discussions. Nobody needs a support org.</p>",
+      "text": "Tanglish: Support-ku Discord pothum. Periya team venam.\nDiscord, email, or GitHub Discussions. Nobody needs a support org.\nhttps://discord.com/"
+    },
+    {
+      "title": "Likes are not customers",
+      "html": "<p><strong>Tanglish:</strong> “Like count customer illa. Problem solve panna, people trust pannuvaanga.”</p><p>The owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number. People stay when you solve the next problem. <a href=\"https://dunsocial.com/\">dunsocial.com</a></p>",
+      "text": "Tanglish: Like count customer illa. Problem solve panna, people trust pannuvaanga.\nThe owner's DunSocial observation, spoken lightly: posts he saw had about 5 or 10 likes. The projected line is the lesson, not the number.\nhttps://dunsocial.com/"
+    },
+    {
       "title": "First paying customer",
-      "html": "<p><strong>Tanglish:</strong> “Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.”</p><p>Talk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy. Sanjeev's path to mix in: validate demand, smallest version someone will pay for, turn the product into a business, grow organically, and an exit is possible later on <a href=\"https://acquire.com/\">Acquire.com</a>.</p><p>Prices on the slide are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
+      "html": "<p><strong>Tanglish:</strong> “Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.”</p><p>Talk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy. Sanjeev's path to mix in: validate demand, smallest version someone will pay for, turn the product into a business, grow organically, and an exit is possible later on <a href=\"https://acquire.com/\">Acquire.com</a>.</p><p>Prices on earlier slides are examples. First payment docs: <a href=\"https://razorpay.com/docs/\">Razorpay</a>. Stripe where available. Crowdfunding is not guaranteed funding.</p>",
       "text": "Tanglish: Innoru feature kedayadhu. First paying customer dhaan matter. Simple-nu ninaichu GitHub-la vechutaanga.\nTalk to customers. Show pricing early. Preorders. Paid pilot. Clear refund and delivery policy.\nValidate demand. Smallest version someone will pay for. Turn the product into a business. Organic growth. An exit is possible later on https://acquire.com/\nPrices are examples. Razorpay: https://razorpay.com/docs/\nStripe where available. Crowdfunding is not guaranteed funding."
     },
     {
@@ -433,8 +526,13 @@
     },
     {
       "title": "DevFest Chennai banner",
-      "html": "<p><strong>Tanglish:</strong> “Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.”</p><p>Leave the banner up. Point people to <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a> — Saturday 17 October 2026, IITM Research Park. Official file: <a href=\"https://devfest.gdgchennai.in/banner/main.webp\">banner/main.webp</a>. No title overlay. No invented QR.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>",
-      "text": "Tanglish: Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.\nLeave the banner up. Point people to DevFest.\nhttps://devfest.gdgchennai.in/\nhttps://devfest.gdgchennai.in/banner/main.webp\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
+      "html": "<p><strong>Tanglish:</strong> “Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.”</p><p>Leave the banner up. Point people to <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a> — Saturday 17 October 2026, IITM Research Park. Official file: <a href=\"https://devfest.gdgchennai.in/banner/main.webp\">banner/main.webp</a>. No title overlay. No invented QR.</p>",
+      "text": "Tanglish: Banner-ah vechi vidunga. DevFest-ku point pannunga. QR invent pannaathinga.\nLeave the banner up. Point people to DevFest.\nhttps://devfest.gdgchennai.in/\nhttps://devfest.gdgchennai.in/banner/main.webp"
+    },
+    {
+      "title": "KUG Chennai banner",
+      "html": "<p><strong>Tanglish:</strong> “Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.”</p><p>This is the KUG community-partner art. Full image, no crop, no title overlay, no second QR drawn on top. The printed URL on the art is <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>. The on-art QR did not decode in our check; use that same URL. Do not invent another.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p>",
+      "text": "Tanglish: Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.\nKUG community-partner art. Full image, no crop, no overlay, no second QR drawn on top.\nThe on-art QR did not decode in our check. Use https://devfest.gdgchennai.in/ — do not invent another.\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it."
     }
   ]
   </script>
@@ -539,8 +637,12 @@
       }
     }, { passive: true });
 
+    if (new URLSearchParams(location.search).has("export")) {
+      document.body.classList.add("export");
+    }
+
     const start = Number((location.hash || "#1").slice(1));
-    goTo(Number.isFinite(start) && start >= 1 && start <= 10 ? start - 1 : 0, false);
+    goTo(Number.isFinite(start) && start >= 1 && start <= slides.length ? start - 1 : 0, false);
   </script>
 </body>
 </html>
