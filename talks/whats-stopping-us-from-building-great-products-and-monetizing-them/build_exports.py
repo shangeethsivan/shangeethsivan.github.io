@@ -20,7 +20,7 @@ KUG_JPG = ROOT / "assets" / "kug-chennai-banner.jpg"
 TITLE_PNG = ROOT / "assets" / "shipaton-title-card.png"
 QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
 YC_QR = ROOT / "assets" / "startup-school-qr.png"
-PPTX_PATH = ROOT / "shipaton-kug-chennai-2026.pptx"
+PPTX_PATH = ROOT / "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx"
 ASSETS = ROOT / "assets"
 YC_URL = "https://www.startupschool.org/"
 
