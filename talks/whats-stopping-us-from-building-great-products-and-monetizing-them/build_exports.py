@@ -22,7 +22,9 @@ QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
 YC_QR = ROOT / "assets" / "startup-school-qr.png"
 DROIDCON_PNG = ROOT / "assets" / "droidcon-india-partner-card.png"
 VOLUNTEER_QR = ROOT / "assets" / "kug-volunteer-qr.png"
+PRIZE_PNG = ROOT / "assets" / "shipaton-prize-pool.png"
 PHONE_JPG = ROOT / "assets" / "shot-luckycharm-phone.jpg"
+TALKS_HTML = ROOT.parent / "index.html"
 PPTX_PATH = ROOT / "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx"
 ASSETS = ROOT / "assets"
 YC_URL = "https://www.startupschool.org/"
@@ -239,10 +241,10 @@ def growth_cards(slide):
         ("Experiments", "PostHog experiments. GrowthBook. Firebase A/B Testing."),
         ("The stream", "Events you already track. A flag ships a variant. Keep the winner."),
     ]
-    w, h, gap = 3.55, 2.2, 0.22
+    w, h, gap = 3.55, 2.05, 0.22
     total = 3 * w + 2 * gap
     x = (13.333 - total) / 2
-    top = 3.7
+    top = 3.8
     for title, body in cards:
         sh = slide.shapes.add_shape(MSO_SHAPE.ROUNDED_RECTANGLE, Inches(x), Inches(top), Inches(w), Inches(h))
         shape_fill(sh, WHITE)
@@ -375,11 +377,22 @@ def build_pptx(notes: list[dict]) -> None:
     add_textbox(
         s,
         Inches(0.7),
-        Inches(2.95),
+        Inches(2.72),
         Inches(11.9),
-        Inches(0.55),
+        Inches(0.45),
         "Grow the product first. Then revenue, like ads.",
-        20,
+        18,
+        INK,
+        True,
+    )
+    add_textbox(
+        s,
+        Inches(0.7),
+        Inches(3.18),
+        Inches(11.9),
+        Inches(0.45),
+        "Run ads to sell the product. Don't put ads inside it.",
+        18,
         INK,
         True,
     )
@@ -453,18 +466,32 @@ def build_pptx(notes: list[dict]) -> None:
 
     s = prs.slides.add_slide(prs.slide_layouts[6])
     paint_bg(s, DARK)
+    s.shapes.add_picture(str(PRIZE_PNG), Inches(0.35), Inches(0.45), width=Inches(6.6), height=Inches(6.6))
     add_textbox(
         s,
-        Inches(1.2),
-        Inches(2.05),
-        Inches(10.9),
-        Inches(2.6),
+        Inches(7.15),
+        Inches(1.15),
+        Inches(5.7),
+        Inches(2.35),
         "The people who are crazy enough to think they can change the world are the ones who do.",
-        28,
+        22,
         QUOTE,
         True,
+        align=PP_ALIGN.LEFT,
     )
-    add_textbox(s, Inches(1.2), Inches(4.85), Inches(10.9), Inches(0.45), "Steve Jobs", 14, QUOTE_MUTED, True)
+    add_textbox(s, Inches(7.15), Inches(3.55), Inches(5.7), Inches(0.4), "Steve Jobs", 14, QUOTE_MUTED, True, align=PP_ALIGN.LEFT)
+    add_textbox(
+        s,
+        Inches(7.15),
+        Inches(4.15),
+        Inches(5.7),
+        Inches(2.3),
+        "Today's prize pool is this. Nothing else is stopping you from a $1 billion company very soon. Think of the next $1 billion as your next hackathon-winning prize.",
+        16,
+        QUOTE,
+        True,
+        align=PP_ALIGN.LEFT,
+    )
     slides.append(s)
 
     if len(prs.slides) != 27:
@@ -525,10 +552,14 @@ def build_pptx(notes: list[dict]) -> None:
     growth_slide = " ".join(shape.text_frame.text for shape in slides[12].shapes if shape.has_text_frame)
     if "Grow the product first. Then revenue, like ads." not in growth_slide:
         raise SystemExit("growth-first line missing from the growth slide")
+    if "Run ads to sell the product. Don't put ads inside it." not in growth_slide:
+        raise SystemExit("sell-the-product ads line missing from the growth slide")
     if "Do not skip the earlier payment slides" not in notes[12]["text"]:
         raise SystemExit("growth notes must keep the payment slides")
     if "Customer checkout and ad revenue are different" not in notes[12]["text"]:
         raise SystemExit("growth notes must distinguish checkout from ads")
+    if "reaching buyers" not in notes[12]["text"] or "bloatware" not in notes[12]["text"]:
+        raise SystemExit("growth notes must say ads sell the product, not sit inside it")
     if "Google Optimize" in growth_slide:
         raise SystemExit("Google Optimize must not appear on the growth slide")
     if "Kafka" in growth_slide:
@@ -568,10 +599,29 @@ def build_pptx(notes: list[dict]) -> None:
     jobs_slide = " ".join(shape.text_frame.text for shape in slides[26].shapes if shape.has_text_frame)
     if "Steve Jobs" not in jobs_slide:
         raise SystemExit("Jobs quote must stay last")
+    if "The people who are crazy enough to think they can change the world are the ones who do." not in jobs_slide:
+        raise SystemExit("Jobs quote missing from the last slide")
+    if "Today's prize pool is this." not in jobs_slide:
+        raise SystemExit("billion line missing from the last slide")
+    if "₹12,000" in jobs_slide or "12000" in jobs_slide:
+        raise SystemExit("do not retype the prize-pool number as a second headline")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[26].shapes):
+        raise SystemExit("last slide missing prize-pool poster")
+    if "₹12,000 is today's prize pool" not in notes[26]["text"]:
+        raise SystemExit("last-slide notes must name today's prize pool as printed")
+    if "Do not split it" not in notes[26]["text"] or "promise the billion" not in notes[26]["text"]:
+        raise SystemExit("last-slide notes must not promise the billion")
     if notes[18]["title"] != "Take Startup School.":
         raise SystemExit("Startup School must sit immediately after Build anything")
     if notes[26]["title"] != "Steve Jobs":
         raise SystemExit("Jobs notes must stay last")
+    talks = TALKS_HTML.read_text(encoding="utf-8")
+    if "What's Stopping Us from Shipping Great Products and Monetizing Them?" not in talks:
+        raise SystemExit("talks card title changed")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=31" not in talks:
+        raise SystemExit("PPTX download missing ?v=31")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=31" not in talks:
+        raise SystemExit("PDF download missing ?v=31")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
@@ -582,7 +632,7 @@ def main() -> None:
         ASSETS / f"shot-{name}.jpg"
         for name in ("supermeme", "droidclaw", "maaa", "carrd", "dunsocial", "raycast", "photopea", "gumroad")
     ]
-    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, DROIDCON_PNG, VOLUNTEER_QR, PHONE_JPG, *shots):
+    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, DROIDCON_PNG, VOLUNTEER_QR, PRIZE_PNG, PHONE_JPG, *shots):
         if not path.exists():
             raise SystemExit(f"missing {path}")
     title = Image.open(TITLE_PNG)
@@ -594,6 +644,9 @@ def main() -> None:
     droidcon = Image.open(DROIDCON_PNG)
     if droidcon.size != (1200, 628):
         raise SystemExit(f"droidcon size {droidcon.size}, expected 1200x628")
+    prize = Image.open(PRIZE_PNG)
+    if prize.size != (2160, 2160):
+        raise SystemExit(f"prize poster size {prize.size}, expected 2160x2160")
     phone = Image.open(PHONE_JPG)
     if phone.size != (360, 640):
         raise SystemExit(f"lucky charm phone size {phone.size}, expected 360x640")
