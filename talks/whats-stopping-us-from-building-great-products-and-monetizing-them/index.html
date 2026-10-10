@@ -332,6 +332,11 @@
       box-shadow: 0 18px 50px rgba(0,0,0,0.08);
     }
 
+    .qr-wrap.large img {
+      width: min(48vh, 440px);
+      height: min(48vh, 440px);
+    }
+
     .slide.banner {
       padding: 0;
       background: #070710;
@@ -575,8 +580,8 @@
     </article>
 
     <article class="slide" data-index="9">
-      <h1>Pick a checkout.</h1>
-      <p class="sub">None of these is required.</p>
+      <h1>Pick one.</h1>
+      <p class="sub">Any of these is fine.</p>
       <ul class="lines five">
         <li>Razorpay</li>
         <li>Stripe, where available</li>
@@ -707,13 +712,21 @@
     </article>
 
     <article class="slide" data-index="18">
+      <h1>Take Startup School.</h1>
+      <p class="sub">Free. Online. From YC.</p>
+      <div class="qr-wrap">
+        <img src="./assets/startup-school-qr.png" width="396" height="396" alt="QR code for Y Combinator Startup School" />
+      </div>
+    </article>
+
+    <article class="slide" data-index="19">
       <h1>One sheet. Set Review Ready.</h1>
       <div class="qr-wrap">
         <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
       </div>
     </article>
 
-    <article class="slide lift" data-index="19">
+    <article class="slide lift" data-index="20">
       <h1>Thursday. Make it live.</h1>
       <div class="chips">
         <span class="chip">Deployed</span>
@@ -722,13 +735,13 @@
       </div>
     </article>
 
-    <article class="slide" data-index="20">
+    <article class="slide" data-index="21">
       <h1>Ship it. Get reviewed.</h1>
       <p class="quote">“We're going to see 10 person billion-dollar companies pretty soon.”<cite>Sam Altman</cite></p>
       <div class="chips"><span class="chip">DevFest tickets</span></div>
     </article>
 
-    <article class="slide follow lift" data-index="21">
+    <article class="slide follow lift" data-index="22">
       <h1>Just follow these for now.</h1>
       <p class="sub">Don't get overwhelmed.</p>
       <div class="chips">
@@ -738,21 +751,26 @@
       </div>
     </article>
 
-    <article class="slide" data-index="22">
-      <h1>Take Startup School.</h1>
-      <p class="sub">Free. Online. From YC.</p>
-      <div class="qr-wrap">
-        <img src="./assets/startup-school-qr.png" width="396" height="396" alt="QR code for Y Combinator Startup School" />
-      </div>
-    </article>
-
     <article class="slide banner" data-index="23">
       <div class="banner-frame">
         <img src="./assets/kug-chennai-banner.jpg" width="2560" height="1440" alt="Kotlin User Group Chennai community partner offer for DevFest Chennai. Vanakkam Chennai. 17th October." />
       </div>
     </article>
 
-    <article class="slide quote-dark" data-index="24">
+    <article class="slide banner" data-index="24">
+      <div class="banner-frame">
+        <img src="./assets/droidcon-india-partner-card.png" width="1200" height="628" alt="droidCon India community partner card. 20 percent off with code KUGCHENNAI. 20 November 2026, Bengaluru." />
+      </div>
+    </article>
+
+    <article class="slide" data-index="25">
+      <h1>KUG Chennai Volunteer Interest Form</h1>
+      <div class="qr-wrap large">
+        <img src="./assets/kug-volunteer-qr.png" width="962" height="962" alt="QR code for the KUG Chennai Volunteer Interest Form" />
+      </div>
+    </article>
+
+    <article class="slide quote-dark" data-index="26">
       <p class="jobs">The people who are crazy enough to think they can change the world are the ones who do.</p>
       <cite>Steve Jobs</cite>
     </article>
@@ -767,7 +785,7 @@
   </aside>
   <section class="overview" id="overview"></section>
   <div class="hud">
-    <div class="counter" id="counter">1 / 25</div>
+    <div class="counter" id="counter">1 / 27</div>
     <div class="watermark">KUG Chennai · Shipaton</div>
     <div class="hint">← → · P notes · O overview · F fullscreen</div>
     <div class="progress"><span id="progressFill"></span></div>
@@ -821,9 +839,9 @@
         "text": "Tanglish: First product. Game, charm, oru chinna app. Oruthan finish panna mudiyumnu irukanum.\nThe first part of the recipe is something one person can finish. Examples stay the ones already named.\nhttps://www.maaa.app/"
     },
     {
-        "title": "Pick a checkout.",
-        "html": "<p><strong>Tanglish:</strong> “Checkout-ku anju peru. Ella provider-um venam.”</p><p><a href=\"https://razorpay.com/docs/\">Razorpay</a>. <a href=\"https://docs.stripe.com/\">Stripe</a> where available. <a href=\"https://www.revenuecat.com/\">RevenueCat</a> is mobile subscriptions. <a href=\"https://developers.google.com/pay\">Google Pay</a> is wallet checkout, including UPI in India. <a href=\"https://developer.apple.com/apple-pay/\">Apple Pay</a> is wallet checkout where it is available. None of the five is required.</p><p>Notes only, not on the slide: a store app bills through <a href=\"https://developer.android.com/google/play/billing\">Google Play Billing</a> and the <a href=\"https://developer.apple.com/in-app-purchase/\">App Store</a>. RevenueCat can sit on those. RevenueCat is a Luma collaborator on <a href=\"https://luma.com/mprx0ocg\">the event page</a>, not a requirement.</p>",
-        "text": "Tanglish: Checkout-ku anju peru. Ella provider-um venam.\nRazorpay: https://razorpay.com/docs/\nStripe where available: https://docs.stripe.com/\nRevenueCat is mobile subscriptions. https://www.revenuecat.com/\nGoogle Pay: wallet checkout, including UPI in India. https://developers.google.com/pay\nApple Pay: wallet checkout where Apple Pay is available. https://developer.apple.com/apple-pay/\nNone of the five is required.\nNotes only: a store app bills through Google Play Billing and the App Store. RevenueCat can sit on those.\nhttps://developer.android.com/google/play/billing\nhttps://developer.apple.com/in-app-purchase/\nLuma collaborator: https://luma.com/mprx0ocg"
+        "title": "Pick one.",
+        "html": "<p><strong>Tanglish:</strong> “Oruthan pick pannunga. Anju-um venam. Next slide-la oru price, andha checkout.”</p><p>Pick one of these. You do not need all five. Another allowed checkout is fine. The next slide is one price and that checkout.</p><p><a href=\"https://razorpay.com/docs/\">Razorpay</a>. <a href=\"https://docs.stripe.com/\">Stripe</a> where available. <a href=\"https://www.revenuecat.com/\">RevenueCat</a> is mobile subscriptions and stays optional. <a href=\"https://developers.google.com/pay\">Google Pay</a> is wallet checkout, including UPI in India. <a href=\"https://developer.apple.com/apple-pay/\">Apple Pay</a> is wallet checkout where it is available.</p><p>Notes only, not on the slide: a store app bills through <a href=\"https://developer.android.com/google/play/billing\">Google Play Billing</a> and the <a href=\"https://developer.apple.com/in-app-purchase/\">App Store</a>. RevenueCat can sit on those. RevenueCat is a Luma collaborator on <a href=\"https://luma.com/mprx0ocg\">the event page</a>.</p>",
+        "text": "Tanglish: Oruthan pick pannunga. Anju-um venam. Next slide-la oru price, andha checkout.\nPick one of these. You do not need all five. Another allowed checkout is fine. The next slide is one price and that checkout.\nRazorpay: https://razorpay.com/docs/\nStripe where available: https://docs.stripe.com/\nRevenueCat is mobile subscriptions and stays optional. https://www.revenuecat.com/\nGoogle Pay: wallet checkout, including UPI in India. https://developers.google.com/pay\nApple Pay: wallet checkout where Apple Pay is available. https://developer.apple.com/apple-pay/\nNotes only: a store app bills through Google Play Billing and the App Store. RevenueCat can sit on those.\nhttps://developer.android.com/google/play/billing\nhttps://developer.apple.com/in-app-purchase/\nLuma collaborator: https://luma.com/mprx0ocg"
     },
     {
         "title": "Then take payment",
@@ -866,6 +884,11 @@
         "text": "Tanglish: Team venum-na team. Solo-va irundha, solo. Build anything. Ship something.\nIndividuals and teams. New ideas and existing products. Any stack. Any policy-compliant payment provider.\nRevenueCat is a Luma collaborator, not a requirement. A workable way to charge counts. Big revenue during the event is not required.\nhttps://luma.com/mprx0ocg"
     },
     {
+        "title": "Take Startup School.",
+        "html": "<p><strong>Tanglish:</strong> “Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.”</p><p>The QR lives only here. Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.</p><p>Scan the QR, or open <a href=\"https://www.startupschool.org/\">startupschool.org</a>.</p>",
+        "text": "Tanglish: Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.\nThe QR lives only here. Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.\nhttps://www.startupschool.org/"
+    },
+    {
         "title": "One sheet. Set Review Ready.",
         "html": "<p><strong>Tanglish:</strong> “Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.”</p><p>Scan the QR, or open <a href=\"https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\">the shared sheet</a>.</p><p>Columns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.</p><p>Workflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval.</p>",
         "text": "Tanglish: Sheet-la fill pannunga. Review Ready-ku maathunga. Organizers dhaan paathu review pannuvaanga.\nSheet: https://docs.google.com/spreadsheets/d/1DZ7OSphlY8llxWisVc_FcLGeu9Psj_fvfxR2F7ohxcM/edit?usp=sharing\nColumns: Product Name, Creator / Team, Product Category, Demo / Product URL, Repository URL, Monetization Model, Payment Integration, Deployment Status, Review Status, Production Ready by Thursday, Notes.\nWorkflow: fill the sheet, update URLs, the participant sets Review Status to Review Ready, organizers review. Review Ready is not approval."
@@ -882,18 +905,23 @@
     },
     {
         "title": "Just follow these for now.",
-        "html": "<p><strong>Tanglish:</strong> “Ippo ivathai follow pannunga. Overwhelm aagadheenga.”</p><p>Three names only. <a href=\"https://x.com/\">X</a> is build in public. <a href=\"https://www.producthunt.com/\">Product Hunt</a> is where new products show up. <a href=\"https://www.startupschool.org/\">Startup School</a> is the free YC course on the next slide. No second QR here. No extra networks.</p>",
-        "text": "Tanglish: Ippo ivathai follow pannunga. Overwhelm aagadheenga.\nThree names only. X is build in public. https://x.com/\nProduct Hunt is where new products show up. https://www.producthunt.com/\nStartup School is the free YC course on the next slide. https://www.startupschool.org/\nNo second QR here. No extra networks."
-    },
-    {
-        "title": "Take Startup School.",
-        "html": "<p><strong>Tanglish:</strong> “Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.”</p><p>The QR lives only here. The previous slide only named Startup School as something to follow. Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.</p><p>Scan the QR, or open <a href=\"https://www.startupschool.org/\">startupschool.org</a>.</p>",
-        "text": "Tanglish: Startup School free. Online. YC. Early lessons-ah use pannunga. Lesson number invent pannaathinga.\nThe QR lives only here. The previous slide only named Startup School as something to follow. Take Y Combinator Startup School. Free. Online. Say early lessons. Do not invent a lesson number.\nhttps://www.startupschool.org/"
+        "html": "<p><strong>Tanglish:</strong> “Ippo ivathai follow pannunga. Overwhelm aagadheenga.”</p><p>Three names only. <a href=\"https://x.com/\">X</a> is build in public. <a href=\"https://www.producthunt.com/\">Product Hunt</a> is where new products show up. <a href=\"https://www.startupschool.org/\">Startup School</a> is the free YC course shown earlier. No second QR here. No extra networks.</p>",
+        "text": "Tanglish: Ippo ivathai follow pannunga. Overwhelm aagadheenga.\nThree names only. X is build in public. https://x.com/\nProduct Hunt is where new products show up. https://www.producthunt.com/\nStartup School is the free YC course shown earlier. https://www.startupschool.org/\nNo second QR here. No extra networks."
     },
     {
         "title": "KUG Chennai banner",
         "html": "<p><strong>Tanglish:</strong> “Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.”</p><p>This is the KUG community-partner art. Full image, no crop, no title overlay, no second QR drawn on top. The printed URL on the art is <a href=\"https://devfest.gdgchennai.in/\">devfest.gdgchennai.in</a>. The on-art QR did not decode in our check; use that same URL. Do not invent another.</p>",
         "text": "Tanglish: Indha banner-ah vechi vidunga. Scan panna mudiyala-na DevFest site-ku point pannunga.\nKUG community-partner art. Full image, no crop, no overlay, no second QR drawn on top.\nThe on-art QR did not decode in our check. Use https://devfest.gdgchennai.in/ — do not invent another."
+    },
+    {
+        "title": "droidCon India partner card",
+        "html": "<p><strong>Tanglish:</strong> “Indha card-ah vechi vidunga. Title overlay pannaathinga.”</p><p>Whole image. No crop. No title on the slide. The date stays inside the art. 20% off, code KUGCHENNAI, 20 Nov 2026, Bengaluru — that is on the card, not a second headline.</p><p>Event: <a href=\"https://india.droidcon.com/\">india.droidcon.com</a>. Art source: <a href=\"https://ibb.co/3mpLSXFq\">ibb.co/3mpLSXFq</a>.</p>",
+        "text": "Tanglish: Indha card-ah vechi vidunga. Title overlay pannaathinga.\nWhole image. No crop. No title on the slide. The date stays inside the art. 20% off, code KUGCHENNAI, 20 Nov 2026, Bengaluru — that is on the card, not a second headline.\nhttps://india.droidcon.com/\nhttps://ibb.co/3mpLSXFq"
+    },
+    {
+        "title": "KUG Chennai Volunteer Interest Form",
+        "html": "<p><strong>Tanglish:</strong> “Volunteer aaganum-na scan pannunga. Form fill pannunga.”</p><p>This is the last slide before Jobs. Large QR. It decodes to <a href=\"https://forms.gle/bpL3rYXffdDWCMK89\">forms.gle/bpL3rYXffdDWCMK89</a>. Leave the form title up. Do not invent extra volunteer perks.</p>",
+        "text": "Tanglish: Volunteer aaganum-na scan pannunga. Form fill pannunga.\nThis is the last slide before Jobs. Large QR. It decodes to https://forms.gle/bpL3rYXffdDWCMK89\nLeave the form title up. Do not invent extra volunteer perks."
     },
     {
         "title": "Steve Jobs",
