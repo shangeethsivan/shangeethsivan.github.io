@@ -654,10 +654,10 @@ def build_pptx(notes: list[dict]) -> None:
     talks = TALKS_HTML.read_text(encoding="utf-8")
     if "What's Stopping Us from Shipping Great Products and Monetizing Them?" not in talks:
         raise SystemExit("talks card title changed")
-    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=32" not in talks:
-        raise SystemExit("PPTX download missing ?v=32")
-    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=32" not in talks:
-        raise SystemExit("PDF download missing ?v=32")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=33" not in talks:
+        raise SystemExit("PPTX download missing ?v=33")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=33" not in talks:
+        raise SystemExit("PDF download missing ?v=33")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
