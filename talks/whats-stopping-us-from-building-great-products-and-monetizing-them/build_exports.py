@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build 16:9 PPTX (and notes) for the 27-slide Shipaton keynote."""
+"""Build 16:9 PPTX (and notes) for the 29-slide Shipaton keynote."""
 
 from __future__ import annotations
 
@@ -17,6 +17,7 @@ from pptx.util import Inches, Pt
 ROOT = Path(__file__).resolve().parent
 HTML = ROOT / "index.html"
 KUG_JPG = ROOT / "assets" / "kug-chennai-banner.jpg"
+OPEN_PNG = ROOT / "assets" / "shipaton-open-poster.png"
 TITLE_PNG = ROOT / "assets" / "shipaton-title-card.png"
 QR_PNG = ROOT / "assets" / "shipaton-sheet-qr.png"
 YC_QR = ROOT / "assets" / "startup-school-qr.png"
@@ -53,11 +54,11 @@ def notes_from_html() -> list[dict]:
     if not match:
         raise SystemExit("speaker-notes JSON island missing")
     notes = json.loads(match.group(1))
-    if len(notes) != 27:
-        raise SystemExit(f"expected 27 notes, got {len(notes)}")
+    if len(notes) != 29:
+        raise SystemExit(f"expected 29 notes, got {len(notes)}")
     indexes = re.findall(r'data-index="(\d+)"', html)
-    if indexes != [str(i) for i in range(27)]:
-        raise SystemExit(f"expected HTML data-index 0-26, got {indexes}")
+    if indexes != [str(i) for i in range(29)]:
+        raise SystemExit(f"expected HTML data-index 0-28, got {indexes}")
     blob = html.lower()
     if "microsaas" in blob:
         raise SystemExit("forbidden term found in index.html")
@@ -299,6 +300,11 @@ def build_pptx(notes: list[dict]) -> None:
 
     s = prs.slides.add_slide(prs.slide_layouts[6])
     paint_bg(s, DARK)
+    contain_picture(s, OPEN_PNG, 640, 640)
+    slides.append(s)
+
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    paint_bg(s, DARK)
     contain_picture(s, TITLE_PNG, 3840, 2160)
     slides.append(s)
 
@@ -494,8 +500,24 @@ def build_pptx(notes: list[dict]) -> None:
     )
     slides.append(s)
 
-    if len(prs.slides) != 27:
-        raise SystemExit(f"expected 27 pptx slides, got {len(prs.slides)}")
+    s = prs.slides.add_slide(prs.slide_layouts[6])
+    paint_bg(s, DARK)
+    add_textbox(s, Inches(0.7), Inches(2.15), Inches(11.9), Inches(1.3), "Thank you.", 40, QUOTE, True)
+    add_textbox(
+        s,
+        Inches(1.2),
+        Inches(3.6),
+        Inches(10.9),
+        Inches(1.4),
+        "Solaris Technologies and Tidel Park, for sponsoring the venue.",
+        22,
+        QUOTE_MUTED,
+        False,
+    )
+    slides.append(s)
+
+    if len(prs.slides) != 29:
+        raise SystemExit(f"expected 29 pptx slides, got {len(prs.slides)}")
     for slide, note in zip(slides, notes):
         add_notes(slide, note["text"])
         if "microsaas" in note["text"].lower() or "microsaas" in note["html"].lower():
@@ -506,14 +528,14 @@ def build_pptx(notes: list[dict]) -> None:
             raise SystemExit(f"missing Tanglish: {note['title']}")
         if "<a href" not in note["html"]:
             raise SystemExit(f"missing clickable source: {note['title']}")
-    if SHEET_URL not in notes[19]["text"]:
+    if SHEET_URL not in notes[20]["text"]:
         raise SystemExit("sheet URL missing from sheet notes")
-    if YC_URL not in notes[18]["text"]:
+    if YC_URL not in notes[19]["text"]:
         raise SystemExit("Startup School URL missing from Startup School notes")
-    if VOLUNTEER_URL not in notes[25]["text"]:
+    if VOLUNTEER_URL not in notes[26]["text"]:
         raise SystemExit("volunteer form URL missing from volunteer notes")
-    checkout = notes[9]["text"]
-    checkout_slide = " ".join(shape.text_frame.text for shape in slides[9].shapes if shape.has_text_frame)
+    checkout = notes[10]["text"]
+    checkout_slide = " ".join(shape.text_frame.text for shape in slides[10].shapes if shape.has_text_frame)
     if "Pick one." not in checkout_slide:
         raise SystemExit("checkout headline missing Pick one.")
     if "Any of these is fine." not in checkout_slide:
@@ -522,7 +544,7 @@ def build_pptx(notes: list[dict]) -> None:
         raise SystemExit("checkout slide still says required")
     if re.search(r"none of these is required|none of the five is required|none is required", checkout, re.I):
         raise SystemExit("checkout notes still say none is required")
-    if re.search(r"none of these is required|none of the five is required|none is required", notes[9]["html"], re.I):
+    if re.search(r"none of these is required|none of the five is required|none is required", notes[10]["html"], re.I):
         raise SystemExit("checkout html notes still say none is required")
     if "You do not need all five" not in checkout:
         raise SystemExit("checkout notes must say you do not need all five")
@@ -535,7 +557,7 @@ def build_pptx(notes: list[dict]) -> None:
             raise SystemExit(f"{name} missing from checkout slide")
     if "developers.google.com/pay" not in checkout or "developer.apple.com/apple-pay" not in checkout:
         raise SystemExit("Google Pay or Apple Pay source missing from checkout notes")
-    analytics = notes[11]["text"]
+    analytics = notes[12]["text"]
     for name in ("PostHog", "Google Analytics", "Plausible", "Firebase Analytics", "Crashlytics", "Performance Monitoring"):
         if name not in analytics:
             raise SystemExit(f"{name} missing from analytics notes")
@@ -545,58 +567,63 @@ def build_pptx(notes: list[dict]) -> None:
         raise SystemExit("Firebase free-vs-paid caveat missing from analytics notes")
     if "Firestore" not in analytics:
         raise SystemExit("Firestore paid caveat missing from analytics notes")
-    growth = notes[12]["text"]
+    growth = notes[13]["text"]
     for name in ("Google Ads", "Meta ads", "Apple Search Ads", "PostHog experiments", "GrowthBook", "Firebase A/B Testing"):
         if name not in growth:
             raise SystemExit(f"{name} missing from growth notes")
-    growth_slide = " ".join(shape.text_frame.text for shape in slides[12].shapes if shape.has_text_frame)
+    growth_slide = " ".join(shape.text_frame.text for shape in slides[13].shapes if shape.has_text_frame)
     if "Grow the product first. Then revenue, like ads." not in growth_slide:
         raise SystemExit("growth-first line missing from the growth slide")
     if "Run ads to sell the product. Don't put ads inside it." not in growth_slide:
         raise SystemExit("sell-the-product ads line missing from the growth slide")
-    if "Do not skip the earlier payment slides" not in notes[12]["text"]:
+    if "Do not skip the earlier payment slides" not in notes[13]["text"]:
         raise SystemExit("growth notes must keep the payment slides")
-    if "Customer checkout and ad revenue are different" not in notes[12]["text"]:
+    if "Customer checkout and ad revenue are different" not in notes[13]["text"]:
         raise SystemExit("growth notes must distinguish checkout from ads")
-    if "reaching buyers" not in notes[12]["text"] or "bloatware" not in notes[12]["text"]:
+    if "reaching buyers" not in notes[13]["text"] or "bloatware" not in notes[13]["text"]:
         raise SystemExit("growth notes must say ads sell the product, not sit inside it")
     if "Google Optimize" in growth_slide:
         raise SystemExit("Google Optimize must not appear on the growth slide")
     if "Kafka" in growth_slide:
         raise SystemExit("Kafka must not appear on the growth slide")
-    follow = notes[22]["text"]
+    follow = notes[23]["text"]
     for name in ("X", "Product Hunt", "Startup School"):
         if name not in follow:
             raise SystemExit(f"{name} missing from follow notes")
-    follow_slide = " ".join(shape.text_frame.text for shape in slides[22].shapes if shape.has_text_frame)
+    follow_slide = " ".join(shape.text_frame.text for shape in slides[23].shapes if shape.has_text_frame)
     if "LinkedIn" in follow_slide or "Reddit" in follow_slide or "YouTube" in follow_slide:
         raise SystemExit("follow slide named extra networks")
-    if any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[22].shapes):
+    if any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[23].shapes):
         raise SystemExit("follow slide must not have a QR")
-    thursday = " ".join(shape.text_frame.text for shape in slides[20].shapes if shape.has_text_frame)
+    thursday = " ".join(shape.text_frame.text for shape in slides[21].shapes if shape.has_text_frame)
     if re.search(r"\b20\d{2}\b|\bOct|\bOctober\b|\b\d{1,2}/\d{1,2}\b", thursday):
         raise SystemExit(f"Thursday slide printed a calendar date: {thursday!r}")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[0].shapes):
-        raise SystemExit("slide 1 missing title card")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[4].shapes):
-        raise SystemExit("slide 5 missing product shots")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[18].shapes):
-        raise SystemExit("slide 19 missing Startup School QR")
+        raise SystemExit("slide 1 missing opening poster")
+    open_text = " ".join(shape.text_frame.text for shape in slides[0].shapes if shape.has_text_frame)
+    if open_text.strip():
+        raise SystemExit(f"opening poster must have no title overlay: {open_text!r}")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[1].shapes):
+        raise SystemExit("slide 2 missing title card")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[5].shapes):
+        raise SystemExit("slide 6 missing product shots")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[19].shapes):
-        raise SystemExit("slide 20 missing sheet QR")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[23].shapes):
-        raise SystemExit("slide 24 missing KUG banner")
+        raise SystemExit("slide 20 missing Startup School QR")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[20].shapes):
+        raise SystemExit("slide 21 missing sheet QR")
     if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[24].shapes):
-        raise SystemExit("slide 25 missing DroidCon card")
-    droidcon_text = " ".join(shape.text_frame.text for shape in slides[24].shapes if shape.has_text_frame)
+        raise SystemExit("slide 25 missing KUG banner")
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[25].shapes):
+        raise SystemExit("slide 26 missing DroidCon card")
+    droidcon_text = " ".join(shape.text_frame.text for shape in slides[25].shapes if shape.has_text_frame)
     if droidcon_text.strip():
         raise SystemExit(f"DroidCon slide must have no title overlay: {droidcon_text!r}")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[25].shapes):
-        raise SystemExit("slide 26 missing volunteer QR")
-    volunteer_slide = " ".join(shape.text_frame.text for shape in slides[25].shapes if shape.has_text_frame)
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[26].shapes):
+        raise SystemExit("slide 27 missing volunteer QR")
+    volunteer_slide = " ".join(shape.text_frame.text for shape in slides[26].shapes if shape.has_text_frame)
     if "KUG Chennai Volunteer Interest Form" not in volunteer_slide:
         raise SystemExit("volunteer slide missing form title")
-    jobs_slide = " ".join(shape.text_frame.text for shape in slides[26].shapes if shape.has_text_frame)
+    jobs_slide = " ".join(shape.text_frame.text for shape in slides[27].shapes if shape.has_text_frame)
     if "Steve Jobs" not in jobs_slide:
         raise SystemExit("Jobs quote must stay last")
     if "The people who are crazy enough to think they can change the world are the ones who do." not in jobs_slide:
@@ -605,23 +632,32 @@ def build_pptx(notes: list[dict]) -> None:
         raise SystemExit("billion line missing from the last slide")
     if "₹12,000" in jobs_slide or "12000" in jobs_slide:
         raise SystemExit("do not retype the prize-pool number as a second headline")
-    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[26].shapes):
-        raise SystemExit("last slide missing prize-pool poster")
-    if "₹12,000 is today's prize pool" not in notes[26]["text"]:
+    if not any(sh.shape_type == MSO_SHAPE_TYPE.PICTURE for sh in slides[27].shapes):
+        raise SystemExit("Jobs slide missing prize-pool poster")
+    if "₹12,000 is today's prize pool" not in notes[27]["text"]:
         raise SystemExit("last-slide notes must name today's prize pool as printed")
-    if "Do not split it" not in notes[26]["text"] or "promise the billion" not in notes[26]["text"]:
+    if "Do not split it" not in notes[27]["text"] or "promise the billion" not in notes[27]["text"]:
         raise SystemExit("last-slide notes must not promise the billion")
-    if notes[18]["title"] != "Take Startup School.":
+    if notes[19]["title"] != "Take Startup School.":
         raise SystemExit("Startup School must sit immediately after Build anything")
-    if notes[26]["title"] != "Steve Jobs":
-        raise SystemExit("Jobs notes must stay last")
+    if notes[27]["title"] != "Steve Jobs":
+        raise SystemExit("Jobs notes must sit immediately before thank you")
+    thanks_slide = " ".join(shape.text_frame.text for shape in slides[28].shapes if shape.has_text_frame)
+    if "Thank you." not in thanks_slide:
+        raise SystemExit("thank-you headline missing")
+    if "Solaris Technologies and Tidel Park, for sponsoring the venue." not in thanks_slide:
+        raise SystemExit("venue thank-you line missing")
+    if notes[28]["title"] != "Thank you.":
+        raise SystemExit("thank-you notes must stay last")
+    if "sponsoring the venue" not in notes[28]["text"]:
+        raise SystemExit("thank-you notes must thank them for the venue only")
     talks = TALKS_HTML.read_text(encoding="utf-8")
     if "What's Stopping Us from Shipping Great Products and Monetizing Them?" not in talks:
         raise SystemExit("talks card title changed")
-    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=31" not in talks:
-        raise SystemExit("PPTX download missing ?v=31")
-    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=31" not in talks:
-        raise SystemExit("PDF download missing ?v=31")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=32" not in talks:
+        raise SystemExit("PPTX download missing ?v=32")
+    if "whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=32" not in talks:
+        raise SystemExit("PDF download missing ?v=32")
     prs.save(PPTX_PATH)
     print(f"wrote {PPTX_PATH} ({len(prs.slides)} slides)")
 
@@ -632,9 +668,12 @@ def main() -> None:
         ASSETS / f"shot-{name}.jpg"
         for name in ("supermeme", "droidclaw", "maaa", "carrd", "dunsocial", "raycast", "photopea", "gumroad")
     ]
-    for path in (KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, DROIDCON_PNG, VOLUNTEER_QR, PRIZE_PNG, PHONE_JPG, *shots):
+    for path in (OPEN_PNG, KUG_JPG, QR_PNG, TITLE_PNG, YC_QR, DROIDCON_PNG, VOLUNTEER_QR, PRIZE_PNG, PHONE_JPG, *shots):
         if not path.exists():
             raise SystemExit(f"missing {path}")
+    opener = Image.open(OPEN_PNG)
+    if opener.size != (640, 640):
+        raise SystemExit(f"opening poster size {opener.size}, expected 640x640")
     title = Image.open(TITLE_PNG)
     if title.size != (3840, 2160):
         raise SystemExit(f"title card size {title.size}, expected 3840x2160")

@@ -373,6 +373,15 @@
       color: #f5f5f7;
     }
 
+    .slide.thanks h1 {
+      color: #f5f5f7;
+    }
+
+    .slide.thanks .sub {
+      color: #a1a1a6;
+      max-width: 22ch;
+    }
+
     .qr-wrap {
       margin-top: 1.4rem;
       display: grid;
@@ -411,6 +420,18 @@
       height: 100%;
       object-fit: contain;
       display: block;
+    }
+
+    .slide.opener .banner-frame {
+      position: absolute;
+      inset: 0;
+    }
+
+    .slide.opener .banner-frame img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
     }
 
     .hud { position: fixed; inset: 0; pointer-events: none; z-index: 6; }
@@ -508,19 +529,25 @@
 </head>
 <body>
   <main class="deck" id="deck">
-    <article class="slide banner active" data-index="0">
+    <article class="slide banner opener active" data-index="0">
+      <div class="banner-frame">
+        <img src="./assets/shipaton-open-poster.png" width="640" height="640" alt="Shipaton poster. Road to DevFest, Kotlin Edition. JetBrains, RevenueCat, KUG Chennai, GDG Chennai, DevFest Chennai Roadshow." />
+      </div>
+    </article>
+
+    <article class="slide banner" data-index="1">
       <div class="banner-frame">
         <img src="./assets/shipaton-title-card.png" width="3840" height="2160" alt="Shipaton lightning talk title card for Kotlin User Group Chennai. What's stopping us from shipping great products and monetizing them? Shangeeth Sivan." />
       </div>
     </article>
 
-    <article class="slide lift" data-index="1">
+    <article class="slide lift" data-index="2">
       <h1>What's stopping us from getting paid?</h1>
       <p class="sub">We know how to build.</p>
       <div class="chips"><span class="chip">Getting paid takes resilience</span></div>
     </article>
 
-    <article class="slide air" data-index="2">
+    <article class="slide air" data-index="3">
       <h1>You don't need a big team.</h1>
       <p class="sub">Or months. Or an ad budget.</p>
       <div class="shots two">
@@ -539,7 +566,7 @@
       </div>
     </article>
 
-    <article class="slide tight" data-index="3">
+    <article class="slide tight" data-index="4">
       <h1>You don't need the next Instagram.</h1>
       <p class="sub">One problem. A few people.</p>
       <div class="chips">
@@ -550,7 +577,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="4">
+    <article class="slide" data-index="5">
       <h1>These already exist.</h1>
       <p class="sub">One job. A real price.</p>
       <div class="shots">
@@ -574,7 +601,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="5">
+    <article class="slide" data-index="6">
       <h1>You don't have to invent it.</h1>
       <p class="sub">A better version is enough.</p>
       <div class="shots one">
@@ -585,7 +612,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="6">
+    <article class="slide" data-index="7">
       <h1>One job. People know these.</h1>
       <p class="sub">A launcher. An editor. A store.</p>
       <div class="shots">
@@ -604,7 +631,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="7">
+    <article class="slide" data-index="8">
       <h1>You don't need Shark Tank.</h1>
       <p class="sub">We have Startup Singam.</p>
       <div class="fund">
@@ -623,7 +650,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="8">
+    <article class="slide" data-index="9">
       <h1>Start with the product.</h1>
       <p class="sub">A game, a charm, or a tiny app.</p>
       <svg class="graphic" viewBox="0 0 160 96" fill="none" aria-hidden="true">
@@ -635,7 +662,7 @@
       </svg>
     </article>
 
-    <article class="slide" data-index="9">
+    <article class="slide" data-index="10">
       <h1>Pick one.</h1>
       <p class="sub">Any of these is fine.</p>
       <ul class="lines five">
@@ -647,7 +674,7 @@
       </ul>
     </article>
 
-    <article class="slide" data-index="10">
+    <article class="slide" data-index="11">
       <h1>Then take payment.</h1>
       <p class="sub">One price. One checkout.</p>
       <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
@@ -663,7 +690,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="11">
+    <article class="slide" data-index="12">
       <h1>Then watch what they do.</h1>
       <p class="sub">One analytics tool is enough.</p>
       <svg class="graphic wide" viewBox="0 0 180 88" fill="none" aria-hidden="true">
@@ -685,7 +712,7 @@
       <p class="sub free-line">Most of these Firebase products are free.</p>
     </article>
 
-    <article class="slide dense" data-index="12">
+    <article class="slide dense" data-index="13">
       <h1>Growth is a system you can learn.</h1>
       <p class="sub">Ads, experiments, and the event stream.</p>
       <p class="order-line">Grow the product first. Then revenue, like ads.</p>
@@ -718,7 +745,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="13">
+    <article class="slide" data-index="14">
       <h1>Then give them a place to talk.</h1>
       <p class="sub">Discord is enough.</p>
       <svg class="graphic" viewBox="0 0 160 88" fill="none" aria-hidden="true">
@@ -736,17 +763,17 @@
       </div>
     </article>
 
-    <article class="slide" data-index="14">
+    <article class="slide" data-index="15">
       <h1>They stay when you solve the next problem.</h1>
       <p class="sub">Likes are not customers.</p>
     </article>
 
-    <article class="slide lift" data-index="15">
+    <article class="slide lift" data-index="16">
       <h1>Your first paying customer beats another feature.</h1>
       <p class="sub">Too simple is why it stays in GitHub.</p>
     </article>
 
-    <article class="slide air" data-index="16">
+    <article class="slide air" data-index="17">
       <h1 class="math">Five people × ₹199.</h1>
       <p class="sub">Your first ₹1,000.</p>
       <div class="chips">
@@ -757,7 +784,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="17">
+    <article class="slide" data-index="18">
       <h1>Build anything. Ship something.</h1>
       <p class="sub">Solo or team.</p>
       <div class="chips">
@@ -768,7 +795,7 @@
       </div>
     </article>
 
-    <article class="slide" data-index="18">
+    <article class="slide" data-index="19">
       <h1>Take Startup School.</h1>
       <p class="sub">Free. Online. From YC.</p>
       <div class="qr-wrap">
@@ -776,14 +803,14 @@
       </div>
     </article>
 
-    <article class="slide" data-index="19">
+    <article class="slide" data-index="20">
       <h1>One sheet. Set Review Ready.</h1>
       <div class="qr-wrap">
         <img src="./assets/shipaton-sheet-qr.png" width="882" height="882" alt="QR code for the Shipaton submission Google Sheet" />
       </div>
     </article>
 
-    <article class="slide lift" data-index="20">
+    <article class="slide lift" data-index="21">
       <h1>Thursday. Make it live.</h1>
       <div class="chips">
         <span class="chip">Deployed</span>
@@ -792,13 +819,13 @@
       </div>
     </article>
 
-    <article class="slide" data-index="21">
+    <article class="slide" data-index="22">
       <h1>Ship it. Get reviewed.</h1>
       <p class="quote">“We're going to see 10 person billion-dollar companies pretty soon.”<cite>Sam Altman</cite></p>
       <div class="chips"><span class="chip">DevFest tickets</span></div>
     </article>
 
-    <article class="slide follow lift" data-index="22">
+    <article class="slide follow lift" data-index="23">
       <h1>Just follow these for now.</h1>
       <p class="sub">Don't get overwhelmed.</p>
       <div class="chips">
@@ -808,26 +835,26 @@
       </div>
     </article>
 
-    <article class="slide banner" data-index="23">
+    <article class="slide banner" data-index="24">
       <div class="banner-frame">
         <img src="./assets/kug-chennai-banner.jpg" width="2560" height="1440" alt="Kotlin User Group Chennai community partner offer for DevFest Chennai. Vanakkam Chennai. 17th October." />
       </div>
     </article>
 
-    <article class="slide banner" data-index="24">
+    <article class="slide banner" data-index="25">
       <div class="banner-frame">
         <img src="./assets/droidcon-india-partner-card.png" width="1200" height="628" alt="droidCon India community partner card. 20 percent off with code KUGCHENNAI. 20 November 2026, Bengaluru." />
       </div>
     </article>
 
-    <article class="slide" data-index="25">
+    <article class="slide" data-index="26">
       <h1>KUG Chennai Volunteer Interest Form</h1>
       <div class="qr-wrap large">
         <img src="./assets/kug-volunteer-qr.png" width="962" height="962" alt="QR code for the KUG Chennai Volunteer Interest Form" />
       </div>
     </article>
 
-    <article class="slide quote-dark close" data-index="26">
+    <article class="slide quote-dark close" data-index="27">
       <div class="close-row">
         <figure class="close-poster">
           <img src="./assets/shipaton-prize-pool.png" width="2160" height="2160" alt="Shipaton prize pool poster for today's event. The printed prize pool stays on the art." />
@@ -838,6 +865,11 @@
           <p class="billion">Today's prize pool is this. Nothing else is stopping you from a $1 billion company very soon. Think of the next $1 billion as your next hackathon-winning prize.</p>
         </div>
       </div>
+    </article>
+
+    <article class="slide quote-dark thanks" data-index="28">
+      <h1>Thank you.</h1>
+      <p class="sub">Solaris Technologies and Tidel Park, for sponsoring the venue.</p>
     </article>
   </main>
 
@@ -850,7 +882,7 @@
   </aside>
   <section class="overview" id="overview"></section>
   <div class="hud">
-    <div class="counter" id="counter">1 / 27</div>
+    <div class="counter" id="counter">1 / 29</div>
     <div class="watermark">KUG Chennai · Shipaton</div>
     <div class="hint">← → · P notes · O overview · F fullscreen</div>
     <div class="progress"><span id="progressFill"></span></div>
@@ -858,6 +890,11 @@
 
   <script type="application/json" id="speaker-notes">
 [
+    {
+        "title": "Shipaton poster",
+        "html": "<p><strong>Tanglish:</strong> “Indha poster-ah vechi vidunga. Title over-ah padikkaathinga.”</p><p>Leave the poster up. Do not read a second title over it. The art already names Shipaton, Road to DevFest, Kotlin Edition, and the partners on the card.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Indha poster-ah vechi vidunga. Title over-ah padikkaathinga.\nLeave the poster up. Do not read a second title over it. The art already names Shipaton, Road to DevFest, Kotlin Edition, and the partners on the card.\nhttps://luma.com/mprx0ocg"
+    },
     {
         "title": "Title card",
         "html": "<p><strong>Tanglish:</strong> “Vanakkam. Indha card-ah vechi vidunga.”</p><p>Leave the card up. The art already names the talk, Shangeeth Sivan, and KUG Chennai. Do not read a second title over it.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
@@ -992,6 +1029,11 @@
         "title": "Steve Jobs",
         "html": "<p><strong>Tanglish:</strong> “Crazy-nu ninaichavanga dhaan world-ah maathuvaanga. Indha prize pool innaiku. Next billion-ah next hackathon prize-nu nenaikunga.”</p><p>Leave the poster up. It already prints today's prize pool. ₹12,000 is today's prize pool, as printed. Do not retype that number as a second headline. Do not split it, name winners, or promise the billion.</p><p>Keep the Steve Jobs line: “The people who are crazy enough to think they can change the world are the ones who do.”</p><p>The billion line is the push to keep shipping: Today's prize pool is this. Nothing else is stopping you from a $1 billion company very soon. Think of the next $1 billion as your next hackathon-winning prize.</p><p>Don't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
         "text": "Tanglish: Crazy-nu ninaichavanga dhaan world-ah maathuvaanga. Indha prize pool innaiku. Next billion-ah next hackathon prize-nu nenaikunga.\nLeave the poster up. It already prints today's prize pool. ₹12,000 is today's prize pool, as printed. Do not retype that number as a second headline. Do not split it, name winners, or promise the billion.\nKeep the Steve Jobs line: The people who are crazy enough to think they can change the world are the ones who do.\nThe billion line is the push to keep shipping: Today's prize pool is this. Nothing else is stopping you from a $1 billion company very soon. Think of the next $1 billion as your next hackathon-winning prize.\nDon't just build another side project. Build something people can use, ship it to the world, and see if someone is willing to pay for it.\nhttps://luma.com/mprx0ocg"
+    },
+    {
+        "title": "Thank you.",
+        "html": "<p><strong>Tanglish:</strong> “Venue-ku thank you. Solaris Technologies. Tidel Park.”</p><p>Thank Solaris Technologies and Tidel Park for sponsoring the venue only. Do not invent logos, amounts, or extra sponsors.</p><p>Event: <a href=\"https://luma.com/mprx0ocg\">luma.com/mprx0ocg</a></p>",
+        "text": "Tanglish: Venue-ku thank you. Solaris Technologies. Tidel Park.\nThank Solaris Technologies and Tidel Park for sponsoring the venue only. Do not invent logos, amounts, or extra sponsors.\nhttps://luma.com/mprx0ocg"
     }
 ]
   </script>
