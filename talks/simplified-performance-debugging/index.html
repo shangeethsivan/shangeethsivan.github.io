@@ -1,0 +1,1915 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simplified Performance Debugging — DevFest Chennai 2026</title>
+  <meta name="author" content="Shangeeth Sivan" />
+  <meta name="description" content="A stage deck on processes, threads, Perfetto, and asking a trace in English. DevFest Chennai, 17 October 2026." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #08090c;
+      --paper: #f3f0e8;
+      --dim: #c4cad3;
+      --faint: #9aa3af;
+      --line: rgba(243, 240, 232, 0.14);
+      --accent: #dff56a;
+      --glow: rgba(223, 245, 106, 0.22);
+      --amber: #ff6a3c;
+      --cyan: #8aecff;
+      --sans: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+      --serif: "Bricolage Grotesque", "Avenir Next", "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", "SF Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; color: var(--paper); }
+    body { font-family: var(--sans); font-weight: 560; }
+    body[data-act="trace"] { --accent: #8aecff; --glow: rgba(138, 236, 255, 0.2); }
+    body[data-act="ai"] { --accent: #ff6a3c; --glow: rgba(255, 106, 60, 0.22); }
+    button, input { font: inherit; color: inherit; }
+    em.accent { font-family: var(--serif); font-style: normal; font-weight: 760; color: var(--accent); }
+
+    .viewport { position: relative; width: 100%; height: 100%; overflow: hidden; }
+    body.notes-on .viewport { height: 68%; }
+
+    .deck {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--ink);
+      transform-origin: top left;
+    }
+
+    #field, .glow, .scrim, .grain, .vignette {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #field { z-index: 0; }
+    .glow {
+      z-index: 0;
+      background:
+        radial-gradient(820px 560px at 88% 8%, var(--glow), transparent 70%),
+        radial-gradient(760px 520px at -10% 110%, var(--glow), transparent 68%);
+      transition: background 600ms linear;
+    }
+    .scrim {
+      z-index: 1;
+      background:
+        linear-gradient(90deg, rgba(8, 9, 12, 0.82) 0%, rgba(8, 9, 12, 0.62) 46%, rgba(8, 9, 12, 0.38) 100%),
+        linear-gradient(180deg, rgba(8, 9, 12, 0.45), transparent 16%, transparent 78%, rgba(8, 9, 12, 0.72));
+    }
+    .grain {
+      z-index: 1;
+      opacity: 0.16;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+    .vignette { z-index: 1; box-shadow: inset 0 0 220px 30px rgba(0, 0, 0, 0.55); }
+
+    #blade {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 16px;
+      top: 50%;
+      z-index: 30;
+      background: var(--accent);
+      box-shadow: 0 0 28px var(--accent), 0 0 80px var(--glow);
+      transform: scaleX(0);
+      transform-origin: left center;
+      pointer-events: none;
+      border-radius: 2px;
+    }
+    #blade.wash {
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      opacity: 0;
+      visibility: hidden;
+    }
+    .slide.active { opacity: 1; visibility: visible; z-index: 3; }
+
+    .frame {
+      width: 1920px;
+      height: 1080px;
+      padding: 118px 88px 108px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+    }
+    .mast {
+      position: absolute;
+      z-index: 8;
+      top: 26px;
+      right: 88px;
+      height: 72px;
+      width: auto;
+      pointer-events: none;
+    }
+    .frame.hero, .frame.section, .frame.impact { justify-content: space-between; }
+    .notes { display: none; }
+
+    .kicker {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 18px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    h1, h2, h3 { margin: 0; font-weight: 720; }
+    h1 {
+      font-family: var(--serif);
+      font-size: 120px;
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-size: 76px;
+      line-height: 0.98;
+      letter-spacing: -0.025em;
+    }
+    h2.compact { font-size: 68px; }
+    .lede {
+      margin: 0;
+      max-width: 1400px;
+      color: var(--dim);
+      font-size: 36px;
+      line-height: 1.28;
+      font-weight: 680;
+    }
+    .lede.narrow { max-width: 1100px; }
+    .caption {
+      margin: 0;
+      color: var(--dim);
+      font-size: 26px;
+      line-height: 1.35;
+    }
+
+    .toprow, .hero-meta, .hud, .pair {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .toprow span, .hero-meta span, .quiet {
+      font-family: var(--mono);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 15px;
+      color: var(--dim);
+    }
+    .hero-copy { display: flex; flex-direction: column; gap: 28px; }
+    .title-slice {
+      height: 14px;
+      width: 28%;
+      border-radius: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 24px var(--accent);
+      transform-origin: left center;
+      animation: slicePulse 4.8s cubic-bezier(.45, 0, .2, 1) infinite;
+    }
+    @keyframes slicePulse {
+      0% { width: 16%; }
+      45% { width: 62%; }
+      100% { width: 22%; }
+    }
+    .hero-meta { align-items: flex-end; }
+    .hero-meta strong {
+      display: block;
+      font-size: 28px;
+      font-weight: 500;
+      letter-spacing: 0;
+      text-transform: none;
+      font-family: var(--sans);
+      color: var(--paper);
+    }
+    .who { text-align: right; }
+
+    .ghost {
+      position: absolute;
+      right: 36px;
+      top: -30px;
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 460px;
+      line-height: 0.8;
+      letter-spacing: -0.06em;
+      color: rgba(243, 240, 232, 0.055);
+      pointer-events: none;
+    }
+    .section h2 { font-size: 128px; max-width: 1400px; }
+    .section .lede { font-size: 34px; }
+
+    .mega {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: 340px;
+      line-height: 0.78;
+      letter-spacing: -0.06em;
+    }
+    .mega small {
+      font-family: var(--mono);
+      font-size: 72px;
+      letter-spacing: 0;
+      color: var(--accent);
+      margin-left: 12px;
+    }
+    .impact { justify-content: center; gap: 12px; }
+    .impact .lede { font-size: 32px; }
+
+    .moves, .beliefs {
+      list-style: none;
+      margin: 0;
+      padding: 8px 22px 14px;
+      display: flex;
+      flex-direction: column;
+      background: #12141a;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .moves { gap: 0; }
+    .moves li {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 18px;
+      align-items: baseline;
+      border-top: 1px solid var(--line);
+      padding: 18px 0 8px;
+    }
+    .moves em {
+      font-family: var(--mono);
+      font-style: normal;
+      font-size: 16px;
+      letter-spacing: 0.16em;
+      color: var(--accent);
+    }
+    .moves strong {
+      display: block;
+      font-family: var(--serif);
+      font-weight: 680;
+      font-size: 48px;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    .moves span { display: block; margin-top: 6px; color: var(--dim); font-size: 26px; }
+    .moves.dense strong { font-size: 40px; }
+    .moves.dense span { font-size: 24px; }
+    .moves.dense li { padding: 12px 0 4px; }
+
+    .lanes { display: flex; flex-direction: column; gap: 16px; margin-top: 8px; }
+    .lane {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 22px;
+      align-items: center;
+      min-height: 118px;
+      padding: 18px 22px;
+      border-radius: 18px;
+      background: #16181f;
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 1;
+    }
+    .lane b { font-family: var(--serif); font-size: 36px; font-weight: 680; display: block; }
+    .lane small { color: var(--faint); font-family: var(--mono); letter-spacing: 0.12em; text-transform: uppercase; font-size: 13px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 10px; }
+    .chips span, .pill {
+      font-family: var(--mono);
+      font-size: 16px;
+      letter-spacing: 0.04em;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--paper);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .cards { display: grid; gap: 16px; flex: 0 0 auto; align-content: start; min-height: 0; }
+    .cards.c4 { grid-template-columns: repeat(4, 1fr); }
+    .cards.c3 { grid-template-columns: repeat(3, 1fr); }
+    .cards.c2 { grid-template-columns: repeat(2, 1fr); }
+    .card {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 24px 22px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+    .card .num, .mini {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: 16px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .card h3 { font-family: var(--serif); font-size: 40px; letter-spacing: -0.02em; }
+    .card p, .card li { margin: 0; color: var(--dim); font-size: 26px; line-height: 1.3; }
+    .card ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+    .cards.c3 .card h3 { font-size: 36px; }
+    .card.warn { border-color: rgba(255, 106, 60, 0.55); }
+    .card.good { border-color: rgba(223, 245, 106, 0.45); }
+
+    .split { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 28px; flex: 0 1 auto; min-height: 0; align-items: start; }
+    .split.even { grid-template-columns: 1fr 1fr; }
+    .stack { display: flex; flex-direction: column; gap: 14px; min-width: 0; min-height: 0; }
+
+    pre {
+      margin: 0;
+      background: #141820;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px 22px;
+      font-family: var(--mono);
+      font-size: 24px;
+      line-height: 1.45;
+      color: var(--paper);
+      overflow: auto;
+      user-select: text;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+    .k { color: #ffb089; }
+    .f { color: #8aecff; }
+    .s { color: #dff56a; }
+    .c { color: #8e97a3; }
+    .n { color: #f3f0e8; }
+
+    .table {
+      display: grid;
+      grid-template-columns: 1.25fr 1.7fr 0.48fr;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #12141a;
+      align-content: start;
+      padding: 6px 16px 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .table div {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      font-size: 22px;
+      line-height: 1.25;
+    }
+    .table .th {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .yes { color: var(--accent); font-family: var(--mono); font-size: 16px; letter-spacing: 0.08em; }
+    .mid { color: var(--paper); font-family: var(--mono); font-size: 16px; letter-spacing: 0.08em; }
+    .no { color: var(--amber); font-family: var(--mono); font-size: 16px; letter-spacing: 0.08em; }
+
+    .soc { display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; }
+    .core {
+      min-height: 148px;
+      border-radius: 16px;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid var(--line);
+      background: #16181f;
+      position: relative;
+      z-index: 1;
+    }
+    .core b { font-family: var(--serif); font-size: 32px; font-weight: 680; }
+    .core em { font-style: normal; font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+    .core.prime { background: #3a2018; border-color: #ff6a3c; }
+    .core.big { background: #132228; border-color: #3d7c8a; }
+    .core.lit { background: #1c2214; border-color: #8a9a3c; }
+    .core em { color: #e7ebf1; }
+    .gpu {
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      align-items: center;
+      padding: 18px 22px;
+      border-radius: 16px;
+      border: 1px dashed rgba(243, 240, 232, 0.24);
+      background: #12141a;
+      color: var(--dim);
+      font-size: 22px;
+      position: relative;
+      z-index: 1;
+    }
+    .gpu strong { color: var(--paper); font-weight: 500; }
+
+    .flow {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .flow span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-family: var(--mono);
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .flow .go { border-color: rgba(223, 245, 106, 0.6); color: var(--accent); }
+    .flow .hot { background: var(--accent); color: #14160c; border-color: transparent; }
+    .flow i { color: var(--faint); font-style: normal; }
+
+    .tl {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #101218;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 18px 18px;
+    }
+    .marks, .ruler {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--faint);
+    }
+    .marks .bad, .bad { color: var(--amber); }
+    .tl-body { position: relative; height: 214px; }
+    .deadline {
+      position: absolute;
+      left: 66.67%;
+      top: 0;
+      bottom: 0;
+      border-left: 2px solid var(--amber);
+      z-index: 2;
+    }
+    .sl {
+      position: absolute;
+      height: 36px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      font-family: var(--mono);
+      font-size: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .s-frame { top: 8px; background: #1a6f82; color: #e7fbff; }
+    .s-measure { top: 52px; background: #6e7c32; color: #f6f8df; }
+    .s-child { top: 96px; background: #3a404a; color: var(--paper); }
+    .s-bad { top: 148px; background: rgba(255, 106, 60, 0.85); color: #1a0c08; font-weight: 500; }
+    .s-hw { top: 148px; background: rgba(138, 236, 255, 0.85); color: #061316; }
+
+    .flame {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      background: #101218;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      position: relative;
+      z-index: 1;
+    }
+    .frow { display: flex; gap: 8px; height: 52px; }
+    .frow { height: 58px; }
+    .frow i {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      border-radius: 7px;
+      background: #1a6270;
+      color: #f3fbff;
+      font-style: normal;
+      font-family: var(--mono);
+      font-size: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    .frow i.dim { background: #2c313a; color: var(--dim); }
+    .frow i.hot { background: var(--amber); color: #1a0c08; }
+
+    .scope {
+      background: #0e1016;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+    }
+    .scope-top, .scope-row {
+      display: grid;
+      grid-template-columns: 150px 1fr;
+      gap: 10px;
+      align-items: center;
+    }
+    .scope-top { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; color: var(--faint); display: flex; justify-content: space-between; }
+    .scope-row span { font-family: var(--mono); font-size: 14px; color: var(--dim); }
+    .track { position: relative; height: 28px; background: rgba(255, 255, 255, 0.03); border-radius: 5px; overflow: hidden; }
+    .track.deep { height: 96px; }
+    .track b {
+      position: absolute;
+      top: 4px;
+      height: 20px;
+      border-radius: 4px;
+      background: rgba(243, 240, 232, 0.28);
+    }
+    .track b.big { background: rgba(255, 106, 60, 0.75); }
+    .track b.lit { background: rgba(223, 245, 106, 0.7); }
+    .track.deep b { height: 24px; display: flex; align-items: center; padding: 0 8px; font-weight: 680; font-family: var(--mono); font-size: 13px; color: #081014; }
+    .track.deep .s1 { top: 8px; background: #8aecff; }
+    .track.deep .s2 { top: 38px; background: #dff56a; }
+    .track.deep .s3 { top: 38px; background: #f3f0e8; }
+    .track.deep .s4 { background: #ffb089; color: #1a0c08; }
+    .spark { position: relative; }
+    .spark svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    .keys {
+      display: flex;
+      flex-direction: column;
+      background: #12141a;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 8px 8px 8px 4px;
+      position: relative;
+      z-index: 1;
+    }
+    .keys div {
+      padding: 14px 16px;
+      border-top: 1px solid var(--line);
+    }
+    .keys b { display: block; font-family: var(--mono); font-size: 16px; letter-spacing: 0.08em; color: var(--accent); font-weight: 500; }
+    .keys span { color: var(--dim); font-size: 20px; }
+
+    .cmp {
+      display: grid;
+      grid-template-columns: 0.7fr 1fr 1fr;
+      background: #12141a;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 6px 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .cmp div { padding: 16px 14px; border-bottom: 1px solid var(--line); font-size: 22px; line-height: 1.3; }
+    .cmp .th { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); }
+
+    .pipe { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+    .pipe div {
+      min-height: 132px;
+      padding: 16px;
+      border-radius: 16px;
+      background: #16181f;
+      border: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .pipe em { font-family: var(--mono); font-style: normal; letter-spacing: 0.14em; color: var(--accent); font-size: 13px; }
+    .pipe strong { font-family: var(--serif); font-size: 32px; font-weight: 680; line-height: 1.05; }
+    .pipe div { min-height: 148px; }
+
+    blockquote {
+      margin: 0;
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 52px;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+    }
+
+    .nodes {
+      display: grid;
+      gap: 16px;
+      align-items: stretch;
+    }
+    .nodes.n4 { grid-template-columns: 1fr 28px 1fr 28px 1fr 28px 1fr; }
+    .nodes.n3 { grid-template-columns: 1fr 36px 1fr 36px 1fr; }
+    .nodes.doors { grid-template-columns: repeat(3, 1fr); }
+    .node {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
+      min-height: 210px;
+      position: relative;
+      z-index: 1;
+    }
+    .node em {
+      font-family: var(--mono);
+      font-style: normal;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-size: 16px;
+    }
+    .node strong {
+      font-family: var(--serif);
+      font-weight: 680;
+      font-size: 44px;
+      letter-spacing: -0.03em;
+      line-height: 0.95;
+    }
+    .node span { color: var(--dim); font-size: 26px; line-height: 1.25; }
+    .node.hot { border-color: rgba(255, 106, 60, 0.7); background: #241610; }
+    .arr {
+      align-self: center;
+      color: var(--accent);
+      font-family: var(--serif);
+      font-size: 42px;
+      line-height: 1;
+      text-align: center;
+    }
+
+    .states {
+      display: grid;
+      grid-template-columns: 1fr 36px 1fr 36px 1.15fr;
+      gap: 12px;
+      align-items: center;
+    }
+    .state {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      min-height: 108px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .state b { font-family: var(--serif); font-size: 36px; font-weight: 680; }
+    .state span { color: var(--dim); font-size: 22px; }
+    .state.run { background: var(--accent); color: #14160c; border-color: transparent; }
+    .state.run span { color: #2a3018; }
+    .fork {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .chipset {
+      display: grid;
+      grid-template-columns: 1.35fr repeat(5, 1fr) 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+      min-height: 340px;
+    }
+    .tile {
+      border-radius: 16px;
+      padding: 22px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      position: relative;
+      z-index: 1;
+    }
+    .tile b { font-family: var(--serif); font-size: 40px; font-weight: 680; line-height: 0.95; }
+    .tile.prime b { font-size: 64px; }
+    .tile span { font-family: var(--mono); font-size: 18px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .tile { min-height: 460px; }
+    .tile.prime { background: #ff6a3c; color: #1a0c08; border-color: transparent; }
+    .tile.perf { background: #14323a; color: #e7fbff; border-color: #3d7c8a; }
+    .tile.eff { background: #1c2214; color: #f3f6df; border-color: #8a9a3c; }
+
+    .over {
+      position: relative;
+      height: 168px;
+      background: #16181f;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      z-index: 1;
+    }
+    .over .fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 72%;
+      background: #ff6a3c;
+    }
+    .over .mark {
+      position: absolute;
+      top: -8px;
+      bottom: -8px;
+      width: 0;
+      border-left: 4px solid var(--paper);
+    }
+    .over .mark.m16 { left: 48%; }
+    .over .mark.m8 { left: 24%; border-left-color: var(--accent); }
+    .over .lab {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-family: var(--serif);
+      font-size: 40px;
+      z-index: 1;
+      color: #1a0c08;
+    }
+    .scale-row {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--mono);
+      font-size: 20px;
+      letter-spacing: 0.08em;
+      color: var(--faint);
+    }
+    .scale-row .bad { color: var(--amber); }
+    .scale-row .ok { color: var(--accent); }
+
+    .rank { display: flex; flex-direction: column; gap: 12px; }
+    .rank-row {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      align-items: center;
+    }
+    .rank-row b { font-family: var(--serif); font-size: 32px; font-weight: 680; }
+    .rank-bar {
+      height: 64px;
+      border-radius: 12px;
+      background: #1a6270;
+      color: #f3fbff;
+      display: flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .rank-row.first .rank-bar { background: var(--accent); color: #14160c; height: 84px; font-size: 28px; font-weight: 500; }
+    .rank-bar.dim { background: #2a3038; color: var(--paper); }
+
+    .loop {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .loop .step {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      min-height: 250px;
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .loop .step em { font-family: var(--mono); font-style: normal; letter-spacing: 0.14em; color: var(--accent); font-size: 16px; }
+    .loop.tight .step { min-height: 168px; padding: 18px 20px; }
+    .gate {
+      margin: 0;
+      font-weight: 720;
+      font-size: 30px;
+      color: var(--accent);
+    }
+    .loop .step strong { font-family: var(--serif); font-size: 40px; font-weight: 680; }
+    .loop .step span { color: var(--dim); font-size: 24px; }
+    .loop .back { border-color: rgba(255, 106, 60, 0.65); }
+
+    .pairbars { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .pairbar {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 1;
+    }
+    .pairbar .meter { height: 28px; border-radius: 8px; background: #2a3038; overflow: hidden; }
+    .pairbar .meter i { display: block; height: 100%; }
+    .pairbar.bad { border-color: rgba(255, 106, 60, 0.6); }
+    .pairbar.bad .meter i { width: 38%; background: var(--amber); }
+    .pairbar.good { border-color: rgba(223, 245, 106, 0.5); }
+    .pairbar.good .meter i { width: 100%; background: var(--accent); }
+    .pairbar b { font-family: var(--serif); font-size: 36px; font-weight: 680; }
+    .pairbar span { color: var(--dim); font-size: 24px; line-height: 1.3; }
+
+    .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .fact {
+      background: #16181f;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 32px 28px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 1;
+    }
+    .fact em { font-family: var(--mono); font-style: normal; letter-spacing: 0.14em; color: var(--accent); font-size: 16px; }
+    .fact strong { font-family: var(--serif); font-size: 48px; font-weight: 680; letter-spacing: -0.03em; line-height: 0.95; }
+    .fact span { color: var(--dim); font-size: 28px; line-height: 1.3; }
+
+    .hud {
+      position: absolute;
+      z-index: 6;
+      left: 96px;
+      right: 96px;
+      bottom: 32px;
+      display: grid;
+      grid-template-columns: 130px 1fr 240px;
+      gap: 22px;
+      align-items: center;
+      pointer-events: none;
+      font-family: var(--mono);
+      font-size: 15px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .hud b { color: var(--paper); font-weight: 500; }
+    .hud .sep { margin: 0 8px; color: rgba(243, 240, 232, 0.35); }
+    .hud-act { text-align: right; color: var(--dim); }
+    .rail { display: flex; gap: 4px; }
+    .tick { flex: 1; height: 3px; border-radius: 99px; background: rgba(243, 240, 232, 0.16); }
+    .tick.on { background: var(--accent); }
+
+    .reveal { opacity: 0; transform: translateY(16px); }
+    .slide.active .reveal {
+      animation: rise 700ms cubic-bezier(.16, 1, .3, 1) forwards;
+      animation-delay: calc(var(--d, 0) * 70ms);
+    }
+    @keyframes rise {
+      to { opacity: 1; transform: none; }
+    }
+
+    #help {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.62);
+      display: grid;
+      place-items: center;
+    }
+    #help[hidden] { display: none; }
+    .help-card {
+      width: min(640px, calc(100% - 48px));
+      background: #101218;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 28px;
+    }
+    .help-card ul { list-style: none; padding: 0; margin: 16px 0; display: flex; flex-direction: column; gap: 8px; }
+    .help-card li { font-size: 18px; color: var(--dim); }
+    .help-card b { font-family: var(--mono); color: var(--paper); font-weight: 500; }
+    .help-card p { color: var(--faint); }
+
+    #notesdock {
+      display: none;
+      height: 32vh;
+      overflow: auto;
+      background: #0c0e13;
+      color: var(--paper);
+      border-top: 1px solid var(--line);
+      padding: 22px 36px 28px;
+      font-size: 22px;
+      line-height: 1.45;
+    }
+    body.notes-on #notesdock { display: block; }
+    #notesdock .label {
+      font-family: var(--mono);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    #presenter { display: none; height: 100vh; grid-template-columns: 1.45fr 0.7fr; background: #08090c; }
+    body.presenter #presenter { display: grid; }
+    body.presenter .viewport, body.presenter #notesdock, body.presenter #help { display: none !important; }
+    .p-main, .p-side { padding: 36px 40px; overflow: auto; }
+    .p-side { border-left: 1px solid var(--line); background: #0d0f14; }
+    #p-notes { font-size: 28px; line-height: 1.4; margin-top: 18px; }
+    #p-title { font-family: var(--serif); font-size: 42px; margin: 8px 0 0; }
+    #p-next { font-family: var(--serif); font-size: 32px; margin-top: 8px; }
+    #p-cue, #notesdock .when, #p-notes .when {
+      font-family: var(--mono);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-size: 18px;
+      margin: 0 0 10px;
+    }
+    #p-clock { font-family: var(--mono); font-size: 28px; color: var(--accent); }
+
+    body.overview .viewport { display: block; height: 100vh; overflow: auto; }
+    body.overview .deck {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      height: auto;
+      transform: none !important;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      padding: 16px;
+      overflow: visible;
+      background: #000;
+    }
+    body.overview .slide {
+      position: relative;
+      inset: auto;
+      opacity: 1;
+      visibility: visible;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-radius: 10px;
+      outline: 1px solid rgba(243, 240, 232, 0.16);
+      cursor: pointer;
+      background: #08090c;
+    }
+    body.overview .slide.active { outline: 2px solid var(--accent); }
+    body.overview .slide { container-type: size; }
+    body.overview .frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: scale(calc(100cqi / 1920px));
+      transform-origin: top left;
+    }
+    body.overview .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+      animation: none !important;
+    }
+    body.overview #field,
+    body.overview .glow,
+    body.overview .scrim,
+    body.overview .grain,
+    body.overview .vignette,
+    body.overview #blade,
+    body.overview .hud { display: none; }
+    body.overview .mast, body.overview .kuri { display: none; }
+    body.overview #notesdock { display: none; }
+
+    .kuri {
+      position: absolute;
+      z-index: 7;
+      width: 520px;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    .kuri.on { visibility: visible; }
+    .kuri-in {
+      position: relative;
+      width: 240px;
+      margin-left: auto;
+    }
+    .kuri.on .kuri-in { animation: kuriIn 0.9s cubic-bezier(.16, 1, .3, 1) both; }
+    @keyframes kuriIn {
+      from { opacity: 0; transform: translateY(48px); }
+      to { opacity: 1; transform: none; }
+    }
+    .kuri .bubble {
+      position: absolute;
+      right: 8px;
+      bottom: calc(100% - 6px);
+      margin: 0;
+      width: max-content;
+      max-width: 520px;
+      background: #f3f0e8;
+      color: #14160c;
+      font-family: var(--sans);
+      font-weight: 720;
+      font-size: 40px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      padding: 16px 22px 18px;
+      border-radius: 22px 22px 8px 22px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+    .kuri .bubble[hidden] { display: none; }
+    .kuri .bubble:after {
+      content: "";
+      position: absolute;
+      right: 28px;
+      bottom: -12px;
+      border-width: 14px 12px 0 0;
+      border-style: solid;
+      border-color: #f3f0e8 transparent transparent transparent;
+    }
+    .kuri.pose-floor { left: 64px; bottom: 58px; width: 860px; }
+    .kuri.pose-floor .kuri-in { margin-left: 0; width: 230px; }
+    .kuri.pose-floor .bubble { left: 210px; right: auto; bottom: 150px; border-radius: 22px 22px 22px 8px; }
+    .kuri.pose-floor .bubble:after { left: 22px; right: auto; border-width: 14px 0 0 12px; }
+    .kuri.pose-cores { right: 48px; bottom: 64px; width: 860px; }
+    .kuri.pose-cores .kuri-in { width: 156px; }
+    .kuri.pose-cores .bubble { left: auto; right: 172px; bottom: 108px; max-width: 560px; }
+    .kuri.pose-budget { right: 72px; top: 392px; width: 560px; }
+    .kuri.pose-budget .kuri-in { width: 210px; }
+    .kuri.pose-trace { right: 28px; top: 292px; width: 280px; }
+    .kuri.pose-trace .kuri-in { width: 156px; }
+    .kuri.pose-trace .bubble { left: auto; right: 0; bottom: calc(100% + 2px); max-width: 280px; font-size: 34px; }
+    .kuri.pose-ask { right: 56px; bottom: 78px; width: 640px; }
+    .kuri.pose-ask .kuri-in { width: 210px; }
+    .kuri.pose-finale { left: 96px; top: 250px; width: 1500px; }
+    .kuri.pose-finale .kuri-in { width: 400px; margin-left: 0; }
+    .kuri.pose-finale .bubble { left: 390px; right: auto; bottom: 300px; max-width: 860px; font-size: 52px; border-radius: 26px 26px 26px 10px; }
+    .kuri.pose-finale .bubble:after { left: 28px; right: auto; border-width: 16px 0 0 14px; }
+    .kuri.pose-finale.mood-thinking .kid { transform: scaleX(-1); transform-origin: 50% 60%; }
+    .kuri.pose-bye { right: 96px; top: 250px; width: 380px; }
+    .kuri.pose-bye .kuri-in { width: 320px; }
+    .kuri.pose-bye .bubble { display: none; }
+    .kid { width: 100%; height: auto; display: block; overflow: visible; }
+    .kuri .head { transform-origin: 122px 168px; }
+    .kuri .pupil { transform-origin: center; transform-box: fill-box; }
+    .kuri .arm-glass, .kuri .arm-scratch, .kuri .m-flat, .kuri .m-o, .kuri .m-big { display: none; }
+    .kuri.with-glass .arm-rest { display: none; }
+    .kuri.with-glass .arm-glass { display: block; }
+    .kuri.mood-confused .head { transform: rotate(8deg); }
+    .kuri.mood-confused .m-smile { display: none; }
+    .kuri.mood-confused .m-flat { display: block; }
+    .kuri.mood-confused .arm-rest, .kuri.mood-confused .arm-glass { display: none; }
+    .kuri.mood-confused .arm-scratch { display: block; }
+    .kuri.mood-thinking .head { transform: rotate(-8deg); }
+    .kuri.mood-thinking .pupil { transform: translate(-2px, -6px); }
+    .kuri.mood-thinking .m-smile { display: none; }
+    .kuri.mood-thinking .m-flat { display: block; }
+    .kuri.mood-surprised .m-smile { display: none; }
+    .kuri.mood-surprised .m-o { display: block; }
+    .kuri.mood-surprised .pupil { transform: scale(0.65); }
+    .kuri.mood-surprised .brow { transform: translateY(-7px); }
+    .kuri.mood-excited .brow { transform: translateY(-5px); }
+    .kuri.mood-excited .m-smile, .kuri.mood-bye .m-smile { display: none; }
+    .kuri.mood-excited .m-big, .kuri.mood-bye .m-big { display: block; }
+    .kuri.mood-bye .arm-glass { transform: translate(6px, -22px); }
+
+    a { color: var(--accent); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .title-slice, .reveal, .slide.active .reveal, .kuri.on .kuri-in { animation: none !important; opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body data-act="open">
+  <div class="viewport">
+    <div class="deck" id="deck">
+      <canvas id="field" width="1920" height="1080"></canvas>
+      <div class="glow"></div>
+      <div class="scrim"></div>
+      <div class="grain"></div>
+      <div class="vignette"></div>
+      <div id="blade"></div>
+      <img class="mast" src="assets/devfest-logo.svg" alt="DevFest Chennai" />
+
+<section class="slide active" data-act="open" data-fx="slice" data-label="Opening" data-title="Title" data-cue="0:00 – 0:15">
+        <div class="frame hero">
+          <div class="toprow reveal">
+            <span>17 Oct 2026 · IITM Research Park</span>
+          </div>
+          <div class="hero-copy">
+            <h1 class="reveal" style="--d:1">Simplified<br><em class="accent">performance</em><br>debugging.</h1>
+            <p class="lede reveal" style="--d:2">Native. Flutter. React Native.<br>The same kernel underneath.</p>
+            <div class="title-slice reveal" style="--d:3"></div>
+          </div>
+          <div class="hero-meta reveal" style="--d:4">
+            <span>For apps that feel late</span>
+            <span class="who"><strong>Shangeeth Sivan</strong>Staff Software Engineer, Android · Poshmark</span>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">0:00 – 0:15</p><p>Logo up. One sentence: every framework on Android is a guest of the same kernel. Then the bio, not your résumé.</p></aside>
+      </section>
+
+      <section class="slide" data-act="open" data-fx="slice" data-label="Opening" data-title="Who I am" data-cue="0:15 – 0:55">
+        <div class="frame">
+          <p class="kicker reveal">Who I am</p>
+          <h2 class="compact reveal" style="--d:1">Shangeeth Sivan.</h2>
+          <div class="facts">
+            <article class="fact reveal" style="--d:2"><em>01 · Work</em><strong>Android at Poshmark.</strong><span>I lead the Android team. Performance, architecture, and how it ships.</span></article>
+            <article class="fact reveal" style="--d:3"><em>02 · Years</em><strong>Nine years on mobile.</strong><span>Staff Software Engineer. The bugs in this talk are the ones I still chase.</span></article>
+            <article class="fact reveal" style="--d:4"><em>03 · Chennai</em><strong>GDG and Kotlin.</strong><span>I organize with GDG Chennai and Kotlin User Group Chennai.</span></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">0:15 – 0:55</p><p>Forty seconds. Read the three plates, do not add a fourth. You lead Android at Poshmark. Nine years is the press-kit number. Community is GDG Chennai and Kotlin User Group Chennai. Then the contract.</p></aside>
+      </section>
+
+      <section class="slide" data-act="open" data-fx="slice" data-label="Opening" data-title="The contract" data-cue="0:55 – 1:35">
+        <div class="frame">
+          <p class="kicker reveal">The next 16 minutes</p>
+          <h2 class="compact reveal" style="--d:1">See where the time went.</h2>
+          <div class="nodes n3">
+            <article class="node reveal" style="--d:2"><em>01</em><strong>The machine</strong><span>Process, threads, and unequal cores.</span></article>
+            <div class="arr reveal" style="--d:2">→</div>
+            <article class="node reveal" style="--d:3"><em>02</em><strong>The trace</strong><span>A slice, a flame, a build you can trust.</span></article>
+            <div class="arr reveal" style="--d:3">→</div>
+            <article class="node reveal" style="--d:4"><em>03</em><strong>The question</strong><span>Ask the trace in English.</span></article>
+          </div>
+          <p class="caption reveal" style="--d:5">You leave able to point at the work. You do not leave an operating systems expert.</p>
+        </div>
+        <aside class="notes"><p class="when">0:55 – 1:35</p><p>Walk left to right. Machine, trace, question. The last line is the promise. Forty seconds, then the picture of a process.</p></aside>
+      </section>
+
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Process" data-cue="1:35 – 2:30">
+        <div class="frame">
+          <p class="kicker reveal">01 · The machine</p>
+          <h2 class="compact reveal">Your code is a guest.</h2>
+          <div class="nodes n4">
+            <article class="node reveal" style="--d:1"><em>App</em><strong>Your code</strong><span>Kotlin, Flutter, React Native. Same kernel.</span></article>
+            <div class="arr reveal" style="--d:1">→</div>
+            <article class="node reveal" style="--d:2"><em>Zygote</em><strong>A fork</strong><span>Android does not boot your process from nothing.</span></article>
+            <div class="arr reveal" style="--d:2">→</div>
+            <article class="node reveal" style="--d:3"><em>Process</em><strong>One space</strong><span>Your heap, your threads, your slices.</span></article>
+            <div class="arr reveal" style="--d:3">→</div>
+            <article class="node hot reveal" style="--d:4"><em>Scheduler</em><strong>The cores</strong><span>The kernel decides who runs.</span></article>
+          </div>
+          <p class="caption reveal" style="--d:5">A trace is a picture of this chain. Not of your source file.</p>
+        </div>
+        <aside class="notes"><p class="when">1:35 – 2:30</p><p>Left to right, one beat each. Zygote forks the app process. If asked: the process has an address space, the threads share it. Do not teach Linux. The point is that the trace is of the process, not of the repo.</p></aside>
+      </section>
+
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Threads" data-cue="2:30 – 3:50" data-ask="Are they all running at once?" data-pose="floor" data-mood="confused">
+        <div class="frame">
+          <p class="kicker reveal">02 · Who can run</p>
+          <h2 class="compact reveal">A gap is a state.</h2>
+          <div class="states reveal" style="--d:1">
+            <div class="state"><b>New</b><span>Not started.</span></div>
+            <div class="arr">→</div>
+            <div class="state"><b>Runnable</b><span>Waiting for a core.</span></div>
+            <div class="arr">→</div>
+            <div class="state run"><b>Running</b><span>On a CPU. This is the slice.</span></div>
+          </div>
+          <div class="fork reveal" style="--d:2">
+            <div class="state"><b>Sleeping</b><span>Waiting on purpose. The lane goes empty.</span></div>
+            <div class="state"><b>Blocked</b><span>A lock, a disk, or Binder. Still empty.</span></div>
+          </div>
+          <div class="cards c4 reveal" style="--d:3">
+            <article class="card"><h3>Main</h3><p>The frame. Input, traversal, draw.</p></article>
+            <article class="card"><h3>Background</h3><p>Work you moved off the main thread.</p></article>
+            <article class="card"><h3>Binder</h3><p>A pool, about 16. Other processes.</p></article>
+            <article class="card"><h3>Render</h3><p>RenderThread, since Lollipop.</p></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">2:30 – 3:50</p><p>The diagram first. Click once: Kuri appears and asks, “Are they all running at once?” This is their first entrance. Say the name. Turn to the room: Anyone? Pause. Then answer from the picture. Only Running is on a CPU. Sleeping and blocked are both gaps. You tell them apart on the thread state track. Click again to leave. Then the four names, fast. Binder pool is about 16. RenderThread arrived in Lollipop.</p></aside>
+      </section>
+
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Cores" data-cue="3:50 – 5:05" data-ask="Who picks the core?" data-pose="cores" data-mood="thinking" data-glass="1">
+        <div class="frame">
+          <p class="kicker reveal">03 · Snapdragon 8 Gen 3</p>
+          <h2 class="compact reveal">Eight cores. Three kinds.</h2>
+          <div class="chipset reveal" style="--d:1">
+            <div class="tile prime"><span>Prime · ×1</span><b>X4</b></div>
+            <div class="tile perf"><span>Perf</span><b>A720</b></div>
+            <div class="tile perf"><span>Perf</span><b>A720</b></div>
+            <div class="tile perf"><span>Perf</span><b>A720</b></div>
+            <div class="tile perf"><span>Perf</span><b>A720</b></div>
+            <div class="tile perf"><span>Perf</span><b>A720</b></div>
+            <div class="tile eff"><span>Eff</span><b>A520</b></div>
+            <div class="tile eff"><span>Eff</span><b>A520</b></div>
+          </div>
+          <p class="caption reveal" style="--d:2">Count is the picture: one prime, five performance, two efficiency. They are not the same speed. nice runs from −20 to +19. An energy-aware scheduler picks the core. The GPU is a different chip.</p>
+        </div>
+        <aside class="notes"><p class="when">3:50 – 5:05</p><p>Show the eight tiles first. Click once. Kuri asks, “Who picks the core?” Anyone? The scheduler. Energy-aware. nice is −20 to +19. Do not invent a speed ratio. The tiles are a count. Say X4, five A720, two A520. The draft said X1. It is X4 on the 8 Gen 3. CFS versus EEVDF only if asked. GPU is one sentence. Click again to leave.</p></aside>
+      </section>
+
+      <section class="slide" data-act="machine" data-fx="cut" data-label="The machine" data-title="16 milliseconds" data-cue="5:05 – 5:45" data-ask="What if we miss it?" data-pose="budget" data-mood="surprised">
+        <div class="frame impact">
+          <p class="kicker reveal">04 · The budget</p>
+          <h2 class="compact reveal">One late frame.</h2>
+          <div class="over reveal" style="--d:1">
+            <div class="fill"></div>
+            <div class="mark m8"></div>
+            <div class="mark m16"></div>
+            <div class="lab" style="left:16px">Example · 24ms</div>
+          </div>
+          <div class="scale-row reveal" style="--d:1; position:relative; height:36px">
+            <span style="position:absolute;left:0">0</span>
+            <span class="ok" style="position:absolute;left:24%;transform:translateX(-50%)">8ms · 120Hz</span>
+            <span style="position:absolute;left:48%;transform:translateX(-50%)">16ms · 60Hz</span>
+            <span class="bad" style="position:absolute;left:72%;transform:translateX(-50%)">24ms</span>
+          </div>
+          <p class="lede reveal" style="--d:2">The white line is the budget. The amber bar is a frame that missed it.</p>
+        </div>
+        <aside class="notes"><p class="when">5:05 – 5:45</p><p>Hard cut. Let the bar sit. Click once. Kuri asks, “What if we miss it?” Point at the white line, then the amber past it. The frame is late. That is jank. The bar is an example, not a trace from an app. 16ms is 60Hz. 8ms is 120Hz, only if the room is on high refresh. Click again, then the trace.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Trace types" data-cue="5:45 – 6:35">
+        <div class="frame">
+          <p class="kicker reveal">05 · Where to look</p>
+          <h2 class="compact reveal">Start with a system trace.</h2>
+          <div class="rank">
+            <div class="rank-row first reveal" style="--d:1"><b>System</b><div class="rank-bar">Jank, ANR, startup, Binder. This is Perfetto. Open this first.</div></div>
+            <div class="rank-row reveal" style="--d:2"><b>Method</b><div class="rank-bar dim">Every Java call. Heavy. A path you already suspect.</div></div>
+            <div class="rank-row reveal" style="--d:2"><b>Allocation</b><div class="rank-bar dim">Every object. The burst lines up with GC.</div></div>
+            <div class="rank-row reveal" style="--d:3"><b>Native</b><div class="rank-bar dim">Simpleperf. Samples C and C++. Cheap enough to trust.</div></div>
+            <div class="rank-row reveal" style="--d:3"><b>GPU</b><div class="rank-bar dim">When CPU time cannot explain the frame.</div></div>
+            <div class="rank-row reveal" style="--d:3"><b>Network</b><div class="rank-bar dim">Chatty calls, or main waiting on one socket.</div></div>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">5:45 – 6:35</p><p>The accent row is the only one you linger on. The others are “when the lane points there.” Fifty seconds. Do not read all six.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="6:35 – 8:25" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
+        <div class="frame">
+          <p class="kicker reveal">06 · Perfetto</p>
+          <h2 class="compact reveal">The bar past 16ms is the bug.</h2>
+          <div class="tl reveal" style="--d:1">
+            <div class="marks"><span>0</span><span>8ms</span><span class="bad">16ms</span><span>24ms</span></div>
+            <div class="tl-body">
+              <div class="deadline"></div>
+              <div class="sl s-frame" style="left:0;width:83%">Choreographer#doFrame</div>
+              <div class="sl s-measure" style="left:2%;width:56%">measure / layout</div>
+              <div class="sl s-child" style="left:4%;width:29%">View#measure</div>
+              <div class="sl s-child" style="left:34%;width:22%">View#layout</div>
+              <div class="sl s-bad" style="left:58%;width:21%">draw · late</div>
+              <div class="sl s-hw" style="left:80%;width:8%">hwui</div>
+            </div>
+          </div>
+          <div class="cards c4 reveal" style="--d:2">
+            <article class="card"><h3>Wide</h3><p>Long work. Past the line, the frame is late.</p></article>
+            <article class="card"><h3>Nested</h3><p>The child is where the parent spent the time.</p></article>
+            <article class="card"><h3>Color</h3><p>System slices, and the names you added.</p></article>
+            <article class="card"><h3>Gap</h3><p>Sleeping or blocked. Read the state above it.</p></article>
+          </div>
+          <p class="caption reveal" style="--d:3">A gap on every thread at once is stop-the-world GC. Look on HeapTaskDaemon. ui.perfetto.dev · W A S D · click a slice.</p>
+        </div>
+        <aside class="notes"><p class="when">6:35 – 8:25</p><p>Longest slide. Walk the picture first: the bar that crosses the line. Click once. Kuri holds up the glass: “Is this the slow part?” Yes. Width is time. Then nesting, color, gap. Keys only if you live-demo: WASD, click, M to mark. GC is one sentence. Names if asked: GC: DoConcurrentGC, GC: Background Concurrent Copy. Click again when you leave.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="8:25 – 9:45">
+        <div class="frame">
+          <p class="kicker reveal">07 · From the bar to the code</p>
+          <h2 class="compact reveal">The flat block is the time.</h2>
+          <div class="split">
+            <div class="stack reveal" style="--d:1">
+              <div class="flame">
+                <div class="frow"><i style="width:100%">Looper.loop</i></div>
+                <div class="frow"><i style="width:84%">Choreographer#doFrame</i></div>
+                <div class="frow"><i style="width:56%">onBindViewHolder</i><i class="dim" style="width:18%">draw</i></div>
+                <div class="frow"><i class="hot" style="width:48%">BitmapFactory.decode</i></div>
+              </div>
+              <p class="caption">Root at the top. The amber block has no children. That is the time.</p>
+            </div>
+            <div class="cards" style="grid-template-columns: 1fr;">
+              <article class="card reveal" style="--d:2"><h3>Search the string</h3><p>The name on the slice is the name in the repo.</p></article>
+              <article class="card reveal" style="--d:3"><h3>Same file in Studio</h3><p>The flame chart there can land on a source line.</p></article>
+              <article class="card reveal" style="--d:4"><h3>Or add the name</h3><p>Trace.beginSection on the path you cannot see.</p></article>
+            </div>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">8:25 – 9:45</p><p>Point at the amber block: decode on the main thread, no children. Then the right side, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is two slides ahead. Eighty seconds.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="9:45 – 10:40">
+        <div class="frame">
+          <p class="kicker reveal">08 · Android Studio</p>
+          <h2 class="compact reveal">Three doors.</h2>
+          <div class="nodes doors">
+            <article class="node hot reveal" style="--d:1"><em>Jank · ANR</em><strong>System trace</strong><span>This door is Perfetto.</span></article>
+            <article class="node reveal" style="--d:2"><em>Hot path</em><strong>Callstack sample</strong><span>Java and native. The cheap flame.</span></article>
+            <article class="node reveal" style="--d:3"><em>A leak</em><strong>Heap dump</strong><span>Retained size. A snapshot, not a timeline.</span></article>
+          </div>
+          <p class="caption reveal" style="--d:4">Method trace when you already know the Java method and can afford the slowdown. Many traces in one window: Android Performance Analyzer, a separate download.</p>
+        </div>
+        <aside class="notes"><p class="when">9:45 – 10:40</p><p>Three doors. System trace and callstack sample are the Perfetto path. A heap dump is not a timeline. APA is developer.android.com/android-performance-analyzer. One clause, then the build.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="10:40 – 12:00">
+        <div class="frame">
+          <p class="kicker reveal">09 · The build</p>
+          <h2 class="compact reveal">Debuggable builds lie.</h2>
+          <div class="split even">
+            <div class="stack">
+              <div class="pairbars" style="grid-template-columns: 1fr;">
+                <article class="pairbar bad reveal" style="--d:1"><b>Debug</b><span>For bugs. JIT is off. AOT is unwound. You measured the debugger.</span></article>
+                <article class="pairbar good reveal" style="--d:2"><b>Profileable</b><span>Android 10 and newer. Release speed. The tools can attach.</span></article>
+              </div>
+              <p class="caption reveal" style="--d:3">Keep the file and the line. Retrace the names. <span class="n">-keepattributes SourceFile,LineNumberTable</span></p>
+            </div>
+            <div class="stack reveal" style="--d:4">
+              <p class="mini">AndroidManifest.xml</p>
+              <pre><span class="k">&lt;application&gt;</span>
+  <span class="k">&lt;profileable</span>
+      <span class="f">android:shell</span>=<span class="s">"true"</span>
+      <span class="f">android:enabled</span>=<span class="s">"true"</span> /&gt;
+<span class="k">&lt;/application&gt;</span></pre>
+              <p class="caption">shell lets Perfetto and Simpleperf attach. A benchmark variant copies release, signs with debug, and stays non-debuggable.</p>
+            </div>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">10:40 – 12:00</p><p>Hard cut. Read the headline, then profileable, then the manifest. shell true is the part that matters. enabled defaults to true from API 30. The variant, if asked: initWith release, debug signing, matchingFallbacks release, isDebuggable false, isProfileable true. keepattributes keeps file and line. Method names can still be obfuscated. Retrace with the mapping file. There is no bar chart of “how much slower.” We do not have that number.</p></aside>
+      </section>
+
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="12:00 – 13:20">
+        <div class="frame">
+          <p class="kicker reveal">10 · Custom slices</p>
+          <h2 class="compact reveal">Name the work.</h2>
+          <div class="split">
+            <div class="stack reveal" style="--d:1">
+              <pre><span class="f">Trace</span>.beginSection(<span class="s">"MyAdapter#bind"</span>)
+<span class="k">try</span> {
+    bind(holder, item)
+} <span class="k">finally</span> {
+    <span class="f">Trace</span>.endSection()
+}
+
+<span class="f">Trace</span>.setCounter(<span class="s">"cache_size"</span>, cache.size.toLong())
+
+<span class="k">val</span> cookie = <span class="n">42</span>
+<span class="f">Trace</span>.beginAsyncSection(<span class="s">"ImageLoad"</span>, cookie)
+<span class="f">Trace</span>.endAsyncSection(<span class="s">"ImageLoad"</span>, cookie)</pre>
+            </div>
+            <div class="cards" style="grid-template-columns: 1fr;">
+              <article class="card reveal" style="--d:2"><h3>Class and action</h3><p>MyAdapter#bind. “bind” matches the whole app.</p></article>
+              <article class="card reveal" style="--d:3"><h3>Same thread</h3><p>begin and end pair on one thread. Across threads, use the cookie.</p></article>
+              <article class="card reveal" style="--d:4"><h3>Leave them in</h3><p>Hiding a slice behind DEBUG removes it from the build you trust.</p></article>
+            </div>
+          </div>
+          <p class="caption reveal" style="--d:5">Record only the question. Stack samples, often 100Hz, for the flame. Names longer than 127 characters throw while a trace is running.</p>
+        </div>
+        <aside class="notes"><p class="when">12:00 – 13:20</p><p>Leave this up if you live-code. Class and action. Same thread, async cookie across threads, counters become a graph. Do not gate them on DEBUG. That deletes the names from the only build whose numbers are real. Recording is one sentence: only the sources that answer the question. 127 characters only if asked.</p></aside>
+      </section>
+
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Ask the trace" data-cue="13:20 – 14:50" data-ask="Can it just tell us?" data-pose="ask" data-mood="curious" data-glass="1">
+        <div class="frame">
+          <p class="kicker reveal">11 · Ask</p>
+          <h2 class="compact reveal">English in. Findings out.</h2>
+          <div class="nodes n3 reveal" style="--d:1">
+            <article class="node"><em>You</em><strong>A question</strong><span>Why is this frame late?</span></article>
+            <div class="arr">→</div>
+            <article class="node"><em>The tool</em><strong>Perfetto SQL</strong><span>Trace Processor runs it.</span></article>
+            <div class="arr">→</div>
+            <article class="node hot"><em>You again</em><strong>A finding</strong><span>You still judge the answer.</span></article>
+          </div>
+          <blockquote class="reveal" style="--d:2">“Why is FragmentManager taking 438ms?”</blockquote>
+          <div class="chips reveal" style="--d:3">
+            <span>Jank</span><span>ANR</span><span>CPU</span><span>Locks and Binder</span><span>Memory</span>
+          </div>
+          <p class="caption reveal" style="--d:4"><span class="n">claude mcp add perfetto-mcp --scope user -- uvx perfetto-mcp</span><br><span class="n">android skills add android-profiler</span></p>
+        </div>
+        <aside class="notes"><p class="when">13:20 – 14:50</p><p>Read the FragmentManager question out loud. Click once. Kuri asks, “Can it just tell us?” Pause. Point at “You again.” It can propose a finding. You still judge it. Then the categories, not the function names. MCP is github.com/antarikshc/perfetto-mcp. Every tool wants a trace path and a process name. Tools if asked: find_slices, detect_anrs, cpu_utilization_profiler, main_thread_hotspot_slices, detect_jank_frames, thread_contention_analyzer, binder_transaction_profiler, memory_leak_detector. Google’s skill is github.com/android/skills, profilers/android-profiler. Updated 14 Oct 2026. Do not say /profile-jank. Click again to leave.</p></aside>
+      </section>
+
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The loop" data-cue="14:50 – 15:35">
+        <div class="frame">
+          <p class="kicker reveal">Leave with a loop</p>
+          <h2 class="compact reveal">Do this on Monday.</h2>
+          <div class="loop">
+            <article class="step reveal" style="--d:1"><em>01</em><strong>Profileable</strong><span>A build the tools can see.</span></article>
+            <article class="step reveal" style="--d:2"><em>02</em><strong>Record</strong><span>The smallest trace that can answer.</span></article>
+            <article class="step reveal" style="--d:3"><em>03</em><strong>Name</strong><span>Slices on the path you suspect.</span></article>
+            <article class="step reveal" style="--d:4"><em>04</em><strong>Read</strong><span>Width, children, gaps, core.</span></article>
+            <article class="step reveal" style="--d:5"><em>05</em><strong>Ask</strong><span>The question you would ask a teammate.</span></article>
+            <article class="step back reveal" style="--d:6"><em>06 · back to 02</em><strong>Again</strong><span>Fix, then record the same question.</span></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">14:50 – 15:35</p><p>Read it once. 06 is the arrow back to 02. If you are already at 15:20, read 01, 04, and 06 only, then the weekly run.</p></aside>
+      </section>
+
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The weekly run" data-cue="15:35 – 16:35">
+        <div class="frame">
+          <p class="kicker reveal">The same loop, on a schedule</p>
+          <h2 class="compact reveal">If the number moves, open a PR.</h2>
+          <div class="loop tight">
+            <article class="step reveal" style="--d:1"><em>Every week</em><strong>Benchmark</strong><span>A startup run of the app.</span></article>
+            <article class="step reveal" style="--d:2"><em>Keep</em><strong>Profile and trace</strong><span>The startup profile, and the trace from that run.</span></article>
+            <article class="step reveal" style="--d:3"><em>Track</em><strong>Compare</strong><span>This week’s number against last week.</span></article>
+          </div>
+          <p class="gate reveal" style="--d:4">When this week is not last week, wake the agent.</p>
+          <div class="loop tight">
+            <article class="step reveal" style="--d:5"><em>04</em><strong>Read the trace</strong><span>The startup benchmark already recorded it.</span></article>
+            <article class="step reveal" style="--d:6"><em>05</em><strong>The finding</strong><span>Where startup spent the extra time.</span></article>
+            <article class="step back reveal" style="--d:7"><em>06</em><strong>A pull request</strong><span>The change, opened. You still merge it.</span></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">15:35 – 16:35</p><p>This is the advanced version of Monday. A weekly startup macrobenchmark. It keeps two things: the startup profile, and the Perfetto trace from that run. The number is what you track. You pick the threshold. A small wobble stays quiet. A real move wakes the agent on that trace, the same ask-the-trace path as the previous slide. The output is a pull request, not a silent commit. You still merge. If asked: Jetpack Macrobenchmark, StartupTimingMetric, and the trace it records. Do not name a product that does the whole loop for them. One minute.</p></aside>
+      </section>
+
+      <section class="slide" data-act="close" data-fx="slice" data-label="Close" data-title="Who I am" data-cue="16:35 – 17:05">
+        <div class="frame">
+          <p class="kicker reveal">Same person</p>
+          <h2 class="compact reveal">I do this for work.</h2>
+          <div class="facts">
+            <article class="fact reveal" style="--d:1"><em>Work</em><strong>Android at Poshmark.</strong><span>Performance, architecture, and how it ships.</span></article>
+            <article class="fact reveal" style="--d:2"><em>Community</em><strong>GDG and Kotlin.</strong><span>GDG Chennai. Kotlin User Group Chennai.</span></article>
+            <article class="fact reveal" style="--d:3"><em>Find me</em><strong>shravz.dev</strong><span>github.com/shangeethsivan</span></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">16:35 – 17:05</p><p>Thirty seconds. You lead Android at Poshmark. You organize here. The links. Then the last line. If you are past 16:50, skip this and close.</p></aside>
+      </section>
+
+      <section class="slide" data-act="close" data-fx="wash" data-label="Close" data-title="Close" data-cue="17:05 – 17:25">
+        <div class="frame hero">
+          <div class="toprow reveal"><span>DevFest Chennai · 17 Oct 2026</span></div>
+          <div class="hero-copy">
+            <h1 class="reveal" style="--d:1">You don’t have to become<br>an <em class="accent">OS expert.</em></h1>
+            <div class="title-slice"></div>
+          </div>
+          <div class="hero-meta reveal" style="--d:2">
+            <span>shravz.dev<br>github.com/shangeethsivan</span>
+            <span class="who"><strong>Thank you.</strong>ui.perfetto.dev</span>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">17:05 – 17:25</p><p>Land the line. Do not add a tool. The next click is Kuri, not questions yet. If you are already past 17:40, skip to the curious-kid slide.</p></aside>
+      </section>
+
+      <section class="slide" data-act="close" data-fx="cut" data-label="Close" data-title="One last question" data-cue="17:25 – 17:50" data-kuri-auto="1" data-pose="finale" data-glass="1" data-beats="One last question…|Why do you keep asking why?|Because there's always something more to learn." data-moods="curious|thinking|excited">
+        <div class="frame hero"></div>
+        <aside class="notes"><p class="when">17:25 – 17:50</p><p>Kuri is already up, glass out. Line one: “One last question…” Let it sit. Click: Kuri turns, and the line is to you — “Why do you keep asking why?” Pause. Click: the smile, and “Because there’s always something more to learn.” Don’t rush it. Click again for the last slide. Optional close, only if you have the breath: We started by asking why the app was slow. That took us through the machine, the trace, and the agent. The takeaway is not Perfetto. It’s curiosity. Keep questioning.</p></aside>
+      </section>
+
+      <section class="slide" data-act="close" data-fx="wash" data-label="Close" data-title="Be the curious kid" data-cue="17:50 – 18:00" data-kuri-auto="1" data-pose="bye" data-mood="bye">
+        <div class="frame hero">
+          <div class="toprow reveal"><span>DevFest Chennai</span></div>
+          <div class="hero-copy">
+            <h1 class="reveal" style="--d:1">Be the<br><em class="accent">curious kid.</em></h1>
+            <p class="lede reveal" style="--d:2">Question everything.<br>Understand how things work.<br>Never stop learning.</p>
+          </div>
+          <div class="hero-meta reveal" style="--d:3">
+            <span>Today’s mystery was performance debugging.<br>Tomorrow, it could be anything.</span>
+            <span class="who"><strong>Thank you.</strong>shravz.dev</span>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">17:50 – 18:00</p><p>Read the three lines, then stop. Kuri is waving, glass up. If questions are inside the 18, take one. If the host kept them after, this is the end.</p></aside>
+      </section>
+
+      <div id="kuri" class="kuri" aria-hidden="true">
+        <div class="kuri-in">
+          <p class="bubble" hidden></p>
+          <svg class="kid" viewBox="0 0 240 300">
+            <ellipse cx="124" cy="286" rx="50" ry="8" fill="rgba(0,0,0,.4)"/>
+            <g class="pack">
+              <rect x="34" y="156" width="66" height="86" rx="22" fill="#243042" stroke="#1c140f" stroke-width="4"/>
+              <path d="M46 168 h42 a10 10 0 0 1 0 20 h-42 a10 10 0 0 1 0 -20z" fill="#dff56a" stroke="#1c140f" stroke-width="3"/>
+              <circle cx="56" cy="208" r="5" fill="#8aecff" stroke="#1c140f" stroke-width="2.5"/>
+              <rect x="68" y="204" width="18" height="8" rx="3" fill="#f3f0e8" stroke="#1c140f" stroke-width="2.5"/>
+            </g>
+            <g class="legs">
+              <rect x="100" y="232" width="20" height="40" rx="10" fill="#e0a85a" stroke="#1c140f" stroke-width="4"/>
+              <rect x="130" y="232" width="20" height="40" rx="10" fill="#e7b56a" stroke="#1c140f" stroke-width="4"/>
+            </g>
+            <ellipse cx="124" cy="208" rx="48" ry="42" fill="#f3c98a" stroke="#1c140f" stroke-width="4"/>
+            <path d="M62 164 C80 148 98 156 108 176" fill="none" stroke="#243042" stroke-width="9" stroke-linecap="round"/>
+            <path d="M62 164 C80 148 98 156 108 176" fill="none" stroke="#1c140f" stroke-width="3" stroke-linecap="round"/>
+            <g class="arm-rest">
+              <path d="M164 198 C178 212 176 230 168 240" fill="none" stroke="#1c140f" stroke-width="18" stroke-linecap="round"/>
+              <path d="M164 198 C178 212 176 230 168 240" fill="none" stroke="#f3c98a" stroke-width="11" stroke-linecap="round"/>
+            </g>
+            <g class="head">
+              <path d="M108 52 C104 22 132 16 128 50" fill="#e7b56a" stroke="#1c140f" stroke-width="4" stroke-linejoin="round"/>
+              <ellipse cx="122" cy="108" rx="74" ry="66" fill="#f6d7a8" stroke="#1c140f" stroke-width="4"/>
+              <ellipse cx="72" cy="124" rx="11" ry="7" fill="#ff8a6a"/>
+              <ellipse cx="172" cy="124" rx="11" ry="7" fill="#ff8a6a"/>
+              <g class="eye" transform="translate(92 104)">
+                <ellipse cx="0" cy="0" rx="20" ry="22" fill="#fffdf8" stroke="#1c140f" stroke-width="4"/>
+                <ellipse class="pupil" cx="2" cy="3" rx="9" ry="10" fill="#1c140f"/>
+                <circle cx="7" cy="-4" r="3.6" fill="#dff56a"/>
+              </g>
+              <g class="eye" transform="translate(154 104)">
+                <ellipse cx="0" cy="0" rx="20" ry="22" fill="#fffdf8" stroke="#1c140f" stroke-width="4"/>
+                <ellipse class="pupil" cx="2" cy="3" rx="9" ry="10" fill="#1c140f"/>
+                <circle cx="7" cy="-4" r="3.6" fill="#dff56a"/>
+              </g>
+              <path class="brow" d="M66 62 Q86 50 106 62" fill="none" stroke="#1c140f" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="brow" d="M140 62 Q160 50 180 62" fill="none" stroke="#1c140f" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="m-smile" d="M100 146 Q122 166 146 146" fill="none" stroke="#1c140f" stroke-width="4.5" stroke-linecap="round"/>
+              <path class="m-big" d="M94 142 Q122 174 152 142" fill="none" stroke="#1c140f" stroke-width="5" stroke-linecap="round"/>
+              <path class="m-flat" d="M108 150 H140" fill="none" stroke="#1c140f" stroke-width="4.5" stroke-linecap="round"/>
+              <ellipse class="m-o" cx="122" cy="152" rx="9" ry="11" fill="#1c140f"/>
+              <g class="arm-scratch">
+                <path d="M186 168 C216 148 222 88 158 46" fill="none" stroke="#1c140f" stroke-width="18" stroke-linecap="round"/>
+                <path d="M186 168 C216 148 222 88 158 46" fill="none" stroke="#f6d7a8" stroke-width="10" stroke-linecap="round"/>
+                <path d="M146 44 l-8 -8 M156 38 v-11 M166 42 l7 -8" fill="none" stroke="#1c140f" stroke-width="3.5" stroke-linecap="round"/>
+              </g>
+            </g>
+            <g class="arm-glass">
+              <path d="M158 192 C176 176 186 164 184 150" fill="none" stroke="#1c140f" stroke-width="18" stroke-linecap="round"/>
+              <path d="M158 192 C176 176 186 164 184 150" fill="none" stroke="#f3c98a" stroke-width="11" stroke-linecap="round"/>
+              <circle cx="184" cy="146" r="10" fill="#f3c98a" stroke="#1c140f" stroke-width="4"/>
+              <g class="glass">
+                <line x1="192" y1="140" x2="208" y2="112" stroke="#1c140f" stroke-width="7" stroke-linecap="round"/>
+                <circle cx="216" cy="96" r="26" fill="#f3f7c4" stroke="#1c140f" stroke-width="6"/>
+                <circle cx="216" cy="96" r="16" fill="none" stroke="#1c140f" stroke-width="2" opacity="0.45"/>
+                <path d="M202 86 Q214 76 226 86" fill="none" stroke="#fffdf8" stroke-width="3.5" stroke-linecap="round"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <div class="hud">
+        <div><b id="idx">01</b><span class="sep">/</span><span id="total">29</span></div>
+        <div class="rail" id="rail"></div>
+        <div class="hud-act" id="actlabel">Opening</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="notesdock"></div>
+
+  <div id="presenter">
+    <div class="p-main">
+      <p class="kicker">Now</p>
+      <h2 id="p-title"></h2>
+      <div id="p-notes"></div>
+    </div>
+    <div class="p-side">
+      <p class="kicker">Next</p>
+      <h3 id="p-next"></h3>
+      <p id="p-cue"></p>
+      <p id="p-count" class="quiet" style="margin-top:12px"></p>
+      <p id="p-clock"></p>
+      <p class="caption" style="margin-top:28px">Arrows move the audience window too. N is notes on the projector. Leave N off.</p>
+    </div>
+  </div>
+
+  <div id="help" hidden>
+    <div class="help-card">
+      <p class="kicker">Keys</p>
+      <ul>
+        <li><b>→</b> space page down — next. On a Kuri slide, the first press asks the question.</li>
+        <li><b>←</b> page up — back</li>
+        <li><b>N</b> — notes on this screen, for rehearsal</li>
+        <li><b>P</b> — presenter window</li>
+        <li><b>O</b> — overview</li>
+        <li><b>F</b> — fullscreen</li>
+        <li><b>Home / End</b> — first and last</li>
+      </ul>
+      <p>? or esc closes this. The projector should stay on the deck.</p>
+    </div>
+  </div>
+
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const total = slides.length;
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const bc = ("BroadcastChannel" in window) ? new BroadcastChannel("android-perf-talk") : null;
+    const params = new URLSearchParams(location.search);
+    const isPresenter = params.has("presenter");
+    let index = 1;
+    let busy = false;
+    let queued = 0;
+    let anims = [];
+    let kuriBeat = 0;
+
+    function kuriBeats(slide) {
+      return (slide.dataset.beats || slide.dataset.ask || "").split("|").map((s) => s.trim()).filter(Boolean);
+    }
+
+    function hideKuri() {
+      const el = document.getElementById("kuri");
+      el.className = "kuri";
+      el.setAttribute("aria-hidden", "true");
+      const bubble = el.querySelector(".bubble");
+      bubble.hidden = true;
+      bubble.textContent = "";
+      kuriBeat = 0;
+    }
+
+    function revealKuri(slide, beatIndex) {
+      const beats = kuriBeats(slide);
+      const moods = (slide.dataset.moods || slide.dataset.mood || "curious").split("|");
+      const el = document.getElementById("kuri");
+      const bubble = el.querySelector(".bubble");
+      const text = beats[beatIndex] || "";
+      bubble.textContent = text;
+      bubble.hidden = !text;
+      const mood = (moods[Math.min(beatIndex, moods.length - 1)] || "curious").trim();
+      el.className = "kuri on pose-" + (slide.dataset.pose || "floor") + " mood-" + mood;
+      if (slide.dataset.glass === "1" || mood === "thinking" || mood === "curious" || mood === "bye") el.classList.add("with-glass");
+      el.setAttribute("aria-hidden", "false");
+      kuriBeat = beatIndex + 1;
+    }
+
+    function mountKuri(slide) {
+      hideKuri();
+      if (!slide || document.body.classList.contains("overview")) return;
+      if (slide.dataset.kuriAuto === "1") revealKuri(slide, 0);
+    }
+
+    function publish() {
+      try { localStorage.setItem("apt-slide", String(index)); } catch (e) {}
+      if (bc) bc.postMessage({ n: index, beat: kuriBeat });
+      history.replaceState(null, "", "#" + index);
+    }
+
+    slides.forEach((s, i) => { s.dataset.n = String(i + 1); });
+    const rail = document.getElementById("rail");
+    for (let i = 0; i < total; i++) {
+      const t = document.createElement("i");
+      t.className = "tick";
+      rail.appendChild(t);
+    }
+
+    function fit() {
+      if (document.body.classList.contains("overview") || document.body.classList.contains("presenter")) return;
+      const vp = document.querySelector(".viewport");
+      const s = Math.min(vp.clientWidth / 1920, vp.clientHeight / 1080);
+      const x = Math.round((vp.clientWidth - 1920 * s) / 2);
+      const y = Math.round((vp.clientHeight - 1080 * s) / 2);
+      const deck = document.getElementById("deck");
+      deck.style.transformOrigin = "top left";
+      deck.style.transform = "translate(" + x + "px, " + y + "px) scale(" + s + ")";
+    }
+
+    function layoutOverview() {
+      document.querySelectorAll(".frame").forEach((frame) => { frame.style.transform = ""; });
+    }
+
+    function setOverview(on) {
+      document.body.classList.toggle("overview", on);
+      document.querySelectorAll(".frame").forEach((f) => { f.style.transform = ""; });
+      if (on) requestAnimationFrame(() => requestAnimationFrame(layoutOverview));
+      else fit();
+    }
+
+    function renderChrome() {
+      const slide = slides[index - 1];
+      document.body.dataset.act = slide.dataset.act;
+      document.getElementById("idx").textContent = String(index).padStart(2, "0");
+      document.getElementById("total").textContent = String(total).padStart(2, "0");
+      document.getElementById("actlabel").textContent = slide.dataset.label;
+      document.querySelectorAll(".tick").forEach((t, i) => t.classList.toggle("on", i < index));
+      const notes = slide.querySelector(".notes");
+      document.getElementById("notesdock").innerHTML = '<div class="label">Speaker · ' + String(index).padStart(2, "0") + "</div>" + (notes ? notes.innerHTML : "");
+      document.getElementById("p-title").textContent = slide.dataset.title || "";
+      document.getElementById("p-notes").innerHTML = notes ? notes.innerHTML : "";
+      const next = slides[index];
+      document.getElementById("p-next").textContent = next ? next.dataset.title : "Questions";
+      document.getElementById("p-cue").textContent = slide.dataset.cue || "";
+      document.getElementById("p-count").textContent = String(index).padStart(2, "0") + "  /  " + String(total).padStart(2, "0");
+    }
+
+    function apply(n, remote) {
+      n = Math.max(1, Math.min(total, n));
+      slides.forEach((s, i) => s.classList.toggle("active", i === n - 1));
+      index = n;
+      renderChrome();
+      mountKuri(slides[index - 1]);
+      if (!remote) publish();
+    }
+
+    function stopAnims() {
+      anims.forEach((a) => a.cancel());
+      anims = [];
+      busy = false;
+    }
+
+    function finish() {
+      busy = false;
+      if (queued) {
+        const d = queued;
+        queued = 0;
+        step(d);
+      }
+    }
+
+    function step(dir) {
+      const slide = slides[index - 1];
+      const beats = kuriBeats(slide);
+      if (!document.body.classList.contains("overview")) {
+        if (dir > 0 && beats.length && kuriBeat < beats.length) {
+          revealKuri(slide, kuriBeat);
+          publish();
+          return;
+        }
+        if (dir < 0 && slide.dataset.kuriAuto === "1" && kuriBeat > 1) {
+          revealKuri(slide, kuriBeat - 2);
+          publish();
+          return;
+        }
+        if (dir < 0 && slide.dataset.kuriAuto !== "1" && kuriBeat > 0) {
+          hideKuri();
+          publish();
+          return;
+        }
+      }
+      const n = index + dir;
+      if (n < 1 || n > total) return;
+      if (busy) { queued = dir; return; }
+      const fx = slides[n - 1].dataset.fx || "slice";
+      if (reduce || fx === "cut" || document.body.classList.contains("overview")) {
+        apply(n);
+        return;
+      }
+      busy = true;
+      document.body.dataset.act = slides[n - 1].dataset.act;
+      const blade = document.getElementById("blade");
+      const wash = fx === "wash";
+      blade.classList.toggle("wash", wash);
+      blade.style.top = wash ? "0px" : (140 + Math.random() * 760) + "px";
+      blade.style.height = wash ? "100%" : "16px";
+      blade.style.transformOrigin = "left center";
+      const grow = blade.animate(
+        [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
+        { duration: wash ? 340 : 200, easing: "cubic-bezier(.7,0,.2,1)", fill: "forwards" }
+      );
+      anims = [grow];
+      grow.onfinish = () => {
+        apply(n);
+        blade.style.transformOrigin = "right center";
+        const shrink = blade.animate(
+          [{ transform: "scaleX(1)" }, { transform: "scaleX(0)" }],
+          { duration: wash ? 420 : 240, easing: "cubic-bezier(.16,1,.3,1)", fill: "forwards" }
+        );
+        anims = [shrink];
+        shrink.onfinish = finish;
+      };
+    }
+
+    function jump(n, remote) {
+      queued = 0;
+      stopAnims();
+      const blade = document.getElementById("blade");
+      blade.style.transform = "scaleX(0)";
+      apply(n, remote);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      const help = document.getElementById("help");
+      if (e.key === "?" || (e.key === "/" && e.shiftKey)) {
+        if (!isPresenter) help.hidden = !help.hidden;
+        return;
+      }
+      if (e.key === "Escape") {
+        if (!help.hidden) { help.hidden = true; return; }
+        if (document.body.classList.contains("overview")) { setOverview(false); return; }
+      }
+      if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); step(1); }
+      else if (["ArrowLeft", "PageUp", "Backspace"].includes(e.key)) { e.preventDefault(); step(-1); }
+      else if (e.key === "Home") jump(1);
+      else if (e.key === "End") jump(total);
+      else if ((e.key === "o" || e.key === "O") && !isPresenter) setOverview(!document.body.classList.contains("overview"));
+      else if ((e.key === "n" || e.key === "N") && !isPresenter) {
+        document.body.classList.toggle("notes-on");
+        requestAnimationFrame(fit);
+      } else if ((e.key === "f" || e.key === "F") && !isPresenter) {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen();
+        else document.exitFullscreen();
+      } else if ((e.key === "p" || e.key === "P") && !isPresenter) {
+        const url = new URL(location.href);
+        url.searchParams.set("presenter", "1");
+        url.hash = String(index);
+        window.open(url.toString(), "apt-presenter", "width=1440,height=900");
+      }
+    });
+
+    document.getElementById("deck").addEventListener("click", (e) => {
+      if (document.body.classList.contains("overview")) {
+        const slide = e.target.closest(".slide");
+        if (!slide) return;
+        setOverview(false);
+        jump(Number(slide.dataset.n));
+        return;
+      }
+      if (e.target.closest("a, button, pre")) return;
+      const r = document.getElementById("deck").getBoundingClientRect();
+      const x = e.clientX - r.left;
+      step(x < r.width * 0.22 ? -1 : 1);
+    });
+
+    let touchX = 0;
+    document.getElementById("deck").addEventListener("touchstart", (e) => { touchX = e.changedTouches[0].clientX; }, { passive: true });
+    document.getElementById("deck").addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 48) step(dx < 0 ? 1 : -1);
+    }, { passive: true });
+
+    window.addEventListener("resize", () => {
+      if (document.body.classList.contains("overview")) layoutOverview();
+      else fit();
+    });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", () => {
+        if (!document.body.classList.contains("overview")) fit();
+      });
+    }
+
+    if (bc) bc.onmessage = (e) => {
+      const data = e.data;
+      if (!data || !data.n) return;
+      if (data.n !== index) {
+        jump(data.n, true);
+        if (data.beat > 1) revealKuri(slides[data.n - 1], data.beat - 1);
+        return;
+      }
+      if (!data.beat) hideKuri();
+      else revealKuri(slides[index - 1], data.beat - 1);
+    };
+    window.addEventListener("storage", (e) => {
+      if (e.key === "apt-slide" && e.newValue && Number(e.newValue) !== index) jump(Number(e.newValue));
+    });
+
+    function tickClock() {
+      document.getElementById("p-clock").textContent = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+    tickClock();
+    setInterval(tickClock, 10000);
+
+    if (isPresenter) document.body.classList.add("presenter");
+
+    const fromHash = Number(location.hash.replace("#", ""));
+    let start = fromHash || 1;
+    if (isPresenter) {
+      const stored = Number(localStorage.getItem("apt-slide"));
+      if (stored) start = stored;
+    }
+    apply(start, true);
+    fit();
+
+    const field = document.getElementById("field");
+    const ctx = field.getContext("2d");
+    const laneYs = [96, 188, 280, 390, 520, 640, 760, 880, 990];
+    const palettes = {
+      open: ["rgba(223,245,106,.5)", "rgba(243,240,232,.22)", "rgba(190,210,90,.32)"],
+      machine: ["rgba(223,245,106,.5)", "rgba(243,240,232,.2)", "rgba(190,210,90,.32)"],
+      trace: ["rgba(138,236,255,.55)", "rgba(223,245,106,.28)", "rgba(243,240,232,.2)"],
+      ai: ["rgba(255,106,60,.62)", "rgba(255,196,140,.34)", "rgba(243,240,232,.2)"],
+      close: ["rgba(223,245,106,.55)", "rgba(243,240,232,.24)", "rgba(255,106,60,.28)"]
+    };
+    function birth(fromLeft) {
+      const w = 46 + Math.random() * 320;
+      return {
+        y: laneYs[(Math.random() * laneYs.length) | 0],
+        w,
+        h: 7 + Math.random() * 10,
+        x: fromLeft ? -w - Math.random() * 280 : Math.random() * 1920,
+        speed: 16 + Math.random() * 42
+      };
+    }
+    const pieces = Array.from({ length: 46 }, () => birth(false));
+    let last = performance.now();
+    function paint(now) {
+      if (reduce || document.hidden || document.body.classList.contains("overview") || document.body.classList.contains("presenter")) {
+        requestAnimationFrame(paint);
+        return;
+      }
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      const colors = palettes[document.body.dataset.act] || palettes.open;
+      ctx.clearRect(0, 0, 1920, 1080);
+      ctx.strokeStyle = "rgba(243,240,232,0.05)";
+      ctx.lineWidth = 1;
+      laneYs.forEach((y) => {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(1920, y);
+        ctx.stroke();
+      });
+      pieces.forEach((p) => {
+        if (!p.color || Math.random() < 0.004) p.color = colors[(Math.random() * colors.length) | 0];
+        p.x += p.speed * dt;
+        if (p.x > 2000) Object.assign(p, birth(true), { color: colors[(Math.random() * colors.length) | 0] });
+        ctx.fillStyle = p.color;
+        ctx.fillRect(p.x, p.y - p.h / 2, p.w, p.h);
+      });
+      const px = (now / 22) % 2060 - 80;
+      ctx.fillStyle = "rgba(243,240,232,0.14)";
+      ctx.fillRect(px, 0, 2, 1080);
+      requestAnimationFrame(paint);
+    }
+    requestAnimationFrame(paint);
+  </script>
+</body>
+</html>
