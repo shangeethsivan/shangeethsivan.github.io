@@ -1300,7 +1300,7 @@
       </section>
 
       <!-- 04 · Process -->
-      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Process" data-cue="1:45 – 2:35">
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Process" data-cue="1:45 – 2:30">
         <div class="frame">
           <p class="kicker reveal">01 · The machine</p>
           <h2 class="reveal">Your code is a guest.</h2>
@@ -1373,11 +1373,11 @@
           </svg>
           <p class="caption reveal" style="--d:6">A trace is a picture of this chain. Not of your source file.</p>
         </div>
-        <aside class="notes"><p class="when">1:45 – 2:35</p><p>Left to right, one beat each. Zygote forks the app process. If asked: the process has an address space, the threads share it. Do not teach Linux. The point is that the trace is of the process, not of the repo.</p></aside>
+        <aside class="notes"><p class="when">1:45 – 2:30</p><p>Left to right, one beat each. Zygote forks the app process. If asked: the process has an address space, the threads share it. Do not teach Linux. The point is that the trace is of the process, not of the repo.</p></aside>
       </section>
 
       <!-- 05 · Threads -->
-      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Threads" data-cue="2:35 – 3:50" data-ask="Are they all running at once?" data-pose="floor" data-mood="confused">
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Threads" data-cue="2:30 – 3:40" data-ask="Are they all running at once?" data-pose="floor" data-mood="confused">
         <div class="frame">
           <p class="kicker reveal">02 · Who can run</p>
           <h2 class="reveal">A gap is a state.</h2>
@@ -1439,11 +1439,11 @@
             <article class="card"><h3><span class="swatch" style="background:#34a853"></span>Render</h3><p>RenderThread, since Lollipop.</p></article>
           </div>
         </div>
-        <aside class="notes"><p class="when">2:35 – 3:50</p><p>The diagram first. The black dot walks the states. Click once: Kuri appears and asks, “Are they all running at once?” This is their first entrance. Say the name. Turn to the room: Anyone? Pause. Then answer from the picture. Only Running is on a CPU. Sleeping and blocked are both gaps. Point at the strip: the slice lane is empty, the state track tells you which gap it is. Click again to leave. Then the four names, fast. Binder pool is about 16. RenderThread arrived in Lollipop.</p></aside>
+        <aside class="notes"><p class="when">2:30 – 3:40</p><p>The diagram first. The black dot walks the states. Click once: Kuri appears and asks, “Are they all running at once?” This is their first entrance. Say the name. Turn to the room: Anyone? Pause. Then answer from the picture. Only Running is on a CPU. Sleeping and blocked are both gaps. Point at the strip: the slice lane is empty, the state track tells you which gap it is. Click again to leave. Then the four names, fast. Binder pool is about 16. RenderThread arrived in Lollipop.</p></aside>
       </section>
 
       <!-- 06 · Cores -->
-      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Cores" data-cue="3:50 – 4:50" data-ask="Who picks the core?" data-pose="cores" data-mood="thinking" data-glass="1">
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Cores" data-cue="3:40 – 4:40" data-ask="Who picks the core?" data-pose="cores" data-mood="thinking" data-glass="1">
         <div class="frame">
           <p class="kicker reveal">03 · Snapdragon 8 Gen 3</p>
           <h2 class="reveal">Eight cores. Three kinds.</h2>
@@ -1497,13 +1497,68 @@
           </svg>
           <p class="caption reveal" style="--d:2">Count is the picture: one prime, five performance, two efficiency. The GPU is a different chip.</p>
         </div>
-        <aside class="notes"><p class="when">3:50 – 4:50</p><p>Show the eight tiles first. Click once. Kuri asks, “Who picks the core?” Anyone? The kernel scheduler. CFS, the Completely Fair Scheduler, shares CPU time between runnable threads. EAS, Energy Aware Scheduling, sits on top and picks a big or little core. Kernels from 6.6 on replace CFS with EEVDF, Earliest Eligible Virtual Deadline First; same job, newer rules. nice is the Linux priority, −20 to +19. Lower means more important, so more CPU time. Android’s presets sit on that scale: THREAD_PRIORITY_DISPLAY is −4, DEFAULT is 0, BACKGROUND is +10. It is a hint, not a guarantee. Do not invent a speed ratio. The tiles are a count. Say X4, five A720, two A520. The draft said X1. It is X4 on the 8 Gen 3. CFS versus EEVDF only if asked. GPU is one sentence. Click again to leave.</p></aside>
+        <aside class="notes"><p class="when">3:40 – 4:40</p><p>Show the eight tiles first. Click once. Kuri asks, “Who picks the core?” Anyone? The kernel scheduler. CFS, the Completely Fair Scheduler, shares CPU time between runnable threads. EAS, Energy Aware Scheduling, sits on top and picks a big or little core. Kernels from 6.6 on replace CFS with EEVDF, Earliest Eligible Virtual Deadline First; same job, newer rules. nice is the Linux priority, −20 to +19. Lower means more important, so more CPU time. Android’s presets sit on that scale: THREAD_PRIORITY_DISPLAY is −4, DEFAULT is 0, BACKGROUND is +10. It is a hint, not a guarantee. Do not invent a speed ratio. The tiles are a count. Say X4, five A720, two A520. The draft said X1. It is X4 on the 8 Gen 3. CFS versus EEVDF only if asked. GPU is one sentence. Click again to leave.</p></aside>
+      </section>
+
+      <!-- Event loop -->
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Event loop" data-cue="4:40 – 5:20">
+        <div class="frame">
+          <p class="kicker reveal">04 · The main thread</p>
+          <h2 class="reveal">One loop. One frame every 16.67 ms.</h2>
+          <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 470" role="img" aria-label="The main thread runs an event loop. The display refreshes every 16.67 milliseconds. Your code blocks the loop, the next frame misses its deadline, and the screen shows the old frame again: jank.">
+            <!-- queue -->
+            <text x="0" y="30" class="lab">MESSAGE QUEUE</text>
+            <g class="rise" style="--d:2"><rect x="0" y="50" width="180" height="46" rx="23" fill="#e8f0fe" stroke="#8ab4f8"/><text x="90" y="79" text-anchor="middle">input</text></g>
+            <g class="rise" style="--d:3"><rect x="0" y="106" width="180" height="46" rx="23" fill="#e8f0fe" stroke="#8ab4f8"/><text x="90" y="135" text-anchor="middle">animation</text></g>
+            <g class="rise" style="--d:4"><rect x="0" y="162" width="180" height="46" rx="23" fill="#e8f0fe" stroke="#8ab4f8"/><text x="90" y="191" text-anchor="middle">measure · layout</text></g>
+            <g class="rise" style="--d:5"><rect x="0" y="218" width="180" height="46" rx="23" fill="#e8f0fe" stroke="#8ab4f8"/><text x="90" y="247" text-anchor="middle">draw</text></g>
+            <g class="rise" style="--d:6"><rect x="0" y="274" width="180" height="46" rx="23" fill="#fce8e6" stroke="#ea4335" stroke-width="2" class="pulse"/><text x="90" y="303" text-anchor="middle" class="hot-t">your slow code</text></g>
+            <path d="M190 185 H232" class="wire draw" pathLength="1" style="--d:6"/>
+            <g class="pop" style="--d:8"><path d="M224 175 L236 185 L224 195" class="chev"/></g>
+            <!-- loop -->
+            <circle cx="390" cy="185" r="140" fill="#f5f6f8" stroke="#1a73e8" stroke-width="5" stroke-dasharray="14 10" class="pop" style="--d:3"/>
+            <text x="390" y="176" text-anchor="middle" class="t" style="font-size:30px">main thread</text>
+            <text x="390" y="206" text-anchor="middle" class="sub" style="font-size:20px">Looper: take one message,</text>
+            <text x="390" y="232" text-anchor="middle" class="sub" style="font-size:20px">run it, take the next</text>
+            <circle r="14" fill="#1a73e8" stroke="#fff" stroke-width="4"><animateMotion dur="2.4s" begin="1s" repeatCount="indefinite" path="M390 45 A140 140 0 1 1 389.9 45"/></circle>
+            <text x="390" y="365" text-anchor="middle" class="lab">ONE THING AT A TIME</text>
+            <path d="M540 185 H604" class="wire draw" pathLength="1" style="--d:8"/>
+            <g class="pop" style="--d:10"><path d="M596 175 L608 185 L596 195" class="chev"/></g>
+
+            <!-- timeline -->
+            <text x="640" y="30" class="lab">SCREEN · 60 Hz</text>
+            <g stroke="#c4c9d2" stroke-width="2" stroke-dasharray="6 7"><line x1="640" y1="44" x2="640" y2="410"/><line x1="890" y1="44" x2="890" y2="410"/><line x1="1140" y1="44" x2="1140" y2="410"/><line x1="1640" y1="44" x2="1640" y2="410"/></g>
+            <line x1="1390" y1="44" x2="1390" y2="410" class="deadline pulse"/>
+            <g class="lab"><text x="640" y="440" text-anchor="middle" class="lab">0</text><text x="890" y="440" text-anchor="middle" class="lab">16.7 ms</text><text x="1140" y="440" text-anchor="middle" class="lab">33.3 ms</text><text x="1390" y="440" text-anchor="middle" class="hot-t">50 ms</text><text x="1640" y="440" text-anchor="middle" class="lab">66.7 ms</text></g>
+            <g class="pop" style="--d:9"><rect x="840" y="56" width="100" height="74" rx="12" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="870" cy="93" r="13" fill="#1a73e8"/><text x="890" y="152" text-anchor="middle" style="font-size:16px">frame 1 ✓</text></g>
+            <g class="pop" style="--d:12"><rect x="1090" y="56" width="100" height="74" rx="12" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="1140" cy="93" r="13" fill="#1a73e8"/><text x="1140" y="152" text-anchor="middle" style="font-size:16px">frame 2 ✓</text></g>
+            <g class="pop" style="--d:17"><g class="shake"><rect x="1340" y="56" width="100" height="74" rx="12" fill="#fff" stroke="#d93025" stroke-width="5"/><circle cx="1390" cy="93" r="13" fill="#1a73e8"/></g><text x="1390" y="152" text-anchor="middle" class="hot-t" style="font-size:16px">frame 2 again ✕</text></g>
+            <g class="pop" style="--d:20"><rect x="1590" y="56" width="100" height="74" rx="12" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="1650" cy="93" r="13" fill="#1a73e8"/><text x="1640" y="152" text-anchor="middle" style="font-size:16px">frame 3, late</text></g>
+
+            <text x="640" y="214" class="lab">MAIN THREAD</text>
+            <rect x="640" y="226" width="1000" height="66" rx="12" fill="#fafbfc" stroke="#e3e6eb" stroke-width="2"/>
+            <g class="grow" style="--d:7"><rect x="652" y="236" width="150" height="46" rx="8" fill="#34a853"/><text x="666" y="265" class="w">frame 1 work</text></g>
+            <g class="grow" style="--d:10"><rect x="902" y="236" width="140" height="46" rx="8" fill="#34a853"/><text x="916" y="265" class="w">frame 2 work</text></g>
+            <g class="grow" style="--d:13"><rect x="1150" y="236" width="330" height="46" rx="8" fill="#ea4335"/><text x="1166" y="265" class="w">your code blocks the loop</text></g>
+            <g class="grow" style="--d:18"><rect x="1486" y="236" width="120" height="46" rx="8" fill="#81c995"/><text x="1498" y="265">frame 3</text></g>
+            <g class="pop" style="--d:16"><circle cx="1390" cy="330" r="16" fill="#d93025"/><path d="M1383 323 L1397 337 M1397 323 L1383 337" stroke="#fff" stroke-width="4" stroke-linecap="round"/><text x="1414" y="336" class="hot-t" style="font-size:18px;font-weight:600">deadline missed → jank</text></g>
+            <text x="640" y="378" class="sub" style="font-size:20px">Every 16.67 ms the display asks for a frame. Android has to finish the work in time.</text>
+            <rect x="640" y="226" width="3" height="66" fill="#0f1115" opacity=".35"><animate attributeName="x" from="640" to="1640" dur="5s" begin="1s" repeatCount="indefinite"/></rect>
+          </svg>
+          <div class="cards c4">
+            <article class="card reveal" style="--d:3"><h3><span class="badge">1</span>Event loop</h3><p>The main thread runs one message at a time.</p></article>
+            <article class="card reveal" style="--d:5"><h3><span class="badge">2</span>16.67 ms</h3><p>At 60 Hz the display refreshes every 16.67 ms.</p></article>
+            <article class="card reveal" style="--d:7"><h3><span class="badge">3</span>Blocked</h3><p>Your code holds the loop, so frame work waits.</p></article>
+            <article class="card reveal" style="--d:9"><h3><span class="badge">4</span>Jank</h3><p>The frame misses its deadline. The old one shows again.</p></article>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">4:40 – 5:20</p><p>Say it in four beats, left to right. One: Android runs an event loop on the main thread. Input, animation, layout, draw, and your code all wait in one queue, and the Looper runs them one at a time. Two: at 60 Hz the display refreshes every 16.67 milliseconds, and Android coordinates the work to have a new frame ready for each refresh. Three: if your code blocks the main thread, the frame work behind it waits. Four: if that frame misses its presentation deadline, the screen shows the old frame again. That is jank. Point at “frame 2 again”. The next slide puts a number on it.</p></aside>
       </section>
 
       <!-- 07 · 16 ms -->
-      <section class="slide" data-act="machine" data-fx="cut" data-label="The machine" data-title="16 milliseconds" data-cue="4:50 – 5:30" data-ask="What if we miss it?" data-pose="budget" data-mood="surprised">
+      <section class="slide" data-act="machine" data-fx="cut" data-label="The machine" data-title="16 milliseconds" data-cue="5:20 – 5:55" data-ask="What if we miss it?" data-pose="budget" data-mood="surprised">
         <div class="frame">
-          <p class="kicker reveal">04 · The budget</p>
+          <p class="kicker reveal">05 · The budget</p>
           <h2 class="reveal">One late frame.</h2>
           <svg class="ig reveal" style="--d:1; width:1480px" viewBox="0 0 1480 390" role="img" aria-label="Frames on a vsync grid. Frame 3 takes 24 milliseconds, so the screen shows frame 2 twice">
             <text x="0" y="72" class="lab">SCREEN</text>
@@ -1548,13 +1603,13 @@
           </div>
           <p class="lede reveal" style="--d:4">The black line is the budget. The red past it is a frame that missed it.</p>
         </div>
-        <aside class="notes"><p class="when">4:50 – 5:30</p><p>Hard cut. Let the bar fill and sit. Top row first: frame 3 took 24ms, so the screen showed frame 2 twice. That repeat is the stutter people feel. Click once. Kuri asks, “What if we miss it?” Point at the black line, then the red past it. The frame is late. That is jank. The bar is an example, not a trace from an app. 16ms is 60Hz. 8ms is 120Hz, only if the room is on high refresh. Click again, then the trace.</p></aside>
+        <aside class="notes"><p class="when">5:20 – 5:55</p><p>Hard cut. Let the bar fill and sit. Top row first: frame 3 took 24ms, so the screen showed frame 2 twice. That repeat is the stutter people feel. Click once. Kuri asks, “What if we miss it?” Point at the black line, then the red past it. The frame is late. That is jank. The bar is an example, not a trace from an app. 16ms is 60Hz. 8ms is 120Hz, only if the room is on high refresh. Click again, then the trace.</p></aside>
       </section>
 
       <!-- 08 · Jank, frozen frame, ANR -->
-      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Jank, frozen, ANR" data-cue="5:30 – 6:05">
+      <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Jank, frozen, ANR" data-cue="5:55 – 6:30">
         <div class="frame">
-          <p class="kicker reveal">05 · Three names for late</p>
+          <p class="kicker reveal">06 · Three names for late</p>
           <h2 class="reveal">Jank. Frozen frame. ANR.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 300" role="img" aria-label="How long the main thread is stuck: past 16 milliseconds is jank, past 700 milliseconds is a frozen frame, 5 seconds without answering input is an ANR">
             <text x="70" y="36" class="lab">HOW LONG THE MAIN THREAD IS STUCK · LOG SCALE</text>
@@ -1581,13 +1636,13 @@
           </div>
           <p class="caption reveal" style="--d:8">Android vitals counts all three. The usual cause is the same: work on the main thread.</p>
         </div>
-        <aside class="notes"><p class="when">5:30 – 6:05</p><p>One line each, left to right, while the bar sweeps. Jank: a frame past its budget, the stutter from the last slide. Frozen frame: a single frame over 700ms. ANR: Application Not Responding, the main thread has not answered input for 5 seconds and the system shows the dialog. The scale is logarithmic, so the zones are not to size. Play Console’s Android vitals reports slow rendering, frozen frames, and ANR rate. All three start as work on the main thread, which is what the trace shows you next.</p></aside>
+        <aside class="notes"><p class="when">5:55 – 6:30</p><p>One line each, left to right, while the bar sweeps. Jank: a frame past its budget, the stutter from the last slide. Frozen frame: a single frame over 700ms. ANR: Application Not Responding, the main thread has not answered input for 5 seconds and the system shows the dialog. The scale is logarithmic, so the zones are not to size. Play Console’s Android vitals reports slow rendering, frozen frames, and ANR rate. All three start as work on the main thread, which is what the trace shows you next.</p></aside>
       </section>
 
       <!-- 09 · Trace types -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Trace types" data-cue="6:05 – 6:45">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Trace types" data-cue="6:30 – 7:10">
         <div class="frame">
-          <p class="kicker reveal">06 · Where to look</p>
+          <p class="kicker reveal">07 · Where to look</p>
           <h2 class="reveal">Start with a system trace.</h2>
           <div class="tt-hero reveal" style="--d:1">
             <svg class="ig" viewBox="0 0 200 140">
@@ -1622,13 +1677,13 @@
             </article>
           </div>
         </div>
-        <aside class="notes"><p class="when">6:05 – 6:45</p><p>The big green card is the only one you linger on. The others are “when the lane points there.” Forty seconds. Do not read all six.</p></aside>
+        <aside class="notes"><p class="when">6:30 – 7:10</p><p>The big green card is the only one you linger on. The others are “when the lane points there.” Forty seconds. Do not read all six.</p></aside>
       </section>
 
       <!-- 11 · Which profiler -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="6:45 – 7:25">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="7:10 – 7:50">
         <div class="frame">
-          <p class="kicker reveal">07 · Android Studio</p>
+          <p class="kicker reveal">08 · Android Studio</p>
           <h2 class="reveal">Two doors.</h2>
           <div class="doors" style="grid-template-columns: repeat(2, minmax(0, 520px)); justify-content: center; gap: 120px">
             <article class="door hot reveal" style="--d:1">
@@ -1656,13 +1711,13 @@
           </div>
           <p class="caption reveal" style="--d:4">Method trace when you already know the Java method and can afford the slowdown. Many traces in one window: Android Performance Analyzer, a separate download.</p>
         </div>
-        <aside class="notes"><p class="when">6:45 – 7:25</p><p>Two doors. The red one opens: a system trace with call stack sampling, both in one Perfetto recording. The timeline tells you when, the flame tells you which code. A heap dump is not a timeline. APA is developer.android.com/android-performance-analyzer. One clause, then the build.</p></aside>
+        <aside class="notes"><p class="when">7:10 – 7:50</p><p>Two doors. The red one opens: a system trace with call stack sampling, both in one Perfetto recording. The timeline tells you when, the flame tells you which code. A heap dump is not a timeline. APA is developer.android.com/android-performance-analyzer. One clause, then the build.</p></aside>
       </section>
 
       <!-- 12 · The build -->
-      <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="7:25 – 8:30">
+      <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="7:50 – 8:50">
         <div class="frame">
-          <p class="kicker reveal">08 · The build</p>
+          <p class="kicker reveal">09 · The build</p>
           <h2 class="reveal">Debuggable builds lie.</h2>
           <div class="split even">
             <div class="stack">
@@ -1689,13 +1744,13 @@
             </div>
           </div>
         </div>
-        <aside class="notes"><p class="when">7:25 – 8:30</p><p>Hard cut. Read the headline, then profileable, then the manifest. shell true is the part that matters. enabled defaults to true from API 30. The variant, if asked: initWith release, debug signing, matchingFallbacks release, isDebuggable false, isProfileable true. keepattributes keeps file and line. Method names can still be obfuscated. Retrace with the mapping file. There is no bar chart of “how much slower.” We do not have that number.</p></aside>
+        <aside class="notes"><p class="when">7:50 – 8:50</p><p>Hard cut. Read the headline, then profileable, then the manifest. shell true is the part that matters. enabled defaults to true from API 30. The variant, if asked: initWith release, debug signing, matchingFallbacks release, isDebuggable false, isProfileable true. keepattributes keeps file and line. Method names can still be obfuscated. Retrace with the mapping file. There is no bar chart of “how much slower.” We do not have that number.</p></aside>
       </section>
 
       <!-- 09 · Slices -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="8:30 – 9:50" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="8:50 – 10:05" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
         <div class="frame">
-          <p class="kicker reveal">09 · Perfetto</p>
+          <p class="kicker reveal">10 · Perfetto</p>
           <h2 class="reveal">The bar past 16ms is the bug.</h2>
           <svg class="ig reveal" style="--d:1; width:1480px" viewBox="0 0 1480 380" role="img" aria-label="A Perfetto timeline: doFrame with nested measure, layout and a late draw slice past the 16 millisecond line">
             <rect x="0" y="0" width="1480" height="380" rx="22" class="panel" style="fill:#fff"/>
@@ -1724,13 +1779,13 @@
           </div>
           <p class="caption reveal" style="--d:3">A gap on every thread at once is stop-the-world GC. Look on HeapTaskDaemon. <span class="n">ui.perfetto.dev · W A S D · click a slice</span></p>
         </div>
-        <aside class="notes"><p class="when">8:30 – 9:50</p><p>Longest slide. Walk the picture first: the bar that crosses the line. Click once. Kuri holds up the glass: “Is this the slow part?” Yes. Width is time. Then the numbered badges: 1 wide, 2 nested, 3 color, 4 the gap in the green state strip. Keys only if you live-demo: WASD, click, M to mark. GC is one sentence. Names if asked: GC: DoConcurrentGC, GC: Background Concurrent Copy. Click again when you leave.</p></aside>
+        <aside class="notes"><p class="when">8:50 – 10:05</p><p>Longest slide. Walk the picture first: the bar that crosses the line. Click once. Kuri holds up the glass: “Is this the slow part?” Yes. Width is time. Then the numbered badges: 1 wide, 2 nested, 3 color, 4 the gap in the green state strip. Keys only if you live-demo: WASD, click, M to mark. GC is one sentence. Names if asked: GC: DoConcurrentGC, GC: Background Concurrent Copy. Click again when you leave.</p></aside>
       </section>
 
       <!-- 10 · Flame and code -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="9:50 – 11:00">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="10:05 – 11:15">
         <div class="frame">
-          <p class="kicker reveal">10 · From the bar to the code</p>
+          <p class="kicker reveal">11 · From the bar to the code</p>
           <h2 class="reveal">Follow the widest block to the bottom.</h2>
           <div style="display:grid; grid-template-columns: 860px 1fr; gap: 40px; align-items:center">
             <svg class="ig reveal" style="--d:1" viewBox="0 0 860 400" role="img" aria-label="A flame chart where BitmapFactory.decode has no children">
@@ -1760,13 +1815,13 @@
             <article class="card reveal" style="--d:9"><h3><span class="badge">3</span>Or add the name</h3><p>Trace.beginSection on the path you cannot see.</p></article>
           </div>
         </div>
-        <aside class="notes"><p class="when">9:50 – 11:00</p><p>Read the headline, then trace it with your finger: the widest block, down and down, until nothing is under it. The red block: decode on the main thread, no children. That is where the time went. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is the next slide. Seventy seconds.</p></aside>
+        <aside class="notes"><p class="when">10:05 – 11:15</p><p>Read the headline, then trace it with your finger: the widest block, down and down, until nothing is under it. The red block: decode on the main thread, no children. That is where the time went. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is the next slide. Seventy seconds.</p></aside>
       </section>
 
       <!-- 13 · Name the work -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="11:00 – 12:05">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="11:15 – 12:15">
         <div class="frame">
-          <p class="kicker reveal">11 · Custom slices</p>
+          <p class="kicker reveal">12 · Custom slices</p>
           <h2 class="reveal">Name the work.</h2>
           <div style="display:grid; grid-template-columns: 820px 1fr; gap: 40px; align-items:start">
             <div class="stack">
@@ -1800,13 +1855,13 @@
           </div>
           <p class="caption reveal" style="--d:9">Record only the question. Stack samples, often 100Hz, for the flame. Names longer than 127 characters throw while a trace is running.</p>
         </div>
-        <aside class="notes"><p class="when">11:00 – 12:05</p><p>Leave this up if you live-code. Each code block has a color; the same color is what it draws on the right. Blue is a slice, green is a counter, purple is an async slice. Class and action. Same thread, async cookie across threads, counters become a graph. Do not gate them on DEBUG. That deletes the names from the only build whose numbers are real. Recording is one sentence: only the sources that answer the question. 127 characters only if asked.</p></aside>
+        <aside class="notes"><p class="when">11:15 – 12:15</p><p>Leave this up if you live-code. Each code block has a color; the same color is what it draws on the right. Blue is a slice, green is a counter, purple is an async slice. Class and action. Same thread, async cookie across threads, counters become a graph. Do not gate them on DEBUG. That deletes the names from the only build whose numbers are real. Recording is one sentence: only the sources that answer the question. 127 characters only if asked.</p></aside>
       </section>
 
       <!-- Perfetto everywhere -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Perfetto everywhere" data-cue="12:05 – 12:50">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Perfetto everywhere" data-cue="12:15 – 13:00">
         <div class="frame">
-          <p class="kicker reveal">12 · Not just Android</p>
+          <p class="kicker reveal">13 · Not just Android</p>
           <h2 class="reveal">One timeline for almost anything.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 330" role="img" aria-label="Traces from Android, Chrome, Linux perf, ftrace, Rust, Python, PyTorch and Mesa GPU drivers all open in the Perfetto UI">
             <g fill="none" stroke="#c4c9d2" stroke-width="3">
@@ -1844,13 +1899,13 @@
           </div>
           <p class="caption reveal" style="--d:9">From Lalit Maganti’s Tracing Summit 2025 talk, “Perfetto: The Swiss Army Knife of Linux Client/Embedded Tracing”. Traces from different tools can be merged onto one timeline.</p>
         </div>
-        <aside class="notes"><p class="when">12:05 – 12:50</p><p>Pay off the title: native, Flutter, React Native, same kernel. Left and right first: Perfetto is not only Android. Chrome uses it on every platform, and the UI opens Linux perf profiles, ftrace and trace-cmd text, Rust’s tracing crate, Python through VizTracer, PyTorch profiles, and Mesa GPU driver traces. It runs in the browser; the trace stays on your machine. Then the three cards. Kotlin: nothing to do. Flutter: run in profile mode with --trace-systrace and the Dart timeline shows up on the 1.ui and 1.raster threads. React Native: the system trace has the native side; for the JS, the Hermes sampling profiler in a release build, opened in ui.perfetto.dev, for example with react-native-release-profiler. Source if asked: Lalit Maganti, founding Perfetto engineer, Tracing Summit 2025, on YouTube. Forty-five seconds.</p></aside>
+        <aside class="notes"><p class="when">12:15 – 13:00</p><p>Pay off the title: native, Flutter, React Native, same kernel. Left and right first: Perfetto is not only Android. Chrome uses it on every platform, and the UI opens Linux perf profiles, ftrace and trace-cmd text, Rust’s tracing crate, Python through VizTracer, PyTorch profiles, and Mesa GPU driver traces. It runs in the browser; the trace stays on your machine. Then the three cards. Kotlin: nothing to do. Flutter: run in profile mode with --trace-systrace and the Dart timeline shows up on the 1.ui and 1.raster threads. React Native: the system trace has the native side; for the JS, the Hermes sampling profiler in a release build, opened in ui.perfetto.dev, for example with react-native-release-profiler. Source if asked: Lalit Maganti, founding Perfetto engineer, Tracing Summit 2025, on YouTube. Forty-five seconds.</p></aside>
       </section>
 
       <!-- 14 · Ask the trace -->
-      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Ask the trace" data-cue="12:50 – 14:05" data-ask="Can it just tell us?" data-pose="ask" data-mood="curious" data-glass="1">
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Ask the trace" data-cue="13:00 – 14:10" data-ask="Can it just tell us?" data-pose="ask" data-mood="curious" data-glass="1">
         <div class="frame">
-          <p class="kicker reveal">13 · Ask</p>
+          <p class="kicker reveal">14 · Ask</p>
           <h2 class="reveal">English in. Findings out.</h2>
           <div class="ask">
             <div class="chat">
@@ -1877,13 +1932,13 @@
             </div>
           </div>
         </div>
-        <aside class="notes"><p class="when">12:50 – 14:05</p><p>Read the FragmentManager question out loud. The chat builds: your question, the SQL the tool runs, the finding. Click once. Kuri asks, “Can it just tell us?” Pause. Point at “You judge it.” It can propose a finding. You still judge it. Then the categories, not the function names. The SQL is an example of the kind of query it writes. MCP is github.com/antarikshc/perfetto-mcp. Every tool wants a trace path and a process name. Tools if asked: find_slices, detect_anrs, cpu_utilization_profiler, main_thread_hotspot_slices, detect_jank_frames, thread_contention_analyzer, binder_transaction_profiler, memory_leak_detector. Google’s skill is github.com/android/skills, profilers/android-profiler. Updated 14 Oct 2026. Do not say /profile-jank. Click again to leave.</p></aside>
+        <aside class="notes"><p class="when">13:00 – 14:10</p><p>Read the FragmentManager question out loud. The chat builds: your question, the SQL the tool runs, the finding. Click once. Kuri asks, “Can it just tell us?” Pause. Point at “You judge it.” It can propose a finding. You still judge it. Then the categories, not the function names. The SQL is an example of the kind of query it writes. MCP is github.com/antarikshc/perfetto-mcp. Every tool wants a trace path and a process name. Tools if asked: find_slices, detect_anrs, cpu_utilization_profiler, main_thread_hotspot_slices, detect_jank_frames, thread_contention_analyzer, binder_transaction_profiler, memory_leak_detector. Google’s skill is github.com/android/skills, profilers/android-profiler. Updated 14 Oct 2026. Do not say /profile-jank. Click again to leave.</p></aside>
       </section>
 
       <!-- 16 · Give it the tools -->
-      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Give it the tools" data-cue="14:05 – 14:55">
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Give it the tools" data-cue="14:10 – 15:00">
         <div class="frame">
-          <p class="kicker reveal">14 · Context, not just a prompt</p>
+          <p class="kicker reveal">15 · Context, not just a prompt</p>
           <h2 class="reveal">A prompt alone is slow. Give the agent skills.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 210" role="img" aria-label="Prompt only: the agent wanders and guesses. Prompt plus skills: a straight path to a finding">
             <text x="0" y="56" class="lab">PROMPT ONLY</text>
@@ -1909,11 +1964,11 @@
             <article class="tool reveal" style="--d:7"><em>Google · Android CLI</em><b>android</b><span>Finds and installs every official skill. Looks up Android docs too.</span><code>android skills add --all</code></article>
           </div>
         </div>
-        <aside class="notes"><p class="when">14:05 – 14:55</p><p>The point: an agent with only a prompt spends its time working out how to read a trace, which table to query, and how to write PerfettoSQL. Give it the skill and it starts at the finding. Point at the red dot, then the purple one. The highlighted card is the one to install first. Compose teams, the second card. R8 is size and optimization, one clause. Perfetto’s own skill comes from the Perfetto team and bundles trace_processor. Android Performance Analyzer’s System Profiler is in open beta, and its AI page points at the android-profiler skill. The android CLI installs all of them: android skills add --all. The perfetto-mcp from the last slide is a community project, not Google’s.</p></aside>
+        <aside class="notes"><p class="when">14:10 – 15:00</p><p>The point: an agent with only a prompt spends its time working out how to read a trace, which table to query, and how to write PerfettoSQL. Give it the skill and it starts at the finding. Point at the red dot, then the purple one. The highlighted card is the one to install first. Compose teams, the second card. R8 is size and optimization, one clause. Perfetto’s own skill comes from the Perfetto team and bundles trace_processor. Android Performance Analyzer’s System Profiler is in open beta, and its AI page points at the android-profiler skill. The android CLI installs all of them: android skills add --all. The perfetto-mcp from the last slide is a community project, not Google’s.</p></aside>
       </section>
 
       <!-- 17 · The loop -->
-      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The loop" data-cue="14:55 – 15:25">
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The loop" data-cue="15:00 – 15:30">
         <div class="frame">
           <p class="kicker reveal">Leave with a loop</p>
           <h2 class="reveal">Do this on Monday.</h2>
@@ -1947,11 +2002,11 @@
             <g class="rise" style="--d:13"><text x="566" y="207" text-anchor="end" class="t" style="font-size:40px">Again</text><text x="566" y="241" text-anchor="end" class="sub" style="font-size:24px">Back to 02.</text></g>
           </svg>
         </div>
-        <aside class="notes"><p class="when">14:55 – 15:25</p><p>Read it once, clockwise. The red dashed line is 06 going back to 02. If you are running late, read 01, 04, and 06 only, then the weekly run.</p></aside>
+        <aside class="notes"><p class="when">15:00 – 15:30</p><p>Read it once, clockwise. The red dashed line is 06 going back to 02. If you are running late, read 01, 04, and 06 only, then the weekly run.</p></aside>
       </section>
 
       <!-- 16 · The weekly run -->
-      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The weekly run" data-cue="15:25 – 16:15">
+      <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="The weekly run" data-cue="15:30 – 16:20">
         <div class="frame">
           <p class="kicker reveal"><span class="pill-ai">✦ AI workflow</span><span class="pill-wip">Work in progress at Poshmark</span>The same loop, on a schedule</p>
           <h2 class="reveal">If the number moves, open a PR.</h2>
@@ -1992,11 +2047,11 @@
           </svg>
           <p class="gate reveal" style="--d:4">When this week is not last week, wake the agent.</p>
         </div>
-        <aside class="notes"><p class="when">15:25 – 16:15</p><p>Say it plainly: this is a work in progress at Poshmark, not a finished product. The full setup is in agentic-perf-workflow.md, linked on the last slide. This is the advanced version of Monday. A weekly startup macrobenchmark. It keeps two things: the startup profile, and the Perfetto trace from that run. The number is what you track. The chart has no units on purpose. You pick the threshold. A small wobble stays quiet. A real move wakes the agent on that trace, the same ask-the-trace path as the previous slide. The output is a pull request, not a silent commit. You still merge. If asked: Jetpack Macrobenchmark, StartupTimingMetric, and the trace it records. Do not name a product that does the whole loop for them. Fifty seconds.</p></aside>
+        <aside class="notes"><p class="when">15:30 – 16:20</p><p>Say it plainly: this is a work in progress at Poshmark, not a finished product. The full setup is in agentic-perf-workflow.md, linked on the last slide. This is the advanced version of Monday. A weekly startup macrobenchmark. It keeps two things: the startup profile, and the Perfetto trace from that run. The number is what you track. The chart has no units on purpose. You pick the threshold. A small wobble stays quiet. A real move wakes the agent on that trace, the same ask-the-trace path as the previous slide. The output is a pull request, not a silent commit. You still merge. If asked: Jetpack Macrobenchmark, StartupTimingMetric, and the trace it records. Do not name a product that does the whole loop for them. Fifty seconds.</p></aside>
       </section>
 
       <!-- Results -->
-      <section class="slide" data-act="close" data-fx="slice" data-label="Results" data-title="Results" data-cue="16:15 – 17:00">
+      <section class="slide" data-act="close" data-fx="slice" data-label="Results" data-title="Results" data-cue="16:20 – 17:00">
         <div class="frame">
           <p class="kicker reveal">Results · cold start, one production app</p>
           <h2 class="reveal">The result of these investments.</h2>
@@ -2043,7 +2098,7 @@
           </div>
           <p class="caption reveal" style="--d:10">Play Console Android vitals, rounded. Every step started as a trace.</p>
         </div>
-        <aside class="notes"><p class="when">16:15 – 17:00</p><p>This is the payoff. Do not name the app, the versions or the vendors on stage. Say “a production app I work on”. Start at the red dot: an SDK began doing work at startup and p90 cold start got about 1.4 times slower. The trace showed it on the main thread. Then walk right: the SDK and WebView work moved off the main thread, the Gradle 9 upgrade, R8 rolled out in six phases ending with our own code, lazy view inflation in the feed, and Baseline Profiles. Today p90 takes about 40% less time than that peak, and is lower than before the spike. Against the worst release, slow cold starts are about three times rarer, and p99 is more than 20% lower. Keep it relative; do not say the seconds out loud. The chart is rounded, so the steps are approximate. Forty-five seconds.</p></aside>
+        <aside class="notes"><p class="when">16:20 – 17:00</p><p>This is the payoff. Do not name the app, the versions or the vendors on stage. Say “a production app I work on”. Start at the red dot: an SDK began doing work at startup and p90 cold start got about 1.4 times slower. The trace showed it on the main thread. Then walk right: the SDK and WebView work moved off the main thread, the Gradle 9 upgrade, R8 rolled out in six phases ending with our own code, lazy view inflation in the feed, and Baseline Profiles. Today p90 takes about 40% less time than that peak, and is lower than before the spike. Against the worst release, slow cold starts are about three times rarer, and p99 is more than 20% lower. Keep it relative; do not say the seconds out loud. The chart is rounded, so the steps are approximate. Forty-five seconds.</p></aside>
       </section>
 
       <!-- 17 · Close -->
@@ -2063,7 +2118,7 @@
       </section>
 
       <!-- 18 · Thank you -->
-      <section class="slide" data-act="close" data-fx="wash" data-label="Close" data-title="Thank you" data-cue="17:15 – 18:00">
+      <section class="slide" data-act="close" data-fx="wash" data-label="Close" data-title="Thank you" data-cue="17:15 – 17:55">
         <div class="frame hero">
           <div class="toprow reveal"><span>DevFest Chennai · Thank you</span></div>
           <div class="hero-copy closer">
@@ -2097,7 +2152,7 @@
             </div>
           </aside>
         </div>
-        <aside class="notes"><p class="when">17:15 – 18:00</p><p>Land it in your own words: AI is the top layer. If all we do is prompt, we will not know what is underneath, and when it breaks we cannot fix it. So stay curious and go one layer deeper, the way we did today with the kernel and the trace. Read the Karpathy line, then stop. Point at the QR: “Scan to connect with me”. It opens shravz.dev with the talks and socials. YouTube, Instagram and X are all @shravzdev. Then “Questions?” After Q&amp;A, do not end here: press → once for the Links slide. It has the QR to these slides, every source, and the two agent guides. Say “scan this one for the slides”.</p></aside>
+        <aside class="notes"><p class="when">17:15 – 17:55</p><p>Land it in your own words: AI is the top layer. If all we do is prompt, we will not know what is underneath, and when it breaks we cannot fix it. So stay curious and go one layer deeper, the way we did today with the kernel and the trace. Read the Karpathy line, then stop. Point at the QR: “Scan to connect with me”. It opens shravz.dev with the talks and socials. YouTube, Instagram and X are all @shravzdev. Then “Questions?” After Q&amp;A, do not end here: press → once for the Links slide. It has the QR to these slides, every source, and the two agent guides. Say “scan this one for the slides”.</p></aside>
       </section>
 
       <!-- Links -->
