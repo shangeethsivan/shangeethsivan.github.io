@@ -1664,7 +1664,7 @@
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="8:05 – 9:15">
         <div class="frame">
           <p class="kicker reveal">08 · From the bar to the code</p>
-          <h2 class="reveal">The flat block is the time.</h2>
+          <h2 class="reveal">Follow the widest block to the bottom.</h2>
           <div style="display:grid; grid-template-columns: 860px 1fr; gap: 40px; align-items:center">
             <svg class="ig reveal" style="--d:1" viewBox="0 0 860 400" role="img" aria-label="A flame chart where BitmapFactory.decode has no children">
               <g class="grow" style="--d:1"><rect x="0" y="0" width="860" height="62" rx="8" fill="#c6dafc"/><text x="16" y="38" style="font-size:20px">Looper.loop</text></g>
@@ -1693,7 +1693,7 @@
             <article class="card reveal" style="--d:9"><h3><span class="badge">3</span>Or add the name</h3><p>Trace.beginSection on the path you cannot see.</p></article>
           </div>
         </div>
-        <aside class="notes"><p class="when">8:05 – 9:15</p><p>Point at the red block: decode on the main thread, no children. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is two slides ahead. Seventy seconds.</p></aside>
+        <aside class="notes"><p class="when">8:05 – 9:15</p><p>Read the headline, then trace it with your finger: the widest block, down and down, until nothing is under it. The red block: decode on the main thread, no children. That is where the time went. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is two slides ahead. Seventy seconds.</p></aside>
       </section>
 
       <!-- 11 · Which profiler -->
