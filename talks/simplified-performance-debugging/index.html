@@ -1302,7 +1302,7 @@
       <!-- 04 · Process -->
       <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Process" data-cue="1:45 – 2:30">
         <div class="frame">
-          <p class="kicker reveal">01 · The machine</p>
+          <p class="kicker reveal">05 · The machine</p>
           <h2 class="reveal">Your code is a guest.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 520" role="img" aria-label="Your code, forked from Zygote, runs as one process whose threads the kernel scheduler places on cores">
             <!-- station A: your code -->
@@ -1379,7 +1379,7 @@
       <!-- 05 · Threads -->
       <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Threads" data-cue="2:30 – 3:40" data-ask="Are they all running at once?" data-pose="floor" data-mood="confused">
         <div class="frame">
-          <p class="kicker reveal">02 · Who can run</p>
+          <p class="kicker reveal">06 · Who can run</p>
           <h2 class="reveal">A gap is a state.</h2>
           <p class="mini reveal" style="--d:1">Thread states</p>
           <svg class="ig reveal" style="--d:1; margin-top:-10px" viewBox="0 0 1744 300" role="img" aria-label="Thread states: new, runnable, running, sleeping, blocked">
@@ -1445,7 +1445,7 @@
       <!-- 06 · Cores -->
       <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Cores" data-cue="3:40 – 4:40" data-ask="Who picks the core?" data-pose="cores" data-mood="thinking" data-glass="1">
         <div class="frame">
-          <p class="kicker reveal">03 · Snapdragon 8 Gen 3</p>
+          <p class="kicker reveal">07 · Snapdragon 8 Gen 3</p>
           <h2 class="reveal">Eight cores. Three kinds.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 600" role="img" aria-label="A chip with one prime core, five performance cores and two efficiency cores, and a scheduler placing threads on them">
             <g stroke="#9aa0a6" stroke-width="6" stroke-linecap="round">
@@ -1503,7 +1503,7 @@
       <!-- Event loop -->
       <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Event loop" data-cue="4:40 – 5:20">
         <div class="frame">
-          <p class="kicker reveal">04 · The main thread</p>
+          <p class="kicker reveal">08 · The main thread</p>
           <h2 class="reveal">One loop. One frame every 16.67 ms.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 470" role="img" aria-label="The main thread runs an event loop. The display refreshes every 16.67 milliseconds. Your code blocks the loop, the next frame misses its deadline, and the screen shows the old frame again: jank.">
             <!-- queue -->
@@ -1556,60 +1556,26 @@
       </section>
 
       <!-- 07 · 16 ms -->
-      <section class="slide" data-act="machine" data-fx="cut" data-label="The machine" data-title="16 milliseconds" data-cue="5:20 – 5:55" data-ask="What if we miss it?" data-pose="budget" data-mood="surprised">
+      <section class="slide" data-act="machine" data-fx="cut" data-label="The machine" data-title="16 milliseconds" data-cue="5:20 – 5:55" data-ask="What about 120 Hz phones?" data-pose="budget" data-mood="surprised">
         <div class="frame">
-          <p class="kicker reveal">05 · The budget</p>
-          <h2 class="reveal">One late frame.</h2>
-          <svg class="ig reveal" style="--d:1; width:1480px" viewBox="0 0 1480 390" role="img" aria-label="Frames on a vsync grid. Frame 3 takes 24 milliseconds, so the screen shows frame 2 twice">
-            <text x="0" y="72" class="lab">SCREEN</text>
-            <text x="0" y="262" class="lab">WORK</text>
-            <g stroke="#c4c9d2" stroke-width="2" stroke-dasharray="6 7">
-              <line x1="319" y1="10" x2="319" y2="340"/><line x1="578" y1="10" x2="578" y2="340"/><line x1="838" y1="10" x2="838" y2="340"/><line x1="1097" y1="10" x2="1097" y2="340"/><line x1="1356" y1="10" x2="1356" y2="340"/>
-            </g>
-            <text x="319" y="376" text-anchor="middle" class="lab">16ms</text><text x="578" y="376" text-anchor="middle" class="lab">32ms</text><text x="838" y="376" text-anchor="middle" class="hot-t">48ms</text><text x="1097" y="376" text-anchor="middle" class="lab">64ms</text><text x="1356" y="376" text-anchor="middle" class="lab">80ms</text>
-            <rect x="80" y="226" width="1380" height="72" rx="12" fill="#fafbfc" stroke="#e3e6eb" stroke-width="2"/>
-            <g class="grow" style="--d:2"><rect x="92" y="234" width="162" height="56" rx="8" fill="#34a853"/><text x="106" y="268" class="w">frame 1</text></g>
-            <g class="grow" style="--d:5"><rect x="352" y="234" width="162" height="56" rx="8" fill="#34a853"/><text x="366" y="268" class="w">frame 2</text></g>
-            <g class="grow" style="--d:8"><rect x="611" y="234" width="389" height="56" rx="8" fill="#ea4335"/><text x="626" y="268" class="w">frame 3 · 24ms</text></g>
-            <g class="grow" style="--d:13"><rect x="1129" y="234" width="162" height="56" rx="8" fill="#34a853"/><text x="1143" y="268" class="w">frame 4</text></g>
-            <g class="pop" style="--d:11"><circle cx="838" cy="208" r="16" fill="#d93025"/><path d="M831 201 L845 215 M845 201 L831 215" stroke="#fff" stroke-width="4" stroke-linecap="round"/><text x="862" y="214" class="hot-t">missed</text></g>
-
-            <g class="pop" style="--d:4"><rect x="254" y="20" width="130" height="96" rx="14" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="292" cy="68" r="16" fill="#1a73e8"/></g>
-            <g class="pop" style="--d:7"><rect x="513" y="20" width="130" height="96" rx="14" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="572" cy="68" r="16" fill="#1a73e8"/></g>
-            <g class="pop" style="--d:10"><g class="shake"><rect x="773" y="20" width="130" height="96" rx="14" fill="#fff" stroke="#d93025" stroke-width="5"/><circle cx="832" cy="68" r="16" fill="#1a73e8"/></g></g>
-            <g class="pop" style="--d:12"><rect x="1032" y="20" width="130" height="96" rx="14" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="1110" cy="68" r="16" fill="#1a73e8"/></g>
-            <g class="pop" style="--d:14"><rect x="1291" y="20" width="130" height="96" rx="14" fill="#fff" stroke="#0f1115" stroke-width="3"/><circle cx="1390" cy="68" r="16" fill="#1a73e8"/></g>
-            <g class="fade" style="--d:5">
-              <text x="319" y="146" text-anchor="middle" style="font-size:17px">frame 1</text>
-              <text x="578" y="146" text-anchor="middle" style="font-size:17px">frame 2</text>
-              <text x="838" y="146" text-anchor="middle" class="hot-t" style="font-size:17px">frame 2 again</text>
-              <text x="1097" y="146" text-anchor="middle" style="font-size:17px">frame 3</text>
-              <text x="1356" y="146" text-anchor="middle" style="font-size:17px">frame 4</text>
-            </g>
+          <p class="kicker reveal">09 · The budget</p>
+          <h2 class="reveal">Faster screens, smaller budget.</h2>
+          <svg class="ig reveal" style="--d:1" viewBox="0 0 1480 370" role="img" aria-label="Frame budget by refresh rate: 8.3 ms at 120 Hz, 11.1 ms at 90 Hz, 16.7 ms at 60 Hz. A 24 ms frame misses all three.">
+            <text x="170" y="22" class="lab">TIME TO MAKE ONE FRAME</text>
+            <text x="0" y="84" class="t" style="font-size:30px">120 Hz</text><rect x="170" y="48" width="1310" height="56" rx="10" fill="#f5f6f8"/><g class="grow" style="--d:2"><rect x="170" y="48" width="435" height="56" rx="10" fill="#1a73e8"/><text x="186" y="84" class="w" style="font-size:20px;font-weight:600">8.3 ms per frame</text></g><text x="0" y="184" class="t" style="font-size:30px">90 Hz</text><rect x="170" y="148" width="1310" height="56" rx="10" fill="#f5f6f8"/><g class="grow" style="--d:4"><rect x="170" y="148" width="582" height="56" rx="10" fill="#34a853"/><text x="186" y="184" class="w" style="font-size:20px;font-weight:600">11.1 ms per frame</text></g><text x="0" y="284" class="t" style="font-size:30px">60 Hz</text><rect x="170" y="248" width="1310" height="56" rx="10" fill="#f5f6f8"/><g class="grow" style="--d:6"><rect x="170" y="248" width="875" height="56" rx="10" fill="#f9ab00"/><text x="186" y="284" class="w" style="font-size:20px;font-weight:600">16.7 ms per frame</text></g>
+            <line x1="1428" y1="30" x2="1428" y2="320" class="deadline pulse" style="stroke-width:4"/>
+            <g class="pop" style="--d:9"><rect x="1250" y="290" width="170" height="34" rx="17" fill="#fce8e6"/><text x="1335" y="313" text-anchor="middle" class="hot-t" style="font-size:16px;font-weight:600">a 24 ms frame</text></g>
+            <text x="170" y="350" text-anchor="middle" class="lab">0 ms</text><text x="589" y="350" text-anchor="middle" class="lab">8 ms</text><text x="1008" y="350" text-anchor="middle" class="lab">16 ms</text><text x="1428" y="350" text-anchor="middle" class="lab">24 ms</text>
           </svg>
-          <div class="budget">
-            <div class="over reveal" style="--d:3">
-              <div class="fill"></div>
-              <div class="mark m8"></div>
-              <div class="mark m16"></div>
-              <div class="lab" style="left:20px">Example · 24ms</div>
-            </div>
-            <div class="scale-row reveal" style="--d:3; position:relative; height:30px">
-              <span style="position:absolute;left:0">0</span>
-              <span style="position:absolute;left:24%;transform:translateX(-50%)">8ms · 120Hz</span>
-              <span class="ink" style="position:absolute;left:48%;transform:translateX(-50%)">16ms · 60Hz</span>
-              <span class="bad" style="position:absolute;left:72%;transform:translateX(-50%)">24ms</span>
-            </div>
-          </div>
-          <p class="lede reveal" style="--d:4">The black line is the budget. The red past it is a frame that missed it.</p>
+          <p class="lede reveal" style="--d:4">A 24 ms frame misses all three. On a 120 Hz phone you have half the time a 60 Hz phone gives you.</p>
         </div>
-        <aside class="notes"><p class="when">5:20 – 5:55</p><p>Hard cut. Let the bar fill and sit. Top row first: frame 3 took 24ms, so the screen showed frame 2 twice. That repeat is the stutter people feel. Click once. Kuri asks, “What if we miss it?” Point at the black line, then the red past it. The frame is late. That is jank. The bar is an example, not a trace from an app. 16ms is 60Hz. 8ms is 120Hz, only if the room is on high refresh. Click again, then the trace.</p></aside>
+        <aside class="notes"><p class="when">5:20 – 5:55</p><p>Hard cut. The last slide showed one late frame at 60 Hz. This one puts numbers on the budget. Let the three bars fill: 60 Hz gives 16.7 milliseconds per frame, 90 Hz gives 11.1, 120 Hz gives 8.3. Click once. Kuri asks, “What about 120 Hz phones?” Answer: half the time. Point at the red line: a frame that takes 24 milliseconds misses all three. The same code that is fine on an old phone can jank on a new one. Click again, then the names for late.</p></aside>
       </section>
 
       <!-- 08 · Jank, frozen frame, ANR -->
       <section class="slide" data-act="machine" data-fx="slice" data-label="The machine" data-title="Jank, frozen, ANR" data-cue="5:55 – 6:30">
         <div class="frame">
-          <p class="kicker reveal">06 · Three names for late</p>
+          <p class="kicker reveal">10 · Three names for late</p>
           <h2 class="reveal">Jank. Frozen frame. ANR.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 300" role="img" aria-label="How long the main thread is stuck: past 16 milliseconds is jank, past 700 milliseconds is a frozen frame, 5 seconds without answering input is an ANR">
             <text x="70" y="36" class="lab">HOW LONG THE MAIN THREAD IS STUCK · LOG SCALE</text>
@@ -1642,7 +1608,7 @@
       <!-- 09 · Trace types -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Trace types" data-cue="6:30 – 7:10">
         <div class="frame">
-          <p class="kicker reveal">07 · Where to look</p>
+          <p class="kicker reveal">11 · Where to look</p>
           <h2 class="reveal">Start with a system trace.</h2>
           <div class="tt-hero reveal" style="--d:1">
             <svg class="ig" viewBox="0 0 200 140">
@@ -1683,7 +1649,7 @@
       <!-- 11 · Which profiler -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="7:10 – 7:50">
         <div class="frame">
-          <p class="kicker reveal">08 · Android Studio</p>
+          <p class="kicker reveal">12 · Android Studio</p>
           <h2 class="reveal">Two doors.</h2>
           <div class="doors" style="grid-template-columns: repeat(2, minmax(0, 520px)); justify-content: center; gap: 120px">
             <article class="door hot reveal" style="--d:1">
@@ -1717,7 +1683,7 @@
       <!-- 12 · The build -->
       <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="7:50 – 8:50">
         <div class="frame">
-          <p class="kicker reveal">09 · The build</p>
+          <p class="kicker reveal">13 · The build</p>
           <h2 class="reveal">Debuggable builds lie.</h2>
           <div class="split even">
             <div class="stack">
@@ -1750,7 +1716,7 @@
       <!-- 09 · Slices -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="8:50 – 10:05" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
         <div class="frame">
-          <p class="kicker reveal">10 · Perfetto</p>
+          <p class="kicker reveal">14 · Perfetto</p>
           <h2 class="reveal">The bar past 16ms is the bug.</h2>
           <svg class="ig reveal" style="--d:1; width:1480px" viewBox="0 0 1480 380" role="img" aria-label="A Perfetto timeline: doFrame with nested measure, layout and a late draw slice past the 16 millisecond line">
             <rect x="0" y="0" width="1480" height="380" rx="22" class="panel" style="fill:#fff"/>
@@ -1785,7 +1751,7 @@
       <!-- 10 · Flame and code -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="10:05 – 11:15">
         <div class="frame">
-          <p class="kicker reveal">11 · From the bar to the code</p>
+          <p class="kicker reveal">15 · From the bar to the code</p>
           <h2 class="reveal">Follow the widest block to the bottom.</h2>
           <div style="display:grid; grid-template-columns: 860px 1fr; gap: 40px; align-items:center">
             <svg class="ig reveal" style="--d:1" viewBox="0 0 860 400" role="img" aria-label="A flame chart where BitmapFactory.decode has no children">
@@ -1821,7 +1787,7 @@
       <!-- 13 · Name the work -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="11:15 – 12:15">
         <div class="frame">
-          <p class="kicker reveal">12 · Custom slices</p>
+          <p class="kicker reveal">16 · Custom slices</p>
           <h2 class="reveal">Name the work.</h2>
           <div style="display:grid; grid-template-columns: 820px 1fr; gap: 40px; align-items:start">
             <div class="stack">
@@ -1861,7 +1827,7 @@
       <!-- Perfetto everywhere -->
       <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Perfetto everywhere" data-cue="12:15 – 13:00">
         <div class="frame">
-          <p class="kicker reveal">13 · Not just Android</p>
+          <p class="kicker reveal">17 · Not just Android</p>
           <h2 class="reveal">One timeline for almost anything.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 330" role="img" aria-label="Traces from Android, Chrome, Linux perf, ftrace, Rust, Python, PyTorch and Mesa GPU drivers all open in the Perfetto UI">
             <g fill="none" stroke="#c4c9d2" stroke-width="3">
@@ -1905,7 +1871,7 @@
       <!-- 14 · Ask the trace -->
       <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Ask the trace" data-cue="13:00 – 14:10" data-ask="Can it just tell us?" data-pose="ask" data-mood="curious" data-glass="1">
         <div class="frame">
-          <p class="kicker reveal">14 · Ask</p>
+          <p class="kicker reveal">18 · Ask</p>
           <h2 class="reveal">English in. Findings out.</h2>
           <div class="ask">
             <div class="chat">
@@ -1938,7 +1904,7 @@
       <!-- 16 · Give it the tools -->
       <section class="slide" data-act="ai" data-fx="slice" data-label="The agent" data-title="Give it the tools" data-cue="14:10 – 15:00">
         <div class="frame">
-          <p class="kicker reveal">15 · Context, not just a prompt</p>
+          <p class="kicker reveal">19 · Context, not just a prompt</p>
           <h2 class="reveal">A prompt alone is slow. Give the agent skills.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 210" role="img" aria-label="Prompt only: the agent wanders and guesses. Prompt plus skills: a straight path to a finding">
             <text x="0" y="56" class="lab">PROMPT ONLY</text>
@@ -2449,7 +2415,12 @@
       history.replaceState(null, "", "#" + index);
     }
 
-    slides.forEach((s, i) => { s.dataset.n = String(i + 1); });
+    slides.forEach((s, i) => {
+      s.dataset.n = String(i + 1);
+      // Keep the "NN · topic" label in step with the slide counter.
+      const k = s.querySelector(".kicker");
+      if (k && /^\d\d · /.test(k.textContent)) k.textContent = String(i + 1).padStart(2, "0") + k.textContent.slice(2);
+    });
     const rail = document.getElementById("rail");
     for (let i = 0; i < total; i++) {
       const t = document.createElement("i");
