@@ -1625,10 +1625,77 @@
         <aside class="notes"><p class="when">6:05 – 6:45</p><p>The big green card is the only one you linger on. The others are “when the lane points there.” Forty seconds. Do not read all six.</p></aside>
       </section>
 
-      <!-- 09 · Slices -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="6:45 – 8:05" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
+      <!-- 11 · Which profiler -->
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="6:45 – 7:25">
         <div class="frame">
-          <p class="kicker reveal">07 · Perfetto</p>
+          <p class="kicker reveal">07 · Android Studio</p>
+          <h2 class="reveal">Two doors.</h2>
+          <div class="doors" style="grid-template-columns: repeat(2, minmax(0, 520px)); justify-content: center; gap: 120px">
+            <article class="door hot reveal" style="--d:1">
+              <svg class="ig" viewBox="0 0 300 360">
+                <rect x="40" y="20" width="220" height="320" rx="10" fill="#fef7e0" stroke="#0f1115" stroke-width="5"/>
+                <g opacity=".95"><rect x="64" y="56" width="70" height="18" rx="4" fill="#4285f4"/><rect x="140" y="56" width="90" height="18" rx="4" fill="#ea4335"/><rect x="84" y="86" width="110" height="18" rx="4" fill="#34a853"/><rect x="70" y="116" width="50" height="18" rx="4" fill="#fbbc04"/><rect x="150" y="116" width="70" height="18" rx="4" fill="#9aa0a6"/></g>
+                <g opacity=".95"><rect x="64" y="186" width="166" height="20" rx="4" fill="#c6dafc"/><rect x="64" y="210" width="130" height="20" rx="4" fill="#a8c7fa"/><rect x="64" y="234" width="90" height="20" rx="4" fill="#8ab4f8"/><rect x="64" y="258" width="60" height="20" rx="4" fill="#ea4335"/></g>
+                <g class="open-door" style="--d:3"><rect x="50" y="30" width="200" height="300" rx="6" fill="#d93025" stroke="#0f1115" stroke-width="4"/><circle cx="226" cy="186" r="8" fill="#fff"/><rect x="80" y="64" width="140" height="90" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><rect x="80" y="196" width="140" height="100" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/></g>
+                <rect x="20" y="336" width="260" height="10" rx="5" fill="#0f1115"/>
+              </svg>
+              <em>Jank · ANR · hot path</em><strong>System trace + call stacks</strong><span>One Perfetto recording: the timeline, and the flame for the hot path.</span>
+            </article>
+            <article class="door reveal" style="--d:3">
+              <svg class="ig" viewBox="0 0 300 360">
+                <rect x="40" y="20" width="220" height="320" rx="10" fill="#f5f6f8" stroke="#0f1115" stroke-width="5"/>
+                <rect x="50" y="30" width="200" height="300" rx="6" fill="#fff" stroke="#0f1115" stroke-width="4"/>
+                <path d="M100 100 h100 v120 a16 16 0 0 1 -16 16 h-68 a16 16 0 0 1 -16 -16z" fill="#e8f0fe" stroke="#0f1115" stroke-width="4"/>
+                <rect x="92" y="86" width="116" height="18" rx="6" fill="#0f1115"/>
+                <circle cx="130" cy="190" r="14" fill="#4285f4"/><circle cx="166" cy="170" r="10" fill="#34a853"/><circle cx="160" cy="210" r="12" fill="#fbbc04"/>
+                <circle cx="226" cy="186" r="8" fill="#0f1115"/>
+                <rect x="20" y="336" width="260" height="10" rx="5" fill="#0f1115"/>
+              </svg>
+              <em>A leak</em><strong>Heap dump</strong><span>Retained size. A snapshot, not a timeline.</span>
+            </article>
+          </div>
+          <p class="caption reveal" style="--d:4">Method trace when you already know the Java method and can afford the slowdown. Many traces in one window: Android Performance Analyzer, a separate download.</p>
+        </div>
+        <aside class="notes"><p class="when">6:45 – 7:25</p><p>Two doors. The red one opens: a system trace with call stack sampling, both in one Perfetto recording. The timeline tells you when, the flame tells you which code. A heap dump is not a timeline. APA is developer.android.com/android-performance-analyzer. One clause, then the build.</p></aside>
+      </section>
+
+      <!-- 12 · The build -->
+      <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="7:25 – 8:30">
+        <div class="frame">
+          <p class="kicker reveal">08 · The build</p>
+          <h2 class="reveal">Debuggable builds lie.</h2>
+          <div class="split even">
+            <div class="stack">
+              <article class="pairbar bad reveal" style="--d:1">
+                <svg class="ico" viewBox="0 0 72 72" style="stroke:#d93025"><ellipse cx="36" cy="42" rx="16" ry="20" fill="#fce8e6"/><circle cx="36" cy="18" r="8" fill="#fce8e6"/><path d="M36 26 V62 M20 34 H8 M52 34 H64 M20 46 H6 M52 46 H66 M22 56 L12 64 M50 56 L60 64 M30 11 L24 4 M42 11 L48 4"/></svg>
+                <div><b>Debug</b><span>For bugs. You measured the debugger.</span>
+                  <div class="chips on-bad"><span>JIT off</span><span>AOT unwound</span></div></div>
+              </article>
+              <article class="pairbar good reveal" style="--d:2">
+                <svg class="ico" viewBox="0 0 72 72" style="stroke:#188038"><circle cx="36" cy="40" r="26" fill="#e6f4ea"/><path d="M30 6 H42 M36 6 V14 M36 40 L48 28"/><circle cx="36" cy="40" r="3" fill="#188038"/></svg>
+                <div><b>Profileable</b><span>Release speed. The tools can attach.</span>
+                  <div class="chips on-good"><span>Android 10+</span><span>Release speed</span><span>Tools attach</span></div></div>
+              </article>
+              <p class="caption reveal" style="--d:3">Keep the file and the line. Retrace the names. <span class="n">-keepattributes SourceFile,LineNumberTable</span></p>
+            </div>
+            <div class="stack reveal" style="--d:4">
+              <p class="mini">AndroidManifest.xml</p>
+              <pre><span class="k">&lt;application&gt;</span>
+  <span class="k">&lt;profileable</span>
+      <span class="mark-line"><span class="f">android:shell</span>=<span class="s">"true"</span></span>
+      <span class="f">android:enabled</span>=<span class="s">"true"</span> /&gt;
+<span class="k">&lt;/application&gt;</span></pre>
+              <p class="caption">shell lets Perfetto and Simpleperf attach. A benchmark variant copies release, signs with debug, and stays non-debuggable.</p>
+            </div>
+          </div>
+        </div>
+        <aside class="notes"><p class="when">7:25 – 8:30</p><p>Hard cut. Read the headline, then profileable, then the manifest. shell true is the part that matters. enabled defaults to true from API 30. The variant, if asked: initWith release, debug signing, matchingFallbacks release, isDebuggable false, isProfileable true. keepattributes keeps file and line. Method names can still be obfuscated. Retrace with the mapping file. There is no bar chart of “how much slower.” We do not have that number.</p></aside>
+      </section>
+
+      <!-- 09 · Slices -->
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Slices" data-cue="8:30 – 9:50" data-ask="Is this the slow part?" data-pose="trace" data-mood="thinking" data-glass="1">
+        <div class="frame">
+          <p class="kicker reveal">09 · Perfetto</p>
           <h2 class="reveal">The bar past 16ms is the bug.</h2>
           <svg class="ig reveal" style="--d:1; width:1480px" viewBox="0 0 1480 380" role="img" aria-label="A Perfetto timeline: doFrame with nested measure, layout and a late draw slice past the 16 millisecond line">
             <rect x="0" y="0" width="1480" height="380" rx="22" class="panel" style="fill:#fff"/>
@@ -1657,13 +1724,13 @@
           </div>
           <p class="caption reveal" style="--d:3">A gap on every thread at once is stop-the-world GC. Look on HeapTaskDaemon. <span class="n">ui.perfetto.dev · W A S D · click a slice</span></p>
         </div>
-        <aside class="notes"><p class="when">6:45 – 8:05</p><p>Longest slide. Walk the picture first: the bar that crosses the line. Click once. Kuri holds up the glass: “Is this the slow part?” Yes. Width is time. Then the numbered badges: 1 wide, 2 nested, 3 color, 4 the gap in the green state strip. Keys only if you live-demo: WASD, click, M to mark. GC is one sentence. Names if asked: GC: DoConcurrentGC, GC: Background Concurrent Copy. Click again when you leave.</p></aside>
+        <aside class="notes"><p class="when">8:30 – 9:50</p><p>Longest slide. Walk the picture first: the bar that crosses the line. Click once. Kuri holds up the glass: “Is this the slow part?” Yes. Width is time. Then the numbered badges: 1 wide, 2 nested, 3 color, 4 the gap in the green state strip. Keys only if you live-demo: WASD, click, M to mark. GC is one sentence. Names if asked: GC: DoConcurrentGC, GC: Background Concurrent Copy. Click again when you leave.</p></aside>
       </section>
 
       <!-- 10 · Flame and code -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="8:05 – 9:15">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Flame and code" data-cue="9:50 – 11:00">
         <div class="frame">
-          <p class="kicker reveal">08 · From the bar to the code</p>
+          <p class="kicker reveal">10 · From the bar to the code</p>
           <h2 class="reveal">Follow the widest block to the bottom.</h2>
           <div style="display:grid; grid-template-columns: 860px 1fr; gap: 40px; align-items:center">
             <svg class="ig reveal" style="--d:1" viewBox="0 0 860 400" role="img" aria-label="A flame chart where BitmapFactory.decode has no children">
@@ -1693,47 +1760,53 @@
             <article class="card reveal" style="--d:9"><h3><span class="badge">3</span>Or add the name</h3><p>Trace.beginSection on the path you cannot see.</p></article>
           </div>
         </div>
-        <aside class="notes"><p class="when">8:05 – 9:15</p><p>Read the headline, then trace it with your finger: the widest block, down and down, until nothing is under it. The red block: decode on the main thread, no children. That is where the time went. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is two slides ahead. Seventy seconds.</p></aside>
+        <aside class="notes"><p class="when">9:50 – 11:00</p><p>Read the headline, then trace it with your finger: the widest block, down and down, until nothing is under it. The red block: decode on the main thread, no children. That is where the time went. The code is an example of what you find when you search the name. Then the three cards, fast. Search, Studio, or you add the name. Same thread for begin and end. The full pattern is the next slide. Seventy seconds.</p></aside>
       </section>
 
-      <!-- 11 · Which profiler -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Which profiler" data-cue="9:15 – 9:55">
+      <!-- 13 · Name the work -->
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="11:00 – 12:05">
         <div class="frame">
-          <p class="kicker reveal">09 · Android Studio</p>
-          <h2 class="reveal">Two doors.</h2>
-          <div class="doors" style="grid-template-columns: repeat(2, minmax(0, 520px)); justify-content: center; gap: 120px">
-            <article class="door hot reveal" style="--d:1">
-              <svg class="ig" viewBox="0 0 300 360">
-                <rect x="40" y="20" width="220" height="320" rx="10" fill="#fef7e0" stroke="#0f1115" stroke-width="5"/>
-                <g opacity=".95"><rect x="64" y="56" width="70" height="18" rx="4" fill="#4285f4"/><rect x="140" y="56" width="90" height="18" rx="4" fill="#ea4335"/><rect x="84" y="86" width="110" height="18" rx="4" fill="#34a853"/><rect x="70" y="116" width="50" height="18" rx="4" fill="#fbbc04"/><rect x="150" y="116" width="70" height="18" rx="4" fill="#9aa0a6"/></g>
-                <g opacity=".95"><rect x="64" y="186" width="166" height="20" rx="4" fill="#c6dafc"/><rect x="64" y="210" width="130" height="20" rx="4" fill="#a8c7fa"/><rect x="64" y="234" width="90" height="20" rx="4" fill="#8ab4f8"/><rect x="64" y="258" width="60" height="20" rx="4" fill="#ea4335"/></g>
-                <g class="open-door" style="--d:3"><rect x="50" y="30" width="200" height="300" rx="6" fill="#d93025" stroke="#0f1115" stroke-width="4"/><circle cx="226" cy="186" r="8" fill="#fff"/><rect x="80" y="64" width="140" height="90" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><rect x="80" y="196" width="140" height="100" rx="6" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/></g>
-                <rect x="20" y="336" width="260" height="10" rx="5" fill="#0f1115"/>
-              </svg>
-              <em>Jank · ANR · hot path</em><strong>System trace + call stacks</strong><span>One Perfetto recording: the timeline, and the flame for the hot path.</span>
-            </article>
-            <article class="door reveal" style="--d:3">
-              <svg class="ig" viewBox="0 0 300 360">
-                <rect x="40" y="20" width="220" height="320" rx="10" fill="#f5f6f8" stroke="#0f1115" stroke-width="5"/>
-                <rect x="50" y="30" width="200" height="300" rx="6" fill="#fff" stroke="#0f1115" stroke-width="4"/>
-                <path d="M100 100 h100 v120 a16 16 0 0 1 -16 16 h-68 a16 16 0 0 1 -16 -16z" fill="#e8f0fe" stroke="#0f1115" stroke-width="4"/>
-                <rect x="92" y="86" width="116" height="18" rx="6" fill="#0f1115"/>
-                <circle cx="130" cy="190" r="14" fill="#4285f4"/><circle cx="166" cy="170" r="10" fill="#34a853"/><circle cx="160" cy="210" r="12" fill="#fbbc04"/>
-                <circle cx="226" cy="186" r="8" fill="#0f1115"/>
-                <rect x="20" y="336" width="260" height="10" rx="5" fill="#0f1115"/>
-              </svg>
-              <em>A leak</em><strong>Heap dump</strong><span>Retained size. A snapshot, not a timeline.</span>
-            </article>
+          <p class="kicker reveal">11 · Custom slices</p>
+          <h2 class="reveal">Name the work.</h2>
+          <div style="display:grid; grid-template-columns: 820px 1fr; gap: 40px; align-items:start">
+            <div class="stack">
+<pre class="tag-a reveal" style="--d:1"><span class="f">Trace</span>.beginSection(<span class="s">"MyAdapter#bind"</span>)
+<span class="k">try</span> { bind(holder, item) }
+<span class="k">finally</span> { <span class="f">Trace</span>.endSection() }</pre>
+<pre class="tag-b reveal" style="--d:3"><span class="f">Trace</span>.setCounter(<span class="s">"cache_size"</span>, cache.size.toLong())</pre>
+<pre class="tag-c reveal" style="--d:5"><span class="k">val</span> cookie = <span class="n">42</span>
+<span class="f">Trace</span>.beginAsyncSection(<span class="s">"ImageLoad"</span>, cookie)
+<span class="f">Trace</span>.endAsyncSection(<span class="s">"ImageLoad"</span>, cookie)</pre>
+            </div>
+            <svg class="ig reveal" style="--d:2" viewBox="0 0 860 420" role="img" aria-label="What each call draws in Perfetto: a nested slice, a counter track, and an async slice">
+              <rect x="0" y="0" width="860" height="420" rx="22" class="panel" style="fill:#fff"/>
+              <text x="24" y="40" class="lab">WHAT YOU SEE IN PERFETTO</text>
+              <text x="24" y="98" class="lab">main</text>
+              <rect x="150" y="70" width="680" height="40" rx="6" fill="#e8eaed"/><text x="166" y="96" style="fill:#5f6368">Choreographer#doFrame</text>
+              <g class="grow" style="--d:4"><rect x="210" y="116" width="380" height="42" rx="6" fill="#1a73e8"/><text x="226" y="143" class="w" style="font-size:19px">MyAdapter#bind</text></g>
+              <text x="24" y="230" class="lab">cache_size</text>
+              <path d="M150 270 H230 V236 H340 V206 H470 V244 H620 V190 H830 V270 Z" fill="rgba(24,128,56,.14)" class="fade" style="--d:6"/>
+              <path d="M150 270 H230 V236 H340 V206 H470 V244 H620 V190 H830" fill="none" stroke="#188038" stroke-width="4" class="draw" pathLength="1" style="--d:6"/>
+              <line x1="150" y1="270" x2="830" y2="270" stroke="#e3e6eb" stroke-width="2"/>
+              <text x="24" y="338" class="lab">async</text>
+              <g class="grow" style="--d:8"><rect x="270" y="312" width="430" height="42" rx="6" fill="#9334e6"/><text x="286" y="339" class="w" style="font-size:19px">ImageLoad</text></g>
+              <text x="270" y="390" style="fill:#9334e6;font-size:16px" class="fade" >begin and end can be on different threads</text>
+            </svg>
           </div>
-          <p class="caption reveal" style="--d:4">Method trace when you already know the Java method and can afford the slowdown. Many traces in one window: Android Performance Analyzer, a separate download.</p>
+          <div class="cards c3">
+            <article class="card reveal" style="--d:6"><h3>Class and action</h3><p>MyAdapter#bind. “bind” matches the whole app.</p></article>
+            <article class="card reveal" style="--d:7"><h3>Same thread</h3><p>begin and end pair on one thread. Across threads, use the cookie.</p></article>
+            <article class="card reveal" style="--d:8"><h3>Leave them in</h3><p>Hiding a slice behind DEBUG removes it from the build you trust.</p></article>
+          </div>
+          <p class="caption reveal" style="--d:9">Record only the question. Stack samples, often 100Hz, for the flame. Names longer than 127 characters throw while a trace is running.</p>
         </div>
-        <aside class="notes"><p class="when">9:15 – 9:55</p><p>Two doors. The red one opens: a system trace with call stack sampling, both in one Perfetto recording. The timeline tells you when, the flame tells you which code. A heap dump is not a timeline. APA is developer.android.com/android-performance-analyzer. One clause, then the build.</p></aside>
+        <aside class="notes"><p class="when">11:00 – 12:05</p><p>Leave this up if you live-code. Each code block has a color; the same color is what it draws on the right. Blue is a slice, green is a counter, purple is an async slice. Class and action. Same thread, async cookie across threads, counters become a graph. Do not gate them on DEBUG. That deletes the names from the only build whose numbers are real. Recording is one sentence: only the sources that answer the question. 127 characters only if asked.</p></aside>
       </section>
 
       <!-- Perfetto everywhere -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Perfetto everywhere" data-cue="9:55 – 10:40">
+      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Perfetto everywhere" data-cue="12:05 – 12:50">
         <div class="frame">
-          <p class="kicker reveal">10 · Not just Android</p>
+          <p class="kicker reveal">12 · Not just Android</p>
           <h2 class="reveal">One timeline for almost anything.</h2>
           <svg class="ig reveal" style="--d:1" viewBox="0 0 1744 330" role="img" aria-label="Traces from Android, Chrome, Linux perf, ftrace, Rust, Python, PyTorch and Mesa GPU drivers all open in the Perfetto UI">
             <g fill="none" stroke="#c4c9d2" stroke-width="3">
@@ -1771,80 +1844,7 @@
           </div>
           <p class="caption reveal" style="--d:9">From Lalit Maganti’s Tracing Summit 2025 talk, “Perfetto: The Swiss Army Knife of Linux Client/Embedded Tracing”. Traces from different tools can be merged onto one timeline.</p>
         </div>
-        <aside class="notes"><p class="when">9:55 – 10:40</p><p>Pay off the title: native, Flutter, React Native, same kernel. Left and right first: Perfetto is not only Android. Chrome uses it on every platform, and the UI opens Linux perf profiles, ftrace and trace-cmd text, Rust’s tracing crate, Python through VizTracer, PyTorch profiles, and Mesa GPU driver traces. It runs in the browser; the trace stays on your machine. Then the three cards. Kotlin: nothing to do. Flutter: run in profile mode with --trace-systrace and the Dart timeline shows up on the 1.ui and 1.raster threads. React Native: the system trace has the native side; for the JS, the Hermes sampling profiler in a release build, opened in ui.perfetto.dev, for example with react-native-release-profiler. Source if asked: Lalit Maganti, founding Perfetto engineer, Tracing Summit 2025, on YouTube. Forty-five seconds.</p></aside>
-      </section>
-
-      <!-- 12 · The build -->
-      <section class="slide" data-act="trace" data-fx="cut" data-label="The trace" data-title="The build" data-cue="10:40 – 11:45">
-        <div class="frame">
-          <p class="kicker reveal">11 · The build</p>
-          <h2 class="reveal">Debuggable builds lie.</h2>
-          <div class="split even">
-            <div class="stack">
-              <article class="pairbar bad reveal" style="--d:1">
-                <svg class="ico" viewBox="0 0 72 72" style="stroke:#d93025"><ellipse cx="36" cy="42" rx="16" ry="20" fill="#fce8e6"/><circle cx="36" cy="18" r="8" fill="#fce8e6"/><path d="M36 26 V62 M20 34 H8 M52 34 H64 M20 46 H6 M52 46 H66 M22 56 L12 64 M50 56 L60 64 M30 11 L24 4 M42 11 L48 4"/></svg>
-                <div><b>Debug</b><span>For bugs. You measured the debugger.</span>
-                  <div class="chips on-bad"><span>JIT off</span><span>AOT unwound</span></div></div>
-              </article>
-              <article class="pairbar good reveal" style="--d:2">
-                <svg class="ico" viewBox="0 0 72 72" style="stroke:#188038"><circle cx="36" cy="40" r="26" fill="#e6f4ea"/><path d="M30 6 H42 M36 6 V14 M36 40 L48 28"/><circle cx="36" cy="40" r="3" fill="#188038"/></svg>
-                <div><b>Profileable</b><span>Release speed. The tools can attach.</span>
-                  <div class="chips on-good"><span>Android 10+</span><span>Release speed</span><span>Tools attach</span></div></div>
-              </article>
-              <p class="caption reveal" style="--d:3">Keep the file and the line. Retrace the names. <span class="n">-keepattributes SourceFile,LineNumberTable</span></p>
-            </div>
-            <div class="stack reveal" style="--d:4">
-              <p class="mini">AndroidManifest.xml</p>
-              <pre><span class="k">&lt;application&gt;</span>
-  <span class="k">&lt;profileable</span>
-      <span class="mark-line"><span class="f">android:shell</span>=<span class="s">"true"</span></span>
-      <span class="f">android:enabled</span>=<span class="s">"true"</span> /&gt;
-<span class="k">&lt;/application&gt;</span></pre>
-              <p class="caption">shell lets Perfetto and Simpleperf attach. A benchmark variant copies release, signs with debug, and stays non-debuggable.</p>
-            </div>
-          </div>
-        </div>
-        <aside class="notes"><p class="when">10:40 – 11:45</p><p>Hard cut. Read the headline, then profileable, then the manifest. shell true is the part that matters. enabled defaults to true from API 30. The variant, if asked: initWith release, debug signing, matchingFallbacks release, isDebuggable false, isProfileable true. keepattributes keeps file and line. Method names can still be obfuscated. Retrace with the mapping file. There is no bar chart of “how much slower.” We do not have that number.</p></aside>
-      </section>
-
-      <!-- 13 · Name the work -->
-      <section class="slide" data-act="trace" data-fx="slice" data-label="The trace" data-title="Name the work" data-cue="11:45 – 12:50">
-        <div class="frame">
-          <p class="kicker reveal">12 · Custom slices</p>
-          <h2 class="reveal">Name the work.</h2>
-          <div style="display:grid; grid-template-columns: 820px 1fr; gap: 40px; align-items:start">
-            <div class="stack">
-<pre class="tag-a reveal" style="--d:1"><span class="f">Trace</span>.beginSection(<span class="s">"MyAdapter#bind"</span>)
-<span class="k">try</span> { bind(holder, item) }
-<span class="k">finally</span> { <span class="f">Trace</span>.endSection() }</pre>
-<pre class="tag-b reveal" style="--d:3"><span class="f">Trace</span>.setCounter(<span class="s">"cache_size"</span>, cache.size.toLong())</pre>
-<pre class="tag-c reveal" style="--d:5"><span class="k">val</span> cookie = <span class="n">42</span>
-<span class="f">Trace</span>.beginAsyncSection(<span class="s">"ImageLoad"</span>, cookie)
-<span class="f">Trace</span>.endAsyncSection(<span class="s">"ImageLoad"</span>, cookie)</pre>
-            </div>
-            <svg class="ig reveal" style="--d:2" viewBox="0 0 860 420" role="img" aria-label="What each call draws in Perfetto: a nested slice, a counter track, and an async slice">
-              <rect x="0" y="0" width="860" height="420" rx="22" class="panel" style="fill:#fff"/>
-              <text x="24" y="40" class="lab">WHAT YOU SEE IN PERFETTO</text>
-              <text x="24" y="98" class="lab">main</text>
-              <rect x="150" y="70" width="680" height="40" rx="6" fill="#e8eaed"/><text x="166" y="96" style="fill:#5f6368">Choreographer#doFrame</text>
-              <g class="grow" style="--d:4"><rect x="210" y="116" width="380" height="42" rx="6" fill="#1a73e8"/><text x="226" y="143" class="w" style="font-size:19px">MyAdapter#bind</text></g>
-              <text x="24" y="230" class="lab">cache_size</text>
-              <path d="M150 270 H230 V236 H340 V206 H470 V244 H620 V190 H830 V270 Z" fill="rgba(24,128,56,.14)" class="fade" style="--d:6"/>
-              <path d="M150 270 H230 V236 H340 V206 H470 V244 H620 V190 H830" fill="none" stroke="#188038" stroke-width="4" class="draw" pathLength="1" style="--d:6"/>
-              <line x1="150" y1="270" x2="830" y2="270" stroke="#e3e6eb" stroke-width="2"/>
-              <text x="24" y="338" class="lab">async</text>
-              <g class="grow" style="--d:8"><rect x="270" y="312" width="430" height="42" rx="6" fill="#9334e6"/><text x="286" y="339" class="w" style="font-size:19px">ImageLoad</text></g>
-              <text x="270" y="390" style="fill:#9334e6;font-size:16px" class="fade" >begin and end can be on different threads</text>
-            </svg>
-          </div>
-          <div class="cards c3">
-            <article class="card reveal" style="--d:6"><h3>Class and action</h3><p>MyAdapter#bind. “bind” matches the whole app.</p></article>
-            <article class="card reveal" style="--d:7"><h3>Same thread</h3><p>begin and end pair on one thread. Across threads, use the cookie.</p></article>
-            <article class="card reveal" style="--d:8"><h3>Leave them in</h3><p>Hiding a slice behind DEBUG removes it from the build you trust.</p></article>
-          </div>
-          <p class="caption reveal" style="--d:9">Record only the question. Stack samples, often 100Hz, for the flame. Names longer than 127 characters throw while a trace is running.</p>
-        </div>
-        <aside class="notes"><p class="when">11:45 – 12:50</p><p>Leave this up if you live-code. Each code block has a color; the same color is what it draws on the right. Blue is a slice, green is a counter, purple is an async slice. Class and action. Same thread, async cookie across threads, counters become a graph. Do not gate them on DEBUG. That deletes the names from the only build whose numbers are real. Recording is one sentence: only the sources that answer the question. 127 characters only if asked.</p></aside>
+        <aside class="notes"><p class="when">12:05 – 12:50</p><p>Pay off the title: native, Flutter, React Native, same kernel. Left and right first: Perfetto is not only Android. Chrome uses it on every platform, and the UI opens Linux perf profiles, ftrace and trace-cmd text, Rust’s tracing crate, Python through VizTracer, PyTorch profiles, and Mesa GPU driver traces. It runs in the browser; the trace stays on your machine. Then the three cards. Kotlin: nothing to do. Flutter: run in profile mode with --trace-systrace and the Dart timeline shows up on the 1.ui and 1.raster threads. React Native: the system trace has the native side; for the JS, the Hermes sampling profiler in a release build, opened in ui.perfetto.dev, for example with react-native-release-profiler. Source if asked: Lalit Maganti, founding Perfetto engineer, Tracing Summit 2025, on YouTube. Forty-five seconds.</p></aside>
       </section>
 
       <!-- 14 · Ask the trace -->
