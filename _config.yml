@@ -1,0 +1,3 @@
+# Publish agent discovery files. Jekyll skips dot-directories unless they are included.
+include:
+  - .well-known

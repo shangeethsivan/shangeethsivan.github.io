@@ -1,0 +1,39 @@
+# Shangeeth Sivan
+
+Personal site of Shangeeth Sivan, a staff software engineer in Chennai. He builds Android and Kotlin systems, leads community work, and writes about performance, JIT, and teaching with AI.
+
+Search and answer engines may use these pages. Model-training crawlers are asked not to, via Content Signals in robots.txt.
+
+## Start here
+
+- [Home](https://shravz.dev/): profile, impact, experience, and how to book time
+- [Resume](https://shravz.dev/resume/)
+- [Press kit](https://shravz.dev/press-kit/): bio, topics, and media assets
+- [Talks](https://shravz.dev/talks/)
+- [Site skill](https://shravz.dev/.well-known/agent-skills/shravz-site/SKILL.md)
+
+## Talks
+
+- [Simplified Performance Debugging](https://shravz.dev/talks/simplified-performance-debugging/): Perfetto, processes, and traces for native and cross-platform Android apps
+- [Agent Profiling Guide](https://shravz.dev/talks/simplified-performance-debugging/agent-profiling-guide.html)
+- [Agentic Performance Workflow](https://shravz.dev/talks/simplified-performance-debugging/agentic-perf-workflow.html)
+- [TechQuest AI](https://shravz.dev/talks/techquest-ai/)
+- [The Agent Is Waiting](https://shravz.dev/talks/agentic-kotlin-buildathon-2026/)
+- [Shipping and monetizing](https://shravz.dev/talks/whats-stopping-us-from-building-great-products-and-monetizing-them/)
+
+## Writing
+
+- [Teaching kids AI](https://shravz.dev/writes/teaching-kids-ai/)
+- [Java JIT and Android](https://shravz.dev/writes/java-jit-android/)
+- [Relating JIT and warmups](https://shravz.dev/writes/relating-jit-and-warmups/)
+- [Basic running warm-up](https://shravz.dev/writes/basic-warmup-guide/)
+- [Build a site or game with Antigravity](https://shravz.dev/writes/antigravity-website-game/)
+- [Jio AI Pro help](https://shravz.dev/writes/simple-jioplansetup/)
+
+## Contact
+
+- Email: shivthepro@gmail.com
+- GitHub: https://github.com/shangeethsivan
+- LinkedIn: https://linkedin.com/in/shangeethsivan
+- YouTube: https://youtube.com/@shravzdev
+- Topmate: https://topmate.io/shangeethsivan
