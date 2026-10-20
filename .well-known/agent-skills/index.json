@@ -1,0 +1,12 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "shravz-site",
+      "type": "skill-md",
+      "description": "How to read Shangeeth Sivan's public site: bio, talks, writing, resume, and press kit.",
+      "url": "https://shravz.dev/.well-known/agent-skills/shravz-site/SKILL.md",
+      "digest": "sha256:6bb52a2b234611b4da1c4b90c759048f73fa47f26ee85d7b8fb355e8b2f2e351"
+    }
+  ]
+}

@@ -14,6 +14,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shangeeth Sivan | Staff Software Engineer</title>
   <meta name="description" content="Shangeeth Sivan - Staff Software Engineer building scalable systems, leading Kotlin communities, and mentoring engineers." />
+  <link rel="ai-catalog" href="/.well-known/ai-catalog.json" type="application/json" />
+  <link rel="describedby" href="/llms.txt" type="text/plain" />
+  <link rel="sitemap" href="/sitemap.xml" type="application/xml" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -431,6 +434,75 @@
   </div>
 
   <script>
+    (function registerSiteTools() {
+      const pages = [
+        { title: "Home", url: "https://shravz.dev/" },
+        { title: "Resume", url: "https://shravz.dev/resume/" },
+        { title: "Press kit", url: "https://shravz.dev/press-kit/" },
+        { title: "Talks", url: "https://shravz.dev/talks/" },
+        { title: "Simplified Performance Debugging", url: "https://shravz.dev/talks/simplified-performance-debugging/" },
+        { title: "Teaching kids AI", url: "https://shravz.dev/writes/teaching-kids-ai/" },
+        { title: "Java JIT and Android", url: "https://shravz.dev/writes/java-jit-android/" },
+        { title: "Agent overview", url: "https://shravz.dev/llms.txt" }
+      ];
+      const tools = [
+        {
+          name: "get_profile",
+          description: "Return Shangeeth Sivan's public one-paragraph profile from shravz.dev.",
+          inputSchema: { type: "object", properties: {}, additionalProperties: false },
+          execute: async () => ({
+            name: "Shangeeth Sivan",
+            role: "Staff Software Engineer",
+            location: "Chennai",
+            summary: "Software engineer building Android and Kotlin systems, communities, and people. Public pages cover talks, writing, a resume, and a press kit. Mentorship is booked on Topmate.",
+            links: {
+              site: "https://shravz.dev/",
+              resume: "https://shravz.dev/resume/",
+              topmate: "https://topmate.io/shangeethsivan",
+              github: "https://github.com/shangeethsivan"
+            }
+          })
+        },
+        {
+          name: "list_pages",
+          description: "List the main public pages on shravz.dev.",
+          inputSchema: { type: "object", properties: {}, additionalProperties: false },
+          execute: async () => ({ pages })
+        },
+        {
+          name: "open_section",
+          description: "Scroll the homepage to a section: impact, experience, topmate, or philosophy.",
+          inputSchema: {
+            type: "object",
+            properties: {
+              section: { type: "string", enum: ["impact", "experience", "topmate", "philosophy"] }
+            },
+            required: ["section"],
+            additionalProperties: false
+          },
+          execute: async ({ section }) => {
+            const node = document.getElementById(section);
+            if (!node) return { ok: false, error: "Unknown section" };
+            node.scrollIntoView({ behavior: "smooth", block: "start" });
+            return { ok: true, section, url: `https://shravz.dev/#${section}` };
+          }
+        }
+      ];
+
+      function register() {
+        const ctx = (typeof document !== "undefined" && document.modelContext) || (typeof navigator !== "undefined" && navigator.modelContext);
+        if (!ctx || typeof ctx.registerTool !== "function") return false;
+        const controller = new AbortController();
+        for (const tool of tools) ctx.registerTool(tool, { signal: controller.signal });
+        return true;
+      }
+
+      if (!register()) {
+        const timer = setInterval(() => { if (register()) clearInterval(timer); }, 50);
+        setTimeout(() => clearInterval(timer), 3000);
+      }
+    })();
+
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Hero Text Sequential Streaming Controller

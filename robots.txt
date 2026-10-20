@@ -1,0 +1,51 @@
+# Content Signals: https://contentsignals.org/
+# search and ai-input may use this site. Model-training crawlers may not.
+
+User-agent: *
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: OAI-SearchBot
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: Claude-SearchBot
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: PerplexityBot
+Allow: /
+Content-Signal: ai-train=no, search=yes, ai-input=yes
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: Amazonbot
+Disallow: /
+
+Sitemap: https://shravz.dev/sitemap.xml
+Agentmap: https://shravz.dev/.well-known/ai-catalog.json

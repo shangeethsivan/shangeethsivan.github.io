@@ -1,0 +1,41 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "Shangeeth Sivan",
+    "identifier": "did:web:shravz.dev"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:shravz.dev:document:llms",
+      "displayName": "Site overview for agents",
+      "type": "text/plain",
+      "url": "https://shravz.dev/llms.txt",
+      "representativeQueries": [
+        "who is Shangeeth Sivan",
+        "what does shravz.dev cover",
+        "where is the resume and press kit"
+      ]
+    },
+    {
+      "identifier": "urn:air:shravz.dev:skill:shravz-site",
+      "displayName": "shravz.dev reading skill",
+      "type": "text/markdown",
+      "url": "https://shravz.dev/.well-known/agent-skills/shravz-site/SKILL.md",
+      "representativeQueries": [
+        "how should an agent read shravz.dev",
+        "which page has the talks",
+        "is there an API on this site"
+      ]
+    },
+    {
+      "identifier": "urn:air:shravz.dev:document:sitemap",
+      "displayName": "Public page sitemap",
+      "type": "application/xml",
+      "url": "https://shravz.dev/sitemap.xml",
+      "representativeQueries": [
+        "list every public page on shravz.dev",
+        "canonical URLs for talks and writing"
+      ]
+    }
+  ]
+}
