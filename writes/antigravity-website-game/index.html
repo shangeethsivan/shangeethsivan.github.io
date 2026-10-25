@@ -230,9 +230,48 @@
     }
 
     .prompts-lead {
-      margin: 0 0 1rem;
+      margin: 0 0 0.75rem;
       color: var(--muted);
       font-size: 0.95rem;
+    }
+
+    .prompt-toggle {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .toggle-btn {
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 999px;
+      padding: 0.5rem 1.25rem;
+      min-height: 44px;
+      cursor: pointer;
+      border: 2px solid var(--line);
+      background: var(--bg);
+      color: var(--muted);
+    }
+
+    .toggle-btn:hover {
+      border-color: var(--g-blue);
+      color: var(--text);
+    }
+
+    .toggle-btn[aria-selected="true"] {
+      background: var(--g-blue);
+      border-color: var(--g-blue);
+      color: #fff;
+    }
+
+    .toggle-btn[aria-selected="true"]:hover {
+      color: #fff;
+    }
+
+    .toggle-btn:focus-visible {
+      outline: 2px solid var(--g-blue);
+      outline-offset: 2px;
     }
 
     .prompt-block {
@@ -334,7 +373,8 @@
     .accent-bar .g { background: var(--g-green); }
 
     @media (prefers-reduced-motion: reduce) {
-      .copy-btn { transition: none; }
+      .copy-btn,
+      .toggle-btn { transition: none; }
     }
   </style>
 </head>
@@ -473,7 +513,12 @@
 
     <section class="prompts" aria-labelledby="prompts-heading">
       <h2 id="prompts-heading">Sample prompts</h2>
-      <p class="prompts-lead">Copy one, paste it into Antigravity, and let it build.</p>
+      <p class="prompts-lead">Pick Simple or Complex, copy one, paste it into Antigravity.</p>
+
+      <div class="prompt-toggle" role="tablist" aria-label="Prompt difficulty">
+        <button type="button" class="toggle-btn" role="tab" id="tab-simple" aria-selected="true" aria-controls="prompt-website prompt-game" data-level="simple">Simple</button>
+        <button type="button" class="toggle-btn" role="tab" id="tab-complex" aria-selected="false" aria-controls="prompt-website prompt-game" data-level="complex">Complex</button>
+      </div>
 
       <div class="prompt-block" data-kind="website">
         <div class="prompt-head">
@@ -507,6 +552,53 @@
 
   <script>
     (function () {
+      var PROMPTS = {
+        simple: {
+          website: 'Build a single-page mobile-first website I can open as one HTML file. White background, huge readable type, Outfit font. Hero with a name and one-line bio. Three project cards. Footer with Instagram and YouTube. No backend, no build step.',
+          game: 'Build a simple browser game I can open as one HTML file. Catch falling items: I move left and right, items drop from the top, score goes up when I catch them. Big on-screen buttons for a phone. No backend, no build step.'
+        },
+        complex: {
+          website: 'Build a single-page mobile-first website I can open as one HTML file. It should look cool — not a default template. Bold type, Outfit font, a distinct color story. Scroll-driven parallax on the hero and at least two more sections. UI motion: staggered card entrance, hover glow, a sticky nav that restyles as you scroll. Hero with a name and one-line bio. Three project cards. Footer with Instagram and YouTube. No backend, no build step.',
+          game: 'Build a browser asteroid game I can open as one HTML file. Ship in space: rotate, thrust, and shoot. Asteroids split when hit. Score, lives, and a restart screen. Keyboard on desktop, big on-screen buttons on a phone. No backend, no build step.'
+        }
+      };
+
+      var level = 'simple';
+      var tabs = document.querySelectorAll('.toggle-btn[role="tab"]');
+      var websiteEl = document.getElementById('prompt-website');
+      var gameEl = document.getElementById('prompt-game');
+
+      function setLevel(next) {
+        if (!PROMPTS[next]) return;
+        level = next;
+        for (var i = 0; i < tabs.length; i++) {
+          var selected = tabs[i].getAttribute('data-level') === level;
+          tabs[i].setAttribute('aria-selected', selected ? 'true' : 'false');
+          tabs[i].tabIndex = selected ? 0 : -1;
+        }
+        websiteEl.textContent = PROMPTS[level].website;
+        gameEl.textContent = PROMPTS[level].game;
+      }
+
+      for (var t = 0; t < tabs.length; t++) {
+        tabs[t].addEventListener('click', function () {
+          setLevel(this.getAttribute('data-level'));
+        });
+        tabs[t].addEventListener('keydown', function (e) {
+          var idx = Array.prototype.indexOf.call(tabs, e.currentTarget);
+          if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            var next = e.key === 'ArrowRight'
+              ? tabs[(idx + 1) % tabs.length]
+              : tabs[(idx - 1 + tabs.length) % tabs.length];
+            setLevel(next.getAttribute('data-level'));
+            next.focus();
+          }
+        });
+      }
+
+      setLevel('simple');
+
       var buttons = document.querySelectorAll('.copy-btn');
       for (var i = 0; i < buttons.length; i++) {
         buttons[i].addEventListener('click', function () {
