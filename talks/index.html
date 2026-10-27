@@ -206,6 +206,68 @@
       font-size: 0.95rem;
     }
 
+    .venue-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 0.15rem;
+    }
+
+    .venue-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: inherit;
+      border-radius: 16px;
+      padding: 0.5rem 1rem 0.5rem 0.5rem;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.03);
+      min-width: min(100%, 260px);
+    }
+
+    .venue-badge:hover {
+      transform: translateY(-1px);
+      border-color: rgba(147, 212, 255, 0.9);
+    }
+
+    .venue-badge b {
+      width: 58px;
+      height: 58px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+      flex-shrink: 0;
+    }
+
+    .venue-badge span {
+      display: block;
+      font-size: 0.98rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    .venue-badge small {
+      display: block;
+      margin-top: 0.15rem;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 0.78rem;
+    }
+
+    .venue-badge.kug b {
+      background: #76c7ff;
+      color: #041122;
+    }
+
+    .venue-badge.srm b {
+      background: #c48dfc;
+      color: #1a1028;
+    }
+
     .actions {
       display: flex;
       flex-wrap: wrap;
@@ -289,7 +351,7 @@
 
       <article class="card featured">
         <div class="card-header">
-          <span class="tag" style="color: #76c7ff;">KUG Chennai · Shipaton</span>
+          <span class="tag" style="color: #76c7ff;">KUG Chennai · SRM ACM</span>
           <div class="tech-pill-group">
             <span class="tech-pill" style="border-color: rgba(127, 82, 255, 0.4); color: #c48dfc; background: rgba(127, 82, 255, 0.1);">
               <svg style="width: 13px; height: 13px;" viewBox="0 0 24 24" fill="none"><path d="M24 24H0V0h24L12 12l12 12z" fill="url(#kg-shipaton)"/><defs><linearGradient id="kg-shipaton" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7F52FF"/><stop offset="100%" stop-color="#E4485D"/></linearGradient></defs></svg>
@@ -310,11 +372,26 @@
           </div>
           <h2 class="title">What's Stopping Us from Shipping Great Products and Monetizing Them?</h2>
         </div>
-        <p class="desc">From side projects to paying customers. 10-slide keynote for Shipaton — Road to DevFest, Kotlin Edition (KUG Chennai).</p>
+        <p class="desc">From side projects to paying customers. Same talk, two rooms. Open the deck for the chapter.</p>
+        <div class="venue-badges">
+          <a class="venue-badge kug" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/">
+            <b>KUG</b>
+            <div>
+              <span>KUG Chennai</span>
+              <small>Shipaton deck</small>
+            </div>
+          </a>
+          <a class="venue-badge srm" href="./promptwars-srm-acm/">
+            <b>SRM</b>
+            <div>
+              <span>SRM ACM</span>
+              <small>Promptwars deck</small>
+            </div>
+          </a>
+        </div>
         <div class="actions">
-          <a class="btn primary" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/">Open Talk</a>
-          <a class="btn" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=33" download>Download PPTX</a>
-          <a class="btn" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=33" download>Download PDF</a>
+          <a class="btn" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/whats-stopping-us-from-building-great-products-and-monetizing-them.pptx?v=33" download>KUG PPTX</a>
+          <a class="btn" href="./whats-stopping-us-from-building-great-products-and-monetizing-them/whats-stopping-us-from-building-great-products-and-monetizing-them.pdf?v=33" download>KUG PDF</a>
         </div>
       </article>
 

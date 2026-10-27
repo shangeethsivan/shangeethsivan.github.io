@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 640" role="img" aria-label="A person with a pick has almost broken through the rock. Gold sits just past the last wall.">
+  <rect width="1600" height="640" fill="#5c3b28"/>
+  <g fill="#4a2f20">
+    <ellipse cx="180" cy="70" rx="120" ry="58"/>
+    <ellipse cx="520" cy="48" rx="150" ry="46"/>
+    <ellipse cx="1390" cy="80" rx="160" ry="62"/>
+    <ellipse cx="1240" cy="590" rx="180" ry="58"/>
+    <ellipse cx="200" cy="600" rx="170" ry="52"/>
+    <ellipse cx="1480" cy="360" rx="90" ry="70"/>
+  </g>
+  <path fill="#8fd4f2" d="M0 86
+    C140 48 260 128 420 92
+    C600 50 740 118 900 96
+    C980 84 1040 130 1072 176
+    L1018 248
+    L1096 318
+    L1024 392
+    L1104 468
+    L1008 548
+    L860 590
+    L520 612
+    L180 588
+    L0 560 Z"/>
+  <g fill="#6b4630">
+    <ellipse cx="160" cy="210" rx="70" ry="42"/>
+    <ellipse cx="340" cy="430" rx="86" ry="48"/>
+    <ellipse cx="120" cy="470" rx="64" ry="36"/>
+  </g>
+  <g fill="#1c1c1c">
+    <circle cx="760" cy="292" r="30"/>
+    <path d="M734 324 h52 v86 h-52 z"/>
+    <path d="M738 404 l-18 92 h22 l16-78 z"/>
+    <path d="M770 404 l20 96 h22 l-14-96 z"/>
+    <path d="M742 336 L700 250 L724 236 L768 318 Z"/>
+    <path d="M778 328 L860 236 L884 252 L804 340 Z"/>
+  </g>
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="M860 240 L1004 168" fill="none" stroke="#2b2b2b" stroke-width="16"/>
+    <path d="M948 214 L1046 176 L1024 150 L926 188 Z" fill="#d5d8de" stroke="#1c1c1c" stroke-width="6"/>
+  </g>
+  <g fill="#f2c14e" stroke="#5c3b28" stroke-width="4">
+    <rect x="1188" y="392" width="118" height="36" rx="4"/>
+    <rect x="1204" y="352" width="118" height="36" rx="4"/>
+    <rect x="1218" y="312" width="118" height="36" rx="4"/>
+  </g>
+  <g fill="#f6d56a" stroke="#5c3b28" stroke-width="3">
+    <ellipse cx="1408" cy="430" rx="46" ry="16"/>
+    <rect x="1362" y="390" width="92" height="40"/>
+    <ellipse cx="1408" cy="390" rx="46" ry="16"/>
+    <rect x="1374" y="358" width="68" height="34"/>
+    <ellipse cx="1408" cy="358" rx="34" ry="12"/>
+  </g>
+</svg>
